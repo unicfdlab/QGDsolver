@@ -48,49 +48,11 @@ int main(int argc, char *argv[])
     #include "createTime.H"
     #include "createMesh.H"
     #include "createFields.H"
-    #include "createFieldRefs.H"
+    #include "createFaceFields.H"
+    #include "createFaceFluxes.H"
     #include "createTimeControls.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-    extendedFaceStencil test
-    (
-          IOobject(
-            "test",
-            runTime.timeName(),
-            mesh,
-            regIOobject::NO_READ,
-            regIOobject::NO_WRITE),
-          false
-    );
-
-    IOdictionary paramsQGDDict
-    (
-        IOobject
-        (
-            "paramsQGD",            // dictionary name
-            runTime.constant(),     // dict is found in "constant"
-            mesh,                   // registry for the dict
-            IOobject::MUST_READ,    // must exist, otherwise failure
-            IOobject::NO_WRITE      // dict is only read by the solver
-        )
-    );
-    
-    scalar ScQGD(readScalar(paramsQGDDict.lookup("ScQGD")));
-    scalar PrQGD(readScalar(paramsQGDDict.lookup("PrQGD")));
-
-    surfaceScalarField alphaQGD
-    (
-        IOobject
-        (
-            "alphaQGD",
-            runTime.timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    );
 
     // Courant numbers used to adjust the time-step
     scalar CoNum = 0.0;
@@ -102,271 +64,23 @@ int main(int argc, char *argv[])
     {
         /*
          *
-         * Auxiliary fields
+         * Update fields
          *
          */
-        
-        // Inversed compressibility
-        volScalarField rPsi
-        (
-            "rPsi", 
-            1.0/psi
-        );
-        
-        // Heat capacities ratio
-        volScalarField gamma
-        (
-            "gamma",
-            thermo.Cp()/thermo.Cv()
-        );
-        
-        // Speed of sound
-        volScalarField c
-        (
-            "c",
-            sqrt(gamma * rPsi)
-        );
+        #include "updateFields.H"
         
         /*
          *
-         * Linear interpolation of fields from volumes to face centers
+         * Update fields
          *
          */
+        #include "updateFluxes.H"
         
-        // Density
-        surfaceScalarField rhof
-        (
-            "rhof",
-            linearInterpolate(rho)
-        );
-
-        // Velocity
-        surfaceVectorField Uf
-        (
-            "Uf",
-            linearInterpolate(U)
-        );
-        
-        // Pressure
-        surfaceScalarField pf
-        (
-            "pf",
-            linearInterpolate(p)
-        );
-
-        // Heat capacities ratio
-        surfaceScalarField gammaf 
-        (
-            "gammaf",
-            linearInterpolate(gamma)
-        );
-        
-        surfaceScalarField gammam1f
-        (
-            "gammam1",
-            gammaf - 1
-        );
-
-        // Speed of sound
-        surfaceScalarField cf
-        (
-            "cf",linearInterpolate(c)
-        );
-
-        // Heat capacity at constant pressure
-        surfaceScalarField Cpf
-        (
-            "Cpf",
-            linearInterpolate(thermo.Cp())
-        );
-        
-        surfaceScalarField Hf
-        (
-            "Hf",
-            linearInterpolate((rhoE + p)/rho)
-            //or (rhoEf + pf)/rhof?
-        );
-
         /*
          *
-         * QGD coefficients
+         * Update time step
          *
          */
-        surfaceScalarField hQGD
-        (
-            "hQGD", 
-            1.0 / mesh.surfaceInterpolation::deltaCoeffs()
-        );
-        
-        surfaceScalarField tauQGD
-        (
-            "tauQGD",
-            alphaQGD * hQGD / cf
-        );
-        
-        surfaceScalarField muQGD
-        (
-            "muQGD",
-            tauQGD*pf*ScQGD
-        );
-
-        surfaceScalarField kappaQGD
-        (
-            "kappaQGDf",
-            muQGD*Cpf / PrQGD
-        );
-
-        /*
-         *
-         * Fluxes
-         *
-         */
-        
-        //Gradients and divergence
-        //---------Start---------
-        surfaceVectorField gradPf 
-        (
-            "gradPf", test.faceScalarGrad(p)
-        );
-        
-        surfaceTensorField gradUf
-        (
-            "gradUf",
-            test.faceVectorGrad(U)
-        );
-        
-        surfaceScalarField divUf
-        (
-            "divUf",
-            test.faceVectorDiv(U)
-        );
-        //---------End---------
-        
-        //Continuity equation fluxes
-        //---------Start---------
-        surfaceScalarField phivf
-        (
-            "phivf",
-            Uf & mesh.Sf()
-        );
-        
-        phi = phivf*rhof;
-        
-        surfaceVectorField rhoW1
-        (
-            "rhoW1",
-            tauQGD * test.faceTensorDiv(rho * (U * U))
-        );
-        
-        surfaceScalarField phiRhoW1
-        (
-            "phiRhoW1", rhoW1 & mesh.Sf()
-        );
-        
-        surfaceVectorField rhoW2
-        (
-            "rhoW2",
-            tauQGD * gradPf
-        );
-        
-        surfaceScalarField phiRhoW2
-        (
-            "phiRhoW2",
-            rhoW2 & mesh.Sf()
-        );
-        
-        surfaceVectorField jm
-        (
-            "jm",
-            Uf*rhof - rhoW1 - rhoW2
-        );
-        
-        surfaceScalarField phiJm
-        (
-            "phiJm",
-            jm & mesh.Sf()
-        );
-        //---------End---------
-        
-        // Fluxes for momentum balance equation
-        //---------Start---------
-        surfaceVectorField phiJmU
-        (
-            "phiJmU",
-            (jm * Uf) & mesh.Sf()
-        );
-        
-        surfaceVectorField phiP
-        (
-            "phiP",
-            pf*mesh.Sf()
-        );
-        
-        surfaceTensorField Pif
-        (
-            "Pif",
-            //QGD diffusive fluxes
-            tauQGD * 
-            (
-                Uf * (rhof * (Uf & gradUf) + gradPf)
-                +
-                I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
-            )
-            +
-            //NS diffusive fluxes
-            (
-                muQGD*(gradUf + gradUf.T())
-                -
-                muQGD*I*divUf
-            )
-        );
-        
-        surfaceVectorField phiPi
-        (
-            "phiPi",
-            Pif & mesh.Sf()
-        );
-        
-        //---------End---------
-
-        // Fluxes for energy balance equation
-        //---------Start---------
-        surfaceScalarField phiJmH
-        (
-            "phiJmH",
-            phiJm * Hf
-        );
-        
-        surfaceVectorField qf
-        (
-            "qf",
-            -
-            kappaQGD*test.faceScalarGrad(T)
-            -
-            tauQGD* 
-            ( 
-                ((fvc::interpolate(rho*(U*U))) & test.faceScalarGrad(e))
-                +
-                (pf * rhof * Uf * (Uf & test.faceScalarGrad(1/rho)))
-            )
-        );
-        
-        surfaceScalarField phiQ
-        (
-            "phiQ",
-            qf & mesh.Sf()
-        );
-        
-        surfaceScalarField phiPiU
-        (
-            "phiPiU",
-            (Pif & Uf) & mesh.Sf()
-        );
-        
-        
-        // End for third equation
-        // ******************************************************************* //
-
         #include "readTimeControls.H"
         #include "QGDCourantNo.H"
         #include "setDeltaT.H"
@@ -393,7 +107,7 @@ int main(int argc, char *argv[])
             fvc::div(phiP)
             -
             fvc::div(phiPi)
-         );
+        );
         
         // Correct velocity
         U.ref() =

@@ -9,7 +9,59 @@ thermo.correct();
 
 volScalarField& e = thermo.he();
 
-Info<< "Reading field U\n" << endl;
+volScalarField& p = thermo.p();
+const volScalarField& T = thermo.T();
+const volScalarField& psi = thermo.psi();
+const volScalarField& mu = thermo.mu();
+
+bool inviscid(true);
+if (max(mu.primitiveField()) > 0.0)
+{
+    inviscid = false;
+}
+
+#warning "needs to be moved in dynamic library"
+extendedFaceStencil faceStencil
+(
+    IOobject
+    (
+        "testFaceStencil",
+        runTime.timeName(),
+        mesh,
+        regIOobject::NO_READ,
+        regIOobject::NO_WRITE
+    ),
+    false
+);
+    
+IOdictionary QGDDict
+(
+    IOobject
+    (
+        "QGDDict",              // dictionary name
+        runTime.constant(),     // dict is found in "constant"
+        mesh,                   // registry for the dict
+        IOobject::MUST_READ,    // must exist, otherwise failure
+        IOobject::NO_WRITE      // dict is only read by the solver
+    )
+);
+    
+scalar ScQGD(readScalar(QGDDict.lookup("ScQGD")));
+scalar PrQGD(readScalar(QGDDict.lookup("PrQGD")));
+
+surfaceScalarField alphaQGD
+(
+    IOobject
+    (
+        "alphaQGD",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
 volVectorField U
 (
     IOobject
@@ -61,7 +113,28 @@ volScalarField rhoE
     ),
     rho*(e + 0.5*magSqr(U))
 );
-rhoE.write();
 
-surfaceScalarField phi("phi", fvc::flux(rhoU));
+volScalarField rPsi
+(
+    "rPsi", 
+    1.0/psi
+);
+
+volScalarField gamma
+(
+    "gamma",
+    thermo.Cp()/thermo.Cv()
+);
+
+volScalarField c
+(
+    "c",
+    sqrt(gamma * rPsi)
+);
+
+surfaceScalarField phi
+(
+    "phi",
+    linearInterpolate(rho*U) & mesh.Sf()
+);
 

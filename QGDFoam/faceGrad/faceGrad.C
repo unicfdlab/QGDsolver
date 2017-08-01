@@ -94,7 +94,7 @@ labelListList neighbourCellsForEachFace(const fvMesh& mesh)
 
 surfaceVectorField faceScalarGrad(const fvMesh& mesh, const volScalarField& iF)
 {
-    surfaceScalarField sF=fvc::interpolate(iF);
+    surfaceScalarField sF=linearInterpolate(iF);
 
     surfaceVectorField gradIF("gradIF", fvc::snGrad(iF)  * mesh.Sf() / mesh.magSf());
 

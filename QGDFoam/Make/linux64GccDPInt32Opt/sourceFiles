@@ -1,3 +1,0 @@
-SOURCE = \
-faceGrad/extendedFaceStencil.C \
-QGDFoam.C 
