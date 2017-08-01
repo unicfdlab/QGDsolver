@@ -5,18 +5,9 @@ autoPtr<psiThermo> pThermo
     psiThermo::New(mesh)
 );
 psiThermo& thermo = pThermo();
+thermo.correct();
 
-volScalarField& p = thermo.p();
 volScalarField& e = thermo.he();
-const volScalarField& T = thermo.T();
-const volScalarField& psi = thermo.psi();
-//const volScalarField& mu = thermo.mu();
-
-//bool inviscid(true);
-//if (max(mu.internalField()) > 0.0)
-//{
-//    inviscid = false;
-//}
 
 Info<< "Reading field U\n" << endl;
 volVectorField U
@@ -32,7 +23,6 @@ volVectorField U
     mesh
 );
 
-#include "rhoBoundaryTypes.H"
 volScalarField rho
 (
     IOobject
@@ -43,11 +33,8 @@ volScalarField rho
         IOobject::NO_READ,
         IOobject::AUTO_WRITE
     ),
-    thermo.rho(),
-    rhoBoundaryTypes
+    thermo.rho()
 );
-
-rho.write();
 
 volVectorField rhoU
 (
@@ -74,42 +61,7 @@ volScalarField rhoE
     ),
     rho*(e + 0.5*magSqr(U))
 );
+rhoE.write();
 
-surfaceScalarField pos
-(
-    IOobject
-    (
-        "pos",
-        runTime.timeName(),
-        mesh
-    ),
-    mesh,
-    dimensionedScalar("pos", dimless, 1.0)
-);
+surfaceScalarField phi("phi", fvc::flux(rhoU));
 
-surfaceScalarField neg
-(
-    IOobject
-    (
-        "neg",
-        runTime.timeName(),
-        mesh
-    ),
-    mesh,
-    dimensionedScalar("neg", dimless, -1.0)
-);
-
-
-surfaceScalarField phi("phi", mesh.Sf() & fvc::interpolate(rhoU));
-
-Info<< "Creating turbulence model\n" << endl;
-autoPtr<compressible::turbulenceModel> turbulence
-(
-    compressible::turbulenceModel::New
-    (
-        rho,
-        U,
-        phi,
-        thermo
-    )
-);
