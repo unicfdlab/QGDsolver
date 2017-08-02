@@ -1,11 +1,11 @@
 //Gradients and divergence
 //---------Start---------
 gradPf = faceStencil.faceScalarGrad(p);
-//gradPf.write();
-//Info << "faceStencil.faceScalarGrad(p)" << endl;
+
 gradUf = faceStencil.faceVectorGrad(U);
-//Info << "faceStencil.faceVectorGrad(p)" << endl;
+
 divUf = faceStencil.faceVectorDiv(U);
+//---------End---------
 
 //Continuity equation fluxes
 //---------Start---------

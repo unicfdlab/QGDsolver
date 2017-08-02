@@ -1,4 +1,6 @@
 faceGrad/extendedFaceStencil.C
+faceGrad/extendedFaceStencilFindNeighbours.C
+faceGrad/extendedFaceStencilCalculateWeights.C
 faceGrad/extendedFaceStencilScalarGrad.C
 QGDFoam.C
 

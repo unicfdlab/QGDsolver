@@ -63,10 +63,11 @@
      * QGD coefficients
      *
      */
-    const surfaceScalarField hQGD
+    // OpenFOAM delta coeffs can be negative for coupled patches
+    surfaceScalarField hQGD
     (
-        "hQGD", 
-        1.0 / mesh.surfaceInterpolation::deltaCoeffs()
+        "hQGD",
+        1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
     );
     
     surfaceScalarField tauQGD

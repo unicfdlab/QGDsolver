@@ -32,9 +32,10 @@ class extendedFaceStencil
     public regIOobject
 {
 
-public:
+private:
+
         // List of neighbour cells for each face
-        labelListList neighbourCells_;
+        labelListList neighbourCells_; 
         
         List<List<label> > globalCellToProcessAddr_;
         List<List< List<label> > > globalPointToProcessAddr_;
@@ -48,12 +49,9 @@ public:
         List < List < List < scalar > > > valueInNeibCellsForFaceForEachPatch_;
         
         HashTable <bool, Pair<label>, Hash< Pair<label> > > existingPatches_;
-        
-//        List < List < vector > > gradForFaceForEachPatch;
-
-protected:
 
 private:
+
         // Mesh
         const fvMesh& mesh_;
         List< List<vector> > GdfAll_;
@@ -105,13 +103,17 @@ public:
 
         void calculateWeights();
 
-        surfaceVectorField faceScalarGrad(const volScalarField& iF);
+        tmp<surfaceVectorField> faceScalarGrad(const volScalarField& iF);
+        tmp<surfaceVectorField> faceScalarGrad(const tmp<volScalarField>& tiF);
 
-        surfaceTensorField faceVectorGrad(const volVectorField& iVF);
+        tmp<surfaceTensorField> faceVectorGrad(const volVectorField& iVF);
+        tmp<surfaceTensorField> faceVectorGrad(const tmp<volVectorField>& tiVF);
 
-        surfaceScalarField faceVectorDiv(const volVectorField& iVF);
+        tmp<surfaceScalarField> faceVectorDiv(const volVectorField& iVF);
+        tmp<surfaceScalarField> faceVectorDiv(const tmp<volVectorField>& tiVF);
 
-        surfaceVectorField faceTensorDiv(const volTensorField& iTF);
+        tmp<surfaceVectorField> faceTensorDiv(const volTensorField& iTF);
+        tmp<surfaceVectorField> faceTensorDiv(const tmp<volTensorField>& iTF);
 
 };
 

@@ -4,8 +4,6 @@
 #include "word.H"
 #include "IOstream.H"
 #include "Ostream.H"
-#include <iostream>   // std::cout
-#include <string>
 #include <HashTable.H>
 
 
@@ -15,14 +13,15 @@
 //                   Allowable values: constant reference to the volScalarField.
 //
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
-surfaceVectorField Foam::extendedFaceStencil::faceScalarGrad(const volScalarField& iF)
+tmp<surfaceVectorField> Foam::extendedFaceStencil::faceScalarGrad(const volScalarField& iF)
 {
 
 //    Pout << "faceScalarGrad" << endl;
 
     surfaceScalarField sF = linearInterpolate(iF);
 
-    surfaceVectorField gradIF("gradIF", 0*fvc::snGrad(iF)  * mesh_.Sf() / mesh_.magSf());
+    tmp<surfaceVectorField> tgradIF(0*fvc::snGrad(iF)  * mesh_.Sf() / mesh_.magSf());
+    surfaceVectorField& gradIF = tgradIF.ref();
 
     // List of faces
     const faceList& faces = mesh_.faces();
@@ -44,7 +43,7 @@ surfaceVectorField Foam::extendedFaceStencil::faceScalarGrad(const volScalarFiel
 
     if(!Pstream::parRun())
     {
-        return gradIF;
+        return tgradIF;
     }
     
     #warning "Add evaluation of gradient on external faces"
@@ -313,8 +312,13 @@ surfaceVectorField Foam::extendedFaceStencil::faceScalarGrad(const volScalarFiel
         }
     }
 //    Pout << "... done" << endl;
-    return gradIF;
+    return tgradIF;
 };
+
+tmp<surfaceVectorField> Foam::extendedFaceStencil::faceScalarGrad(const tmp<volScalarField>& tiF)
+{
+    return faceScalarGrad(tiF());
+}
 
 //
 //END-OF-FILE

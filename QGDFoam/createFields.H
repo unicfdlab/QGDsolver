@@ -61,6 +61,8 @@ surfaceScalarField alphaQGD
     ),
     mesh
 );
+//make alphaQGD positive  (for coupled boundaries after decomposePar)
+alphaQGD = mag(alphaQGD);
 
 volVectorField U
 (
