@@ -44,7 +44,7 @@ Pif =
     (
         muQGD*(gradUf + gradUf.T())
         -
-        muQGD*I*divUf
+        (2.0/3.0)*muQGD*I*divUf
     );
 
 phiPi = Pif & mesh.Sf();

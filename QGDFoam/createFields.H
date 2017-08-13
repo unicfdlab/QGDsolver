@@ -14,11 +14,10 @@ const volScalarField& T = thermo.T();
 const volScalarField& psi = thermo.psi();
 const volScalarField& mu = thermo.mu();
 
-bool inviscid(true);
-if (max(mu.primitiveField()) > 0.0)
-{
-    inviscid = false;
-}
+autoPtr<compressible::turbulenceModel> turbulence;
+autoPtr<volScalarField> muEffPtr;
+autoPtr<volTensorField> tauMCPtr;
+autoPtr<surfaceScalarField> sigmaDotUPtr;
 
 #warning "needs to be moved in dynamic library"
 extendedFaceStencil faceStencil
@@ -139,4 +138,57 @@ surfaceScalarField phi
     "phi",
     linearInterpolate(rho*U) & mesh.Sf()
 );
+
+bool inviscid(true);
+if (max(mu.primitiveField()) > SMALL)
+{
+    inviscid = false;
+    Info<< "Creating turbulence model\n" << endl;
+    turbulence.reset
+    (
+        compressible::turbulenceModel::New
+        (
+            rho,
+            U,
+            phi,
+            thermo
+        ).ptr()
+    );
+    
+    muEffPtr.reset
+    (
+        new volScalarField
+        (
+            "muEff",
+            turbulence->muEff()
+        )
+    );
+    
+    tauMCPtr.reset
+    (
+        new volTensorField
+        (
+            "tauMC",
+            muEffPtr()*dev2(Foam::T(fvc::grad(U)))
+        )
+    );
+    
+    sigmaDotUPtr.reset
+    (
+        new surfaceScalarField
+        (
+            "sigmaDotU",
+            (
+                linearInterpolate(muEffPtr())*mesh.magSf()*fvc::snGrad(U)
+              + fvc::dotInterpolate(mesh.Sf(), tauMCPtr())
+            )
+          & linearInterpolate(U)
+
+        )
+    );
+}
+
+//
+//END-OF-FILE
+//
 

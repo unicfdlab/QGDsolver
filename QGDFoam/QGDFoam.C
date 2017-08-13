@@ -115,6 +115,18 @@ int main(int argc, char *argv[])
            /rho();
         U.correctBoundaryConditions();
         rhoU.boundaryFieldRef() == rho.boundaryField()*U.boundaryField();
+        
+        // Solve diffusive N-S part
+        if (!inviscid)
+        {
+            solve
+            (
+                fvm::ddt(rho, U) - fvc::ddt(rho, U)
+              - fvm::laplacian(muEffPtr(), U)
+              - fvc::div(tauMCPtr())
+            );
+            rhoU = rho*U;
+        }
 
         //--- Solve energy
         solve
@@ -128,10 +140,22 @@ int main(int argc, char *argv[])
         // Correct energy
         e = rhoE/rho - 0.5*magSqr(U);
         e.correctBoundaryConditions();
+        thermo.correct();
         rhoE.boundaryFieldRef() == rho.boundaryField()*
         (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
         
-        thermo.correct();
+        // Solve diffusive N-S part
+        if (!inviscid)
+        {
+            solve
+            (
+                fvm::ddt(rho, e) - fvc::ddt(rho, e)
+              - fvm::laplacian(turbulence->alphaEff(), e)
+              - fvc::div(sigmaDotUPtr())
+            );
+            thermo.correct();
+            rhoE = rho*(e + 0.5*magSqr(U));
+        }
         
         // Correct pressure
         p.ref() =

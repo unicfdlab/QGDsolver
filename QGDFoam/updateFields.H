@@ -52,3 +52,19 @@ muQGD = tauQGD*pf*ScQGD;
     
 kappaQGD = muQGD*Cpf / PrQGD;
 
+/*
+ *
+ * Viscous part of N-S equations
+ *
+ */
+if (!inviscid)
+{
+    muEffPtr() = turbulence->muEff()();
+    tauMCPtr() = muEffPtr()*dev2(Foam::T(fvc::grad(U)));
+    sigmaDotUPtr() = 
+        (
+            linearInterpolate(muEffPtr())*mesh.magSf()*fvc::snGrad(U)
+          + fvc::dotInterpolate(mesh.Sf(), tauMCPtr())
+        )
+        & Uf;
+}
