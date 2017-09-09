@@ -10,62 +10,63 @@ divUf = faceStencil.faceVectorDiv(U);
 //Continuity equation fluxes
 //---------Start---------
 phivf = Uf & mesh.Sf();
-phi = phivf*rhof;
 
-rhoW1 = tauQGD * faceStencil.faceTensorDiv(rho * (U * U));
+rhoW = tauQGDf * (faceStencil.faceTensorDiv(rhoUU) + gradPf);
 
-phiRhoW1 = rhoW1 & mesh.Sf();
-
-rhoW2 = tauQGD * gradPf;
-
-phiRhoW2 = rhoW2 & mesh.Sf();
-
-jm = Uf*rhof - rhoW1 - rhoW2;
+jm = rhofUf - rhoW;
 
 phiJm = jm & mesh.Sf();
+phi = phiJm;
 //---------End---------
 
 // Fluxes for momentum balance equation
 //---------Start---------
+
 phiJmU = (jm * Uf) & mesh.Sf();
 
 phiP = pf*mesh.Sf();
 
 Pif = 
     //QGD diffusive fluxes
-    tauQGD * 
+    tauQGDf * 
     (
         Uf * (rhof * (Uf & gradUf) + gradPf)
         +
         I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
-    )
-    +
-    //NS diffusive fluxes
-    (
-        muQGD*(gradUf + gradUf.T())
-        -
-        (2.0/3.0)*muQGD*I*divUf
     );
 
 phiPi = Pif & mesh.Sf();
+
+//viscous stress explicit terms interpolation
+if (!inviscid)
+{
+    tauMCPtr() = muf*(Foam::T(gradUf) - (2.0/3.0)*I*divUf);
+//    tauMCPtr() = muf*linearInterpolate(Foam::T(fvc::grad(U)) - (2.0/3.0)*I*fvc::div(U));
+    phiTauMC = tauMCPtr() & mesh.Sf();
+}
 //---------End---------
 
 // Fluxes for energy balance equation
 //---------Start---------
 phiJmH = phiJm * Hf;
 
-qf = 
+qf =
     -
-    kappaQGD*faceStencil.faceScalarGrad(T)
-    -
-    tauQGD* 
-    ( 
-        ((linearInterpolate(rho*(U*U))) & faceStencil.faceScalarGrad(e))
+    tauQGDf*rhofUf*
+    (
+        (Uf & faceStencil.faceScalarGrad(e))
         +
-        (pf * rhof * Uf * (Uf & faceStencil.faceScalarGrad(1/rho)))
+        (pf * (Uf & faceStencil.faceScalarGrad(1/rho)))
     );
 
 phiQ = qf & mesh.Sf();
 
 phiPiU = (Pif & Uf) & mesh.Sf();
+
+if (!inviscid)
+{
+    sigmaDotUPtr() = (muf*gradUf + tauMCPtr()) & Uf;
+//    sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
+    phiSigmaDotU = sigmaDotUPtr() & mesh.Sf();
+}
 //---------End---------

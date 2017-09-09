@@ -28,40 +28,35 @@ surfaceScalarField phivf
 
 phi = phivf*rhof;
 
-surfaceVectorField rhoW1
+surfaceVectorField rhofUf
 (
-    "rhoW1",
-    tauQGD * faceStencil.faceTensorDiv(rho * (U * U))
+    "rhofUf",
+    rhof*Uf
 );
 
-surfaceScalarField phiRhoW1
+surfaceVectorField rhoW
 (
-    "phiRhoW1", rhoW1 & mesh.Sf()
-);
-
-surfaceVectorField rhoW2
-(
-    "rhoW2",
-    tauQGD * gradPf
-);
-
-surfaceScalarField phiRhoW2
-(
-    "phiRhoW2",
-    rhoW2 & mesh.Sf()
+    "rhoW",
+    tauQGDf * 
+    (
+        faceStencil.faceTensorDiv(rho * (U * U))
+        +
+        gradPf
+    )
 );
 
 surfaceVectorField jm
 (
     "jm",
-    Uf*rhof - rhoW1 - rhoW2
+    rhofUf - rhoW
 );
 
 surfaceScalarField phiJm
 (
     "phiJm",
-    jm & mesh.Sf()
+    (Uf*rhof - rhoW) & mesh.Sf()
 );
+
 //---------End---------
 
 // Fluxes for momentum balance equation
@@ -77,23 +72,16 @@ surfaceVectorField phiP
     "phiP",
     pf*mesh.Sf()
 );
-        
+
 surfaceTensorField Pif
 (
     "Pif",
     //QGD diffusive fluxes
-    tauQGD * 
+    tauQGDf * 
     (
         Uf * (rhof * (Uf & gradUf) + gradPf)
         +
         I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
-    )
-    +
-    //NS diffusive fluxes
-    (
-        muQGD*(gradUf + gradUf.T())
-        -
-        muQGD*I*divUf
     )
 );
 
@@ -102,6 +90,29 @@ surfaceVectorField phiPi
     "phiPi",
     Pif & mesh.Sf()
 );
+
+autoPtr<surfaceTensorField> tauMCPtr;
+tauMCPtr.reset
+(
+    new surfaceTensorField
+    (
+        "tauMC",
+        //muEffPtr()*dev2(Foam::T(fvc::grad(U)))
+        muf*
+        (
+            Foam::T(faceStencil.faceVectorGrad(U))//Don't forget to transpose
+            -
+            I*faceStencil.faceVectorDiv(U)
+        )
+    )
+);
+
+surfaceVectorField phiTauMC
+(
+    "phiTauMC",
+    tauMCPtr() & mesh.Sf()
+);
+
 //---------End---------
 
 // Fluxes for energy balance equation
@@ -116,9 +127,7 @@ surfaceVectorField qf
 (
     "qf",
     -
-    kappaQGD*faceStencil.faceScalarGrad(T)
-    -
-    tauQGD* 
+    tauQGDf* 
     ( 
         ((linearInterpolate(rho*(U*U))) & faceStencil.faceScalarGrad(e))
         +
@@ -137,4 +146,21 @@ surfaceScalarField phiPiU
     "phiPiU",
     (Pif & Uf) & mesh.Sf()
 );
+
+autoPtr<surfaceVectorField> sigmaDotUPtr;
+sigmaDotUPtr.reset
+(
+    new surfaceVectorField
+    (
+        "sigmaDotU",
+        tauMCPtr() & linearInterpolate(U) //to be updated later
+    )
+);
+
+surfaceScalarField phiSigmaDotU
+(
+    "phiSigmaDotU",
+    sigmaDotUPtr() & mesh.Sf()
+);
+
 //---------End---------

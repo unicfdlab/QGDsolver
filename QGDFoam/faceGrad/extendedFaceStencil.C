@@ -97,53 +97,45 @@ tmp<surfaceTensorField> Foam::extendedFaceStencil::faceVectorGrad(const volVecto
 
     tmp<surfaceTensorField> tgradIVF(0*fvc::snGrad(iVF) * mesh_.Sf() / mesh_.magSf());
     surfaceTensorField& gradIVF = tgradIVF.ref();
-
-    forAll(mesh_.faces(), facei)
-    {
-        if (mesh_.isInternalFace(facei))
-        {
-            gradIVF[facei].component(0) = gradComp0col[facei].component(0);
-            gradIVF[facei].component(1) = gradComp1col[facei].component(0);
-            gradIVF[facei].component(2) = gradComp2col[facei].component(0);
-
-            gradIVF[facei].component(3) = gradComp0col[facei].component(1);
-            gradIVF[facei].component(4) = gradComp1col[facei].component(1);
-            gradIVF[facei].component(5) = gradComp2col[facei].component(1);
-
-            gradIVF[facei].component(6) = gradComp0col[facei].component(2);
-            gradIVF[facei].component(7) = gradComp1col[facei].component(2);
-            gradIVF[facei].component(8) = gradComp2col[facei].component(2);
-        }
-    }
     
-    //processor & coupled boundaries
-    forAll(mesh_.boundary(), patchIndex)
+    //set internal field
+    gradIVF.primitiveFieldRef().replace(0, gradComp0col.primitiveField().component(0));
+    gradIVF.primitiveFieldRef().replace(1, gradComp1col.primitiveField().component(0));
+    gradIVF.primitiveFieldRef().replace(2, gradComp2col.primitiveField().component(0));
+    
+    gradIVF.primitiveFieldRef().replace(3, gradComp0col.primitiveField().component(1));
+    gradIVF.primitiveFieldRef().replace(4, gradComp1col.primitiveField().component(1));
+    gradIVF.primitiveFieldRef().replace(5, gradComp2col.primitiveField().component(1));
+    
+    gradIVF.primitiveFieldRef().replace(6, gradComp0col.primitiveField().component(2));
+    gradIVF.primitiveFieldRef().replace(7, gradComp1col.primitiveField().component(2));
+    gradIVF.primitiveFieldRef().replace(8, gradComp2col.primitiveField().component(2));
+    
+    //set external fields
+    forAll(mesh_.boundaryMesh(), patchi)
     {
-        if (isType<processorFvPatch>(mesh_.boundary()[patchIndex]))
+        forAll(mesh_.boundary()[patchi], facei)
         {
-            forAll(mesh_.boundary()[patchIndex], facei)
-            {
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(0) = 
-                    gradComp0col.boundaryField()[patchIndex][facei].component(0);
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(1) = 
-                    gradComp1col.boundaryField()[patchIndex][facei].component(0);
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(2) = 
-                    gradComp2col.boundaryField()[patchIndex][facei].component(0);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(0) = 
+                gradComp0col.boundaryField()[patchi][facei].component(0);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(1) = 
+                gradComp1col.boundaryField()[patchi][facei].component(0);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(2) = 
+                gradComp2col.boundaryField()[patchi][facei].component(0);
 
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(3) = 
-                    gradComp0col.boundaryField()[patchIndex][facei].component(1);
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(4) = 
-                    gradComp1col.boundaryField()[patchIndex][facei].component(1);
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(5) = 
-                    gradComp2col.boundaryField()[patchIndex][facei].component(1);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(3) = 
+                gradComp0col.boundaryField()[patchi][facei].component(1);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(4) = 
+                gradComp1col.boundaryField()[patchi][facei].component(1);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(5) = 
+                    gradComp2col.boundaryField()[patchi][facei].component(1);
 
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(6) = 
-                    gradComp0col.boundaryField()[patchIndex][facei].component(2);
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(7) = 
-                    gradComp1col.boundaryField()[patchIndex][facei].component(2);
-                gradIVF.boundaryFieldRef()[patchIndex][facei].component(8) = 
-                    gradComp2col.boundaryField()[patchIndex][facei].component(2);
-            }
+            gradIVF.boundaryFieldRef()[patchi][facei].component(6) = 
+                gradComp0col.boundaryField()[patchi][facei].component(2);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(7) = 
+                gradComp1col.boundaryField()[patchi][facei].component(2);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(8) = 
+                gradComp2col.boundaryField()[patchi][facei].component(2);
         }
     }
 
@@ -169,26 +161,19 @@ tmp<surfaceScalarField> Foam::extendedFaceStencil::faceVectorDiv(const volVector
 
     tmp<surfaceScalarField> tdivIVF(0*fvc::snGrad(iVF) & mesh_.Sf() / mesh_.magSf());
     surfaceScalarField& divIVF = tdivIVF.ref();
-
-    forAll(mesh_.faces(), facei)
+    
+    divIVF.primitiveFieldRef() = gradComp0.primitiveField().component(0)
+                               + gradComp1.primitiveField().component(1)
+                               + gradComp2.primitiveField().component(2);
+    
+    forAll(mesh_.boundary(), patchi)
     {
-        if (mesh_.isInternalFace(facei))
-        {
-            divIVF[facei] = gradComp0[facei].component(0) + gradComp1[facei].component(1) + gradComp2[facei].component(2);
-        }
-    }
-
-    forAll(mesh_.boundary(), patchIndex)
-    {
-        if (isType<processorFvPatch>(mesh_.boundary()[patchIndex]))
-        {
-            divIVF.boundaryFieldRef()[patchIndex] = 
-                gradComp0.boundaryField()[patchIndex].component(0)
-                +
-                gradComp1.boundaryField()[patchIndex].component(1)
-                +
-                gradComp2.boundaryField()[patchIndex].component(2);
-        }
+        divIVF.boundaryFieldRef()[patchi] = 
+            gradComp0.boundaryField()[patchi].component(0)
+            +
+            gradComp1.boundaryField()[patchi].component(1)
+            +
+            gradComp2.boundaryField()[patchi].component(2);
     }
     
     return tdivIVF;
@@ -226,29 +211,20 @@ tmp<surfaceVectorField> Foam::extendedFaceStencil::faceTensorDiv(const volTensor
     tmp<surfaceVectorField> tdivITF(0*fvc::snGrad(iTF.component(0)) * mesh_.Sf() / mesh_.magSf());
     surfaceVectorField& divITF = tdivITF.ref();
     
-    forAll(mesh_.faces(), facei)
-    {
-        if (mesh_.isInternalFace(facei))
-        {
-            divITF[facei].component(0) = divComp0()[facei];
-            divITF[facei].component(1) = divComp1()[facei];
-            divITF[facei].component(2) = divComp2()[facei];
-        }
-    }
+    divITF.primitiveFieldRef().replace(0, divComp0().primitiveField());
+    divITF.primitiveFieldRef().replace(1, divComp1().primitiveField());
+    divITF.primitiveFieldRef().replace(2, divComp2().primitiveField());
     
-    forAll(mesh_.boundary(), patchIndex)
+    forAll(mesh_.boundary(), patchi)
     {
-        if (isType<processorFvPatch>(mesh_.boundary()[patchIndex]))
+        forAll(mesh_.boundary()[patchi], facei)
         {
-            forAll(mesh_.boundary()[patchIndex], facei)
-            {
-                divITF.boundaryFieldRef()[patchIndex][facei].component(0) = 
-                    divComp0().boundaryField()[patchIndex][facei];
-                divITF.boundaryFieldRef()[patchIndex][facei].component(1) = 
-                    divComp1().boundaryField()[patchIndex][facei];
-                divITF.boundaryFieldRef()[patchIndex][facei].component(2) = 
-                    divComp2().boundaryField()[patchIndex][facei];
-            }
+            divITF.boundaryFieldRef()[patchi][facei].component(0) = 
+                divComp0().boundaryField()[patchi][facei];
+            divITF.boundaryFieldRef()[patchi][facei].component(1) = 
+                divComp1().boundaryField()[patchi][facei];
+            divITF.boundaryFieldRef()[patchi][facei].component(2) = 
+                divComp2().boundaryField()[patchi][facei];
         }
     }
     

@@ -58,33 +58,38 @@
         //or (rhoEf + pf)/rhof?
     );
     
+    surfaceScalarField muf
+    (
+        "muf",
+        linearInterpolate(thermo.mu()*0.0)
+    );
+    if (!inviscid)
+    {
+        muf = linearInterpolate(turbulence->muEff());
+    }
+
     /*
      *
      * QGD coefficients
      *
      */
     // OpenFOAM delta coeffs can be negative for coupled patches
-    surfaceScalarField hQGD
+    surfaceScalarField hQGDf
     (
         "hQGD",
         1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
     );
+    forAll(mesh.boundaryMesh(), iPatch)
+    {
+        if (!isA<coupledFvPatch>(mesh.boundaryMesh()[iPatch]))
+        {
+            hQGDf.boundaryFieldRef()[iPatch] *= 2.0;
+        }
+    }
     
-    surfaceScalarField tauQGD
+    surfaceScalarField tauQGDf
     (
         "tauQGD",
-        alphaQGD * hQGD / cf
-    );
-    
-    surfaceScalarField muQGD
-    (
-        "muQGD",
-        tauQGD*pf*ScQGD
-    );
-    
-    surfaceScalarField kappaQGD
-    (
-        "kappaQGDf",
-        muQGD*Cpf / PrQGD
+        linearInterpolate(tauQGD)
     );
     

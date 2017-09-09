@@ -31,11 +31,15 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "psiThermo.H"
+#include "psiQGDThermo.H"
 #include "turbulentFluidThermoModel.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
 #include "faceGrad/extendedFaceStencil.H"
+#include "limitedSurfaceInterpolationScheme.H"
+#include "wallFvPatch.H"
+
+#warning "insert QGD includes in separate file"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -64,6 +68,30 @@ int main(int argc, char *argv[])
     {
         /*
          *
+         * Create limiter
+         *
+         */
+        //tmp<limitedSurfaceInterpolationScheme<scalar> > rhoInterpScheme
+        //(
+        //    limitedSurfaceInterpolationScheme<scalar>::New(mesh, phiJm, mesh.solutionDict().lookup("rhoLimiter"))
+        //);
+        
+        //tmp<limitedSurfaceInterpolationScheme<vector> > UInterpScheme
+        //(
+        //    limitedSurfaceInterpolationScheme<vector>::New(mesh, phiJm, mesh.solutionDict().lookup("ULimiter"))
+        //);
+        //
+        //tmp<limitedSurfaceInterpolationScheme<scalar> > EInterpScheme
+        //(
+        //    limitedSurfaceInterpolationScheme<scalar>::New(mesh, phiJm, mesh.solutionDict().lookup("ELimiter"))
+        //);
+        
+        //surfaceScalarField rhoLim = rhoInterpScheme().limiter(rho);
+        //surfaceScalarField   ULim = UInterpScheme().limiter(rhoU);
+        //surfaceScalarField   ELim = EInterpScheme().limiter(rhoE);
+        
+        /*
+         *
          * Update fields
          *
          */
@@ -71,7 +99,7 @@ int main(int argc, char *argv[])
         
         /*
          *
-         * Update fields
+         * Update fluxes
          *
          */
         #include "updateFluxes.H"
@@ -114,7 +142,8 @@ int main(int argc, char *argv[])
             rhoU()
            /rho();
         U.correctBoundaryConditions();
-        rhoU.boundaryFieldRef() == rho.boundaryField()*U.boundaryField();
+        rhoU.boundaryFieldRef() == rho.boundaryField()*
+            U.boundaryField();
         
         // Solve diffusive N-S part
         if (!inviscid)
@@ -122,8 +151,8 @@ int main(int argc, char *argv[])
             solve
             (
                 fvm::ddt(rho, U) - fvc::ddt(rho, U)
-              - fvm::laplacian(muEffPtr(), U)
-              - fvc::div(tauMCPtr())
+              - fvm::laplacian(muf, U)
+              - fvc::div(phiTauMC)
             );
             rhoU = rho*U;
         }
@@ -135,6 +164,7 @@ int main(int argc, char *argv[])
           + fvc::div(phiJmH)
           + fvc::div(phiQ)
           - fvc::div(phiPiU)
+          - fvc::div(phiSigmaDotU)
         );
         
         // Correct energy
@@ -142,7 +172,7 @@ int main(int argc, char *argv[])
         e.correctBoundaryConditions();
         thermo.correct();
         rhoE.boundaryFieldRef() == rho.boundaryField()*
-        (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
+            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
         
         // Solve diffusive N-S part
         if (!inviscid)
@@ -151,7 +181,6 @@ int main(int argc, char *argv[])
             (
                 fvm::ddt(rho, e) - fvc::ddt(rho, e)
               - fvm::laplacian(turbulence->alphaEff(), e)
-              - fvc::div(sigmaDotUPtr())
             );
             thermo.correct();
             rhoE = rho*(e + 0.5*magSqr(U));
@@ -162,12 +191,24 @@ int main(int argc, char *argv[])
             rho()
            /psi();
         p.correctBoundaryConditions();
-        rho.boundaryFieldRef() == psi.boundaryField()*p.boundaryField();
+        rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
         runTime.write();
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
+        
+        if (runTime.outputTime())
+        {
+//            phiJm.write();
+//            rhoW.write();
+//            phiJmU.write();
+//            phiP.write();
+//            phiPi.write();
+//            gradPf.write();
+//            tauQGDf.write();
+            tauQGD.write();
+        }
         
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
         Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;

@@ -31,24 +31,23 @@ Description
 
 if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
 {
+
+    surfaceScalarField Unf
+    (
+        "Unf",
+        Uf & mesh.Sf() / mesh.magSf()
+    );
+
     surfaceScalarField Cof
     (
         "Cof",
-        (mag(Uf) + cf)*runTime.deltaT()/hQGD
+        //(mag(Uf) + cf)*runTime.deltaT()/hQGD
+        max(mag(Unf + cf), mag(Unf - cf)) * runTime.deltaT() / hQGDf
     );
     
     CoNum = max(Cof).value();
-    
-    surfaceScalarField DCo
-    (
-        "DCo",
-        ((muQGD / rhof) / hQGD / hQGD) * runTime.deltaT()
-    );
-    
-    Info << "max DCo = " << max(DCo).value() << endl;
 }
 
 Info << "Courant Number = " << CoNum << endl;
-Info << "Delta T: " << runTime.deltaTValue() << endl;
 
 // ************************************************************************* //

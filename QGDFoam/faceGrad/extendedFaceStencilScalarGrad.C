@@ -6,6 +6,11 @@
 #include "Ostream.H"
 #include <HashTable.H>
 
+#include "emptyFvPatch.H"
+#include "coupledFvPatch.H"
+#include "wedgeFvPatch.H"
+#include "symmetryFvPatch.H"
+#include "symmetryPlaneFvPatch.H"
 
 //- Calculate gradient of volume scalar function on the faces
 //
@@ -15,9 +20,6 @@
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
 tmp<surfaceVectorField> Foam::extendedFaceStencil::faceScalarGrad(const volScalarField& iF)
 {
-
-//    Pout << "faceScalarGrad" << endl;
-
     surfaceScalarField sF = linearInterpolate(iF);
 
     tmp<surfaceVectorField> tgradIF(0*fvc::snGrad(iF)  * mesh_.Sf() / mesh_.magSf());
@@ -40,13 +42,41 @@ tmp<surfaceVectorField> Foam::extendedFaceStencil::faceScalarGrad(const volScala
             gradIF[facei] = gradF;
         }
     }
+    
+    //update boundary field
+    forAll(mesh_.boundaryMesh(), ipatch)
+    {
+        bool notConstrain = true;
+        
+        if
+        (
+            isA<emptyFvPatch>(mesh_.boundaryMesh()[ipatch]) ||
+            isA<wedgeFvPatch>(mesh_.boundaryMesh()[ipatch]) ||
+            isA<coupledFvPatch>(mesh_.boundaryMesh()[ipatch]) ||
+            isA<symmetryFvPatch>(mesh_.boundaryMesh()[ipatch]) ||
+            isA<symmetryPlaneFvPatch>(mesh_.boundaryMesh()[ipatch])
+        )
+        {
+            notConstrain = false;
+        }
+
+        if (notConstrain)
+        {
+            gradIF.boundaryFieldRef()[ipatch] = iF.boundaryField()[ipatch].snGrad() * 
+                mesh_.Sf().boundaryField()[ipatch] / mesh_.magSf().boundaryField()[ipatch];
+        }
+    }
 
     if(!Pstream::parRun())
     {
         return tgradIF;
     }
     
-    #warning "Add evaluation of gradient on external faces"
+    /*
+     *
+     * Update processor patches for parallel case
+     *
+     */
 
     valueInNeibCellsForBoundPoints_.resize(Pstream::nProcs());
     

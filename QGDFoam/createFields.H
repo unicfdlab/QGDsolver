@@ -1,23 +1,26 @@
 Info<< "Reading thermophysical properties\n" << endl;
 
-autoPtr<psiThermo> pThermo
+autoPtr<psiQGDThermo> pThermo
 (
-    psiThermo::New(mesh)
+    psiQGDThermo::New(mesh)
 );
-psiThermo& thermo = pThermo();
+psiQGDThermo& thermo = pThermo();
 thermo.correct();
 
 volScalarField& e = thermo.he();
 
 volScalarField& p = thermo.p();
 const volScalarField& T = thermo.T();
+const volScalarField& hQGD = thermo.hQGD();
+const volScalarField& tauQGD = thermo.tauQGD();
+const volScalarField& gamma = thermo.gamma();
+const volScalarField& c = thermo.c();
 const volScalarField& psi = thermo.psi();
-const volScalarField& mu = thermo.mu();
+
+Info << "Thermo corrected" << endl;
 
 autoPtr<compressible::turbulenceModel> turbulence;
 autoPtr<volScalarField> muEffPtr;
-autoPtr<volTensorField> tauMCPtr;
-autoPtr<surfaceScalarField> sigmaDotUPtr;
 
 #warning "needs to be moved in dynamic library"
 extendedFaceStencil faceStencil
@@ -32,36 +35,6 @@ extendedFaceStencil faceStencil
     ),
     false
 );
-    
-IOdictionary QGDDict
-(
-    IOobject
-    (
-        "QGDDict",              // dictionary name
-        runTime.constant(),     // dict is found in "constant"
-        mesh,                   // registry for the dict
-        IOobject::MUST_READ,    // must exist, otherwise failure
-        IOobject::NO_WRITE      // dict is only read by the solver
-    )
-);
-    
-scalar ScQGD(readScalar(QGDDict.lookup("ScQGD")));
-scalar PrQGD(readScalar(QGDDict.lookup("PrQGD")));
-
-surfaceScalarField alphaQGD
-(
-    IOobject
-    (
-        "alphaQGD",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-//make alphaQGD positive  (for coupled boundaries after decomposePar)
-alphaQGD = mag(alphaQGD);
 
 volVectorField U
 (
@@ -102,6 +75,19 @@ volVectorField rhoU
     rho*U
 );
 
+volTensorField rhoUU
+(
+    IOobject
+    (
+        "rhoUU",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    rho*U*U
+);
+
 volScalarField rhoE
 (
     IOobject
@@ -115,24 +101,6 @@ volScalarField rhoE
     rho*(e + 0.5*magSqr(U))
 );
 
-volScalarField rPsi
-(
-    "rPsi", 
-    1.0/psi
-);
-
-volScalarField gamma
-(
-    "gamma",
-    thermo.Cp()/thermo.Cv()
-);
-
-volScalarField c
-(
-    "c",
-    sqrt(gamma * rPsi)
-);
-
 surfaceScalarField phi
 (
     "phi",
@@ -140,7 +108,7 @@ surfaceScalarField phi
 );
 
 bool inviscid(true);
-if (max(mu.primitiveField()) > SMALL)
+if (max(thermo.mu()().primitiveField()) > SMALL)
 {
     inviscid = false;
     Info<< "Creating turbulence model\n" << endl;
@@ -154,7 +122,7 @@ if (max(mu.primitiveField()) > SMALL)
             thermo
         ).ptr()
     );
-    
+
     muEffPtr.reset
     (
         new volScalarField
@@ -163,31 +131,18 @@ if (max(mu.primitiveField()) > SMALL)
             turbulence->muEff()
         )
     );
-    
-    tauMCPtr.reset
+}
+else
+{
+    muEffPtr.reset
     (
-        new volTensorField
+        new volScalarField
         (
-            "tauMC",
-            muEffPtr()*dev2(Foam::T(fvc::grad(U)))
-        )
-    );
-    
-    sigmaDotUPtr.reset
-    (
-        new surfaceScalarField
-        (
-            "sigmaDotU",
-            (
-                linearInterpolate(muEffPtr())*mesh.magSf()*fvc::snGrad(U)
-              + fvc::dotInterpolate(mesh.Sf(), tauMCPtr())
-            )
-          & linearInterpolate(U)
-
+            "muEff",
+            thermo.mu()*0.0
         )
     );
 }
-
 //
 //END-OF-FILE
 //
