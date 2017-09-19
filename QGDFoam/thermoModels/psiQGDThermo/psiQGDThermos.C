@@ -70,6 +70,18 @@ makeThermo
     psiQGDThermo,
     hePsiQGDThermo,
     pureMixture,
+    sutherlandTransport,
+    sensibleInternalEnergy,
+    hConstThermo,
+    perfectGas,
+    specie
+);
+
+makeThermo
+(
+    psiQGDThermo,
+    hePsiQGDThermo,
+    pureMixture,
     constTransport,
     sensibleInternalEnergy,
     eConstThermo,

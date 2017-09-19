@@ -68,30 +68,6 @@ int main(int argc, char *argv[])
     {
         /*
          *
-         * Create limiter
-         *
-         */
-        //tmp<limitedSurfaceInterpolationScheme<scalar> > rhoInterpScheme
-        //(
-        //    limitedSurfaceInterpolationScheme<scalar>::New(mesh, phiJm, mesh.solutionDict().lookup("rhoLimiter"))
-        //);
-        
-        //tmp<limitedSurfaceInterpolationScheme<vector> > UInterpScheme
-        //(
-        //    limitedSurfaceInterpolationScheme<vector>::New(mesh, phiJm, mesh.solutionDict().lookup("ULimiter"))
-        //);
-        //
-        //tmp<limitedSurfaceInterpolationScheme<scalar> > EInterpScheme
-        //(
-        //    limitedSurfaceInterpolationScheme<scalar>::New(mesh, phiJm, mesh.solutionDict().lookup("ELimiter"))
-        //);
-        
-        //surfaceScalarField rhoLim = rhoInterpScheme().limiter(rho);
-        //surfaceScalarField   ULim = UInterpScheme().limiter(rhoU);
-        //surfaceScalarField   ELim = EInterpScheme().limiter(rhoE);
-        
-        /*
-         *
          * Update fields
          *
          */
@@ -145,7 +121,7 @@ int main(int argc, char *argv[])
         rhoU.boundaryFieldRef() == rho.boundaryField()*
             U.boundaryField();
         
-        // Solve diffusive N-S part
+        // Solve diffusive QGD & NS part
         if (!inviscid)
         {
             solve
@@ -174,7 +150,7 @@ int main(int argc, char *argv[])
         rhoE.boundaryFieldRef() == rho.boundaryField()*
             (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
         
-        // Solve diffusive N-S part
+        // Solve diffusive QGD & NS part
         if (!inviscid)
         {
             solve

@@ -6,12 +6,6 @@
 if (!inviscid)
 {
     muEffPtr() = turbulence->muEff()();
-    
-    if(runTime.outputTime())
-    {
-        muEffPtr().write();
-        turbulence->alphaEff()().write();
-    }
 }
 
 
