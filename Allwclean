@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cd QGD; wclean; wcleanLnIncludeAll; cd ../
+
+cd QGDFoam; ./Allwclean; cd ../
+
+#
+#END-OF-FILE
+#
+

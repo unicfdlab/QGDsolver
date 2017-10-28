@@ -20,21 +20,6 @@ const volScalarField& psi = thermo.psi();
 Info << "Thermo corrected" << endl;
 
 autoPtr<compressible::turbulenceModel> turbulence;
-autoPtr<volScalarField> muEffPtr;
-
-#warning "needs to be moved in dynamic library"
-extendedFaceStencil faceStencil
-(
-    IOobject
-    (
-        "testFaceStencil",
-        runTime.timeName(),
-        mesh,
-        regIOobject::NO_READ,
-        regIOobject::NO_WRITE
-    ),
-    false
-);
 
 volVectorField U
 (
@@ -61,6 +46,26 @@ volScalarField rho
     ),
     thermo.rho()
 );
+
+//volScalarField cellNo
+//(
+//    IOobject
+//    (
+//        "cellNo",
+//        runTime.timeName(),
+//        mesh,
+//        IOobject::MUST_READ,
+//        IOobject::AUTO_WRITE
+//    ),
+//    mesh
+//);
+
+//forAll(cellNo, iCell)
+//{
+//    cellNo.primitiveFieldRef()[iCell] = scalar(iCell);
+//}
+//
+//cellNo.write();
 
 volVectorField rhoU
 (
@@ -98,7 +103,7 @@ volScalarField rhoE
         IOobject::NO_READ,
         IOobject::NO_WRITE
     ),
-    rho*(e + 0.5*magSqr(U))
+    rho*e + rho*0.5*magSqr(U)
 );
 
 surfaceScalarField phi
@@ -107,42 +112,20 @@ surfaceScalarField phi
     linearInterpolate(rho*U) & mesh.Sf()
 );
 
-bool inviscid(true);
-if (max(thermo.mu()().primitiveField()) > SMALL)
-{
-    inviscid = false;
-    Info<< "Creating turbulence model\n" << endl;
-    turbulence.reset
-    (
-        compressible::turbulenceModel::New
-        (
-            rho,
-            U,
-            phi,
-            thermo
-        ).ptr()
-    );
+Switch implicitDiffusion (thermo.implicitDiffusion());
 
-    muEffPtr.reset
+Info<< "Creating turbulence model\n" << endl;
+turbulence.reset
+(
+    compressible::turbulenceModel::New
     (
-        new volScalarField
-        (
-            "muEff",
-            turbulence->muEff()
-        )
-    );
-}
-else
-{
-    muEffPtr.reset
-    (
-        new volScalarField
-        (
-            "muEff",
-            thermo.mu()*0.0
-        )
-    );
-}
+        rho,
+        U,
+        phi,
+        thermo
+    ).ptr()
+);
+
 //
 //END-OF-FILE
 //

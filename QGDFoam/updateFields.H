@@ -3,11 +3,6 @@
  * Viscous part of N-S equations
  *
  */
-if (!inviscid)
-{
-    muEffPtr() = turbulence->muEff()();
-}
-
 
 rhoUU = rhoU*U;
 
@@ -42,19 +37,13 @@ Cpf = linearInterpolate(thermo.Cp());
 // Total specific enthalpy
 Hf = linearInterpolate(rhoE + p)/rhof;
 
-if (!inviscid)
-{
-    muf = linearInterpolate(turbulence->muEff());
-}
-
 /*
  *
  * QGD coefficients now updated in thermo library
  *
  */
+tauQGDf    = linearInterpolate(tauQGD);
+alphauf    = linearInterpolate(turbulence->muEff());
+muf        = linearInterpolate(turbulence->alphaEff());
 
-tauQGDf = linearInterpolate(tauQGD);
-
-//tauQGD = alphaQGD * hQGD / cf;
-//tauQGD = (1.0 - tauLim)*alphaQGD * hQGD / cf;
 

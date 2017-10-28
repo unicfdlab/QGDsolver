@@ -63,11 +63,14 @@
         "muf",
         linearInterpolate(thermo.mu()*0.0)
     );
-    if (!inviscid)
-    {
-        muf = linearInterpolate(turbulence->muEff());
-    }
-
+    
+    surfaceScalarField alphauf
+    (
+        "alphauf",
+        muf*0.0
+    );
+    
+    
     /*
      *
      * QGD coefficients

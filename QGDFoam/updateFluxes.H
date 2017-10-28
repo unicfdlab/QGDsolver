@@ -1,22 +1,26 @@
 //Gradients and divergence
 //---------Start---------
-gradPf = faceStencil.faceScalarGrad(p);
+gradPf = fvsc::grad(p);
 
-gradUf = faceStencil.faceVectorGrad(U);
+gradUf = fvsc::grad(U);
 
-divUf = faceStencil.faceVectorDiv(U);
+divUf  = fvsc::div(U);
+
+gradef = fvsc::grad(e);
+
+gradInvRhof = fvsc::grad(1/rho);
 //---------End---------
 
 //Continuity equation fluxes
 //---------Start---------
 phivf = Uf & mesh.Sf();
 
-rhoW = tauQGDf * (faceStencil.faceTensorDiv(rhoUU) + gradPf);
+rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf);
 
 //force rhoW to be zero at wall patches
-forAll(mesh.boundaryMesh(), patchi)
+forAll(mesh.boundary(), patchi)
 {
-    if (isA<wallPolyPatch>(mesh.boundaryMesh()[patchi]))
+    if (isA<wallFvPatch>(mesh.boundary()[patchi]))
     {
         rhoW.boundaryFieldRef()[patchi] = vector::zero;
     }
@@ -47,31 +51,33 @@ phiP = pf*mesh.Sf();
 
 Pif = 
     //QGD diffusive fluxes
-    tauQGDf * 
+    tauQGDf *
     (
         Uf * (rhof * (Uf & gradUf) + gradPf)
         +
         I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
     );
-//    + //viscous fluxes (QGD + NS) are now implicit
-//    muf*
-//    (
-//        gradUf
-//        +
-//        Foam::T(gradUf)
-//        -
-//        (2.0/3.0)*I*divUf
-//    );
-
-phiPi = Pif & mesh.Sf();
-
-//viscous stress explicit terms interpolation
-if (!inviscid)
+    
+if (!implicitDiffusion)
 {
-//    tauMCPtr() = muf*(Foam::T(gradUf) - (2.0/3.0)*I*divUf);
+    Pif +=
+        muf*
+        (
+            gradUf
+            +
+            Foam::T(gradUf)
+            -
+            (2.0/3.0)*I*divUf
+        );
+}
+else
+{
     tauMCPtr() = muf*linearInterpolate(Foam::T(fvc::grad(U)) - (2.0/3.0)*I*fvc::div(U));
     phiTauMC = tauMCPtr() & mesh.Sf();
 }
+
+phiPi = Pif & mesh.Sf();
+
 //---------End---------
 
 // Fluxes for energy balance equation
@@ -82,23 +88,18 @@ qf =
     -
     tauQGDf*rhofUf*
     (
-        (Uf & faceStencil.faceScalarGrad(e))
+        (Uf & gradef)
         +
-        (pf * (Uf & faceStencil.faceScalarGrad(1/rho)))
+        (pf * (Uf & gradInvRhof))
     );
-//    //NS and QGD heat flux are now implicit
-//    -
-//    muf*faceStencil.faceScalarGrad(e);
+if (!implicitDiffusion)
+{
+    qf -=
+        alphauf*gradef;
+}
 
 phiQ = qf & mesh.Sf();
 
 phiPiU = (Pif & Uf) & mesh.Sf();
 
-//viscous heat
-if (!inviscid)
-{
-//    sigmaDotUPtr() = (muf*gradUf + tauMCPtr()) & Uf;
-    sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
-    phiSigmaDotU = sigmaDotUPtr() & mesh.Sf();
-}
 //---------End---------

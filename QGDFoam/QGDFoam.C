@@ -25,21 +25,18 @@ Application
     QGDFoam
 
 Description
-    Quasi-Gasdynamic solver.
-    Now only for orthogonal mesh.
+    Solver for unsteady 3D turbulent flow of perfect gas governed by
+    quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
+    infinity).
+    
+    Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
+
 
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "psiQGDThermo.H"
+#include "QGD.H"
 #include "turbulentFluidThermoModel.H"
-#include "localEulerDdtScheme.H"
-#include "fvcSmooth.H"
-#include "faceGrad/extendedFaceStencil.H"
-#include "limitedSurfaceInterpolationScheme.H"
-#include "wallFvPatch.H"
-
-#warning "insert QGD includes in separate file"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -93,6 +90,13 @@ int main(int argc, char *argv[])
         
         Info<< "Time = " << runTime.timeName() << nl << endl;
         
+        // --- Store old time values
+        rho.oldTime();
+        rhoU.oldTime();
+        U.oldTime();
+        rhoE.oldTime();
+        e.oldTime();
+        
         // --- Solve density
         solve
         (
@@ -118,21 +122,31 @@ int main(int argc, char *argv[])
             rhoU()
            /rho();
         U.correctBoundaryConditions();
-        rhoU.boundaryFieldRef() == rho.boundaryField()*
-            U.boundaryField();
         
         // Solve diffusive QGD & NS part
-        if (!inviscid)
+        if (implicitDiffusion)
         {
-            solve
+            fvVectorMatrix UEqn
             (
-                fvm::ddt(rho, U) - fvc::ddt(rho, U)
+                fvm::ddt(rho, U) - fvc::ddt(rho,U)
               - fvm::laplacian(muf, U)
               - fvc::div(phiTauMC)
             );
+            
+            solve
+            (
+                UEqn
+            );
+            
             rhoU = rho*U;
+            
+            sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
+            
+            phiSigmaDotU = sigmaDotUPtr() & mesh.Sf(); //or eqn.flux()?
         }
-
+        rhoU.boundaryFieldRef() == rho.boundaryField()*
+            U.boundaryField();
+        
         //--- Solve energy
         solve
         (
@@ -146,21 +160,22 @@ int main(int argc, char *argv[])
         // Correct energy
         e = rhoE/rho - 0.5*magSqr(U);
         e.correctBoundaryConditions();
-        thermo.correct();
-        rhoE.boundaryFieldRef() == rho.boundaryField()*
-            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
         
         // Solve diffusive QGD & NS part
-        if (!inviscid)
+        if (implicitDiffusion)
         {
             solve
             (
-                fvm::ddt(rho, e) - fvc::ddt(rho, e)
-              - fvm::laplacian(turbulence->alphaEff(), e)
+                fvm::ddt(rho, e) - fvc::ddt(rho,e)
+              - fvm::laplacian(alphauf, e)
             );
-            thermo.correct();
+            
             rhoE = rho*(e + 0.5*magSqr(U));
         }
+        rhoE.boundaryFieldRef() == rho.boundaryField()*
+            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
+        
+        thermo.correct();
         
         // Correct pressure
         p.ref() =
@@ -168,6 +183,7 @@ int main(int argc, char *argv[])
            /psi();
         p.correctBoundaryConditions();
         rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
+        
         runTime.write();
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
@@ -176,13 +192,6 @@ int main(int argc, char *argv[])
         
         if (runTime.outputTime())
         {
-//            phiJm.write();
-//            rhoW.write();
-//            phiJmU.write();
-//            phiP.write();
-//            phiPi.write();
-//            gradPf.write();
-//            tauQGDf.write();
             tauQGD.write();
         }
         
@@ -191,9 +200,7 @@ int main(int argc, char *argv[])
         Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
         Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
     }
-
-
-
+    
     Info<< "End\n" << endl;
 
     return 0;

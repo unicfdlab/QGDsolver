@@ -1,21 +1,43 @@
+
+/*Field for debugging parallel execution*/
+//surfaceVectorField cellNoGradf
+//(
+//    "cellNoGradf", faceStencil.faceScalarGrad(cellNo)
+//);
+//
+//cellNoGradf.write();
+
 //Gradients and divergence
 //---------Start---------
 surfaceVectorField gradPf 
 (
-    "gradPf", faceStencil.faceScalarGrad(p)
+    "gradPf", fvsc::grad(p)
 );
 
 surfaceTensorField gradUf
 (
     "gradUf",
-    faceStencil.faceVectorGrad(U)
+    fvsc::grad(U)
 );
 
 surfaceScalarField divUf
 (
     "divUf",
-    faceStencil.faceVectorDiv(U)
+    fvsc::div(U)
 );
+
+surfaceVectorField gradef
+(
+    "gradef",
+    fvsc::grad(e)
+);
+
+surfaceVectorField gradInvRhof
+(
+    "gradInvRhof",
+    fvsc::grad(1.0/rho)
+);
+
 //---------End---------
 
 //Continuity equation fluxes
@@ -39,7 +61,7 @@ surfaceVectorField rhoW
     "rhoW",
     tauQGDf * 
     (
-        faceStencil.faceTensorDiv(rho * (U * U))
+        fvsc::div(rho * (U * U))
         +
         gradPf
     )
@@ -97,12 +119,11 @@ tauMCPtr.reset
     new surfaceTensorField
     (
         "tauMC",
-        //muEffPtr()*dev2(Foam::T(fvc::grad(U)))
-        muf*
+        0.0*muf*
         (
-            Foam::T(faceStencil.faceVectorGrad(U))//Don't forget to transpose
+            Foam::T(gradUf)//Don't forget to transpose
             -
-            I*faceStencil.faceVectorDiv(U)
+            I*divUf
         )
     )
 );
@@ -129,9 +150,9 @@ surfaceVectorField qf
     -
     tauQGDf* 
     ( 
-        ((linearInterpolate(rho*(U*U))) & faceStencil.faceScalarGrad(e))
+        ((linearInterpolate(rho*(U*U))) & gradef)
         +
-        (pf * rhof * Uf * (Uf & faceStencil.faceScalarGrad(1/rho)))
+        (pf * rhof * Uf * (Uf & gradInvRhof))
     )
 );
 

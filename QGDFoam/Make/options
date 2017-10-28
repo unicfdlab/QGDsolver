@@ -7,8 +7,8 @@ EXE_INC = \
     -I$(LIB_SRC)/TurbulenceModels/compressible/lnInclude \
     -I$(LIB_SRC)/dynamicMesh/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
-    -IthermoModels/psiQGDThermo \
-    -IthermoModels/powerLaw
+    -I../QGD/lnInclude
+    
 
 EXE_LIBS = \
     -lfiniteVolume \
@@ -17,4 +17,6 @@ EXE_LIBS = \
     -lfluidThermophysicalModels \
     -lspecie \
     -lturbulenceModels \
-    -lcompressibleTurbulenceModels 
+    -lcompressibleTurbulenceModels \
+    -L$(FOAM_USER_LIBBIN) \
+    -lQGD
