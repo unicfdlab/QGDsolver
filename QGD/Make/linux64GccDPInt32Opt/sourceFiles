@@ -1,0 +1,10 @@
+SOURCE = \
+fvsc/fvsc.C \
+fvsc/fvscStencil/fvscStencil.C \
+fvsc/reducedFaceNormalStencil/reducedFaceNormalStencil.C \
+fvsc/extendedFaceStencil/extendedFaceStencil.C \
+fvsc/extendedFaceStencil/extendedFaceStencilFindNeighbours.C \
+fvsc/extendedFaceStencil/extendedFaceStencilCalculateWeights.C \
+fvsc/extendedFaceStencil/extendedFaceStencilScalarGrad.C \
+thermoModels/psiQGDThermo/psiQGDThermo.C \
+thermoModels/psiQGDThermo/psiQGDThermos.C 
