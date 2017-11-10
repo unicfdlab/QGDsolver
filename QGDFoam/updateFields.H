@@ -35,7 +35,7 @@ Hf = linearInterpolate(rhoE + p)/rhof;
  *
  */
 tauQGDf    = linearInterpolate(tauQGD);
-alphauf    = linearInterpolate(turbulence->muEff());
-muf        = linearInterpolate(turbulence->alphaEff());
+alphauf    = linearInterpolate(turbulence->alphaEff());
+muf        = linearInterpolate(turbulence->muEff());
 
 
