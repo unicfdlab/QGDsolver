@@ -61,7 +61,7 @@ surfaceVectorField rhoW
     "rhoW",
     tauQGDf * 
     (
-        fvsc::div(rho * (U * U))
+        Uf*fvsc::div(rhoU)
         +
         gradPf
     )

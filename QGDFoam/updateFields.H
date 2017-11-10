@@ -1,13 +1,5 @@
 /*
  *
- * Viscous part of N-S equations
- *
- */
-
-rhoUU = rhoU*U;
-
-/*
- *
  * Linear interpolation of fields from volumes to face centers
  *
  */

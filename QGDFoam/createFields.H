@@ -80,19 +80,6 @@ volVectorField rhoU
     rho*U
 );
 
-volTensorField rhoUU
-(
-    IOobject
-    (
-        "rhoUU",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
-    ),
-    rho*U*U
-);
-
 volScalarField rhoE
 (
     IOobject

@@ -15,26 +15,24 @@ gradInvRhof = fvsc::grad(1/rho);
 //---------Start---------
 phivf = Uf & mesh.Sf();
 
-rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf);
+//rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf);
+////force rhoW to be zero at wall patches
+//forAll(mesh.boundary(), patchi)
+//{
+//    if (isA<wallFvPatch>(mesh.boundary()[patchi]))
+//    {
+//        rhoW.boundaryFieldRef()[patchi] = vector::zero;
+//    }
+//}
 
-//force rhoW to be zero at wall patches
-forAll(mesh.boundary(), patchi)
-{
-    if (isA<wallFvPatch>(mesh.boundary()[patchi]))
-    {
-        rhoW.boundaryFieldRef()[patchi] = vector::zero;
-    }
-}
-
-//divergent scheme
-//rhoW = tauQGDf * 
-//        (
-//            (faceStencil.faceVectorGrad(rhoU) &  Uf)
-//            + 
-//            (rhofUf * divUf)
-//            + gradPf 
-//        );
-
+rhoW = tauQGDf *
+        (
+            (Foam::T(gradUf) & rhofUf)
+            +
+            (Uf * fvsc::div(rhoU))
+            +
+            gradPf
+        );
 
 jm = rhofUf - rhoW;
 
