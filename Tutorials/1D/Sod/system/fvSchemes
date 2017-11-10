@@ -57,8 +57,7 @@ fvsc
     grad(e)          extendedFaceStencil;
     div(U)           extendedFaceStencil;
     grad((1|rho))    extendedFaceStencil;
-    div((rho*(U*U))) extendedFaceStencil;
-    div(rhoUU)       extendedFaceStencil;
+    div(rhoU)        extendedFaceStencil;
 }
 
 // ************************************************************************* //

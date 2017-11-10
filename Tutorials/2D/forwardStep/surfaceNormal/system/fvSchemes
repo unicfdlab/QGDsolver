@@ -57,8 +57,7 @@ fvsc
     grad(e)          reducedFaceNormalStencil;
     div(U)           reducedFaceNormalStencil;
     grad((1|rho))    reducedFaceNormalStencil;
-    div((rho*(U*U))) reducedFaceNormalStencil;
-    div(rhoUU)       reducedFaceNormalStencil;
+    div(rhoU)        reducedFaceNormalStencil;
 }
 
 // ************************************************************************* //
