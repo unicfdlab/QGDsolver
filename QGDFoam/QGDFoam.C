@@ -29,6 +29,26 @@ Description
     quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
     infinity).
     
+    QGD system of equations has been developed by scientific group from
+    Keldysh Institute of Applied Mathematics, 
+    see http://elizarova.imamod.ru/selection-of-papers.html
+    
+    A comprehensive description of QGD equations and their applications can be found here:
+    \verbatim
+    Elizarova, T.G.
+    "Quasi-Gas Dynamic equations"
+    Springer, 2009
+    \endverbatim
+    
+    A brief of theory on QGD and QHD system of equations:
+    \verbatim
+    Elizarova, T.G. and Sheretov, Y.V.
+    "Theoretical and numerical analysis of quasi-gasdynamic and quasi-hydrodynamic
+    equations"
+    J. Computational Mathematics and Mathematical Physics, vol. 41, no. 2, pp 219-234,
+    2001
+    \endverbatim
+    
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
 
 
