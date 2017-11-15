@@ -10,27 +10,23 @@ divUf  = tr(gradUf);
 
 gradef = fvsc::grad(e);
 
-gradInvRhof = fvsc::grad(1/rho);
+gradRhof = fvsc::grad(rho);
+
 //---------End---------
 
 //Continuity equation fluxes
 //---------Start---------
 
-//rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf);
-////force rhoW to be zero at wall patches
-//forAll(mesh.boundary(), patchi)
-//{
-//    if (isA<wallFvPatch>(mesh.boundary()[patchi]))
-//    {
-//        rhoW.boundaryFieldRef()[patchi] = vector::zero;
-//    }
-//}
+//rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf); //rhoW should be zero at wall
 
 rhoW = tauQGDf *
         (
             (gradUfT & rhofUf)
             +
-            (Uf * fvsc::div(rhoU))
+            //(Uf * fvsc::div(rhoU))
+            Uf * (Uf & gradRhof)
+            +
+            rhofUf * divUf
             +
             gradPf
         );
@@ -88,8 +84,8 @@ qf =
     tauQGDf*rhofUf*
     (
         (Uf & gradef)
-        +
-        (pf * (Uf & gradInvRhof))
+        -
+        (pf * (Uf & gradRhof) / rhof / rhof)
     );
 if (!implicitDiffusion)
 {

@@ -48,6 +48,7 @@ snGradSchemes
 fluxRequired
 {
     default	none;
+    rho;
 }
 
 fvsc

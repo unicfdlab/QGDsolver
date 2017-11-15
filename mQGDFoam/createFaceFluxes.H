@@ -29,7 +29,7 @@ surfaceTensorField gradUfT
 surfaceScalarField divUf
 (
     "divUf",
-    fvsc::div(U)
+    Foam::tr(gradUf)
 );
 
 surfaceVectorField gradef
@@ -38,10 +38,10 @@ surfaceVectorField gradef
     fvsc::grad(e)
 );
 
-surfaceVectorField gradInvRhof
+surfaceVectorField gradRhof
 (
-    "gradInvRhof",
-    fvsc::grad(1.0/rho)
+    "gradRhof",
+    fvsc::grad(rho)
 );
 
 //---------End---------
@@ -62,8 +62,6 @@ surfaceVectorField rhoW
     "rhoW",
     tauQGDf * 
     (
-        Uf*fvsc::div(rhoU)
-        +
         gradPf
     )
 );
@@ -152,8 +150,8 @@ surfaceVectorField qf
     tauQGDf* 
     ( 
         ((linearInterpolate(rho*(U*U))) & gradef)
-        +
-        (pf * rhof * Uf * (Uf & gradInvRhof))
+        -
+        (pf * rhof * Uf * (Uf & gradRhof) / rhof / rhof)
     )
 );
 

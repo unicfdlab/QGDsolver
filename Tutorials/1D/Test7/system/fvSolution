@@ -17,12 +17,12 @@ FoamFile
 
 solvers
 {
-    "(rhoU|rhoE)"
+    "(rho|rhoU|rhoE)"
     {
         solver diagonal;
     }
     
-    "(rho|U|e)"
+    "(U|e)"
     {
         solver   smoothSolver;
         smoother DIC;

@@ -11,24 +11,30 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      fvSolution;
+    object      sampleDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-solvers
-{
-    "(rhoU|rhoE)"
+type sets;
+libs ("libsampling.so");
+
+interpolationScheme cell;
+
+setFormat       csv;
+
+sets
+(
+    line
     {
-        solver diagonal;
+        type    uniform;
+        axis    x;
+        start   ( 0.000625 0 0 );
+        end     ( 0.999375 0 0 );
+        nPoints 800;
     }
-    
-    "(rho|U|e)"
-    {
-        solver   smoothSolver;
-        smoother DIC;
-        tolerance 1e-9;
-        relTol    0;
-    }
-}
+);
+
+fields          ( p U T );
+
 
 // ************************************************************************* //

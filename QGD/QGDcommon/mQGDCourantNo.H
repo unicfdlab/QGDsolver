@@ -22,32 +22,26 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Global
-    QGDCourantNo
+    mQGDCourantNo
 
 Description
-    Calculates the mean and maximum wave speed based Courant Numbers.
+    Calculates the maximum mass flux based Courant Number.
 
 \*---------------------------------------------------------------------------*/
-
 if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
 {
-    surfaceScalarField Unf
-    (
-        "Unf",
-        Uf & mesh.Sf() / mesh.magSf()
-    );
-    
-    surfaceScalarField Cof
-    (
-        "Cof",
-        max(mag(Unf + cf), mag(Unf - cf)) * runTime.deltaT() / hQGDf
-    );
-    
-    CoNum = max(Cof).value();
+    if (mesh.nInternalFaces())
+    {
+        scalarField sumPhi
+        (
+            fvc::surfaceSum(mag(phiJm))().primitiveField()
+            / rho.primitiveField()
+        );
+        
+         CoNum = 0.5*gMax(sumPhi/mesh.V().field())*runTime.deltaTValue();
+    }
     
     Info << "Courant Number = " << CoNum << endl;
 }
-
-
 
 // ************************************************************************* //

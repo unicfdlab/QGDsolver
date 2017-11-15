@@ -4,6 +4,8 @@ cd QGD; wclean; wcleanLnIncludeAll; cd ../
 
 cd QGDFoam; ./Allwclean; cd ../
 
+cd mQGDFoam; ./Allwclean; cd ../
+
 #
 #END-OF-FILE
 #
