@@ -6,24 +6,24 @@ namespace Foam
 {
 namespace fvsc
 {
-    defineTypeNameAndDebug(reducedFaceNormalStencil,0);
+    defineTypeNameAndDebug(reduced,0);
     addToRunTimeSelectionTable
     (
         fvscStencil,
-        reducedFaceNormalStencil,
+        reduced,
         components
     );
 }
 }
 
 // constructors
-Foam::fvsc::reducedFaceNormalStencil::reducedFaceNormalStencil(const IOobject& io)
+Foam::fvsc::reduced::reduced(const IOobject& io)
 :
     fvscStencil(io)
 {
 }
 
-Foam::fvsc::reducedFaceNormalStencil::~reducedFaceNormalStencil()
+Foam::fvsc::reduced::~reduced()
 {
 }
 
@@ -33,11 +33,11 @@ Foam::fvsc::reducedFaceNormalStencil::~reducedFaceNormalStencil()
 //                   Allowable values: constant reference to the volScalarField.
 //
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reducedFaceNormalStencil::Grad(const volScalarField& vF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarField& vF)
 {
     surfaceScalarField sF = linearInterpolate(vF);
     
-    tmp<surfaceVectorField> tgradIF(fvc::snGrad(vF)  * nf_);
+    tmp<surfaceVectorField> tgradIF(nf_ * fvc::snGrad(vF));
     
     return tgradIF;
 };
@@ -48,15 +48,15 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reducedFaceNormalStencil::Grad(c
 //                 Allowable values: constant reference to the volVectorField.
 //
 // \return         Gradient of iVF (tensor field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::reducedFaceNormalStencil::Grad(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::reduced::Grad(const volVectorField& iVF)
 {
 
-    tmp<surfaceTensorField> tgradIVF(fvc::snGrad(iVF) * nf_);
+    tmp<surfaceTensorField> tgradIVF(nf_* fvc::snGrad(iVF));
 
     return tgradIVF;
 };
 
-Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reducedFaceNormalStencil::Div(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(const volVectorField& iVF)
 {
     tmp<surfaceScalarField> tdivIVF(fvc::snGrad(iVF) & nf_);
     
@@ -69,9 +69,9 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reducedFaceNormalStencil::Div(co
 //                   Allowable values: constant reference to the volTensorField.
 //
 // \return           Divergence of iTF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reducedFaceNormalStencil::Div(const volTensorField& iTF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Div(const volTensorField& iTF)
 {
-    tmp<surfaceVectorField> tdivITF(fvc::snGrad(iTF) & nf_);
+    tmp<surfaceVectorField> tdivITF(Foam::T(fvc::snGrad(iTF)) & nf_);
     
     return tdivITF;
 }

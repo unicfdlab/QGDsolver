@@ -1,4 +1,4 @@
-#include "extendedFaceStencil.H"
+#include "leastSquaresBase.H"
 #include "polyMesh.H"
 #include "fvMesh.H"
 #include "word.H"
@@ -7,11 +7,11 @@
 #include <HashTable.H>
 
 //- Compute weights for least squares scheme for gradient calculation.
-void Foam::fvsc::extendedFaceStencil::calculateWeights()
+void Foam::fvsc::leastSquaresBase::calculateWeights()
 {
     Pout << "Start calculateWeights()" << endl;
     
-    const faceList& faces = mesh_.faces();
+    const faceList& faces = cMesh_.faces();
     GdfAll_.resize(faces.size());
     wf2All_.resize(faces.size());
     label cellDim = 3;
@@ -25,17 +25,17 @@ void Foam::fvsc::extendedFaceStencil::calculateWeights()
     //for internal faces
     forAll(faces, facei)
     {
-        if (mesh_.isInternalFace(facei))
+        if (cMesh_.isInternalFace(facei))
         {
             List<vector> df(neighbourCells_[facei].size());
             scalarList wf2(neighbourCells_[facei].size());
             symmTensor G(0);
             
-            vector Cf = mesh_.faceCentres()[facei];
+            vector Cf = cMesh_.faceCentres()[facei];
             
             forAll(neighbourCells_[facei], i)
             {
-                df[i] = mesh_.cellCentres()[neighbourCells_[facei][i]] - Cf;
+                df[i] = cMesh_.cellCentres()[neighbourCells_[facei][i]] - Cf;
                 wf2[i] = 1/magSqr(df[i]);
                 symmTensor addToG(0);
                 addToG = sqr(df[i]);
@@ -64,13 +64,13 @@ void Foam::fvsc::extendedFaceStencil::calculateWeights()
                     cellDim--;
                 }
                 
-                if (cellDim != mesh_.nGeometricD())
+                if (cellDim != cMesh_.nGeometricD())
                 {
                     WarningInFunction
                         << "face " << facei << " with center "
-                        << mesh_.faceCentres()[facei] << nl
+                        << cMesh_.faceCentres()[facei] << nl
                         << " connected to cells with dimensions " << cellDim
-                        << " less then geometric " << mesh_.nGeometricD() 
+                        << " less then geometric " << cMesh_.nGeometricD() 
                         << nl << endl;
                     Pout << "Degenerate face: " << facei << endl;
                 }
@@ -156,7 +156,7 @@ void Foam::fvsc::extendedFaceStencil::calculateWeights()
                 forAll(ownCellCenters[iProcPatch][iFace], iCell)
                 {
                     cellId = myProcPatchCells_[iProcPatch][iFace][iCell];
-                    ownCellCenters[iProcPatch][iFace][iCell] = mesh_.C()[cellId];
+                    ownCellCenters[iProcPatch][iFace][iCell] = cMesh_.C()[cellId];
                 }
                     //nOwnCells[iProcPatch] += ownCellCenters[iProcPatch][iFace].size();
             }
@@ -209,7 +209,7 @@ void Foam::fvsc::extendedFaceStencil::calculateWeights()
                     forAll(locCc, iCell)
                     {
                         label cellId = corCellIds_[id][iCell];
-                        locCc[iCell] = mesh_.C()[cellId];
+                        locCc[iCell] = cMesh_.C()[cellId];
                     }
                     oProcStr << locCc;
                     //Pout << "Sending " << locCc << " to " << procId << endl;
@@ -261,7 +261,7 @@ void Foam::fvsc::extendedFaceStencil::calculateWeights()
             if (procPairs_[iProcPatch] > -1)
             {
                 const label iProcPatchId = procPairs_[iProcPatch];
-                const fvPatch& fvp       = mesh_.boundary()[iProcPatchId];
+                const fvPatch& fvp       = cMesh_.boundary()[iProcPatchId];
                 
                 label nFaceCells = 0;
                 
@@ -345,13 +345,13 @@ void Foam::fvsc::extendedFaceStencil::calculateWeights()
                         }
                     }
 
-                    if (cellDim != mesh_.nGeometricD())
+                    if (cellDim != cMesh_.nGeometricD())
                     {
                         WarningInFunction
                             << "face " << facei << " with center "
                             << fvp.Cf()[facei] << nl
                             << " connected to cells with dimensions " << cellDim
-                            << " less then geometric " << mesh_.nGeometricD() 
+                            << " less then geometric " << cMesh_.nGeometricD() 
                             << nl << endl;
                     }
                     

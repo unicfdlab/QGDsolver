@@ -1,20 +1,11 @@
-#ifndef extendedFaceStencil_H
-#define extendedFaceStencil_H
-
-#include "fvscStencil.H"
-#include "regIOobject.H"
-#include "labelList.H"
+#ifndef leastSquaresBase_H
+#define leastSquaresBase_H
 
 #include "volFields.H"
 #include "surfaceFields.H"
 #include "surfaceMesh.H"
 
 #include "fvCFD.H"
-#include "zeroGradientFvPatchFields.H"
-#include "vector.H"
-#include "List.H"
-
-#include "processorFvPatch.H"
 
 namespace Foam
 {
@@ -22,34 +13,29 @@ namespace Foam
 namespace fvsc
 {
 
-/*---------------------------------------------------------------------------*\
-                    Class extendedFaceStencil Declaration
-\*---------------------------------------------------------------------------*/
-
-class extendedFaceStencil
-:
-    public fvscStencil
+class leastSquaresBase
 {
 
 private:
 
-    template <class T>
-    using List2 = List<List<T> >;
+        const fvMesh& cMesh_;
 
-    template <class T>
-    using List3 = List2<List<T> >;
-    
-    template <class T>
-    using labelHashTable = HashTable<T,label>;
-    
-    template <class T>
-    using Triple = FixedList<T,3>;
-    
-//    template <class T>
-//    using tripleLabelHashTable = HashTable<T,Triple<T> >
+protected:
 
-private:
-        
+        template <class T>
+        using List2 = List<List<T> >;
+
+        template <class T>
+        using List3 = List2<List<T> >;
+    
+        template <class T>
+        using labelHashTable = HashTable<T,label>;
+    
+        template <class T>
+        using Triple = FixedList<T,3>;
+
+protected:
+
         //Data for internal field
         
         // List of neighbour cells for each face
@@ -93,37 +79,28 @@ private:
         
         List<DynamicList<label> > procDegFaces_;
 
-public:
-
-        TypeName ("extendedFaceStencil");
-
-// Constructors
-
-        //- Construct from IOobject. Optional flag for if IOobject is the
-        //  top level regIOobject.
-        extendedFaceStencil(const IOobject&);
-        
-        //- Destructor
-        ~extendedFaceStencil();
+protected:
 
         void findNeighbours();
 
         void calculateWeights();
 
-        tmp<surfaceVectorField> Grad(const volScalarField& iF);
+public:
 
-        tmp<surfaceTensorField> Grad(const volVectorField& iVF);
+    leastSquaresBase(const fvMesh& mesh);
+    
+    ~leastSquaresBase();
 
-        tmp<surfaceScalarField> Div(const volVectorField& iVF);
-
-        tmp<surfaceVectorField> Div(const volTensorField& iTF);
 };
 
-} //fvsc
+}
 
-} //Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+}
 
 #endif
+
+//
+//END-OF-FILE
+//
+
 

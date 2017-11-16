@@ -1,4 +1,4 @@
-#include "extendedFaceStencil.H"
+#include "leastSquaresStencil.H"
 #include "polyMesh.H"
 #include "fvMesh.H"
 #include "word.H"
@@ -18,19 +18,14 @@
 //                   Allowable values: constant reference to the volScalarField.
 //
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::extendedFaceStencil::Grad(const volScalarField& iF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScalarField& iF)
 {
     surfaceScalarField sF = linearInterpolate(iF);
     surfaceScalarField sngF (fvc::snGrad(iF));
 
-    tmp<surfaceVectorField> tgradIF(0.0 * sngF  * nf_);
+    tmp<surfaceVectorField> tgradIF(0.0 * nf_ * sngF);
     surfaceVectorField& gradIF = tgradIF.ref();
     
-//    if (Pstream::parRun())
-//    {
-//        return tgradIF;
-//    }
-
     // List of faces
     const faceList& faces = mesh_.faces();
 
@@ -54,7 +49,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::extendedFaceStencil::Grad(const 
     forAll(internalDegFaces_, facei)
     {
         dFaceId = internalDegFaces_[facei];
-        gradIF[dFaceId] = sngF[dFaceId] * nf_[dFaceId];
+        gradIF[dFaceId] = nf_[dFaceId] * sngF[dFaceId];
     }
     
     //update boundary field
@@ -153,21 +148,6 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::extendedFaceStencil::Grad(const 
         
         UOPstream oProcStr(procId, pBuffers);
         oProcStr << locVf;
-        
-//        dataSz = locVf.size();
-//        if (dataSz > 0)
-//        {
-//            //Pout << "Sending " << dataSz << " scalars to " << procId << endl;
-//            OPstream::write
-//            (
-//                Pstream::scheduled, //mode
-//                procId, //where
-//                reinterpret_cast<char*>(&(locVf[0])), //what
-//                sizeof(scalar)*dataSz, //amount
-//                UPstream::msgType(),
-//                UPstream::worldComm
-//            );
-//        }
     }
     
     //Step 2. Recieve field data from neighbouring processors
@@ -175,46 +155,10 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::extendedFaceStencil::Grad(const 
     label iCorProc = 0;
     forAll(procPairs_, procI)
     {
-        //data size from processor, that is neighbouring through the patch
-//        label dataSz = 0;
-//        label nNeiFaceCells = 0;
         label procId = neigProcs_[procI];
         
         UIPstream iProcStr(procId, pBuffers);
         List<scalar> locVf (iProcStr);
-//        dataSz = locVf.size();
-//
-//        if (procPairs_[procI] > -1)
-//        {
-//            //calculate data size
-//            forAll(neiEnd_[procI], iFace)
-//            {
-//                nNeiFaceCells = neiEnd_[procI][iFace] - neiStart_[procI][iFace] + 1;
-//                dataSz += nNeiFaceCells;
-//            }
-//            
-//            locVf.resize(dataSz);
-//        }
-//        else
-//        {
-//            const List<Triple<label> >& addr = corAddr_[iCorProc];
-//            dataSz = addr.size();
-//            locVf.resize(dataSz);
-//        }
-//        
-//        if (dataSz > 0)
-//        {
-//            //Pout << "Recieving " << dataSz << " from " << procId << endl;
-//            IPstream::read
-//            (
-//                Pstream::scheduled, //mode
-//                procId, //from
-//                reinterpret_cast<char*>(&(locVf[0])), //what
-//                sizeof(scalar)*dataSz, //amount
-//                UPstream::msgType(),
-//                UPstream::worldComm
-//            );
-//        }
         
         if (procPairs_[procI] > -1)
         {
@@ -255,10 +199,6 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::extendedFaceStencil::Grad(const 
             iCorProc++;
         }
     }
-
-//    Pout << "procVfValues = " << procVfValues << endl;
-//    Pout << "procGdf_ = " << procGdf_ << endl;
-//    Pout << "procWf2_ = " << procWf2_ << endl;
 
     //Step 3. Calculate gradient at faces on processor patches
     forAll(procPairs_, patchI)

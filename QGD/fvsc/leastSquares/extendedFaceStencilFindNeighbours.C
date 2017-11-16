@@ -1,4 +1,5 @@
-#include "extendedFaceStencil.H"
+#include "leastSquaresBase.H"
+#include "processorFvPatch.H"
 #include "polyMesh.H"
 #include "fvMesh.H"
 #include "word.H"
@@ -7,18 +8,18 @@
 #include <HashTable.H>
 
 //- Find neighbour cells for each face (throught face points).
-void Foam::fvsc::extendedFaceStencil::findNeighbours()
+void Foam::fvsc::leastSquaresBase::findNeighbours()
 {
     Pout << "Start findNeighbours()" << endl;
 
     // List of faces
-    const faceList& faces = mesh_.faces();
-    labelListList neighbourCellsForFace(mesh_.nInternalFaces());
+    const faceList& faces = cMesh_.faces();
+    labelListList neighbourCellsForFace(cMesh_.nInternalFaces());
     
     //Step 1. Find neighbours for internal faces
     forAll(faces, facei)
     {
-        if(mesh_.isInternalFace(facei))
+        if(cMesh_.isInternalFace(facei))
         {
             labelList neighbourCells;
             labelList pointsFacei = faces[facei];
@@ -27,7 +28,7 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
             {
                 label pointi = pointsFacei[k];
                 // cells should be added to list if it wasn't contain in the list yet
-                labelList neighbourCellsForPointI = mesh_.pointCells()[pointi];
+                labelList neighbourCellsForPointI = cMesh_.pointCells()[pointi];
 
                 forAll(neighbourCellsForPointI, j)
                 {
@@ -65,9 +66,9 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
            IOobject
             (
                 "pointProcAddressing",
-                mesh_.facesInstance(),
-                mesh_.meshSubDir,
-                mesh_,
+                cMesh_.facesInstance(),
+                cMesh_.meshSubDir,
+                cMesh_,
                 IOobject::MUST_READ,
                 IOobject::NO_WRITE
             )
@@ -87,9 +88,9 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
            IOobject
             (
                 "cellProcAddressing",
-                mesh_.facesInstance(),
-                mesh_.meshSubDir,
-                mesh_,
+                cMesh_.facesInstance(),
+                cMesh_.meshSubDir,
+                cMesh_,
                 IOobject::MUST_READ,
                 IOobject::NO_WRITE
             )
@@ -104,9 +105,9 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
             );
         }
         
-        forAll(mesh_.boundary(), patchIndex)
+        forAll(cMesh_.boundary(), patchIndex)
         {
-            if (isType<processorFvPatch>(mesh_.boundary()[patchIndex]))
+            if (isType<processorFvPatch>(cMesh_.boundary()[patchIndex]))
             {
                 procPairs_.append(patchIndex);
                 idProcPatchPairs_.insert
@@ -125,7 +126,7 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
         forAll(procPairs_, iProcPair)
         {
             const label iProcPatchId = procPairs_[iProcPair];
-            const fvPatch& fvp       = mesh_.boundary()[iProcPatchId];
+            const fvPatch& fvp       = cMesh_.boundary()[iProcPatchId];
             const processorFvPatch& procp = refCast<const processorFvPatch>(fvp);
             procGdf_[iProcPair].resize(fvp.size());
             procWf2_[iProcPair].resize(fvp.size());
@@ -139,7 +140,7 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
             if (procPairs_[iProcPatch] > -1)
             {
                 const label iProcPatchId = procPairs_[iProcPatch];
-                const fvPatch& fvp       = mesh_.boundary()[iProcPatchId];
+                const fvPatch& fvp       = cMesh_.boundary()[iProcPatchId];
                 const polyPatch& pp      = fvp.patch(); //list of faces from which the patch is build up
                 myProcPatchCells_[iProcPatch].resize(fvp.size());
                 
@@ -153,7 +154,7 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
                     {
                         pointId = pp[facei][pointi];
                         //add only unique cells ids
-                        vCells.insert(mesh_.pointCells()[pointId]);
+                        vCells.insert(cMesh_.pointCells()[pointId]);
                         //take global point id
                         gPointId = localPointProcAddr[pointId];
                         //
@@ -320,7 +321,7 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
             {
                 gPointId = multipleProcsPoints[iPoint];
                 lPointId = globalPointProcAddr[gPointId];
-                const List<label>& lPointCells = mesh_.pointCells(lPointId);
+                const List<label>& lPointCells = cMesh_.pointCells(lPointId);
                 gPointCells.resize(lPointCells.size());
                 
                 forAll(lPointCells, iCell)
@@ -439,18 +440,18 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
             {
                 gPointId = multipleProcsPoints[iPoint];
                 pointId  = globalPointProcAddr[gPointId];
-                labelList locFaceIds = mesh_.pointFaces()[pointId];
+                labelList locFaceIds = cMesh_.pointFaces()[pointId];
                 forAll(locFaceIds, iFace)
                 {
                     faceId = locFaceIds[iFace];
-                    if (mesh_.isInternalFace(faceId)) //do nothing within this implementation
+                    if (cMesh_.isInternalFace(faceId)) //do nothing within this implementation
                     {
                     }
                     else
                     {
 
                         bool isProcPatch = false;
-                        fPatchId = mesh_.boundaryMesh().whichPatch(faceId);
+                        fPatchId = cMesh_.boundaryMesh().whichPatch(faceId);
                         forAll(procPairs_, iPatch)
                         {
                             if (fPatchId == procPairs_[iPatch])
@@ -516,7 +517,7 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
                         {
                             cornerProcess = false;
                         }
-                        patchId = mesh_.boundaryMesh().whichPatch(iter.key());
+                        patchId = cMesh_.boundaryMesh().whichPatch(iter.key());
                         if (neigProcs_[idProcPatchPairs_[patchId]] == procId)
                         {
                             cornerProcess = false;
@@ -586,9 +587,9 @@ void Foam::fvsc::extendedFaceStencil::findNeighbours()
                 forAll(procFaceIds, iFace)
                 {
                     faceId = procFaceIds[iFace];
-                    patchId= mesh_.boundaryMesh().whichPatch(faceId);
+                    patchId= cMesh_.boundaryMesh().whichPatch(faceId);
                     patchNo= idProcPatchPairs_[patchId];
-                    faceNo = mesh_.boundaryMesh()[patchId].whichFace(faceId);
+                    faceNo = cMesh_.boundaryMesh()[patchId].whichFace(faceId);
                     
                     List<label> cellIds = faceNeigCells[faceId];
                     

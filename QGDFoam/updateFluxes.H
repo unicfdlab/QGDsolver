@@ -4,49 +4,47 @@ gradPf = fvsc::grad(p);
 
 gradUf = fvsc::grad(U);
 
-gradUfT= Foam::T(gradUf);
+//gradUfT= Foam::T(gradUf);
 
 divUf  = tr(gradUf);
 
 gradef = fvsc::grad(e);
 
-gradInvRhof = fvsc::grad(1/rho);
+gradRhof = fvsc::grad(rho);
+
 //---------End---------
 
 //Continuity equation fluxes
 //---------Start---------
 
-//rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf);
-////force rhoW to be zero at wall patches
-//forAll(mesh.boundary(), patchi)
-//{
-//    if (isA<wallFvPatch>(mesh.boundary()[patchi]))
-//    {
-//        rhoW.boundaryFieldRef()[patchi] = vector::zero;
-//    }
-//}
+//rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf); //rhoW should be zero at wall
 
 rhoW = tauQGDf *
         (
-            (gradUfT & rhofUf)
+            //(gradUfT & rhofUf)
+            (rhofUf & gradUf)
             +
-            (Uf * fvsc::div(rhoU))
+            //Uf * (Uf & gradRhof)
+            ((Uf * gradRhof) & Uf)
+            +
+            (rhofUf * divUf)
             +
             gradPf
         );
 
 jm = rhofUf - rhoW;
 
-phiJm = jm & mesh.Sf();
+phiJm = mesh.Sf() & jm;
 phi = phiJm;
 //---------End---------
 
 // Fluxes for momentum balance equation
 //---------Start---------
 
-phiJmU = (jm * Uf) & mesh.Sf();
+phiJmU = mesh.Sf() & (jm * Uf);
+//phiJmU = Foam::T(jm * Uf) & mesh.Sf();
 
-phiP = pf*mesh.Sf();
+phiP = mesh.Sf() * pf;
 
 Pif = 
     //QGD diffusive fluxes
@@ -64,7 +62,7 @@ if (!implicitDiffusion)
         (
             gradUf
             +
-            gradUfT
+            Foam::T(gradUf)
             -
             (2.0/3.0)*I*divUf
         );
@@ -75,7 +73,7 @@ else
     phiTauMC = tauMCPtr() & mesh.Sf();
 }
 
-phiPi = Pif & mesh.Sf();
+phiPi = mesh.Sf() & Pif;
 
 //---------End---------
 
@@ -88,8 +86,8 @@ qf =
     tauQGDf*rhofUf*
     (
         (Uf & gradef)
-        +
-        (pf * (Uf & gradInvRhof))
+        -
+        (pf * (Uf & gradRhof) / rhof / rhof)
     );
 if (!implicitDiffusion)
 {
@@ -97,8 +95,8 @@ if (!implicitDiffusion)
         alphauf*gradef;
 }
 
-phiQ = qf & mesh.Sf();
+phiQ = mesh.Sf() & qf;
 
-phiPiU = (Pif & Uf) & mesh.Sf();
+phiPiU = mesh.Sf() & (Pif & Uf);
 
 //---------End---------

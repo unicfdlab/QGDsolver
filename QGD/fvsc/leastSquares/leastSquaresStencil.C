@@ -1,4 +1,4 @@
-#include "extendedFaceStencil.H"
+#include "leastSquaresStencil.H"
 #include "polyMesh.H"
 #include "fvMesh.H"
 #include "word.H"
@@ -11,11 +11,11 @@ namespace Foam
 {
 namespace fvsc
 {
-    defineTypeNameAndDebug(extendedFaceStencil,0);
+    defineTypeNameAndDebug(leastSquares,0);
     addToRunTimeSelectionTable
     (
         fvscStencil,
-        extendedFaceStencil,
+        leastSquares,
         components
     );
 }
@@ -23,15 +23,14 @@ namespace fvsc
 
 
 // constructors
-Foam::fvsc::extendedFaceStencil::extendedFaceStencil(const IOobject& io)
+Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
 :
-    fvscStencil(io)
+    fvscStencil(io),
+    leastSquaresBase(mesh_)
 {
-    findNeighbours();
-    calculateWeights();
 }
 
-Foam::fvsc::extendedFaceStencil::~extendedFaceStencil()
+Foam::fvsc::leastSquares::~leastSquares()
 {
 }
 
@@ -41,13 +40,13 @@ Foam::fvsc::extendedFaceStencil::~extendedFaceStencil()
 //                 Allowable values: constant reference to the volVectorField.
 //
 // \return         Gradient of iVF (tensor field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::extendedFaceStencil::Grad(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::leastSquares::Grad(const volVectorField& iVF)
 {
     surfaceVectorField gradComp0col = Grad(iVF.component(0));
     surfaceVectorField gradComp1col = Grad(iVF.component(1));
     surfaceVectorField gradComp2col = Grad(iVF.component(2));
 
-    tmp<surfaceTensorField> tgradIVF(0*fvc::snGrad(iVF) * nf_);
+    tmp<surfaceTensorField> tgradIVF(0* nf_* fvc::snGrad(iVF));
     surfaceTensorField& gradIVF = tgradIVF.ref();
     
     //set internal field
@@ -100,7 +99,7 @@ Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::extendedFaceStencil::Grad(const 
 //                   Allowable values: constant reference to the volVectorField.
 //
 // \return           Divergence of iVF (scalar field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::extendedFaceStencil::Div(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::leastSquares::Div(const volVectorField& iVF)
 {
     surfaceVectorField gradComp0 = Grad(iVF.component(0));
     surfaceVectorField gradComp1 = Grad(iVF.component(1));
@@ -132,7 +131,7 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::extendedFaceStencil::Div(const v
 //                   Allowable values: constant reference to the volTensorField.
 //
 // \return           Divergence of iTF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::extendedFaceStencil::Div(const volTensorField& iTF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Div(const volTensorField& iTF)
 {
     tmp<surfaceVectorField> gradComp0 (Grad(iTF.component(0)));
     tmp<surfaceVectorField> gradComp1 (Grad(iTF.component(1)));

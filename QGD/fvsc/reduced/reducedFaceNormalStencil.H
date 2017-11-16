@@ -11,25 +11,25 @@ namespace fvsc
 {
 
 /*---------------------------------------------------------------------------*\
-                    Class extendedFaceStencil Declaration
+                    Class reduced Declaration
 \*---------------------------------------------------------------------------*/
 
-class reducedFaceNormalStencil
+class reduced
 :
     public fvscStencil
 {
 
 public:
 
-        TypeName ("reducedFaceNormalStencil");
+        TypeName ("reduced");
 
     // Constructors
 
         //- Construct from IOobject. 
-        reducedFaceNormalStencil(const IOobject&);
+        reduced(const IOobject&);
 
         //- Destructor
-        ~reducedFaceNormalStencil();
+        ~reduced();
         
         //-
         tmp<surfaceVectorField> Grad(const volScalarField& iF);

@@ -20,11 +20,11 @@ surfaceTensorField gradUf
     fvsc::grad(U)
 );
 
-surfaceTensorField gradUfT
-(
-    "gradUfT",
-    Foam::T(gradUf)
-);
+//surfaceTensorField gradUfT
+//(
+//    "gradUfT",
+//    Foam::T(gradUf)
+//);
 
 surfaceScalarField divUf
 (
@@ -55,7 +55,7 @@ surfaceVectorField rhofUf
     rhof*Uf
 );
 
-phi = rhofUf & mesh.Sf();
+phi = mesh.Sf() & rhofUf;
 
 surfaceVectorField rhoW
 (
@@ -75,7 +75,7 @@ surfaceVectorField jm
 surfaceScalarField phiJm
 (
     "phiJm",
-    (Uf*rhof - rhoW) & mesh.Sf()
+    mesh.Sf() & (Uf*rhof - rhoW)
 );
 
 //---------End---------
@@ -85,13 +85,13 @@ surfaceScalarField phiJm
 surfaceVectorField phiJmU
 (
     "phiJmU",
-    (jm * Uf) & mesh.Sf()
+    mesh.Sf() & (jm * Uf)
 );
 
 surfaceVectorField phiP
 (
     "phiP",
-    pf*mesh.Sf()
+    mesh.Sf() * pf
 );
 
 surfaceTensorField Pif
@@ -109,7 +109,7 @@ surfaceTensorField Pif
 surfaceVectorField phiPi
 (
     "phiPi",
-    Pif & mesh.Sf()
+    mesh.Sf() & Pif
 );
 
 autoPtr<surfaceTensorField> tauMCPtr;
@@ -130,7 +130,7 @@ tauMCPtr.reset
 surfaceVectorField phiTauMC
 (
     "phiTauMC",
-    tauMCPtr() & mesh.Sf()
+    mesh.Sf() & tauMCPtr()
 );
 
 //---------End---------
@@ -158,13 +158,13 @@ surfaceVectorField qf
 surfaceScalarField phiQ
 (
     "phiQ",
-    qf & mesh.Sf()
+    mesh.Sf() & qf
 );
 
 surfaceScalarField phiPiU
 (
     "phiPiU",
-    (Pif & Uf) & mesh.Sf()
+    mesh.Sf() & (Pif & Uf)
 );
 
 autoPtr<surfaceVectorField> sigmaDotUPtr;
@@ -180,7 +180,7 @@ sigmaDotUPtr.reset
 surfaceScalarField phiSigmaDotU
 (
     "phiSigmaDotU",
-    sigmaDotUPtr() & mesh.Sf()
+    mesh.Sf() & sigmaDotUPtr()
 );
 
 //---------End---------
