@@ -80,6 +80,18 @@ int main(int argc, char *argv[])
     scalar meanCoNum = 0.0;
 
     Info<< "\nStarting time loop\n" << endl;
+    
+    
+    vector jj(1, 2, 3);
+    vector uu(1, 2, 3);
+    
+    tensor T1 = jj * uu;
+    
+    //tensor T1 (1, 1, 1, 2, 2, 2, 3, 3, 3);
+    
+    vector b1 (1, 1, 1);
+    Info << "T1 = " << T1 << endl;
+    Info << "T1 & b1 = " << (T1.T() & b1) << endl;
 
     while (runTime.run())
     {
@@ -103,7 +115,8 @@ int main(int argc, char *argv[])
          *
          */
         #include "readTimeControls.H"
-        #include "mQGDCourantNo.H"
+        //#include "mQGDCourantNo.H"
+        #include "QGDCourantNo.H"
         
         #include "setDeltaT.H"
         
