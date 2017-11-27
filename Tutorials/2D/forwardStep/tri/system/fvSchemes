@@ -52,12 +52,7 @@ fluxRequired
 
 fvsc
 {
-    grad(p)          extendedFaceStencil;
-    grad(U)          extendedFaceStencil;
-    grad(e)          extendedFaceStencil;
-    div(U)           extendedFaceStencil;
-    grad((1|rho))    extendedFaceStencil;
-    div(rhoU)        extendedFaceStencil;
+    default          leastSquares;
 }
 
 // ************************************************************************* //

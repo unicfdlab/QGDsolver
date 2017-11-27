@@ -3,19 +3,38 @@
 #include "volFields.H"
 #include "surfaceFields.H"
 
+namespace Foam
+{
+namespace fvsc
+{
+    word fvscOpName(const Foam::fvMesh& mesh, Foam::word termName);
+}
+}
+
+Foam::word
+Foam::fvsc::fvscOpName(const Foam::fvMesh& mesh, Foam::word termName)
+{
+    word opname = "none";
+    if (mesh.schemesDict().subDict("fvsc").found(termName))
+    {
+        mesh.schemesDict().subDict("fvsc").lookup(termName) >> opname;
+    }
+    else
+    {
+        mesh.schemesDict().subDict("fvsc").lookup("default") >> opname;
+    }
+    
+    return opname;
+}
+
 Foam::tmp<Foam::surfaceVectorField>
 Foam::fvsc::grad(const volScalarField& vf)
 {
-    word opname = "none";
-    
-    vf.mesh().schemesDict().subDict
-    (
-        "fvsc"
-    ).lookup("grad(" + vf.name() + ")") >> opname;
+    word tname = "grad(" + vf.name() + ")";
     
     fvscStencil& Stencil = fvscStencil::lookupOrNew
     (
-        opname,
+        fvscOpName(vf.mesh(),tname),
         vf.mesh()
     );
     
@@ -33,16 +52,11 @@ Foam::fvsc::grad(const tmp<volScalarField>& tvf)
 Foam::tmp<Foam::surfaceTensorField>
 Foam::fvsc::grad(const volVectorField& vf)
 {
-    word opname = "none";
-    
-    vf.mesh().schemesDict().subDict
-    (
-        "fvsc"
-    ).lookup("grad(" + vf.name() + ")") >> opname;
+    word tname = "grad(" + vf.name() + ")";
     
     fvscStencil& Stencil = fvscStencil::lookupOrNew
     (
-        opname,
+        fvscOpName(vf.mesh(),tname),
         vf.mesh()
     );
     
@@ -58,16 +72,11 @@ Foam::fvsc::grad(const tmp<volVectorField>& tvf)
 Foam::tmp<Foam::surfaceScalarField>
 Foam::fvsc::div(const volVectorField& vf)
 {
-    word opname = "none";
-    
-    vf.mesh().schemesDict().subDict
-    (
-        "fvsc"
-    ).lookup("div(" + vf.name() + ")") >> opname;
+    word tname = "div(" + vf.name() + ")";
     
     fvscStencil& Stencil = fvscStencil::lookupOrNew
     (
-        opname,
+        fvscOpName(vf.mesh(),tname),
         vf.mesh()
     );
     
@@ -83,16 +92,11 @@ Foam::fvsc::div(const tmp<volVectorField>& tvf)
 Foam::tmp<Foam::surfaceVectorField>
 Foam::fvsc::div(const volTensorField& vf)
 {
-    word opname = "none";
-    
-    vf.mesh().schemesDict().subDict
-    (
-        "fvsc"
-    ).lookup("div(" + vf.name() + ")") >> opname;
+    word tname = "div(" + vf.name() + ")";
     
     fvscStencil& Stencil = fvscStencil::lookupOrNew
     (
-        opname,
+        fvscOpName(vf.mesh(),tname),
         vf.mesh()
     );
     

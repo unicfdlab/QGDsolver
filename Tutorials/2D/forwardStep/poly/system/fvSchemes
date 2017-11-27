@@ -52,10 +52,7 @@ fluxRequired
 
 fvsc
 {
-    grad(p)          leastSquares;
-    grad(U)          leastSquares;
-    grad(e)          leastSquares;
-    grad(rho)        leastSquares;
+    default          leastSquares;
 }
 
 // ************************************************************************* //

@@ -90,6 +90,9 @@ protected:
         Switch implicitDiffusion_;
         
         //-
+        Switch zeroWallQGDFlux_;
+        
+        //-
         void correctQGD();
         
         //-

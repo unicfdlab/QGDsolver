@@ -32,6 +32,7 @@ License
 #include "wedgeFvPatch.H"
 #include "symmetryPlaneFvPatch.H"
 #include "symmetryFvPatch.H"
+#include "wallFvPatch.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -123,7 +124,8 @@ Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName)
     ),
     PrQGD_(1.0),
     ScQGD_(0.0),
-    implicitDiffusion_(false)
+    implicitDiffusion_(false),
+    zeroWallQGDFlux_(false)
 {
     this->read();
 }
@@ -219,7 +221,7 @@ void Foam::psiQGDThermo::correctQGD()
     {
         muQGD_.primitiveFieldRef()[celli] = 
             p_.primitiveField()[celli] * 
-            ScQGD_*
+            ScQGD_ *
             aQGD_.primitiveField()[celli] *
             hQGD_.primitiveField()[celli] /
             c_.primitiveField()[celli];
@@ -245,7 +247,7 @@ void Foam::psiQGDThermo::correctQGD()
             alphauQGD_.boundaryFieldRef()[patchi][facei] = 
                 muQGD_.boundaryField()[patchi][facei] / PrQGD_;
         }
-
+        
         mu_.boundaryFieldRef()[patchi] +=
             muQGD_.boundaryField()[patchi];
         alpha_.boundaryFieldRef()[patchi] +=
@@ -254,6 +256,25 @@ void Foam::psiQGDThermo::correctQGD()
     
 //    this->tauQGD_ = this->muQGD_ / (this->p_ * this->ScQGD_);
     this->tauQGD_ = this->mu_ / (this->p_ * this->ScQGD_);
+    
+    //remove QGD viscosity at walls
+//    Info << "zeroWallQGDFlux_ = " << zeroWallQGDFlux_ << endl;
+//    if (zeroWallQGDFlux_)
+//    {
+//        Info << "removing qgd viscosity" << endl;
+//        const fvMesh& mesh = p_.mesh();
+//        forAll(mesh.boundary(), iPatch)
+//        {
+//            if (isA<wallFvPatch>(mesh.boundary()[iPatch]))
+//            {
+//                Info << "removing qgd viscosity" << endl;
+//                mu_.boundaryFieldRef()[iPatch] -=
+//                    muQGD_.boundaryField()[iPatch];
+//                alpha_.boundaryFieldRef()[iPatch] -=
+//                    alphauQGD_.boundaryField()[iPatch];
+//            }
+//        }
+//    }
 }
 
 bool Foam::psiQGDThermo::read()
@@ -266,6 +287,10 @@ bool Foam::psiQGDThermo::read()
     this->subDict("QGD").lookup("ScQGD") >> ScQGD_;
     this->subDict("QGD").lookup("PrQGD") >> PrQGD_;
     this->subDict("QGD").lookup("implicitDiffusion") >> implicitDiffusion_;
+    if (this->subDict("QGD").found("zeroWallQGDFlux"))
+    {
+        this->subDict("QGD").lookup("zeroWallQGDFlux") >> zeroWallQGDFlux_;
+    }
     
     return true;
 }

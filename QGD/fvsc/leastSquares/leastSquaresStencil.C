@@ -6,6 +6,7 @@
 #include "Ostream.H"
 #include <HashTable.H>
 #include "addToRunTimeSelectionTable.H"
+#include "faceSet.H"
 
 namespace Foam
 {
@@ -28,6 +29,75 @@ Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
     fvscStencil(io),
     leastSquaresBase(mesh_)
 {
+    faceSet degenerateFacesSet
+    (
+        //faceSetHeader
+        mesh_,
+        "degenerateStencilFaces",
+        IOobject::READ_IF_PRESENT,
+        IOobject::NO_WRITE
+    );
+    
+    if (degenerateFacesSet.size() > 0) //.headerOk())
+    {
+        Info << "Found set with faces for reduced approximation QGD terms" << endl;
+        
+        //read list of degenerated faces
+
+    
+        const labelList degenerateFaces = degenerateFacesSet.toc();
+        HashSet<label> intDegFaces;
+        List<HashSet<label> > procDegFaces (procDegFaces_.size());
+    
+        forAll(degenerateFaces, iDegFace)
+        {
+            label faceId = degenerateFaces[iDegFace];
+    
+            if (mesh_.isInternalFace(faceId))
+            {
+                intDegFaces.insert(faceId);
+            }
+            else
+            {
+                label patchId = mesh_.boundaryMesh().whichPatch(faceId);
+                label iPatch = -1;
+                forAll(procPairs_, iPP)
+                {
+                    if (procPairs_[iPP] == patchId)
+                    {
+                        iPatch = iPP;
+                        break;
+                    }
+                }
+                
+                if (iPatch > -1)
+                {
+                    procDegFaces[iPatch].insert
+                    (
+                        faceId
+                        -
+                        mesh_.boundaryMesh()[patchId].start()
+                    );
+                }
+            }
+        }
+        
+        internalDegFaces_.append(intDegFaces.toc());
+        forAll(procDegFaces, iProcPair)
+        {
+            if (procDegFaces[iProcPair].toc().size() > 0)
+            {
+                procDegFaces_[iProcPair].append
+                (
+                    procDegFaces[iProcPair].toc()
+                );
+            }
+        }
+    }
+    else
+    {
+        Info << "Set \"degenerateStencilFaces\" with faces for reduced approximation QGD terms not found" << endl;
+    }
 }
 
 Foam::fvsc::leastSquares::~leastSquares()

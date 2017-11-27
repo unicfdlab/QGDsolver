@@ -221,15 +221,19 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
                 }
                 pgradf[iFace] = gf;
             }
-        
+            
             //Update processor degenerate faces
             const labelList& degProcFaces = procDegFaces_[patchI];
             label degId = -1;
             forAll(degProcFaces, iFace)
             {
                 degId = degProcFaces[iFace];
-                pgradf[degId] = sngF.boundaryField()[procPatchId][degId] * 
-                    nf_.boundaryField()[procPatchId][degId];
+                
+                pgradf[degId] = nf_.boundaryField()[procPatchId][degId]*
+                sngF.boundaryField()[procPatchId][degId];
+                
+                //pgradf[degId] = sngF.boundaryField()[procPatchId][degId] * 
+                //    nf_.boundaryField()[procPatchId][degId];
             }
         }
     }

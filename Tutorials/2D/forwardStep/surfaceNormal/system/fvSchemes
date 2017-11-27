@@ -52,12 +52,7 @@ fluxRequired
 
 fvsc
 {
-    grad(p)          reducedFaceNormalStencil;
-    grad(U)          reducedFaceNormalStencil;
-    grad(e)          reducedFaceNormalStencil;
-    div(U)           reducedFaceNormalStencil;
-    grad((1|rho))    reducedFaceNormalStencil;
-    div(rhoU)        reducedFaceNormalStencil;
+    default    reduced;
 }
 
 // ************************************************************************* //
