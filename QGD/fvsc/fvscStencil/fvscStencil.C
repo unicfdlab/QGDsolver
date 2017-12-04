@@ -126,7 +126,7 @@ fvscStencil::~fvscStencil()
 {
 }
 
-}; //namespace fv
+}; //namespace fvsc
 
 }; //namespace Foam
 

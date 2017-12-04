@@ -37,6 +37,7 @@ SourceFiles
 
 #include "psiThermo.H"
 #include "runTimeSelectionTables.H"
+#include "QGDCoeffs.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -60,43 +61,19 @@ protected:
         psiQGDThermo(const psiQGDThermo&);
         
         //-
-        volScalarField muQGD_;
-        
-        //-
-        volScalarField alphauQGD_;
-        
-        //-
-        volScalarField hQGD_;
-        
-        //-
-        volScalarField aQGD_;
-        
-        //-
-        volScalarField gamma_;
+        autoPtr<Foam::qgd::QGDCoeffs> qgdCoeffsPtr_;
         
         //-
         volScalarField c_;
         
         //-
-        volScalarField tauQGD_;
-        
-        //-
-        scalar PrQGD_;
-        
-        //-
-        scalar ScQGD_;
+        volScalarField gamma_;
         
         //-
         Switch implicitDiffusion_;
         
         //-
-        //Switch zeroWallQGDFlux_;
-        
-        //-
         void correctQGD();
-        
-        //-
-        static tmp<volScalarField> qgdLength(const fvMesh& mesh);
 
 public:
 
@@ -147,9 +124,6 @@ public:
     
     //-
     const volScalarField& hQGD() const;
-    
-    //-
-    dimensionedScalar ScQGD() const;
     
     //-
     const volScalarField& tauQGD() const;
