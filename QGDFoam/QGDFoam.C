@@ -25,7 +25,7 @@ Application
     QGDFoam
 
 Description
-    Solver for unsteady 3D turbulent flow of perfect gas governed by
+    Solver for unsteady 2D (3D is under development) turbulent flow of perfect gas governed by
     quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
     infinity).
     
