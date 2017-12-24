@@ -57,7 +57,7 @@ QGD
     QGDCoeffs constScPrModel1QGDCoeffs;
     constScPrModel1QGDCoeffsDict
     {
-        ScQGD 0.3;
+        ScQGD 1;
         PrQGD 1;
     }
 }

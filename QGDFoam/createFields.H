@@ -14,6 +14,7 @@ const volScalarField& T = thermo.T();
 const volScalarField& hQGD = thermo.hQGD();
 const volScalarField& tauQGD = thermo.tauQGD();
 const volScalarField& gamma = thermo.gamma();
+const volScalarField& c = thermo.c();
 const volScalarField& psi = thermo.psi();
 
 Info << "Thermo corrected" << endl;

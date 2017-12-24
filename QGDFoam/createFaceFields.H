@@ -38,6 +38,12 @@
         gammaf - 1
     );
     
+    // Speed of sound
+    surfaceScalarField cf
+    (
+        "cf",linearInterpolate(c)
+    );
+
     // Heat capacity at constant pressure
     surfaceScalarField Cpf
     (
@@ -64,26 +70,29 @@
         muf*0.0
     );
     
+    
     /*
      *
      * QGD coefficients
      *
      */
+    // OpenFOAM delta coeffs can be negative for coupled patches
+    surfaceScalarField hQGDf
+    (
+        "hQGD",
+        1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
+    );
+    forAll(mesh.boundaryMesh(), iPatch)
+    {
+        if (!isA<coupledFvPatch>(mesh.boundaryMesh()[iPatch]))
+        {
+            hQGDf.boundaryFieldRef()[iPatch] *= 2.0;
+        }
+    }
+    
     surfaceScalarField tauQGDf
     (
         "tauQGD",
         linearInterpolate(tauQGD)
-    );
-    
-    surfaceScalarField hQGDf
-    (
-        "hQGDf",
-        linearInterpolate(thermo.hQGD())
-    );
-    
-    surfaceScalarField cf
-    (
-        "cf",
-        linearInterpolate(thermo.c())
     );
     

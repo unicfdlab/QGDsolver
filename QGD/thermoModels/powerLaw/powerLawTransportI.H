@@ -106,7 +106,7 @@ inline Foam::scalar Foam::powerLawTransport<Thermo>::mu
     const scalar T
 ) const
 {
-    return mu0_ * pow(T / T0_, k_);
+    return mu0_ * Foam::pow(T / T0_, k_);
 }
 
 

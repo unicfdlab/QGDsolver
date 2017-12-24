@@ -43,12 +43,6 @@ surfaceVectorField gradRhof
 //Continuity equation fluxes
 //---------Start---------
 
-surfaceVectorField rhoUf
-(
-    "rhoUf",
-    linearInterpolate(rho*U)
-);
-
 surfaceVectorField rhofUf
 (
     "rhofUf",
@@ -57,16 +51,13 @@ surfaceVectorField rhofUf
 
 phi = rhofUf & mesh.Sf();
 
-surfaceVectorField rhoWStar
-(
-    "rhoWStar",
-    tauQGDf * ((rhofUf & gradUf) + gradPf)
-);
-
 surfaceVectorField rhoW
 (
     "rhoW",
-    rhoWStar * 1.0
+    tauQGDf * 
+    (
+        gradPf
+    )
 );
 
 surfaceVectorField jm
@@ -78,7 +69,7 @@ surfaceVectorField jm
 surfaceScalarField phiJm
 (
     "phiJm",
-    mesh.Sf() & jm
+    (Uf*rhof - rhoW) & mesh.Sf()
 );
 
 //---------End---------
@@ -88,7 +79,7 @@ surfaceScalarField phiJm
 surfaceVectorField phiJmU
 (
     "phiJmU",
-    mesh.Sf() & (jm * Uf)
+    (jm * Uf) & mesh.Sf()
 );
 
 surfaceVectorField phiP
@@ -101,15 +92,18 @@ surfaceTensorField Pif
 (
     "Pif",
     //QGD diffusive fluxes
-    Uf * rhoWStar
-    +
-    tauQGDf * I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
+    tauQGDf * 
+    (
+        Uf * (rhof * (Uf & gradUf) + gradPf)
+        +
+        I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
+    )
 );
 
 surfaceVectorField phiPi
 (
     "phiPi",
-    mesh.Sf() & Pif
+    Pif & mesh.Sf()
 );
 
 autoPtr<surfaceTensorField> tauMCPtr;

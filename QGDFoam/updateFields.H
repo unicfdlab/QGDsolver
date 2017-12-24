@@ -7,30 +7,27 @@
 // Density
 rhof = linearInterpolate(rho);
 
+// Momentum
+rhofUf = linearInterpolate(rhoU);
+
 // Velocity
 Uf = linearInterpolate(U);
-
-// Momentum
-//rhofUf = rhof*Uf; //linearInterpolate(rhoU);
-rhoUf = linearInterpolate(rhoU);
-rhofUf = rhof*Uf;
-//rhofUf = linearInterpolate(rhoU);
-
+    
 // Pressure
 pf = linearInterpolate(p);
-
-//Speed of sound
-cf = linearInterpolate(thermo.c());
 
 // Heat capacities ratio
 gammaf = linearInterpolate(gamma);
 gammam1f = gammaf - 1;
 
+// Speed of sound
+cf = linearInterpolate(c);
+
 // Heat capacity at constant pressure
 Cpf = linearInterpolate(thermo.Cp());
     
 // Total specific enthalpy
-Hf = (linearInterpolate(rhoE) + pf)/rhof;
+Hf = linearInterpolate(rhoE + p)/rhof;
 
 /*
  *

@@ -4,8 +4,6 @@ cd QGD; wmake libso; cd ../
 
 cd QGDFoam; ./Allwmake; cd ../
 
-cd sQGDFoam; ./Allwmake; cd ../
-
 #
 #END-OF-FILE
 #

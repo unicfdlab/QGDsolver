@@ -25,7 +25,7 @@ Application
     QGDFoam
 
 Description
-    Solver for unsteady 3D turbulent flow of perfect gas governed by
+    Solver for unsteady 2D (3D is under development) turbulent flow of perfect gas governed by
     quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
     infinity).
     
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
             
             sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
             
-            phiSigmaDotU = mesh.Sf() & sigmaDotUPtr(); //or eqn.flux()?
+            phiSigmaDotU = sigmaDotUPtr() & mesh.Sf(); //or eqn.flux()?
         }
         rhoU.boundaryFieldRef() == rho.boundaryField()*
             U.boundaryField();
@@ -194,13 +194,6 @@ int main(int argc, char *argv[])
         }
         rhoE.boundaryFieldRef() == rho.boundaryField()*
             (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
-        
-        if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
-        {
-            U.write();
-            e.write();
-            rho.write();
-        }
         
         thermo.correct();
         

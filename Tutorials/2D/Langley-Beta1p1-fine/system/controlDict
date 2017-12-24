@@ -29,7 +29,7 @@ deltaT          1e-6;
 
 writeControl    adjustableRunTime;
 
-writeInterval   2e-4; 
+writeInterval   2e-4;
 
 purgeWrite      0;
 
@@ -53,9 +53,7 @@ maxDeltaT 1e-4;
 
 functions
 {
-    #include "fieldAverage1"
+//    #include "fieldAverage1"
 }
-
-libs ("libcompressibleTools.so");
 
 // ************************************************************************* //
