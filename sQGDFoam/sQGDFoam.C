@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    QGDFoam
+    sQGDFoam
 
 Description
     Solver for unsteady 3D turbulent flow of perfect gas governed by
@@ -56,6 +56,7 @@ Description
 
 #include "fvCFD.H"
 #include "QGD.H"
+#include "fvOptions.H"
 #include "turbulentFluidThermoModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -72,6 +73,7 @@ int main(int argc, char *argv[])
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
+    #include "createFvOptions.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -83,6 +85,14 @@ int main(int argc, char *argv[])
 
     while (runTime.run())
     {
+        /*
+         *
+         * Update QGD viscosity
+         *
+         */
+        turbulence->correct();
+        
+        
         /*
          *
          * Update fields
@@ -179,6 +189,7 @@ int main(int argc, char *argv[])
         
         // Correct energy
         e = rhoE/rho - 0.5*magSqr(U);
+        fvOptions.correct(e);
         e.correctBoundaryConditions();
         
         // Solve diffusive QGD & NS part
@@ -212,6 +223,11 @@ int main(int argc, char *argv[])
         rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
         
         runTime.write();
+        
+        if (runTime.outputTime())
+        {
+            e.write();
+        }
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"

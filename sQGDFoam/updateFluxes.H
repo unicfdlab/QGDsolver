@@ -4,9 +4,6 @@ gradPf = fvsc::grad(p);
 
 gradUf = fvsc::grad(U);
 
-//gradRhoUf = fvsc::grad(rhoU);
-//gradUfT= Foam::T(gradUf);
-
 divUf  = tr(gradUf);
 
 gradef = fvsc::grad(e);
@@ -18,7 +15,7 @@ gradRhof = fvsc::grad(rho);
 //Continuity equation fluxes
 //---------Start---------
 
-//rhoW = tauQGDf * (fvsc::div(rhoU*U) + gradPf); //rhoW should be zero at wall
+//rhoW = tauQGDf * (fvsc::div(rhoU*U + I*p)); //rhoW should be zero at wall
 //rhoW = tauQGDf * 
 //        (
 //            (rhofUf * divUf)
@@ -28,16 +25,24 @@ gradRhof = fvsc::grad(rho);
 //            gradPf
 //        );
 
-rhoWStar = tauQGDf * ((rhofUf & gradUf) + gradPf);
+//rhoW = tauQGDf *
+//        (
+//            ((Uf * gradRhof) & Uf)
+//            +
+//            (rhoUf * divUf)
+//            +
+//            ((rhoUf & gradUf) + gradPf)
+//        );
 
 rhoW = tauQGDf *
         (
             ((Uf * gradRhof) & Uf)
             +
             (rhoUf * divUf)
-        )
-        +
-        rhoWStar;
+            +
+            //((rhofUf & gradUf) + gradPf)
+            ((rhoUf & gradUf) + gradPf)
+        );
 
 jm = rhoUf - rhoW;
 
@@ -55,7 +60,12 @@ phiP = mesh.Sf() * pf;
 
 Pif = 
     //QGD diffusive fluxes
-    Uf * rhoWStar
+    tauQGDf*
+    (
+        (UrhoUf & gradUf)
+        +
+        Uf*gradPf
+    )
     +
     tauQGDf *
     (
@@ -91,13 +101,22 @@ phiPi = mesh.Sf() & Pif;
 phiJmH = phiJm * Hf;
 
 qf =
-    -
-    tauQGDf*rhofUf*
+    -tauQGDf*
     (
-        (Uf & gradef)
-        -
-        (pf * (Uf & gradRhof) / rhof / rhof)
+        UrhoUf & 
+        (
+            gradef
+            - (pf / rhof / rhof) * gradRhof
+            //+ pf * fvsc::grad(1.0 / rho)
+        )
     );
+//    -
+//    tauQGDf*rhoUf*
+//    (
+//        (Uf & gradef)
+//        -
+//        (pf * (Uf & gradRhof) / rhof / rhof)
+//    );
     
 if (!implicitDiffusion)
 {

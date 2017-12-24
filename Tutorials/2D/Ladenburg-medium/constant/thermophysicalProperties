@@ -48,9 +48,13 @@ mixture
 
 QGD
 {
-    ScQGD 1; //0.1 - for correction after reaching steady-state solution
-    PrQGD 1;
     implicitDiffusion true;
+    QGDCoeffs constScPrModel1QGDCoeffs;
+    constScPrModel1QGDCoeffsDict
+    {
+        ScQGD 1; //0.1 - for correction after reaching steady-state solution
+        PrQGD 1;
+    }
 }
 
 // ************************************************************************* //

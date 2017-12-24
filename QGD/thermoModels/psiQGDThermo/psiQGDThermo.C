@@ -48,84 +48,27 @@ namespace Foam
 Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName)
 :
     psiThermo(mesh, phaseName),
-    muQGD_
+    qgdCoeffsPtr_
     (
-        IOobject
+        Foam::qgd::QGDCoeffs::New
         (
-            phasePropertyName("thermo:muQGD"),
-            mesh.time().timeName(),
+            this->subDict("QGD").lookup("QGDCoeffs"),
             mesh,
-            IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-        mesh,
-        dimensionSet(1, -1, -1, 0, 0)
-    ),
-    alphauQGD_
-    (
-        IOobject
-        (
-            phasePropertyName("thermo:alphauQGD"),
-            mesh.time().timeName(),
-            mesh,
-            IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-        mesh,
-        dimensionSet(1, -1, -1, 0, 0)
-    ),
-    hQGD_
-    (
-        IOobject
-        (
-            phasePropertyName("thermo:hQGD"),
-            mesh.time().timeName(),
-            mesh,
-            IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-        qgdLength(mesh)()
-    ),
-    aQGD_
-    (
-        IOobject
-        (
-            "alphaQGD",
-            mesh.time().timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
-    ),
-    gamma_
-    (
-        "thermo:gamma",
-        aQGD_*1.0
-        //this->Cp() / this->Cv()
+            this->subDict("QGD")
+        )
     ),
     c_
     (
         "thermo:c",
-        hQGD_/mesh.time().deltaT()
+        qgdCoeffsPtr_->hQGD()/mesh.time().deltaT()
     ),
-    tauQGD_
+    gamma_
     (
-        IOobject
-        (
-            phasePropertyName("thermo:tauQGD"),
-            mesh.time().timeName(),
-            mesh,
-            IOobject::NO_READ,
-            IOobject::NO_WRITE
-        ),
-        mesh,
-        dimensionSet(0, 0, 1, 0, 0)
+        "thermo:gamma",
+        c_ / c_
+        //this->Cp() / this->Cv()
     ),
-    PrQGD_(1.0),
-    ScQGD_(0.0),
-    implicitDiffusion_(false),
-    zeroWallQGDFlux_(false)
+    implicitDiffusion_(false)
 {
     this->read();
 }
@@ -151,130 +94,36 @@ Foam::psiQGDThermo::~psiQGDThermo()
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-Foam::tmp<Foam::volScalarField> Foam::psiQGDThermo::qgdLength(const fvMesh& mesh)
-{
-    tmp<volScalarField> tqgdLen
-    (
-        new volScalarField
-        (
-            IOobject
-            (
-                "thermo:hQGD",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::NO_READ,
-                IOobject::NO_WRITE
-            ),
-            mesh,
-            dimensionSet(0, 1, 0, 0, 0)
-        )
-    );
-    
-    volScalarField& qgdLen = tqgdLen.ref();
-    
-    surfaceScalarField hf
-    (
-       1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
-    );
-    
-    scalar cdist = 0.0;
-    forAll(qgdLen, celli)
-    {
-        const cell& c = mesh.cells()[celli];
-        scalar maxlen = 0.0;
-        forAll(c, facei)
-        {
-            if (mesh.isInternalFace(c[facei]))
-            {
-                cdist = hf[c[facei]];
-                if (cdist > maxlen)
-                {
-                    maxlen = hf[c[facei]];
-                }
-            }
-        }
-        qgdLen.primitiveFieldRef()[celli] = maxlen;
-    }
-    
-    forAll(mesh.boundary(), patchi)
-    {
-        const fvPatch& fvp = mesh.boundary()[patchi];
-        if (fvp.coupled())
-        {
-            qgdLen.boundaryFieldRef()[patchi] = hf.boundaryField()[patchi];
-        }
-        else
-        {
-            qgdLen.boundaryFieldRef()[patchi] = 2.0*hf.boundaryField()[patchi];
-        }
-    }
-    
-    return tqgdLen;
-}
-
 void Foam::psiQGDThermo::correctQGD()
 {
     this->gamma_ == (this->Cp() / this->Cv());
     c_ = sqrt(gamma_ / this->psi());
-
-    forAll(p_.primitiveField(), celli)
+    
+    qgdCoeffsPtr_->correct(*this);
+    
+    const volScalarField& muQGD = this->muQGD();
+    const volScalarField& alphauQGD = this->alphauQGD();
+    
+    forAll(mu_.primitiveField(), celli)
     {
-        muQGD_.primitiveFieldRef()[celli] = 
-            p_.primitiveField()[celli] * 
-            ScQGD_ *
-            aQGD_.primitiveField()[celli] *
-            hQGD_.primitiveField()[celli] /
-            c_.primitiveField()[celli];
-        
-        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] / PrQGD_;
-        
         mu_.primitiveFieldRef()[celli] +=
-            muQGD_.primitiveField()[celli];
+            muQGD.primitiveField()[celli];
+        
         alpha_.primitiveFieldRef()[celli] +=
-            alphauQGD_.primitiveField()[celli];
+            alphauQGD.primitiveField()[celli];
     }
     
-    forAll(p_.boundaryField(), patchi)
+    forAll(mu_.boundaryField(), patchi)
     {
         forAll(p_.boundaryField()[patchi], facei)
         {
-            muQGD_.boundaryFieldRef()[patchi][facei] = 
-                p_.boundaryField()[patchi][facei] * ScQGD_ *
-                aQGD_.boundaryField()[patchi][facei] *
-                hQGD_.boundaryField()[patchi][facei] /
-                c_.boundaryField()[patchi][facei];
-
-            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
-                muQGD_.boundaryField()[patchi][facei] / PrQGD_;
+            mu_.boundaryFieldRef()[patchi][facei] +=
+                muQGD.boundaryField()[patchi][facei];
+            
+            alpha_.boundaryFieldRef()[patchi][facei] +=
+                alphauQGD.boundaryField()[patchi][facei];
         }
-        
-        mu_.boundaryFieldRef()[patchi] +=
-            muQGD_.boundaryField()[patchi];
-        alpha_.boundaryFieldRef()[patchi] +=
-            alphauQGD_.boundaryField()[patchi];
     }
-    
-//    this->tauQGD_ = this->muQGD_ / (this->p_ * this->ScQGD_);
-    this->tauQGD_ = this->mu_ / (this->p_ * this->ScQGD_);
-    
-    //remove QGD viscosity at walls
-//    Info << "zeroWallQGDFlux_ = " << zeroWallQGDFlux_ << endl;
-//    if (zeroWallQGDFlux_)
-//    {
-//        Info << "removing qgd viscosity" << endl;
-//        const fvMesh& mesh = p_.mesh();
-//        forAll(mesh.boundary(), iPatch)
-//        {
-//            if (isA<wallFvPatch>(mesh.boundary()[iPatch]))
-//            {
-//                Info << "removing qgd viscosity" << endl;
-//                mu_.boundaryFieldRef()[iPatch] -=
-//                    muQGD_.boundaryField()[iPatch];
-//                alpha_.boundaryFieldRef()[iPatch] -=
-//                    alphauQGD_.boundaryField()[iPatch];
-//            }
-//        }
-//    }
 }
 
 bool Foam::psiQGDThermo::read()
@@ -284,45 +133,36 @@ bool Foam::psiQGDThermo::read()
         return false;
     }
     
-    this->subDict("QGD").lookup("ScQGD") >> ScQGD_;
-    this->subDict("QGD").lookup("PrQGD") >> PrQGD_;
+    //this->subDict("QGD").lookup("ScQGD") >> ScQGD_;
+    //this->subDict("QGD").lookup("PrQGD") >> PrQGD_;
     this->subDict("QGD").lookup("implicitDiffusion") >> implicitDiffusion_;
-    if (this->subDict("QGD").found("zeroWallQGDFlux"))
-    {
-        this->subDict("QGD").lookup("zeroWallQGDFlux") >> zeroWallQGDFlux_;
-    }
     
     return true;
 }
 
 const Foam::volScalarField& Foam::psiQGDThermo::c() const
 {
-    return c_;
+    return this->c_;
 }
 
 const Foam::volScalarField& Foam::psiQGDThermo::hQGD() const
 {
-    return hQGD_;
+    return qgdCoeffsPtr_->hQGD();
 }
 
 const Foam::volScalarField& Foam::psiQGDThermo::tauQGD() const
 {
-    return tauQGD_;
+    return qgdCoeffsPtr_->tauQGD();
 }
 
 const Foam::volScalarField& Foam::psiQGDThermo::muQGD() const
 {
-    return muQGD_;
+    return qgdCoeffsPtr_->muQGD();
 }
 
 const Foam::volScalarField& Foam::psiQGDThermo::alphauQGD() const
 {
-    return alphauQGD_;
-}
-
-Foam::dimensionedScalar Foam::psiQGDThermo::ScQGD() const
-{
-    return dimensionedScalar("ScQGD", dimless, ScQGD_);
+    return qgdCoeffsPtr_->alphauQGD();
 }
 
 Foam::Switch Foam::psiQGDThermo::implicitDiffusion() const
