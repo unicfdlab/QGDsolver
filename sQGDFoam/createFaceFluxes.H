@@ -55,24 +55,24 @@ surfaceVectorField rhofUf
     rhof*Uf
 );
 
-phi = rhofUf & mesh.Sf();
-
-surfaceVectorField rhoWStar
+surfaceTensorField UrhoUf
 (
-    "rhoWStar",
-    tauQGDf * ((rhofUf & gradUf) + gradPf)
+    "UrhoUf",
+    linearInterpolate(U*rhoU)
 );
+
+phi = rhoUf & mesh.Sf();
 
 surfaceVectorField rhoW
 (
     "rhoW",
-    rhoWStar * 1.0
+    tauQGDf*gradPf
 );
 
 surfaceVectorField jm
 (
     "jm",
-    rhofUf - rhoW
+    rhoUf - rhoW
 );
 
 surfaceScalarField phiJm
@@ -101,7 +101,7 @@ surfaceTensorField Pif
 (
     "Pif",
     //QGD diffusive fluxes
-    Uf * rhoWStar
+    tauQGDf * ((UrhoUf & gradUf) + Uf * gradPf)
     +
     tauQGDf * I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
 );

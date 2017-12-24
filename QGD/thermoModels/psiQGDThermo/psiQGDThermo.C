@@ -99,27 +99,16 @@ void Foam::psiQGDThermo::correctQGD()
     this->gamma_ == (this->Cp() / this->Cv());
     c_ = sqrt(gamma_ / this->psi());
     
-    
     qgdCoeffsPtr_->correct(*this);
+    
     const volScalarField& muQGD = this->muQGD();
     const volScalarField& alphauQGD = this->alphauQGD();
     
-//    this->tauQGD_ = this->aQGD_ * this->hQGD_  / this->c_;
-    
     forAll(mu_.primitiveField(), celli)
     {
-//        muQGD_.primitiveFieldRef()[celli] = 
-//            p_.primitiveField()[celli] * 
-//            ScQGD_ *
-//            tauQGD_.primitiveField()[celli];
-//            //aQGD_.primitiveField()[celli] *
-//            //hQGD_.primitiveField()[celli] /
-//            //c_.primitiveField()[celli];
-//        
-//        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] / PrQGD_;
-//        
         mu_.primitiveFieldRef()[celli] +=
             muQGD.primitiveField()[celli];
+        
         alpha_.primitiveFieldRef()[celli] +=
             alphauQGD.primitiveField()[celli];
     }
@@ -128,21 +117,12 @@ void Foam::psiQGDThermo::correctQGD()
     {
         forAll(p_.boundaryField()[patchi], facei)
         {
-//            muQGD_.boundaryFieldRef()[patchi][facei] = 
-//                p_.boundaryField()[patchi][facei] * ScQGD_ *
-//                tauQGD_.boundaryField()[patchi][facei];
-//                //aQGD_.boundaryField()[patchi][facei] *
-//                //hQGD_.boundaryField()[patchi][facei] /
-//                //c_.boundaryField()[patchi][facei];
-//
-//            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
-//                muQGD_.boundaryField()[patchi][facei] / PrQGD_;
+            mu_.boundaryFieldRef()[patchi][facei] +=
+                muQGD.boundaryField()[patchi][facei];
+            
+            alpha_.boundaryFieldRef()[patchi][facei] +=
+                alphauQGD.boundaryField()[patchi][facei];
         }
-        
-        mu_.boundaryFieldRef()[patchi] +=
-            muQGD.boundaryField()[patchi];
-        alpha_.boundaryFieldRef()[patchi] +=
-            alphauQGD.boundaryField()[patchi];
     }
 }
 
