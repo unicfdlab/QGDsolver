@@ -117,22 +117,15 @@ int main(int argc, char *argv[])
         rhoE.oldTime();
         e.oldTime();
         
-        // --- Solve density
-        solve
-        (
-            fvm::ddt(rho)
-            +
-            fvc::div(phiJm)
-        );
-        
+
         // --- Solve momentum
         solve
         (
-            fvm::ddt(rhoU)
+            fvm::ddt(U)
             + 
-            fvc::div(phiJmU)
+            fvc::div(UM2mW2)
             +
-            fvc::div(phiP)
+            fvc::grad(P,V)
             -
             fvc::div(phiPi)
         );
@@ -142,32 +135,11 @@ int main(int argc, char *argv[])
             rhoU()
            /rho();
         U.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
-        {
-            fvVectorMatrix UEqn
-            (
-                fvm::ddt(rho, U) - fvc::ddt(rho,U)
-              - fvm::laplacian(muf, U)
-              - fvc::div(phiTauMC)
-            );
-            
-            solve
-            (
-                UEqn
-            );
-            
-            rhoU = rho*U;
-            
-            sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
-            
-            phiSigmaDotU = sigmaDotUPtr() & mesh.Sf(); //or eqn.flux()?
-        }
-        rhoU.boundaryFieldRef() == rho.boundaryField()*
+
+	rhoU.boundaryFieldRef() == rho.boundaryField()*
             U.boundaryField();
         
-        //--- Solve energy
+        //--- Solve T
         solve
         (
             fvm::ddt(rhoE)
@@ -175,25 +147,7 @@ int main(int argc, char *argv[])
           + fvc::div(phiQ)
           - fvc::div(phiPiU)
           - fvc::div(phiSigmaDotU)
-        );
-        
-        // Correct energy
-        e = rhoE/rho - 0.5*magSqr(U);
-        e.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
-        {
-            solve
-            (
-                fvm::ddt(rho, e) - fvc::ddt(rho,e)
-              - fvm::laplacian(alphauf, e)
-            );
-            
-            rhoE = rho*(e + 0.5*magSqr(U));
-        }
-        rhoE.boundaryFieldRef() == rho.boundaryField()*
-            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
+        );      
         
         thermo.correct();
         
