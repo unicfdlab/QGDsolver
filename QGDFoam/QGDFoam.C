@@ -117,20 +117,31 @@ int main(int argc, char *argv[])
         rhoE.oldTime();
         e.oldTime();
         
+        // --- Solve P
+        solve
+	(
+	    fvc::div(phiu)
+	    +
+	    fvc::div(phiwo)
+	    -
+	    fvm::laplaican(taubyrho,p)
+        )	 
 
-        // --- Solve momentum
+        // --- Solve U
         solve
         (
             fvm::ddt(U)
             + 
-            fvc::div(UM2mW2)
+            fvc::div(phiUmM2mW2)
             +
-            fvc::grad(P,V)
+            fvc::grad(Pbyrho)
             -
             fvc::div(phiPi)
+	    +
+            fvc::div(phiBdFrc)
         );
         
-        // Correct velocity
+        // Correct U
         U.ref() =
             rhoU()
            /rho();
@@ -139,18 +150,16 @@ int main(int argc, char *argv[])
 	rhoU.boundaryFieldRef() == rho.boundaryField()*
             U.boundaryField();
         
-        //--- Solve T
+        // --- Solve T
         solve
         (
-            fvm::ddt(rhoE)
-          + fvc::div(phiJmH)
-          + fvc::div(phiQ)
-          - fvc::div(phiPiU)
-          - fvc::div(phiSigmaDotU)
+            fvm::ddt(T)
+          + fvc::div(phiUmWT)
+          - fvc::laplacian(HiT)
         );      
-        
+
         thermo.correct();
-        
+
         // Correct pressure
         p.ref() =
             rho()
