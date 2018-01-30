@@ -34,6 +34,7 @@ volVectorField U
     mesh
 );
 
+
 volScalarField rho
 (
     IOobject
@@ -46,6 +47,19 @@ volScalarField rho
     ),
     thermo.rho()
 );
+
+volVectorField W
+(
+    IOobject
+    (
+        "W",
+	runTime.timeName(),
+	mesh,
+	IOobject::NO_READ,
+	IOobject::NO_WRITE
+    )
+    U
+)
 
 //volScalarField cellNo
 //(

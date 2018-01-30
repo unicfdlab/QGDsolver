@@ -71,6 +71,13 @@ surfaceScalarField phiJm
     (Uf*rhof - rhoW) & mesh.Sf()
 );
 
+surfaceScalarField phiu
+(
+    "phiu",
+    Uf & mesh.Sf()
+);
+
+
 //---------End---------
 
 // Fluxes for momentum balance equation
