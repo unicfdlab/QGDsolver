@@ -85,6 +85,11 @@ int main(int argc, char *argv[])
     {
         /*
          *
+         */
+        turbulence->correct();
+        
+        /*
+         *
          * Update fields
          *
          */
@@ -219,7 +224,7 @@ int main(int argc, char *argv[])
         
         if (runTime.outputTime())
         {
-            tauQGD.write();
+            thermo.tauQGD().write();
         }
         
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;

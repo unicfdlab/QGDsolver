@@ -9,8 +9,6 @@
 //- Compute weights for least squares scheme for gradient calculation.
 void Foam::fvsc::leastSquaresBase::calculateWeights()
 {
-    Pout << "Start calculateWeights()" << endl;
-    
     const faceList& faces = cMesh_.faces();
     GdfAll_.resize(faces.size());
     wf2All_.resize(faces.size());
@@ -116,10 +114,11 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
         }
     }
     
-    Pout << "Min determinant      : " << minDet << endl;
-    Pout << "Total # of deg. faces: " << nDegFaces << endl;
-    
-    Info << "End for not parallel" << endl;
+    if (nDegFaces > 0)
+    {
+        Pout << "Min determinant      : " << minDet << endl;
+        Pout << "Total # of deg. faces: " << nDegFaces << endl;
+    }
     
     if (Pstream::parRun())
     {
@@ -147,7 +146,6 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 
                 nCorCells = corEnd_[iProcPatch][iFace] - corStart_[iProcPatch][iFace] + 1;
                 
-                //Pout << "corEnd = " << corEnd_[iProcPatch][iFace]  << " nCorCell = " << nCorCells << endl;
                 corCellCenters[iProcPatch][iFace].resize
                 (
                     nCorCells
@@ -188,7 +186,6 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 }
             }
             
-            //Pout << "neiCellCenters = " << neiCellCenters << endl;
         }
         
         // Step 3. Loop over all corner neigbouring processors and send/receive cell centers
@@ -212,7 +209,6 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                         locCc[iCell] = cMesh_.C()[cellId];
                     }
                     oProcStr << locCc;
-                    //Pout << "Sending " << locCc << " to " << procId << endl;
                 }
             }
             
@@ -228,7 +224,6 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     
                     List<vector> corCc (iProcStr);
                     
-                    //Pout << "Received from " << procId << " cell centers " << corCc << endl;
                     
                     const List<Triple<label> > & addr = corAddr_[iCorProc];
                     label patchNo = -1;
@@ -248,13 +243,10 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 }
             }
             
-            //Pout << "corCellCenters = " << corCellCenters << endl;
         }
         
         
         // Step 4. Calculate weights
-        //Pout << "neiCellCenters = " << neiCellCenters << endl;
-        //Pout << "corCellCenters = " << corCellCenters << endl;
         procDegFaces_.resize(nProcPatches_);
         forAll(myProcPatchCells_,iProcPatch)
         {
@@ -376,7 +368,5 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
             }
         }
     }
-    
-    Pout << "End calculateWeights()" << endl;
 };
 

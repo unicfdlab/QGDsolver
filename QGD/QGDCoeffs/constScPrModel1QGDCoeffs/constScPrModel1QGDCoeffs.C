@@ -1,6 +1,7 @@
 #include "constScPrModel1QGDCoeffs.H"
 #include "psiQGDThermo.H"
 #include "addToRunTimeSelectionTable.H"
+#include "linear.H"
 
 namespace Foam
 {
@@ -26,16 +27,36 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
 :
     QGDCoeffs(io, mesh, dict)
 {
-    scalar ScQGD = 1.0, PrQGD = 1.0;
+    scalar PrQGD = 1.0;
     
-    dict.lookup("ScQGD") >> ScQGD;
-    dict.lookup("PrQGD") >> PrQGD;
+    if (dict.found("PrQGD"))
+    {
+        dict.lookup("PrQGD") >> PrQGD;
+    }
     
-    ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
-    
-    ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
+    
+    IOobject ScHeader
+    (
+        "ScQGD",
+        mesh.time().timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::NO_WRITE
+    );
+    
+    if (ScHeader.headerOk())
+    {
+        //do nothing
+    }
+    else
+    {
+        scalar ScQGD = 1.0;
+        dict.lookup("ScQGD") >> ScQGD;
+        ScQGD_.primitiveFieldRef() = ScQGD;
+        ScQGD_.boundaryFieldRef() = ScQGD;
+    }
 }
 
 Foam::qgd::
@@ -49,6 +70,7 @@ constScPrModel1QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();
     
+    this->tauQGDf_= linearInterpolate(this->aQGD_ / cSound) * hQGDf_;
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
     
     forAll(p.primitiveField(), celli)
@@ -75,6 +97,11 @@ constScPrModel1QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
                 muQGD_.boundaryFieldRef()[patchi][facei] /
                 PrQGD_.boundaryField()[patchi][facei];
         }
+    }
+    
+    if (runTime_.outputTime())
+    {
+        ScQGD_.write();
     }
 }
 

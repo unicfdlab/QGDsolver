@@ -1,0 +1,39 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : 4.1
+Exec   : setFields
+Date   : Dec 25 2017
+Time   : 21:19:34
+Host   : "bl010.unicluster.ru"
+PID    : 9909
+Case   : /lustre/unicluster/home/matvey.kraposhin/run/Unicfdlab/QGD-sdev4.1/Tutorials/1D/Test2
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Reading setFieldsDict
+
+Setting field default values
+    Setting internal values of volScalarField T
+    Setting internal values of volScalarField p
+    Setting internal values of volVectorField U
+
+Setting field region values
+    Adding cells with center within boxes 1((-1 -1 -1) (0.5 1 1))
+    Setting internal values of volScalarField T
+    Setting internal values of volScalarField p
+    Setting internal values of volVectorField U
+
+End
+

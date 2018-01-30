@@ -16,6 +16,14 @@ gradRhof = fvsc::grad(rho);
 //---------Start---------
 
 //rhoW = tauQGDf * (fvsc::div(rhoU*U + I*p)); //rhoW should be zero at wall
+//forAll(mesh.boundary(), patchI)
+//{
+//    if (isA<wallFvPatch>(mesh.boundary()[patchI]))
+//    {
+//        rhoW.boundaryFieldRef()[patchI] = vector::zero;
+//    }
+//}
+
 //rhoW = tauQGDf * 
 //        (
 //            (rhofUf * divUf)
@@ -45,6 +53,7 @@ rhoW = tauQGDf *
         );
 
 jm = rhoUf - rhoW;
+//jm = rhofUf - rhoW;
 
 phiJm = mesh.Sf() & jm;
 phi = phiJm;
@@ -60,6 +69,11 @@ phiP = mesh.Sf() * pf;
 
 Pif = 
     //QGD diffusive fluxes
+//    (tauUrhoUf & gradUf)
+//    +
+//    (tauUf * gradPf)
+//    +
+//    I*((tauUf & gradPf) + (tauGammaPf * divUf));
     tauQGDf*
     (
         (UrhoUf & gradUf)
@@ -110,6 +124,12 @@ qf =
             //+ pf * fvsc::grad(1.0 / rho)
         )
     );
+//    - 
+//    tauUrhoUf &
+//    (
+//        gradef
+//        - (pf / rhof / rhof) * gradRhof
+//    );
 //    -
 //    tauQGDf*rhoUf*
 //    (

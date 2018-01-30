@@ -8,6 +8,8 @@ cd mQGDFoam; ./Allwclean; cd ../
 
 cd sQGDFoam; ./Allwclean; cd ../
 
+cd vQGDFoam; ./Allwclean; cd ../
+
 #
 #END-OF-FILE
 #

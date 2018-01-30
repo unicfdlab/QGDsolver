@@ -155,6 +155,16 @@ const Foam::volScalarField& Foam::psiQGDThermo::tauQGD() const
     return qgdCoeffsPtr_->tauQGD();
 }
 
+const Foam::surfaceScalarField& Foam::psiQGDThermo::hQGDf() const
+{
+    return qgdCoeffsPtr_->hQGDf();
+}
+
+const Foam::surfaceScalarField& Foam::psiQGDThermo::tauQGDf() const
+{
+    return qgdCoeffsPtr_->tauQGDf();
+}
+
 const Foam::volScalarField& Foam::psiQGDThermo::muQGD() const
 {
     return qgdCoeffsPtr_->muQGD();

@@ -39,9 +39,26 @@ Hf = linearInterpolate((rhoE + p)/rho);
  * QGD coefficients are now updated in the thermo library
  *
  */
-tauQGDf    = linearInterpolate(tauQGD);
 alphauf    = linearInterpolate(turbulence->alphaEff());
 muf        = linearInterpolate(turbulence->muEff());
+
+//surfaceScalarField tauGammaPf
+//(
+//    "tauGammaPf",
+//    linearInterpolate(tauQGD*gamma*p)
+//);
+//
+//surfaceVectorField tauUf
+//(
+//    "tauUf",
+//    linearInterpolate(tauQGD*U)
+//);
+//
+//surfaceTensorField tauUrhoUf
+//(
+//    "tauUrhoUf",
+//    linearInterpolate(tauQGD*U*rhoU)
+//);
 
 //tauQGDf    = 0.5* hQGDf / cf;
 //muf        = pf * tauQGDf;

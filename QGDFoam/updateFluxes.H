@@ -34,15 +34,15 @@ rhoW = tauQGDf *
         (
             ((Uf * gradRhof) & Uf)
             +
-            (rhoUf * divUf)
+            (rhoUf * divUf) //was rhoUf
         )
         +
         rhoWStar;
 
-jm = rhoUf - rhoW;
+jm = rhoUf - rhoW; //was rhoUf
 
 phiJm = mesh.Sf() & jm;
-phi = phiJm;
+phi   = mesh.Sf() & rhofUf;
 //---------End---------
 
 // Fluxes for momentum balance equation

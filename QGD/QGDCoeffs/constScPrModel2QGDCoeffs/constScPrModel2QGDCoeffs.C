@@ -1,6 +1,7 @@
 #include "constScPrModel2QGDCoeffs.H"
 #include "psiQGDThermo.H"
 #include "addToRunTimeSelectionTable.H"
+#include "linear.H"
 
 namespace Foam
 {
@@ -50,6 +51,7 @@ constScPrModel2QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
     const volScalarField& p      = qgdThermo.p();
     const volScalarField& mu     = qgdThermo.mu();
     
+    this->tauQGDf_= linearInterpolate(this->aQGD_ / cSound) * hQGDf_;
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
     
     forAll(p.primitiveField(), celli)

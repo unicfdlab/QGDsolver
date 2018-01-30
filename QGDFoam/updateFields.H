@@ -37,8 +37,8 @@ Hf = (linearInterpolate(rhoE) + pf)/rhof;
  * QGD coefficients now updated in thermo library
  *
  */
-tauQGDf    = linearInterpolate(tauQGD);
 alphauf    = linearInterpolate(turbulence->alphaEff());
 muf        = linearInterpolate(turbulence->muEff());
+
 
 

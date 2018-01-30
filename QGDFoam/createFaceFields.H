@@ -69,18 +69,6 @@
      * QGD coefficients
      *
      */
-    surfaceScalarField tauQGDf
-    (
-        "tauQGD",
-        linearInterpolate(tauQGD)
-    );
-    
-    surfaceScalarField hQGDf
-    (
-        "hQGDf",
-        linearInterpolate(thermo.hQGD())
-    );
-    
     surfaceScalarField cf
     (
         "cf",

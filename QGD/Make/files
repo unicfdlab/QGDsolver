@@ -17,7 +17,6 @@ fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C
 QGDCoeffs/QGDCoeffs/QGDCoeffs.C
 QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C
 QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C
-QGDCoeffs/constScPrModel4QGDCoeffs/constScPrModel4QGDCoeffs.C
 QGDCoeffs/varScModel5QGDCoeffs/varScModel5QGDCoeffs.C
 
 thermoModels/psiQGDThermo/psiQGDThermo.C

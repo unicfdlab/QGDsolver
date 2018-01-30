@@ -3,6 +3,7 @@
 #include "runTimeSelectionTables.H"
 #include "regIOobject.H"
 #include "volFields.H"
+#include "surfaceFields.H"
 
 #ifndef QGDCoeffs_H
 #define QGDCoeffs_H
@@ -34,6 +35,9 @@ protected:
     volScalarField alphauQGD_;
 
     //-
+    surfaceScalarField hQGDf_;
+
+    //-
     volScalarField hQGD_;
     
     //-
@@ -41,6 +45,9 @@ protected:
     
     //-
     volScalarField tauQGD_;
+    
+    //-
+    surfaceScalarField tauQGDf_;
     
     //-
     volScalarField PrQGD_;
@@ -51,7 +58,7 @@ protected:
 protected:
     
     //-
-    virtual tmp<volScalarField> qgdLength(const fvMesh& mesh);
+    virtual void updateQGDLength(const fvMesh&);
 
 public:
  
@@ -105,7 +112,13 @@ public:
     
     //-
     const volScalarField& tauQGD() const;
+
+    //-
+    const surfaceScalarField& hQGDf() const;
     
+    //-
+    const surfaceScalarField& tauQGDf() const;
+
     //-
     const volScalarField& muQGD() const;
     

@@ -25,7 +25,7 @@ Application
     sQGDFoam
 
 Description
-    Solver for unsteady 3D turbulent flow of perfect gas governed by
+    Solver for unsteady 2D turbulent flow of perfect gas governed by
     quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
     infinity).
     
@@ -224,18 +224,13 @@ int main(int argc, char *argv[])
         
         runTime.write();
         
-        if (runTime.outputTime())
-        {
-            e.write();
-        }
-        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
         
         if (runTime.outputTime())
         {
-            tauQGD.write();
+            thermo.tauQGD().write();
         }
         
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;

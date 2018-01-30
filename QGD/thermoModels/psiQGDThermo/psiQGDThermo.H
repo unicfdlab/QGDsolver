@@ -127,7 +127,13 @@ public:
     
     //-
     const volScalarField& tauQGD() const;
+
+    //-
+    const surfaceScalarField& hQGDf() const;
     
+    //-
+    const surfaceScalarField& tauQGDf() const;
+
     //-
     const volScalarField& muQGD() const;
     

@@ -11,8 +11,8 @@ volScalarField& e = thermo.he();
 
 volScalarField& p = thermo.p();
 const volScalarField& T = thermo.T();
-const volScalarField& hQGD = thermo.hQGD();
-const volScalarField& tauQGD = thermo.tauQGD();
+const surfaceScalarField& hQGDf = thermo.hQGDf();
+const surfaceScalarField& tauQGDf = thermo.tauQGDf();
 const volScalarField& gamma = thermo.gamma();
 const volScalarField& psi = thermo.psi();
 

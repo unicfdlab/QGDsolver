@@ -31,6 +31,8 @@ License
 #include "addToRunTimeSelectionTable.H"
 #include "coupledFvsPatchFields.H"
 #include "psiQGDThermo.H"
+#include "linear.H"
+#include "emptyFvPatch.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -122,6 +124,11 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         mesh,
         dimensionSet(1, -1, -1, 0, 0)
     ),
+    hQGDf_
+    (
+        "hQGDf",
+        1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
+    ),
     hQGD_
     (
         IOobject
@@ -132,7 +139,8 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
             IOobject::NO_READ,
             IOobject::NO_WRITE
         ),
-        qgdLength(mesh)()
+        mesh,
+        hQGDf_.dimensions()
     ),
     aQGD_
     (
@@ -158,6 +166,11 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         ),
         mesh,
         dimensionSet(0, 0, 1, 0, 0)
+    ),
+    tauQGDf_
+    (
+        "tauQGDf",
+        linearInterpolate(tauQGD_)
     ),
     PrQGD_
     (
@@ -186,6 +199,7 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         dimensionSet(0, 0, 0, 0, 0)
     )
 {
+    this->updateQGDLength(mesh);
 }
 
 QGDCoeffs::~QGDCoeffs()
@@ -220,65 +234,79 @@ void Foam::qgd::QGDCoeffs::correct(const psiQGDThermo& qgdThermo)
     }
 }
 
-Foam::tmp<Foam::volScalarField> Foam::qgd::QGDCoeffs::qgdLength(const fvMesh& mesh)
+void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
 {
-    tmp<volScalarField> tqgdLen
-    (
-        new volScalarField
-        (
-            IOobject
-            (
-                "hQGD",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::NO_READ,
-                IOobject::NO_WRITE
-            ),
-            mesh,
-            dimensionSet(0, 1, 0, 0, 0)
-        )
-    );
+    {
+        scalar hown = 0.0;
+        scalar hnei = 0.0;
+        forAll(hQGDf_.primitiveField(), iFace)
+        {
+            hown = mag(mesh.C()[mesh.owner()[iFace]] - mesh.Cf()[iFace]);
+            hnei = mag(mesh.C()[mesh.neighbour()[iFace]] - mesh.Cf()[iFace]);
+            hQGDf_.primitiveFieldRef()[iFace] = 2.0*min(hown, hnei);
+        }
+        
+        forAll(mesh.boundary(), patchi)
+        {
+            const fvPatch& fvp = mesh.boundary()[patchi];
+            if (!fvp.coupled())
+            {
+                hQGDf_.boundaryFieldRef()[patchi] *= 2.0;
+            }
+        }
+    }
     
-    volScalarField& qgdLen = tqgdLen.ref();
-    
-    surfaceScalarField hf
-    (
-       1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
-    );
-    
-    scalar cdist = 0.0;
-    forAll(qgdLen, celli)
+    scalar hint = 0.0;
+    scalar surf = 0.0;
+    label  fid  = 0;
+    forAll(hQGD_, celli)
     {
         const cell& c = mesh.cells()[celli];
-        scalar maxlen = 0.0;
+        hint = 0.0;
+        surf = 0.0;
+        label pid = -1;
+        label pfid = -1;
         forAll(c, facei)
         {
-            if (mesh.isInternalFace(c[facei]))
+            fid  = c[facei];
+            
+            if (mesh.isInternalFace(fid))
             {
-                cdist = hf[c[facei]];
-                if (cdist > maxlen)
+                hint += hQGDf_[fid] * mesh.magSf()[fid];
+                surf += mesh.magSf()[fid];
+            }
+            else
+            {
+                pid = mesh.boundaryMesh().whichPatch(fid);
+                if (pid >= 0)
                 {
-                    maxlen = hf[c[facei]];
+                    if (!isA<emptyFvPatch>(mesh.boundary()[pid]))
+                    {
+                        pfid = mesh.boundaryMesh()[pid].whichFace(fid);
+                    
+                        hint += hQGDf_.boundaryField()[pid][pfid] *
+                            mesh.magSf().boundaryField()[pid][pfid];
+                        surf += mesh.magSf().boundaryField()[pid][pfid];
+                    }
                 }
             }
         }
-        qgdLen.primitiveFieldRef()[celli] = maxlen;
+        
+        hQGD_.primitiveFieldRef()[celli] = hint / surf;
     }
     
     forAll(mesh.boundary(), patchi)
     {
-        const fvPatch& fvp = mesh.boundary()[patchi];
-        if (fvp.coupled())
+        if (!isA<emptyFvPatch>(mesh.boundary()[patchi]))
         {
-            qgdLen.boundaryFieldRef()[patchi] = hf.boundaryField()[patchi];
-        }
-        else
-        {
-            qgdLen.boundaryFieldRef()[patchi] = 2.0*hf.boundaryField()[patchi];
+            hQGD_.boundaryFieldRef()[patchi] = hQGDf_.boundaryField()[patchi] * 1.0;
         }
     }
-    
-    return tqgdLen;
+}
+
+const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::hQGDf() const
+{
+    return hQGDf_;
 }
 
 const Foam::volScalarField& Foam::qgd::QGDCoeffs::hQGD() const
@@ -299,6 +327,11 @@ const Foam::volScalarField& Foam::qgd::QGDCoeffs::muQGD() const
 const Foam::volScalarField& Foam::qgd::QGDCoeffs::tauQGD() const
 {
     return tauQGD_;
+}
+
+const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::tauQGDf() const
+{
+    return tauQGDf_;
 }
 
 }; //namespace qgd
