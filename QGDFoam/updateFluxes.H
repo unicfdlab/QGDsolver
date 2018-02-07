@@ -4,7 +4,7 @@ gradPf = fvsc::grad(p);
 
 gradUf = fvsc::grad(U);
 
-gradWf = fvc::grad(W);
+gradWf = fvsc::grad(W);
 
 //gradUfT= Foam::T(gradUf);
 

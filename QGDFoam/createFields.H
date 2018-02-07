@@ -58,9 +58,9 @@ volVectorField W
 	mesh,
 	IOobject::NO_READ,
 	IOobject::NO_WRITE
-    )
+    ),
     U
-)
+);
 
 surfaceScalarField phiu
 (
@@ -70,9 +70,16 @@ surfaceScalarField phiu
 
 surfaceScalarField  phiwo
 (
-    "phiwo"
+    "phiwo",
     linearInterpolate(W) & mesh.Sf()
 );
+
+surfaceScalarField phi
+(
+    "phi",
+    linearInterpolate(rho*U) & mesh.Sf()
+);
+
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
@@ -87,6 +94,8 @@ turbulence.reset
         thermo
     ).ptr()
 );
+
+
 
 //
 //END-OF-FILE

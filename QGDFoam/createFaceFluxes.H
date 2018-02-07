@@ -25,6 +25,12 @@ surfaceTensorField gradWf
     "gradWf",
     fvsc::grad(W)
 );
+
+surfaceScalarField divUf
+(
+    "divUf",
+    tr(gradUf)
+);
 //---------End---------
 //P equation fluxes
 //---------Start---------
@@ -73,6 +79,6 @@ surfaceScalarField phiUmWT
 surfaceScalarField HiT
 (
     "HiT",
-    Hif*Tf
+    alpha/rho*Tf
 );
 //---------End---------

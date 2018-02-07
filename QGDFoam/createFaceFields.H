@@ -32,37 +32,14 @@
         linearInterpolate(p)
     );
     
-    // Heat capacities ratio
-    surfaceScalarField gammaf 
-    (
-        "gammaf",
-        linearInterpolate(gamma)
-    );
-    
+   
     surfaceScalarField Tf
     (
         "Tf",
 	linearInterpolate(T)
     );
 
-    surfaceScalarField Hif
-    (
-        "Hif"
-	linearInterpolate(Hi)
-    );
-
-    surfaceScalarField gammam1f
-    (
-        "gammam1",
-        gammaf - 1
-    );
     
-    // Speed of sound
-    surfaceScalarField cf
-    (
-        "cf",linearInterpolate(c)
-    );
-
     // Heat capacity at constant pressure
     surfaceScalarField Cpf
     (

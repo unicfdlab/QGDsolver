@@ -17,8 +17,8 @@ fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C
 QGDCoeffs/QGDCoeffs/QGDCoeffs.C
 QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C
 
-thermoModels/psiQGDThermo/psiQGDThermo.C
-thermoModels/psiQGDThermo/psiQGDThermos.C
+thermoModels/rhoQGDThermo/rhoQGDThermo.C
+thermoModels/rhoQGDThermo/rhoQGDThermos.C
 
 LIB = $(FOAM_USER_LIBBIN)/libQGD
 
