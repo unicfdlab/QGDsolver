@@ -10,8 +10,8 @@
 namespace Foam
 {
 
-//forward declaration of psiQGDThermo
-class psiQGDThermo;
+//forward declaration of rhoQGDThermo
+class rhoQGDThermo;
 
 namespace qgd
 {
@@ -98,7 +98,7 @@ public:
     }
     
     //-
-    virtual void correct(const psiQGDThermo&);
+    virtual void correct(const rhoQGDThermo&);
     
     //-
     const volScalarField& hQGD() const;

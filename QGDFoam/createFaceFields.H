@@ -18,6 +18,13 @@
         linearInterpolate(U)
     );
     
+    //
+    surfaceVectorField Wf
+    (
+        "Wf",
+        linearInterpolate(W)
+    );
+
     // Pressure
     surfaceScalarField pf
     (
@@ -32,6 +39,18 @@
         linearInterpolate(gamma)
     );
     
+    surfaceScalarField Tf
+    (
+        "Tf",
+	linearInterpolate(T)
+    );
+
+    surfaceScalarField Hif
+    (
+        "Hif"
+	linearInterpolate(Hi)
+    );
+
     surfaceScalarField gammam1f
     (
         "gammam1",
@@ -49,13 +68,6 @@
     (
         "Cpf",
         linearInterpolate(thermo.Cp())
-    );
-    
-    surfaceScalarField Hf
-    (
-        "Hf",
-        linearInterpolate((rhoE + p)/rho)
-        //or (rhoEf + pf)/rhof?
     );
     
     surfaceScalarField muf
@@ -95,4 +107,9 @@
         "tauQGD",
         linearInterpolate(tauQGD)
     );
-    
+   
+    surfaceScalarField betaf
+    (
+        "betaf",
+	linearInterpolate(beta)
+    );

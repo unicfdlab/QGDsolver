@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "psiQGDThermo.H"
+#include "rhoQGDThermo.H"
 #include "surfaceFields.H"
 #include "typeInfo.H"
 #include "coupledPolyPatch.H"
@@ -38,16 +38,16 @@ License
 
 namespace Foam
 {
-    defineTypeNameAndDebug(psiQGDThermo, 0);
-    defineRunTimeSelectionTable(psiQGDThermo, fvMesh);
+    defineTypeNameAndDebug(rhoQGDThermo, 0);
+    defineRunTimeSelectionTable(rhoQGDThermo, fvMesh);
 }
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName)
+Foam::rhoQGDThermo::rhoQGDThermo(const fvMesh& mesh, const word& phaseName)
 :
-    psiThermo(mesh, phaseName),
+    rhoThermo(mesh, phaseName),
     qgdCoeffsPtr_
     (
         Foam::qgd::QGDCoeffs::New
@@ -76,28 +76,28 @@ Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName)
 
 // * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
 
-Foam::autoPtr<Foam::psiQGDThermo> Foam::psiQGDThermo::New
+Foam::autoPtr<Foam::rhoQGDThermo> Foam::rhoQGDThermo::New
 (
     const fvMesh& mesh,
     const word& phaseName
 )
 {
-    return basicThermo::New<psiQGDThermo>(mesh, phaseName);
+    return basicThermo::New<rhoQGDThermo>(mesh, phaseName);
 }
 
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::psiQGDThermo::~psiQGDThermo()
+Foam::rhoQGDThermo::~rhoQGDThermo()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-void Foam::psiQGDThermo::correctQGD()
+void Foam::rhoQGDThermo::correctQGD()
 {
     this->gamma_ == (this->Cp() / this->Cv());
-    c_ = sqrt(gamma_ / this->psi());
+    c_ = sqrt(gamma_ / this->rho());
     
     
     qgdCoeffsPtr_->correct(*this);
@@ -146,7 +146,7 @@ void Foam::psiQGDThermo::correctQGD()
     }
 }
 
-bool Foam::psiQGDThermo::read()
+bool Foam::rhoQGDThermo::read()
 {
     if (!basicThermo::read())
     {
@@ -160,32 +160,32 @@ bool Foam::psiQGDThermo::read()
     return true;
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::c() const
+const Foam::volScalarField& Foam::rhoQGDThermo::c() const
 {
     return this->c_;
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::hQGD() const
+const Foam::volScalarField& Foam::rhoQGDThermo::hQGD() const
 {
     return qgdCoeffsPtr_->hQGD();
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::tauQGD() const
+const Foam::volScalarField& Foam::rhoQGDThermo::tauQGD() const
 {
     return qgdCoeffsPtr_->tauQGD();
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::muQGD() const
+const Foam::volScalarField& Foam::rhoQGDThermo::muQGD() const
 {
     return qgdCoeffsPtr_->muQGD();
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::alphauQGD() const
+const Foam::volScalarField& Foam::rhoQGDThermo::alphauQGD() const
 {
     return qgdCoeffsPtr_->alphauQGD();
 }
 
-Foam::Switch Foam::psiQGDThermo::implicitDiffusion() const
+Foam::Switch Foam::rhoQGDThermo::implicitDiffusion() const
 {
     return implicitDiffusion_;
 }

@@ -1,5 +1,5 @@
 #include "constScPrModel1QGDCoeffs.H"
-#include "psiQGDThermo.H"
+#include "rhoQGDThermo.H"
 #include "addToRunTimeSelectionTable.H"
 
 namespace Foam
@@ -44,7 +44,7 @@ constScPrModel1QGDCoeffs::~constScPrModel1QGDCoeffs()
 }
 
 void Foam::qgd::
-constScPrModel1QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
+constScPrModel1QGDCoeffs::correct(const Foam::rhoQGDThermo& qgdThermo)
 {
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();

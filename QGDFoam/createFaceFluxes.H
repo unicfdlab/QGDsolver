@@ -20,167 +20,59 @@ surfaceTensorField gradUf
     fvsc::grad(U)
 );
 
-surfaceScalarField divUf
+surfaceTensorField gradWf
 (
-    "divUf",
-    Foam::tr(gradUf)
+    "gradWf",
+    fvsc::grad(W)
 );
-
-surfaceVectorField gradef
-(
-    "gradef",
-    fvsc::grad(e)
-);
-
-surfaceVectorField gradRhof
-(
-    "gradRhof",
-    fvsc::grad(rho)
-);
-
 //---------End---------
-//Continuity equation fluxes
+//P equation fluxes
 //---------Start---------
-
-surfaceVectorField rhofUf
+surfaceScalarField taubyrho
 (
-    "rhofUf",
-    rhof*Uf
+    "taubyrho",
+    tauQGD/rhof
 );
-
-phi = rhofUf & mesh.Sf();
-
-surfaceVectorField rhoW
-(
-    "rhoW",
-    tauQGDf * 
-    (
-        gradPf
-    )
-);
-
-surfaceVectorField jm
-(
-    "jm",
-    rhofUf - rhoW
-);
-
-surfaceScalarField phiJm
-(
-    "phiJm",
-    (Uf*rhof - rhoW) & mesh.Sf()
-);
-
-surfaceScalarField phiu
-(
-    "phiu",
-    Uf & mesh.Sf()
-);
-
-
 //---------End---------
 
 // Fluxes for momentum balance equation
 //---------Start---------
-surfaceVectorField phiJmU
+surfaceVectorField phiUUmWUmWW
 (
-    "phiJmU",
-    (jm * Uf) & mesh.Sf()
+    "phiUUmWUmWW",
+    ((Uf * Uf)-(Wf * Uf)-(Wf * Wf)) & mesh.Sf()
 );
 
-surfaceVectorField phiP
+surfaceScalarField Pbyrho
 (
-    "phiP",
-    pf*mesh.Sf()
-);
-
-surfaceTensorField Pif
-(
-    "Pif",
-    //QGD diffusive fluxes
-    tauQGDf * 
-    (
-        Uf * (rhof * (Uf & gradUf) + gradPf)
-        +
-        I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
-    )
+    "Pbyrho",
+    pf/rhof
 );
 
 surfaceVectorField phiPi
 (
     "phiPi",
-    Pif & mesh.Sf()
+    muf*((gradUf+gradUf.T())) & mesh.Sf()/rhof
 );
 
-autoPtr<surfaceTensorField> tauMCPtr;
-tauMCPtr.reset
+surfaceVectorField phiBdFrc
 (
-    new surfaceTensorField
-    (
-        "tauMC",
-        0.0*muf*
-        (
-            Foam::T(gradUf)//Don't forget to transpose
-            -
-            I*divUf
-        )
-    )
+    "phiBdFrc",
+    betaf*g*Tf*mesh.Sf()
 );
-
-surfaceVectorField phiTauMC
-(
-    "phiTauMC",
-    tauMCPtr() & mesh.Sf()
-);
-
 //---------End---------
 
-// Fluxes for energy balance equation
+// Fluxes for T balance equation
 //---------Start---------
-surfaceScalarField phiJmH
+surfaceScalarField phiUmWT
 (
-    "phiJmH",
-    phiJm * Hf
+    "phiUmWT",
+    ((Uf-Wf)*Tf) & mesh.Sf()
 );
 
-surfaceVectorField qf
+surfaceScalarField HiT
 (
-    "qf",
-    -
-    tauQGDf* 
-    ( 
-        ((linearInterpolate(rho*(U*U))) & gradef)
-        -
-        (pf * rhof * Uf * (Uf & gradRhof) / rhof / rhof)
-    )
+    "HiT",
+    Hif*Tf
 );
-
-surfaceScalarField phiQ
-(
-    "phiQ",
-    qf & mesh.Sf()
-);
-
-surfaceScalarField phiPiU
-(
-    "phiPiU",
-    (Pif & Uf) & mesh.Sf()
-);
-
-autoPtr<surfaceVectorField> sigmaDotUPtr;
-sigmaDotUPtr.reset
-(
-    new surfaceVectorField
-    (
-        "sigmaDotU",
-        tauMCPtr() & linearInterpolate(U) //to be updated later
-    )
-);
-
-surfaceScalarField phiSigmaDotU
-(
-    "phiSigmaDotU",
-    sigmaDotUPtr() & mesh.Sf()
-);
-
 //---------End---------

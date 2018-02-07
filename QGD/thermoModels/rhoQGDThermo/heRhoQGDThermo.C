@@ -23,12 +23,12 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "hePsiQGDThermo.H"
+#include "heRhoQGDThermo.H"
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
+void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 {
     const scalarField& hCells = this->he_;
     const scalarField& pCells = this->p_;
@@ -120,7 +120,7 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
+Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::heRhoQGDThermo
 (
     const fvMesh& mesh,
     const word& phaseName
@@ -138,14 +138,14 @@ Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::~hePsiQGDThermo()
+Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::~heRhoQGDThermo()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
-void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::correct()
+void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::correct()
 {
     if (debug)
     {
@@ -164,7 +164,7 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::correct()
 }
 
 template<class BasicPsiThermo, class MixtureType>
-Foam::tmp<Foam::volScalarField> Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
+Foam::tmp<Foam::volScalarField> Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
 {
     return this->gamma_;
 }

@@ -30,7 +30,7 @@ License
 #include "Time.H"
 #include "addToRunTimeSelectionTable.H"
 #include "coupledFvsPatchFields.H"
-#include "psiQGDThermo.H"
+#include "rhoQGDThermo.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -192,7 +192,7 @@ QGDCoeffs::~QGDCoeffs()
 {
 }
 
-void Foam::qgd::QGDCoeffs::correct(const psiQGDThermo& qgdThermo)
+void Foam::qgd::QGDCoeffs::correct(const rhoQGDThermo& qgdThermo)
 {
     forAll(tauQGD_, celli)
     {

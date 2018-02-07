@@ -22,20 +22,20 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::hePsiThermo
+    Foam::heRhoThermo
 
 Description
     Energy for a mixture based on compressibility and QGD equations
 
 SourceFiles
-    hePsiQGDThermo.C
+    heRhoQGDThermo.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef hePsiQGDThermo_H
-#define hePsiQGDThermo_H
+#ifndef heRhoQGDThermo_H
+#define heRhoQGDThermo_H
 
-#include "psiThermo.H"
+#include "rhoThermo.H"
 #include "heThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -44,11 +44,11 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class hePsiQGDThermo Declaration
+                         Class heRhoQGDThermo Declaration
 \*---------------------------------------------------------------------------*/
 
 template<class BasicPsiThermo, class MixtureType>
-class hePsiQGDThermo
+class heRhoQGDThermo
 :
     public heThermo<BasicPsiThermo, MixtureType>
 {
@@ -58,18 +58,18 @@ class hePsiQGDThermo
         void calculate();
 
         //- Construct as copy (not implemented)
-        hePsiQGDThermo(const hePsiQGDThermo<BasicPsiThermo, MixtureType>&);
+        heRhoQGDThermo(const heRhoQGDThermo<BasicPsiThermo, MixtureType>&);
 
 public:
 
     //- Runtime type information
-    TypeName("hePsiQGDThermo");
+    TypeName("heRhoQGDThermo");
 
 
     // Constructors
 
         //- Construct from mesh and phase name
-        hePsiQGDThermo
+        heRhoQGDThermo
         (
             const fvMesh&,
             const word& phaseName
@@ -77,7 +77,7 @@ public:
 
 
     //- Destructor
-    virtual ~hePsiQGDThermo();
+    virtual ~heRhoQGDThermo();
 
 
     // Member functions
@@ -99,7 +99,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-    #include "hePsiQGDThermo.C"
+    #include "heRhoQGDThermo.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

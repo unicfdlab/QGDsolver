@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "psiQGDThermo.H"
+#include "rhoQGDThermo.H"
 #include "makeThermo.H"
 
 #include "specie.H"
@@ -42,7 +42,7 @@ License
 #include "hPolynomialThermo.H"
 #include "polynomialTransport.H"
 
-#include "hePsiQGDThermo.H"
+#include "heRhoQGDThermo.H"
 #include "pureMixture.H"
 #include "powerLawTransport.H"
 
@@ -55,8 +55,8 @@ namespace Foam
 
 makeThermo
 (
-    psiQGDThermo,
-    hePsiQGDThermo,
+    rhoQGDThermo,
+    heRhoQGDThermo,
     pureMixture,
     constTransport,
     sensibleInternalEnergy,
@@ -67,8 +67,8 @@ makeThermo
 
 makeThermo
 (
-    psiQGDThermo,
-    hePsiQGDThermo,
+    rhoQGDThermo,
+    heRhoQGDThermo,
     pureMixture,
     sutherlandTransport,
     sensibleInternalEnergy,
@@ -79,8 +79,8 @@ makeThermo
 
 makeThermo
 (
-    psiQGDThermo,
-    hePsiQGDThermo,
+    rhoQGDThermo,
+    heRhoQGDThermo,
     pureMixture,
     constTransport,
     sensibleInternalEnergy,
@@ -91,8 +91,8 @@ makeThermo
 
 makeThermo
 (
-    psiQGDThermo,
-    hePsiQGDThermo,
+    rhoQGDThermo,
+    heRhoQGDThermo,
     pureMixture,
     powerLawTransport,
     sensibleInternalEnergy,

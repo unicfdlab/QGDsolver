@@ -4,6 +4,8 @@ gradPf = fvsc::grad(p);
 
 gradUf = fvsc::grad(U);
 
+gradWf = fvc::grad(W);
+
 //gradUfT= Foam::T(gradUf);
 
 divUf  = tr(gradUf);
@@ -19,84 +21,27 @@ gradRhof = fvsc::grad(rho);
 
 //rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf); //rhoW should be zero at wall
 
-rhoW = tauQGDf *
-        (
-            //(gradUfT & rhofUf)
-            (rhofUf & gradUf)
-            +
-            //Uf * (Uf & gradRhof)
-            ((Uf * gradRhof) & Uf)
-            +
-            (rhofUf * divUf)
-            +
-            gradPf
-        );
-
-jm = rhofUf - rhoW;
-
-phiJm = mesh.Sf() & jm;
-phi = phiJm;
+phiu  = mesh.Sf() & Uf;
+phiwo = mesh.Sf() & Wf;
+taubyrho = tauQGD/rho;
 //---------End---------
 
 // Fluxes for momentum balance equation
 //---------Start---------
 
-phiJmU = mesh.Sf() & (jm * Uf);
-//phiJmU = Foam::T(jm * Uf) & mesh.Sf();
+phiUUmWUmWW = ((Uf * Uf)-(Wf * Uf)-(Wf * Wf)) & mesh.Sf();
 
-phiP = mesh.Sf() * pf;
+Pbyrho = pf/rhof;
 
-Pif = 
-    //QGD diffusive fluxes
-    tauQGDf *
-    (
-        Uf * (rhof * (Uf & gradUf) + gradPf)
-        +
-        I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
-    );
-    
-if (!implicitDiffusion)
-{
-    Pif +=
-        muf*
-        (
-            gradUf
-            +
-            Foam::T(gradUf)
-            -
-            (2.0/3.0)*I*divUf
-        );
-}
-else
-{
-    tauMCPtr() = muf*linearInterpolate(Foam::T(fvc::grad(U)) - (2.0/3.0)*I*fvc::div(U));
-    phiTauMC = tauMCPtr() & mesh.Sf();
-}
+phiPi = muf*((gradUf+gradUf.T())) & mesh.Sf()/rhof;
 
-phiPi = mesh.Sf() & Pif;
+phiBdFrc = beta*g*T*mesh.Sf();
 
 //---------End---------
 
-// Fluxes for energy balance equation
+// Fluxes for T
 //---------Start---------
-phiJmH = phiJm * Hf;
-
-qf =
-    -
-    tauQGDf*rhofUf*
-    (
-        (Uf & gradef)
-        -
-        (pf * (Uf & gradRhof) / rhof / rhof)
-    );
-if (!implicitDiffusion)
-{
-    qf -=
-        alphauf*gradef;
-}
-
-phiQ = mesh.Sf() & qf;
-
-phiPiU = mesh.Sf() & (Pif & Uf);
+phiUmWT = ((Uf - Wf)*Tf) & mesh.Sf();
+HiT = Hif *Tf;
 
 //---------End---------

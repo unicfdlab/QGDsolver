@@ -1,10 +1,10 @@
 Info<< "Reading thermophysical properties\n" << endl;
 
-autoPtr<psiQGDThermo> pThermo
+autoPtr<rhoQGDThermo> pThermo
 (
-    psiQGDThermo::New(mesh)
+    rhoQGDThermo::New(mesh)
 );
-psiQGDThermo& thermo = pThermo();
+rhoQGDThermo& thermo = pThermo();
 thermo.correct();
 
 volScalarField& e = thermo.he();
@@ -13,9 +13,10 @@ volScalarField& p = thermo.p();
 const volScalarField& T = thermo.T();
 const volScalarField& hQGD = thermo.hQGD();
 const volScalarField& tauQGD = thermo.tauQGD();
-const volScalarField& gamma = thermo.gamma();
-const volScalarField& c = thermo.c();
-const volScalarField& psi = thermo.psi();
+const volScalarField& beta = thermo.beta();
+//const volScalarField& gamma = thermo.gamma();
+//const volScalarField& c = thermo.c();
+//const volScalarField& psi = thermo.psi();
 
 Info << "Thermo corrected" << endl;
 
@@ -61,56 +62,16 @@ volVectorField W
     U
 )
 
-//volScalarField cellNo
-//(
-//    IOobject
-//    (
-//        "cellNo",
-//        runTime.timeName(),
-//        mesh,
-//        IOobject::MUST_READ,
-//        IOobject::AUTO_WRITE
-//    ),
-//    mesh
-//);
-
-//forAll(cellNo, iCell)
-//{
-//    cellNo.primitiveFieldRef()[iCell] = scalar(iCell);
-//}
-//
-//cellNo.write();
-
-volVectorField rhoU
+surfaceScalarField phiu
 (
-    IOobject
-    (
-        "rhoU",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
-    ),
-    rho*U
+    "phiu",
+    linearInterpolate(U) & mesh.Sf()
 );
 
-volScalarField rhoE
+surfaceScalarField  phiwo
 (
-    IOobject
-    (
-        "rhoE",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
-    ),
-    rho*e + rho*0.5*magSqr(U)
-);
-
-surfaceScalarField phi
-(
-    "phi",
-    linearInterpolate(rho*U) & mesh.Sf()
+    "phiwo"
+    linearInterpolate(W) & mesh.Sf()
 );
 
 Switch implicitDiffusion (thermo.implicitDiffusion());

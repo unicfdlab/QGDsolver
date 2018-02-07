@@ -22,20 +22,20 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::psiQGDThermo
+    Foam::rhoQGDThermo
 
 Description
     Basic thermodynamic properties based on compressibility
 
 SourceFiles
-    psiQGDThermo.C
+    rhoQGDThermo.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef psiQGDThermo_H
-#define psiQGDThermo_H
+#ifndef rhoQGDThermo_H
+#define rhoQGDThermo_H
 
-#include "psiThermo.H"
+#include "rhoThermo.H"
 #include "runTimeSelectionTables.H"
 #include "QGDCoeffs.H"
 
@@ -45,12 +45,12 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class psiQGDThermo Declaration
+                         Class rhoQGDThermo Declaration
 \*---------------------------------------------------------------------------*/
 
-class psiQGDThermo
+class rhoQGDThermo
 :
-    public psiThermo
+    public rhoThermo
 {
 
 protected:
@@ -58,7 +58,7 @@ protected:
     // Protected Member Functions
 
         //- Construct as copy (not implemented)
-        psiQGDThermo(const psiQGDThermo&);
+        rhoQGDThermo(const rhoQGDThermo&);
         
         //-
         autoPtr<Foam::qgd::QGDCoeffs> qgdCoeffsPtr_;
@@ -78,14 +78,14 @@ protected:
 public:
 
     //- Runtime type information
-    TypeName("psiQGDThermo");
+    TypeName("rhoQGDThermo");
 
 
     //- Declare run-time constructor selection table
     declareRunTimeSelectionTable
     (
         autoPtr,
-        psiQGDThermo,
+        rhoQGDThermo,
         fvMesh,
         (const fvMesh& mesh, const word& phaseName),
         (mesh, phaseName)
@@ -95,7 +95,7 @@ public:
     // Constructors
 
         //- Construct from mesh and phase name
-        psiQGDThermo
+        rhoQGDThermo
         (
             const fvMesh&,
             const word& phaseName
@@ -103,7 +103,7 @@ public:
 
 
     //- Selector
-    static autoPtr<psiQGDThermo> New
+    static autoPtr<rhoQGDThermo> New
     (
         const fvMesh& mesh,
         const word& phaseName=word::null
@@ -111,7 +111,7 @@ public:
 
 
     //- Destructor
-    virtual ~psiQGDThermo();
+    virtual ~rhoQGDThermo();
 
 
     // Member functions
@@ -133,6 +133,9 @@ public:
     
     //-
     const volScalarField& alphauQGD() const;
+
+    //-
+    const volScalarField& beta() const;
     
     //-
     Switch implicitDiffusion() const;

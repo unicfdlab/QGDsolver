@@ -132,12 +132,12 @@ int main(int argc, char *argv[])
         (
             fvm::ddt(U)
             + 
-            fvc::div(phiUmM2mW2)
+            fvc::div(phiUUmWUmWW)
             +
             fvc::grad(Pbyrho)
             -
             fvc::div(phiPi)
-	    +
+            +
             fvc::div(phiBdFrc)
         );
         
@@ -159,14 +159,7 @@ int main(int argc, char *argv[])
         );      
 
         thermo.correct();
-
-        // Correct pressure
-        p.ref() =
-            rho()
-           /psi();
-        p.correctBoundaryConditions();
-        rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
-        
+      
         runTime.write();
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"

@@ -29,7 +29,7 @@ public:
     ~constScPrModel1QGDCoeffs();
     
     //-
-    void correct(const psiQGDThermo&);
+    void correct(const rhoQGDThermo&);
 
 };
 
