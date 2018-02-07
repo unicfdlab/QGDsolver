@@ -4,9 +4,6 @@ gradPf = fvsc::grad(p);
 
 gradUf = fvsc::grad(U);
 
-//gradRhoUf = fvsc::grad(rhoU);
-//gradUfT= Foam::T(gradUf);
-
 divUf  = tr(gradUf);
 
 gradef = fvsc::grad(e);
@@ -18,7 +15,7 @@ gradRhof = fvsc::grad(rho);
 //Continuity equation fluxes
 //---------Start---------
 
-//rhoW = tauQGDf * (fvsc::div(rhoU*U) + gradPf); //rhoW should be zero at wall
+//rhoW = tauQGDf * (fvsc::div(rhoU*U + I*p)); //rhoW should be zero at wall
 //rhoW = tauQGDf * 
 //        (
 //            (rhofUf * divUf)
@@ -28,22 +25,29 @@ gradRhof = fvsc::grad(rho);
 //            gradPf
 //        );
 
-rhoWStar = tauQGDf * ((rhofUf & gradUf) + gradPf);
+//rhoW = tauQGDf *
+//        (
+//            ((Uf * gradRhof) & Uf)
+//            +
+//            (rhoUf * divUf)
+//            +
+//            ((rhoUf & gradUf) + gradPf)
+//        );
 
 rhoW = tauQGDf *
         (
             ((Uf * gradRhof) & Uf)
             +
-            (rhoUf * divUf) //was rhoUf
-        )
-        +
-        rhoWStar;
+            (rhoUf * divUf)
+            +
+            //((rhofUf & gradUf) + gradPf)
+            ((rhoUf & gradUf) + gradPf)
+        );
 
-jm = rhoUf - rhoW; //was rhoUf
-//jm = rhofUf - rhoW; //was rhoUf
+jm = rhoUf - rhoW;
 
 phiJm = mesh.Sf() & jm;
-phi   = mesh.Sf() & rhofUf;
+phi = phiJm;
 //---------End---------
 
 // Fluxes for momentum balance equation
@@ -56,7 +60,12 @@ phiP = mesh.Sf() * pf;
 
 Pif = 
     //QGD diffusive fluxes
-    Uf * rhoWStar
+    tauQGDf*
+    (
+        (UrhoUf & gradUf)
+        +
+        Uf*gradPf
+    )
     +
     tauQGDf *
     (
@@ -73,13 +82,16 @@ if (!implicitDiffusion)
             Foam::T(gradUf)
             -
             (2.0/3.0)*I*divUf
-        );
+        )
+        +
+        zetaf*I*divUf;
 }
 else
 {
     //tauMCPtr() = muf*linearInterpolate(Foam::T(fvc::grad(U)) - (2.0/3.0)*I*fvc::div(U));
     //tauMCPtr() = muf*(Foam::T(gradUf) - (2.0/3.0)*I*divUf);
-    tauMCPtr() = linearInterpolate(turbulence->muEff() * dev2(Foam::T(fvc::grad(U))));
+    tauMCPtr() = linearInterpolate(turbulence->muEff() * dev2(Foam::T(fvc::grad(U))))+
+                zetaf*I*linearInterpolate(fvc::div(U));
     phiTauMC = mesh.Sf() & tauMCPtr();
 }
 
@@ -92,13 +104,22 @@ phiPi = mesh.Sf() & Pif;
 phiJmH = phiJm * Hf;
 
 qf =
-    -
-    tauQGDf*rhofUf*
+    -tauQGDf*
     (
-        (Uf & gradef)
-        -
-        (pf * (Uf & gradRhof) / rhof / rhof)
+        UrhoUf & 
+        (
+            gradef
+            - (pf / rhof / rhof) * gradRhof
+            //+ pf * fvsc::grad(1.0 / rho)
+        )
     );
+//    -
+//    tauQGDf*rhoUf*
+//    (
+//        (Uf & gradef)
+//        -
+//        (pf * (Uf & gradRhof) / rhof / rhof)
+//    );
     
 if (!implicitDiffusion)
 {

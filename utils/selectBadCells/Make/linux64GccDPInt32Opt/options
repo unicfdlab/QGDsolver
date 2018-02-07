@@ -1,0 +1,11 @@
+# 1 "Make/options"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "Make/options"
+EXE_INC = -I$(LIB_SRC)/dynamicMesh/lnInclude -I$(LIB_SRC)/meshTools/lnInclude 
+
+
+
+
+
+EXE_LIBS = -ldynamicMesh -lmeshTools 

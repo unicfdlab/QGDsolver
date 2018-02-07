@@ -6,7 +6,7 @@ cd QGDFoam; ./Allwmake; cd ../
 
 cd sQGDFoam; ./Allwmake; cd ../
 
-cd vQGDFoam; ./Allwmake; cd ../
+cd svQGDFoam; ./Allwmake; cd ../
 
 #
 #END-OF-FILE
