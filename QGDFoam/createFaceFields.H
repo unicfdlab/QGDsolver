@@ -39,7 +39,14 @@
 	linearInterpolate(T)
     );
 
+    // Acceleration due to gravity
     
+    surfaceVectorField gf
+    (
+        "gf",
+	linearInterpolate(g)
+    );
+
     // Heat capacity at constant pressure
     surfaceScalarField Cpf
     (
@@ -79,12 +86,20 @@
         }
     }
     
+    surfaceScalarField taubyrho
+    (
+        "taubyrho",
+	linearInterpolate(tauQGD/rho)
+    );
+
+
     surfaceScalarField tauQGDf
     (
         "tauQGD",
         linearInterpolate(tauQGD)
     );
-   
+    
+
     surfaceScalarField betaf
     (
         "betaf",

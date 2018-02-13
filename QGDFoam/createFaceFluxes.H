@@ -34,11 +34,6 @@ surfaceScalarField divUf
 //---------End---------
 //P equation fluxes
 //---------Start---------
-surfaceScalarField taubyrho
-(
-    "taubyrho",
-    tauQGD/rhof
-);
 //---------End---------
 
 // Fluxes for momentum balance equation
@@ -64,7 +59,7 @@ surfaceVectorField phiPi
 surfaceVectorField phiBdFrc
 (
     "phiBdFrc",
-    betaf*g*Tf*mesh.Sf()
+    betaf*gf*Tf
 );
 //---------End---------
 

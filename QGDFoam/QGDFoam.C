@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
             -
             fvc::div(phiPi)
             +
-            fvc::div(phiBdFrc)
+            BdFrc
         );
         
         // Correct U
