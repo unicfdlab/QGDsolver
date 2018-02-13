@@ -9,7 +9,6 @@ rhof = linearInterpolate(rho);
 
 // Velocity
 Uf = linearInterpolate(U);
-Wf = tauQGD*(Uf & gradUf + gradPf/rho + betaf*g*Tf);
     
 // Pressure
 pf = linearInterpolate(p);
@@ -17,9 +16,10 @@ pf = linearInterpolate(p);
 // T
 Tf = linearInterpolate(T);
 
-//Hi
-Hif = linearInterpolate(Hi);
+alphaf = linearInterpolate(alpha);
 
+//Hi
+Hi = alphaf/rhof;
 
 // Heat capacity at constant pressure
 Cpf = linearInterpolate(thermo.Cp());
@@ -30,7 +30,6 @@ Cpf = linearInterpolate(thermo.Cp());
  *
  */
 tauQGDf    = linearInterpolate(tauQGD);
-alphauf    = linearInterpolate(turbulence->alphaEff());
 muf        = linearInterpolate(turbulence->muEff());
 betaf      = linearInterpolate(beta);
 

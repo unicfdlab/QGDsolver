@@ -39,13 +39,6 @@
 	linearInterpolate(T)
     );
 
-    // Acceleration due to gravity
-    
-    surfaceVectorField gf
-    (
-        "gf",
-	linearInterpolate(g)
-    );
 
     // Heat capacity at constant pressure
     surfaceScalarField Cpf
@@ -59,13 +52,7 @@
         "muf",
         linearInterpolate(thermo.mu()*0.0)
     );
-    
-    surfaceScalarField alphauf
-    (
-        "alphauf",
-        muf*0.0
-    );
-    
+       
     
     /*
      *
@@ -104,4 +91,10 @@
     (
         "betaf",
 	linearInterpolate(beta)
+    );
+
+    surfaceScalarField alphaf
+    (
+        "alphaf",
+	linearInterpolate(thermo.alpha())
     );

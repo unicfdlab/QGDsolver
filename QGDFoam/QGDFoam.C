@@ -111,51 +111,51 @@ int main(int argc, char *argv[])
         Info<< "Time = " << runTime.timeName() << nl << endl;
         
         // --- Store old time values
-        rho.oldTime();
-        rhoU.oldTime();
         U.oldTime();
-        rhoE.oldTime();
-        e.oldTime();
+        T.oldTime();
         
-        // --- Solve P
-        solve
-	(
-	    fvc::div(phiu)
-	    +
-	    fvc::div(phiwo)
-	    -
-	    fvm::laplaican(taubyrho,p)
-        )	 
+
+
+        //Continuity equation
+        fvScalarMatrix pEqn
+        (
+             fvc::div(phiu)
+	    +fvc::div(phiwo)
+            -fvm::laplacian(taubyrho,p)
+        );
+
+        pEqn.solve();
+        
+        phi = phiu - phiwo + pEqn.flux();
+        
+	gradPf = fvsc::grad(p);
+        
+	Wf = tauQGD*(Uf & gradUf + gradPf/rhof + betaf*g*Tf);
+   
+	phiUf = phi * Uf + mesh.Sf() & (Wf * Wf);
 
         // --- Solve U
         solve
         (
             fvm::ddt(U)
             + 
-            fvc::div(phiUUmWUmWW)
+            fvc::div(phiUf)
             +
-            fvc::grad(Pbyrho)
+            fvc::grad(P)/rho
             -
             fvc::div(phiPi)
             +
             BdFrc
         );
         
-        // Correct U
-        U.ref() =
-            rhoU()
-           /rho();
-        U.correctBoundaryConditions();
-
-	rhoU.boundaryFieldRef() == rho.boundaryField()*
-            U.boundaryField();
+	phiTf = phi * Tf;
         
         // --- Solve T
         solve
         (
             fvm::ddt(T)
-          + fvc::div(phiUmWT)
-          - fvc::laplacian(HiT)
+          + fvc::div(phiTf)
+          - fvc::laplacian(Hi,T)
         );      
 
         thermo.correct();

@@ -26,6 +26,12 @@ surfaceTensorField gradWf
     fvsc::grad(W)
 );
 
+surfaceVectorField gradRhof
+(
+    "gradRhof",
+    fvsc::grad(rho)
+);
+
 surfaceScalarField divUf
 (
     "divUf",
@@ -59,7 +65,7 @@ surfaceVectorField phiPi
 surfaceVectorField phiBdFrc
 (
     "phiBdFrc",
-    betaf*gf*Tf
+    betaf*g*Tf
 );
 //---------End---------
 
@@ -74,6 +80,6 @@ surfaceScalarField phiUmWT
 surfaceScalarField HiT
 (
     "HiT",
-    alpha/rho*Tf
+    alphaf/rhof*Tf
 );
 //---------End---------

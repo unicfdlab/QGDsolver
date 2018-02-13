@@ -77,19 +77,19 @@ uniformDimensionedVectorField g
 surfaceScalarField phiu
 (
     "phiu",
-    linearInterpolate(U) & mesh.Sf()
+    mesh.Sf() & linearInterpolate(U)
 );
 
 surfaceScalarField  phiwo
 (
     "phiwo",
-    linearInterpolate(W) & mesh.Sf()
+    mesh.Sf() & linearInterpolate(W)
 );
 
 surfaceScalarField phi
 (
     "phi",
-    linearInterpolate(rho*U) & mesh.Sf()
+    mesh.Sf() & (U - W)
 );
 
 
