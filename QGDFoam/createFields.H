@@ -89,9 +89,14 @@ surfaceScalarField  phiwo
 surfaceScalarField phi
 (
     "phi",
-    mesh.Sf() & (U - W)
+    mesh.Sf() & (linearInterpolate(U) - linearInterpolate(W))
 );
 
+volVectorField BdFrc
+(
+    "BdFrc",
+    T*g*beta
+);
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 

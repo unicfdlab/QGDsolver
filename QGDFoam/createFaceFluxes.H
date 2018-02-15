@@ -44,10 +44,10 @@ surfaceScalarField divUf
 
 // Fluxes for momentum balance equation
 //---------Start---------
-surfaceVectorField phiUUmWUmWW
+surfaceVectorField phiUf
 (
-    "phiUUmWUmWW",
-    ((Uf * Uf)-(Wf * Uf)-(Wf * Wf)) & mesh.Sf()
+    "phiUf",
+    phi * Uf + mesh.Sf() & (Wf * Wf)
 );
 
 surfaceScalarField Pbyrho
@@ -56,17 +56,18 @@ surfaceScalarField Pbyrho
     pf/rhof
 );
 
+surfaceScalarField phiTf
+(
+    "phiTf",
+    phi*Tf
+);
+
 surfaceVectorField phiPi
 (
     "phiPi",
     muf*((gradUf+gradUf.T())) & mesh.Sf()/rhof
 );
 
-surfaceVectorField phiBdFrc
-(
-    "phiBdFrc",
-    betaf*g*Tf
-);
 //---------End---------
 
 // Fluxes for T balance equation
@@ -77,9 +78,9 @@ surfaceScalarField phiUmWT
     ((Uf-Wf)*Tf) & mesh.Sf()
 );
 
-surfaceScalarField HiT
+surfaceScalarField Hif
 (
-    "HiT",
-    alphaf/rhof*Tf
+    "Hif",
+    alphaf/rhof
 );
 //---------End---------

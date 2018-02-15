@@ -40,7 +40,7 @@ if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
     surfaceScalarField Cof
     (
         "Cof",
-        max(mag(Unf + cf), mag(Unf - cf)) * runTime.deltaT() / hQGDf
+        (runTime.deltaT())*(mag(Uf)+sqrt(g & mesh.Cf())/hQGDf)
     );
     
     CoNum = max(Cof).value();

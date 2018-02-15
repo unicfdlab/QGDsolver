@@ -16,10 +16,10 @@ pf = linearInterpolate(p);
 // T
 Tf = linearInterpolate(T);
 
-alphaf = linearInterpolate(alpha);
+alphaf = linearInterpolate(thermo.alpha());
 
 //Hi
-Hi = alphaf/rhof;
+Hif = alphaf/rhof;
 
 // Heat capacity at constant pressure
 Cpf = linearInterpolate(thermo.Cp());

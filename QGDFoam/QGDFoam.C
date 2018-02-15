@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
         (
              fvc::div(phiu)
 	    +fvc::div(phiwo)
-            -fvm::laplacian(taubyrho,p)
+            -fvm::laplacian(taubyrhof,p)
         );
 
         pEqn.solve();
@@ -130,9 +130,15 @@ int main(int argc, char *argv[])
         
 	gradPf = fvsc::grad(p);
         
-	Wf = tauQGD*(Uf & gradUf + gradPf/rhof + betaf*g*Tf);
+	Wf = tauQGDf*(Uf & gradUf + gradPf/rhof + betaf*g*Tf);
    
 	phiUf = phi * Uf + mesh.Sf() & (Wf * Wf);
+
+	tmp<fvVectorMatrix> BdFrcM
+        (
+             BdFrcf
+        );
+
 
         // --- Solve U
         solve
@@ -141,11 +147,11 @@ int main(int argc, char *argv[])
             + 
             fvc::div(phiUf)
             +
-            fvc::grad(P)/rho
+            fvc::grad(p)/rho
             -
             fvc::div(phiPi)
             +
-            BdFrc
+            BdFrcM
         );
         
 	phiTf = phi * Tf;
@@ -155,7 +161,7 @@ int main(int argc, char *argv[])
         (
             fvm::ddt(T)
           + fvc::div(phiTf)
-          - fvc::laplacian(Hi,T)
+          - fvc::laplacian(Hif,T)
         );      
 
         thermo.correct();

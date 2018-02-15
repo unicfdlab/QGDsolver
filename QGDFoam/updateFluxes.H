@@ -17,10 +17,10 @@ gradRhof = fvsc::grad(rho);
 
 //rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf); //rhoW should be zero at wall
 
-phiu  = mesh.Sf() & U;
-phiwo = mesh.Sf() & tauQGD*(Uf & gradUf + betaf*g*Tf);
+phiu  = mesh.Sf() & Uf;
+phiwo = mesh.Sf() & tauQGDf*(Uf & gradUf + betaf*g*Tf);
 
-taubyrho = tauQGD/rho;
+taubyrhof = tauQGDf/rhof;
 //---------End---------
 
 // Fluxes for momentum balance equation
@@ -28,7 +28,7 @@ taubyrho = tauQGD/rho;
 
 phiPi = muf * (mesh.Sf() & ((gradUf+gradUf.T()))/rhof);
 
-BdFrc = betaf*g*Tf;
+BdFrcf = betaf*g*Tf;
 
 //---------End---------
 

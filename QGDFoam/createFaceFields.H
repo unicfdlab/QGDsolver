@@ -73,9 +73,9 @@
         }
     }
     
-    surfaceScalarField taubyrho
+    surfaceScalarField taubyrhof
     (
-        "taubyrho",
+        "taubyrhof",
 	linearInterpolate(tauQGD/rho)
     );
 
@@ -97,4 +97,10 @@
     (
         "alphaf",
 	linearInterpolate(thermo.alpha())
+    );
+
+    surfaceVectorField BdFrcf
+    (
+        "BdFrcf",
+	linearInterpolate(BdFrc)
     );
