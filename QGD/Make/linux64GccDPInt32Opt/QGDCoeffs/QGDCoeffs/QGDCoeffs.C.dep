@@ -513,7 +513,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/coupledFvsPatchFields.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/coupledFvsPatchField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/coupledFvPatch.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/coupledFvsPatchField.C \
-lnInclude/rhoQGDThermo.H \
+thermoModels/rhoQGDThermo/rhoQGDThermo.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/rhoThermo.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/fluidThermo.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/basicThermo.H \

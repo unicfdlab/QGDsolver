@@ -34,6 +34,9 @@ protected:
     volScalarField alphauQGD_;
 
     //-
+    volScalarField beta_;
+
+    //-
     volScalarField hQGD_;
     
     //-
@@ -111,6 +114,9 @@ public:
     
     //-
     const volScalarField& alphauQGD() const;
+
+    //-
+    const volScalarField& beta() const;
 
 };
 

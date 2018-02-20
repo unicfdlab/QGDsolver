@@ -37,6 +37,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     scalarField& psiCells = this->psi_.primitiveFieldRef();
     scalarField& muCells = this->mu_.primitiveFieldRef();
     scalarField& alphaCells = this->alpha_.primitiveFieldRef();
+//  scalarField& betaCells = this->beta().primitiveFieldRef();
 
     forAll(TCells, celli)
     {
@@ -54,6 +55,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli]);
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
+//	betaCells[celli] = mixture_.beta(pCells[celli], TCells[celli]);
     }
 
     volScalarField::Boundary& pBf =
@@ -74,6 +76,9 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     volScalarField::Boundary& alphaBf =
         this->alpha_.boundaryFieldRef();
 
+//    volScalarField::Boundary& betaBf = 
+//	this->beta_.boundaryFieldRef();
+
     forAll(this->T_.boundaryField(), patchi)
     {
         fvPatchScalarField& pp = pBf[patchi];
@@ -82,6 +87,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
         fvPatchScalarField& phe = heBf[patchi];
         fvPatchScalarField& pmu = muBf[patchi];
         fvPatchScalarField& palpha = alphaBf[patchi];
+//	fvPatchScalarField& pbeta = betaBf[patchi];
 
         if (pT.fixesValue())
         {
@@ -95,6 +101,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
+//		pbeta[facei] = mixture_.beta(pp[facei], pT[facei]);
             }
         }
         else
@@ -109,6 +116,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
+//		pbeta[facei] = mixture_.beta(pp[facei], pT[facei]);
             }
         }
     }

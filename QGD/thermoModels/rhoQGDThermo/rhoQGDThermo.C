@@ -103,6 +103,7 @@ void Foam::rhoQGDThermo::correctQGD()
     qgdCoeffsPtr_->correct(*this);
     const volScalarField& muQGD = this->muQGD();
     const volScalarField& alphauQGD = this->alphauQGD();
+//    const volScalarField& beta = this->beta();
     
 //    this->tauQGD_ = this->aQGD_ * this->hQGD_  / this->c_;
     
@@ -122,6 +123,8 @@ void Foam::rhoQGDThermo::correctQGD()
             muQGD.primitiveField()[celli];
         alpha_.primitiveFieldRef()[celli] +=
             alphauQGD.primitiveField()[celli];
+//	beta_.primitiveFieldRef()[celli] +=
+//	    beta.primitiveField()[celli];
     }
     
     forAll(mu_.boundaryField(), patchi)
@@ -143,6 +146,8 @@ void Foam::rhoQGDThermo::correctQGD()
             muQGD.boundaryField()[patchi];
         alpha_.boundaryFieldRef()[patchi] +=
             alphauQGD.boundaryField()[patchi];
+//	beta_.boundaryFieldRef()[patchi] +=
+//	    beta.boundaryField()[patchi];
     }
 }
 
@@ -183,6 +188,11 @@ const Foam::volScalarField& Foam::rhoQGDThermo::muQGD() const
 const Foam::volScalarField& Foam::rhoQGDThermo::alphauQGD() const
 {
     return qgdCoeffsPtr_->alphauQGD();
+}
+
+const Foam::volScalarField& Foam::rhoQGDThermo::beta() const
+{
+    return qgdCoeffsPtr_->beta();
 }
 
 Foam::Switch Foam::rhoQGDThermo::implicitDiffusion() const

@@ -130,15 +130,9 @@ int main(int argc, char *argv[])
         
 	gradPf = fvsc::grad(p);
         
-	Wf = tauQGDf*(Uf & gradUf + gradPf/rhof + betaf*g*Tf);
+	Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof + betaf*g*Tf);
    
 	phiUf = phi * Uf + mesh.Sf() & (Wf * Wf);
-
-	tmp<fvVectorMatrix> BdFrcM
-        (
-             BdFrcf
-        );
-
 
         // --- Solve U
         solve
@@ -151,7 +145,7 @@ int main(int argc, char *argv[])
             -
             fvc::div(phiPi)
             +
-            BdFrcM
+            BdFrc
         );
         
 	phiTf = phi * Tf;

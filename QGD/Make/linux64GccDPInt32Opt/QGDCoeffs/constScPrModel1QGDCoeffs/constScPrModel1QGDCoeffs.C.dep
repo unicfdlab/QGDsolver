@@ -499,7 +499,7 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvPatchField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvPatchField.C \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvPatchFields.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/volFieldsI.H \
-lnInclude/rhoQGDThermo.H \
+thermoModels/rhoQGDThermo/rhoQGDThermo.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/rhoThermo.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/fluidThermo.H \
 $(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/basicThermo.H \
