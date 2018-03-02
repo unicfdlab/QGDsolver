@@ -124,7 +124,9 @@ int main(int argc, char *argv[])
             -fvm::laplacian(taubyrhof,p)
         );
 
-        pEqn.solve();
+       pEqn.solve();
+
+	Info << "Solve of continuity finished" << endl;
         
         phi = phiu - phiwo + pEqn.flux();
         

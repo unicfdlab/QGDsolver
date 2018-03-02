@@ -17,10 +17,30 @@ FoamFile
 
 solvers
 {
-    "(p|U|T)"
+        p
     {
-        solver          diagonal;       
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-06;
+        relTol          0.05;
     }
+
+    U
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-05;
+        relTol          0;
+    }
+
+    T
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-05;
+        relTol          0;
+    }
+ 
 }
 
 // ************************************************************************* //

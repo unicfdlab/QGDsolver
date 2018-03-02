@@ -124,7 +124,7 @@ turbulence.reset
     ).ptr()
 );
 
-
+Info<< "tauQGD = " << tauQGD << endl;
 
 //
 //END-OF-FILE
