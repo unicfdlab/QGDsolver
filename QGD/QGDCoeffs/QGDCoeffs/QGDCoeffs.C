@@ -121,20 +121,7 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         ),
         mesh,
         dimensionSet(1, -1, -1, 0, 0)
-    ),
-    beta_
-    (
-        IOobject
-	(
-	    "beta",
-	    mesh.time().timeName(),
-	    mesh,
-	    IOobject::MUST_READ,
-	    IOobject::NO_WRITE
-	),
-	mesh,
-	dimensionSet(0 ,0 ,0 ,-1 ,0)
-    ),     
+    ),   
     hQGD_
     (
         IOobject
@@ -212,7 +199,6 @@ void Foam::qgd::QGDCoeffs::correct(const rhoQGDThermo& qgdThermo)
         tauQGD_.primitiveFieldRef()[celli] = 0.0;
         muQGD_.primitiveFieldRef()[celli] = 0.0;
         alphauQGD_.primitiveFieldRef()[celli] = 0.0;
-	beta_.primitiveFieldRef()[celli] = 0.0;
         ScQGD_.primitiveFieldRef()[celli] = 1.0;
         PrQGD_.primitiveFieldRef()[celli] = 1.0;
     }
@@ -226,8 +212,6 @@ void Foam::qgd::QGDCoeffs::correct(const rhoQGDThermo& qgdThermo)
                 0.0;
             alphauQGD_.boundaryFieldRef()[patchi][facei] = 
                 0.0;
-	    beta_.boundaryFieldRef()[patchi][facei] =
-		0.0;
             PrQGD_.boundaryFieldRef()[patchi][facei] = 
                 1.0;
             ScQGD_.boundaryFieldRef()[patchi][facei] = 
@@ -305,11 +289,6 @@ const Foam::volScalarField& Foam::qgd::QGDCoeffs::hQGD() const
 const Foam::volScalarField& Foam::qgd::QGDCoeffs::alphauQGD() const
 {
     return alphauQGD_;
-}
-
-const Foam::volScalarField& Foam::qgd::QGDCoeffs::beta() const
-{
-    return beta_;
 }
 
 const Foam::volScalarField& Foam::qgd::QGDCoeffs::muQGD() const

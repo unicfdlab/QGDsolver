@@ -13,7 +13,7 @@ volScalarField& p = thermo.p();
 const volScalarField& T = thermo.T();
 const volScalarField& hQGD = thermo.hQGD();
 const volScalarField& tauQGD = thermo.tauQGD();
-const volScalarField& beta = thermo.beta();
+//const volScalarField& beta = thermo.beta();
 //const volScalarField& gamma = thermo.gamma();
 //const volScalarField& c = thermo.c();
 //const volScalarField& psi = thermo.psi();
@@ -62,17 +62,29 @@ volVectorField W
     U
 );
 
-uniformDimensionedVectorField g
+Info<< "\nReading gravitationalProperties" << endl;
+  
+IOdictionary gravitationalProperties
 (
     IOobject
     (
-        "g",
-	runTime.constant(),
-	mesh,
-	IOobject::MUST_READ,
-	IOobject::NO_WRITE
+        "gravitationalProperties",
+        runTime.constant(),
+        mesh,
+        IOobject::MUST_READ_IF_MODIFIED,
+        IOobject::NO_WRITE
     )
 );
+
+const dimensionedVector g(gravitationalProperties.lookup("g"));
+
+dimensionedScalar beta
+(
+    "beta",
+    dimless/dimTemperature,
+    thermo.subDict("mixture").subDict("transport")
+);
+
 
 surfaceScalarField phiu
 (

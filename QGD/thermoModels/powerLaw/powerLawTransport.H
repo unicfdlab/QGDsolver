@@ -106,6 +106,9 @@ class powerLawTransport
         //- Reciprocal Prandtl Number []
         scalar rPr_;
 
+	//- thermal explanation
+
+
 
     // Private Member Functions
 
@@ -117,6 +120,7 @@ class powerLawTransport
             const scalar T0,
             const scalar kk,
             const scalar Pr
+
         );
 
 

@@ -30,14 +30,14 @@ License
 template<class BasicPsiThermo, class MixtureType>
 void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 {
-    const scalarField& hCells = this->he_;
+    const scalarField& hCells = this->he();
     const scalarField& pCells = this->p_;
 
     scalarField& TCells = this->T_.primitiveFieldRef();
     scalarField& psiCells = this->psi_.primitiveFieldRef();
+    scalarField& rhoCells = this->rho_.primitiveFieldRef();
     scalarField& muCells = this->mu_.primitiveFieldRef();
     scalarField& alphaCells = this->alpha_.primitiveFieldRef();
-//  scalarField& betaCells = this->beta().primitiveFieldRef();
 
     forAll(TCells, celli)
     {
@@ -52,10 +52,10 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
         );
 
         psiCells[celli] = mixture_.psi(pCells[celli], TCells[celli]);
+	rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
 
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli]);
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
-//	betaCells[celli] = mixture_.beta(pCells[celli], TCells[celli]);
     }
 
     volScalarField::Boundary& pBf =
@@ -67,6 +67,9 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     volScalarField::Boundary& psiBf =
         this->psi_.boundaryFieldRef();
 
+    volScalarField::Boundary& rhoBf = 
+	this->rho_.boundaryFieldRef();
+
     volScalarField::Boundary& heBf =
         this->he().boundaryFieldRef();
 
@@ -76,18 +79,16 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     volScalarField::Boundary& alphaBf =
         this->alpha_.boundaryFieldRef();
 
-//    volScalarField::Boundary& betaBf = 
-//	this->beta_.boundaryFieldRef();
 
     forAll(this->T_.boundaryField(), patchi)
     {
         fvPatchScalarField& pp = pBf[patchi];
         fvPatchScalarField& pT = TBf[patchi];
         fvPatchScalarField& ppsi = psiBf[patchi];
+	fvPatchScalarField& prho = rhoBf[patchi];
         fvPatchScalarField& phe = heBf[patchi];
         fvPatchScalarField& pmu = muBf[patchi];
         fvPatchScalarField& palpha = alphaBf[patchi];
-//	fvPatchScalarField& pbeta = betaBf[patchi];
 
         if (pT.fixesValue())
         {
@@ -99,9 +100,9 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
                 phe[facei] = mixture_.HE(pp[facei], pT[facei]);
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
+		prho[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-//		pbeta[facei] = mixture_.beta(pp[facei], pT[facei]);
             }
         }
         else
@@ -114,9 +115,9 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
                 pT[facei] = mixture_.THE(phe[facei], pp[facei], pT[facei]);
 
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
+		prho[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
-//		pbeta[facei] = mixture_.beta(pp[facei], pT[facei]);
             }
         }
     }
@@ -137,7 +138,7 @@ Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::heRhoQGDThermo
     heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
 {
     calculate();
-
+    Info << "After calculate()" << endl;
     // Switch on saving old time
     this->psi_.oldTime();
 }
@@ -171,11 +172,11 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::correct()
     }
 }
 
-template<class BasicPsiThermo, class MixtureType>
-Foam::tmp<Foam::volScalarField> Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
-{
-    return this->gamma_;
-}
+//template<class BasicPsiThermo, class MixtureType>
+//Foam::tmp<Foam::volScalarField> Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
+//{
+//    return this->gamma_;
+//}
 
 
 // ************************************************************************* //

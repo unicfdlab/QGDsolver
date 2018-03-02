@@ -31,5 +31,5 @@ Cpf = linearInterpolate(thermo.Cp());
  */
 tauQGDf    = linearInterpolate(tauQGD);
 muf        = linearInterpolate(turbulence->muEff());
-betaf      = linearInterpolate(beta);
+
 

@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
         
 	gradPf = fvsc::grad(p);
         
-	Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof + betaf*g*Tf);
+	Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof + beta*g*Tf);
    
 	phiUf = phi * Uf + mesh.Sf() & (Wf * Wf);
 

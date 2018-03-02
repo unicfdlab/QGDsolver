@@ -5,6 +5,8 @@
      */
     
     // Density
+    
+    Info << "start Cr Face Fields" << endl;
     surfaceScalarField rhof
     (
         "rhof",
@@ -86,13 +88,6 @@
         linearInterpolate(tauQGD)
     );
     
-
-    surfaceScalarField betaf
-    (
-        "betaf",
-	linearInterpolate(beta)
-    );
-
     surfaceScalarField alphaf
     (
         "alphaf",

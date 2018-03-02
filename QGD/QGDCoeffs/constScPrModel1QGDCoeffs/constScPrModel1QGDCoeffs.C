@@ -26,16 +26,17 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
 :
     QGDCoeffs(io, mesh, dict)
 {
-    scalar ScQGD = 1.0, PrQGD = 1.0;
+    Info << "Done" << endl;
+//    scalar ScQGD = 1.0, PrQGD = 1.0;
+//    
+//    dict.lookup("ScQGD") >> ScQGD;
+//    dict.lookup("PrQGD") >> PrQGD;
     
-    dict.lookup("ScQGD") >> ScQGD;
-    dict.lookup("PrQGD") >> PrQGD;
+//    ScQGD_.primitiveFieldRef() = ScQGD;
+//    PrQGD_.primitiveFieldRef() = PrQGD;
     
-    ScQGD_.primitiveFieldRef() = ScQGD;
-    PrQGD_.primitiveFieldRef() = PrQGD;
-    
-    ScQGD_.boundaryFieldRef() = ScQGD;
-    PrQGD_.boundaryFieldRef() = PrQGD;
+//    ScQGD_.boundaryFieldRef() = ScQGD;
+//    PrQGD_.boundaryFieldRef() = PrQGD;
 }
 
 Foam::qgd::
@@ -46,6 +47,8 @@ constScPrModel1QGDCoeffs::~constScPrModel1QGDCoeffs()
 void Foam::qgd::
 constScPrModel1QGDCoeffs::correct(const Foam::rhoQGDThermo& qgdThermo)
 {
+    Info << "Done" << endl;
+/*
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();
     
@@ -76,6 +79,7 @@ constScPrModel1QGDCoeffs::correct(const Foam::rhoQGDThermo& qgdThermo)
                 PrQGD_.boundaryField()[patchi][facei];
         }
     }
+*/
 }
 
 //

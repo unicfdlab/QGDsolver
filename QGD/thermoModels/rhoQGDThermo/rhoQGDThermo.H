@@ -25,7 +25,7 @@ Class
     Foam::rhoQGDThermo
 
 Description
-    Basic thermodynamic properties based on compressibility
+    Basic thermodynamic properties based on density
 
 SourceFiles
     rhoQGDThermo.C
@@ -101,6 +101,14 @@ public:
             const word& phaseName
         );
 
+        //- Construct from mesh, dictionary and
+        rhoQGDThermo
+        (
+            const fvMesh&,
+            const dictionary&,
+            const word& phaseName
+        );
+
 
     //- Selector
     static autoPtr<rhoQGDThermo> New
@@ -134,9 +142,6 @@ public:
     //-
     const volScalarField& alphauQGD() const;
 
-    //-
-    const volScalarField& beta() const;
-    
     //-
     Switch implicitDiffusion() const;
 

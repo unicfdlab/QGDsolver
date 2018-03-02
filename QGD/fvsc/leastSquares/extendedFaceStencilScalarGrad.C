@@ -22,7 +22,6 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
 {
     surfaceScalarField sF = linearInterpolate(iF);
     surfaceScalarField sngF (fvc::snGrad(iF));
-
     tmp<surfaceVectorField> tgradIF(0.0 * nf_ * sngF);
     surfaceVectorField& gradIF = tgradIF.ref();
     

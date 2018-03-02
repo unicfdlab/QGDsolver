@@ -25,7 +25,7 @@ Class
     Foam::heRhoThermo
 
 Description
-    Energy for a mixture based on compressibility and QGD equations
+    Energy for a mixture based on density
 
 SourceFiles
     heRhoQGDThermo.C
@@ -87,7 +87,7 @@ public:
         
     // Accesss functions
 
-    virtual tmp<volScalarField> gamma() const;
+    //virtual tmp<volScalarField> gamma() const;
 
 };
 
