@@ -27,7 +27,7 @@ gradSchemes
 
 divSchemes
 {
-    default         none;
+    default         Gauss linear;
 }
 
 laplacianSchemes
@@ -37,7 +37,12 @@ laplacianSchemes
 
 interpolationSchemes
 {
-    default         none;
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
 }
 
 snGradSchemes
@@ -47,12 +52,14 @@ snGradSchemes
 
 fluxRequired
 {
-    default	none;
+        default no;
+        pcorr;
+        p;
 }
 
 fvsc
 {
-    default    leastSquaresOpt;
+    default    reduced;//leastSquaresOpt;
 }
 
 // ************************************************************************* //

@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
          * Update fluxes
          *
          */
-        #include "updateFluxes.H"
+       #include "updateFluxes.H"
         
         /*
          *
@@ -113,9 +113,7 @@ int main(int argc, char *argv[])
         // --- Store old time values
         U.oldTime();
         T.oldTime();
-        
-
-
+         	
         //Continuity equation
         fvScalarMatrix pEqn
         (
@@ -124,7 +122,9 @@ int main(int argc, char *argv[])
             -fvm::laplacian(taubyrhof,p)
         );
 
-       pEqn.solve();
+	pEqn.setReference(pRefCell, pRefValue);
+        
+        pEqn.solve();
 
 	Info << "Solve of continuity finished" << endl;
         
@@ -134,9 +134,9 @@ int main(int argc, char *argv[])
         
 	Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof + beta*g*Tf);
    
-	phiUf = phi * Uf + mesh.Sf() & (Wf * Wf);
+	phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
 
-        // --- Solve U
+      	// --- Solve U
         solve
         (
             fvm::ddt(U)
@@ -145,11 +145,15 @@ int main(int argc, char *argv[])
             +
             fvc::grad(p)/rho
             -
-            fvc::div(phiPi)
+	    //
+            //fvc::div(phiPi)
+	    fvm::laplacian(muf/rhof,U)
+	    -
+	    fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
             +
             BdFrc
         );
-        
+       
 	phiTf = phi * Tf;
         
         // --- Solve T

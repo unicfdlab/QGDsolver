@@ -17,8 +17,10 @@ gradRhof = fvsc::grad(rho);
 
 //rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf); //rhoW should be zero at wall
 
+BdFrcf = beta*g*Tf;
+
 phiu  = mesh.Sf() & Uf;
-phiwo = mesh.Sf() & (tauQGDf*((Uf & gradUf) + beta*g*Tf));
+phiwo = mesh.Sf() & (tauQGDf*((Uf & gradUf) + BdFrcf));
 
 taubyrhof = tauQGDf/rhof;
 //---------End---------
@@ -28,7 +30,6 @@ taubyrhof = tauQGDf/rhof;
 
 phiPi = muf * (mesh.Sf() & ((gradUf+gradUf.T()))/rhof);
 
-BdFrcf = beta*g*Tf;
 
 //---------End---------
 

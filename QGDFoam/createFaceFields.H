@@ -6,7 +6,6 @@
     
     // Density
     
-    Info << "start Cr Face Fields" << endl;
     surfaceScalarField rhof
     (
         "rhof",

@@ -47,7 +47,7 @@ mixture
     
     transport
     {
-        mu   0;
+        mu   0.001;
         Pr   0.73;
         beta 0.00177;
     }
@@ -55,11 +55,11 @@ mixture
 
 QGD
 {
-    implicitDiffusion false;
+    implicitDiffusion true;
     QGDCoeffs constScPrModel1QGDCoeffs;
     constScPrModel1QGDCoeffsDict
     {
-        ScQGD 1;
+        ScQGD 0;
         PrQGD 1;
     }
 }
