@@ -67,7 +67,7 @@ surfaceScalarField phiTf
 surfaceVectorField phiPi
 (
     "phiPi",
-    muf*((gradUf+gradUf.T())) & mesh.Sf()/rhof
+    muf/rhof * mesh.Sf() & (gradUf+gradUf.T())
 );
 
 //---------End---------

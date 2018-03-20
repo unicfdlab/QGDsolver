@@ -26,17 +26,18 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
 :
     QGDCoeffs(io, mesh, dict)
 {
-    Info << "Done" << endl;
-    scalar ScQGD = 1.0, PrQGD = 1.0;
+    scalar ScQGD = 0.0, PrQGD = 1.0, uQGD;
 //    
-    dict.lookup("ScQGD") >> ScQGD;
-    dict.lookup("PrQGD") >> PrQGD;
+//  dict.lookup("ScQGD") >> ScQGD;
+    dict.lookup("uQGD") >> uQGD;
     
     ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
+    uQGD_.primitiveFieldRef()  = uQGD; 
     
     ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
+    uQGD_.boundaryFieldRef()  = uQGD; 
 }
 
 Foam::qgd::
@@ -47,39 +48,9 @@ constScPrModel1QGDCoeffs::~constScPrModel1QGDCoeffs()
 void Foam::qgd::
 constScPrModel1QGDCoeffs::correct(const Foam::rhoQGDThermo& qgdThermo)
 {
-    Info << "Done" << endl;
+    const volScalarField  nu     = qgdThermo.mu()/qgdThermo.rho();
 
-    const volScalarField& cSound = qgdThermo.c();
-    const volScalarField& p      = qgdThermo.p();
-    
-    this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
-    
-    forAll(p.primitiveField(), celli)
-    {
-        muQGD_.primitiveFieldRef()[celli] = 
-            p.primitiveField()[celli] * 
-            ScQGD_.primitiveField()[celli] *
-            tauQGD_.primitiveField()[celli];
-        
-        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] / 
-            PrQGD_.primitiveField()[celli];
-    }
-    
-    forAll(p.boundaryField(), patchi)
-    {
-        forAll(p.boundaryField()[patchi], facei)
-        {
-            muQGD_.boundaryFieldRef()[patchi][facei] = 
-                p.boundaryField()[patchi][facei] * 
-                ScQGD_.boundaryField()[patchi][facei] *
-                tauQGD_.boundaryField()[patchi][facei];
-
-            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
-                muQGD_.boundaryFieldRef()[patchi][facei] /
-                PrQGD_.boundaryField()[patchi][facei];
-        }
-    }
-
+    this->tauQGD_ = this->aQGD_ * this-> hQGD_/uQGD_;
 }
 
 //

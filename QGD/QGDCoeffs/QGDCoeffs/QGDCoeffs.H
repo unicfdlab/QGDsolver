@@ -48,6 +48,9 @@ protected:
     //-
     volScalarField ScQGD_;
 
+    //-
+    volScalarField uQGD_;
+
 protected:
     
     //-

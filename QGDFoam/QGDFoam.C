@@ -145,7 +145,6 @@ int main(int argc, char *argv[])
             +
             fvc::grad(p)/rho
             -
-	    //
             //fvc::div(phiPi)
 	    fvm::laplacian(muf/rhof,U)
 	    -
