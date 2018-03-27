@@ -20,5 +20,5 @@ QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C
 thermoModels/rhoQGDThermo/rhoQGDThermo.C
 thermoModels/rhoQGDThermo/rhoQGDThermos.C
 
-LIB = $(FOAM_USER_LIBBIN)/libQGD
+LIB = $(FOAM_USER_LIBBIN)/libQHD
 

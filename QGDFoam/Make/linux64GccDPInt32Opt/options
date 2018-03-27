@@ -56,4 +56,4 @@ EXE_INC = -I$(LIB_SRC)/finiteVolume/lnInclude -I$(LIB_SRC)/transportModels/compr
 # 11 "Make/options"
  
 
-EXE_LIBS = -lfiniteVolume -lfvOptions -lcompressibleTransportModels -lfluidThermophysicalModels -lspecie -lturbulenceModels -lcompressibleTurbulenceModels -L$(FOAM_USER_LIBBIN) -lQGD
+EXE_LIBS = -lfiniteVolume -lfvOptions -lcompressibleTransportModels -lfluidThermophysicalModels -lspecie -lturbulenceModels -lcompressibleTurbulenceModels -L$(FOAM_USER_LIBBIN) -lQHD

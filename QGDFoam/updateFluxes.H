@@ -20,6 +20,7 @@ gradRhof = fvsc::grad(rho);
 BdFrcf = beta*g*Tf;
 
 phiu  = mesh.Sf() & Uf;
+
 phiwo = mesh.Sf() & (tauQGDf*((Uf & gradUf) + BdFrcf));
 
 taubyrhof = tauQGDf/rhof;
@@ -27,6 +28,7 @@ taubyrhof = tauQGDf/rhof;
 
 // Fluxes for momentum balance equation
 //---------Start---------
+
 
 phiPi = muf/rhof * mesh.Sf() & (gradUf+gradUf.T());
 

@@ -131,6 +131,7 @@ int main(int argc, char *argv[])
         phi = phiu - phiwo + pEqn.flux();
         
 	gradPf = fvsc::grad(p);
+
         
 	Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof + beta*g*Tf);
    
