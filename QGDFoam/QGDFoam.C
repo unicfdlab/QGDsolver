@@ -182,6 +182,7 @@ int main(int argc, char *argv[])
         Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
         Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
     }
+    Info << "HW" << endl;
     
     Info<< "End\n" << endl;
 
