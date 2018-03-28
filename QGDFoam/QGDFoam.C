@@ -113,12 +113,12 @@ int main(int argc, char *argv[])
         // --- Store old time values
         U.oldTime();
         T.oldTime();
-         	
+        turbulence->correct();	
         //Continuity equation
         fvScalarMatrix pEqn
         (
              fvc::div(phiu)
-	    +fvc::div(phiwo)
+	    -fvc::div(phiwo)
             -fvm::laplacian(taubyrhof,p)
         );
 
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
 	    fvm::laplacian(muf/rhof,U)
 	    -
 	    fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-            +
+            -
             BdFrc
         );
        
@@ -161,17 +161,14 @@ int main(int argc, char *argv[])
         (
             fvm::ddt(T)
           + fvc::div(phiTf)
-          - fvc::laplacian(Hif,T)
+          - fvm::laplacian(Hif,T)
         );      
-
-        thermo.correct();
-      
         runTime.write();
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
-        
+
         if (runTime.outputTime())
         {
             tauQGD.write();
@@ -182,7 +179,7 @@ int main(int argc, char *argv[])
         Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
         Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
     }
-    Info << "HW" << endl;
+    
     
     Info<< "End\n" << endl;
 

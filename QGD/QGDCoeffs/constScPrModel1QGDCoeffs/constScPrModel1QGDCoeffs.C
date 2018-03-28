@@ -33,11 +33,15 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
     
     ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
-    uQGD_.primitiveFieldRef()  = uQGD; 
+    uQGD_.primitiveFieldRef()  = uQGD;
+    muQGD_.primitiveFieldRef() = 0.0;
+    alphauQGD_.primitiveFieldRef() = 0.0;
     
     ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
-    uQGD_.boundaryFieldRef()  = uQGD; 
+    uQGD_.boundaryFieldRef()  = uQGD;
+    muQGD_.boundaryFieldRef() = 0.0;
+    alphauQGD_.boundaryFieldRef() = 0.0;
 }
 
 Foam::qgd::
