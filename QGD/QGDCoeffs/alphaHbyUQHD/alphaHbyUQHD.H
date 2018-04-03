@@ -1,7 +1,7 @@
 #include "QGDCoeffs.H"
 
-#ifndef constScPrModel1QGDCoeffs_H
-#define constScPrModel1QGDCoeffs_H
+#ifndef alphaHbyUQHD_H
+#define alphaHbyUQHD_H
 
 namespace Foam
 {
@@ -9,16 +9,16 @@ namespace Foam
 namespace qgd
 {
 
-class constScPrModel1QGDCoeffs : public QGDCoeffs
+class alphaHbyUQHD : public QGDCoeffs
 {
 
 public:
 
     //-
-    TypeName ("constScPrModel1QGDCoeffs");
+    TypeName ("alphaHbyUQHD");
     
     //-
-    constScPrModel1QGDCoeffs
+    alphaHbyUQHD
     (
         const IOobject& io,
         const fvMesh& mesh,
@@ -26,10 +26,15 @@ public:
     );
     
     //-
-    ~constScPrModel1QGDCoeffs();
+    ~alphaHbyUQHD();
     
     //-
     void correct(const rhoQGDThermo&);
+
+private:
+
+    //-
+    scalar uQGD_ ;
 
 };
 

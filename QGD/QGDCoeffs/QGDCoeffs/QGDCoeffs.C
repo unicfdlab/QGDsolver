@@ -184,19 +184,6 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         ),
         mesh,
         dimensionSet(0, 0, 0, 0, 0)
-    ),
-    uQGD_
-    (
-        IOobject
-	(
-	    "uQGD",
-	    mesh.time().timeName(),
-	    mesh,
-	    IOobject::NO_READ,
-	    IOobject::NO_WRITE
-	),
-	mesh,
-	dimensionSet(0, 1, -1, 0, 0)
     )
 {
 }
@@ -214,7 +201,6 @@ void Foam::qgd::QGDCoeffs::correct(const rhoQGDThermo& qgdThermo)
         alphauQGD_.primitiveFieldRef()[celli] = 0.0;
         ScQGD_.primitiveFieldRef()[celli] = 1.0;
         PrQGD_.primitiveFieldRef()[celli] = 1.0;
-	uQGD_.primitiveFieldRef()[celli] = 0.0;
     }
     forAll(tauQGD_.boundaryField(), patchi)
     {
@@ -230,8 +216,6 @@ void Foam::qgd::QGDCoeffs::correct(const rhoQGDThermo& qgdThermo)
                 1.0;
             ScQGD_.boundaryFieldRef()[patchi][facei] = 
                 1.0;
-	    uQGD_.boundaryFieldRef()[patchi][facei] =
-		0.0;
         }
     }
 }
