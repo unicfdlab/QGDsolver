@@ -71,6 +71,15 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "createFields.H"
     #include "createFaceFields.H"
+    surfaceScalarField zetaf
+    (
+        "zetaf",
+        muf*0.0
+    );
+    scalar ScV
+    (
+        readScalar(thermo.subDict("QGD").lookup("ScV"))
+    );
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
     #include "createFvOptions.H"
@@ -99,6 +108,7 @@ int main(int argc, char *argv[])
          *
          */
         #include "updateFields.H"
+        zetaf = tauQGDf*pf*ScV;
         
         /*
          *
@@ -106,6 +116,18 @@ int main(int argc, char *argv[])
          *
          */
         #include "updateFluxes.H"
+        // add contribution to momentum and 
+        // energy balance from volume viscosity
+        if (implicitDiffusion)
+        {
+            Pif = Pif + I*zetaf*linearInterpolate(fvc::div(U));
+        }
+        else
+        {
+            Pif = Pif + I*zetaf*divUf;
+        }
+        phiPi = mesh.Sf() & Pif;
+        phiPiU = mesh.Sf() & (Pif & Uf);
         
         /*
          *
@@ -128,83 +150,13 @@ int main(int argc, char *argv[])
         e.oldTime();
         
         // --- Solve density
-        solve
-        (
-            fvm::ddt(rho)
-            +
-            fvc::div(phiJm)
-        );
+        #include "QGDRhoEqn.H"
         
         // --- Solve momentum
-        solve
-        (
-            fvm::ddt(rhoU)
-            + 
-            fvc::div(phiJmU)
-            +
-            fvc::div(phiP)
-            -
-            fvc::div(phiPi)
-        );
-        
-        // Correct velocity
-        U.ref() =
-            rhoU()
-           /rho();
-        U.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
-        {
-            fvVectorMatrix UEqn
-            (
-                fvm::ddt(rho, U) - fvc::ddt(rho,U)
-              - fvm::laplacian(muf, U)
-              - fvc::div(phiTauMC)
-            );
-            
-            solve
-            (
-                UEqn
-            );
-            
-            rhoU = rho*U;
-            
-            sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
-            
-            phiSigmaDotU = mesh.Sf() & sigmaDotUPtr(); //or eqn.flux()?
-        }
-        rhoU.boundaryFieldRef() == rho.boundaryField()*
-            U.boundaryField();
+        #include "QGDUEqn.H"
         
         //--- Solve energy
-        solve
-        (
-            fvm::ddt(rhoE)
-          + fvc::div(phiJmH)
-          + fvc::div(phiQ)
-          - fvc::div(phiPiU)
-          - fvc::div(phiSigmaDotU)
-        );
-        
-        // Correct energy
-        e = rhoE/rho - 0.5*magSqr(U);
-        fvOptions.correct(e);
-        e.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
-        {
-            solve
-            (
-                fvm::ddt(rho, e) - fvc::ddt(rho,e)
-              - fvm::laplacian(alphauf, e)
-            );
-            
-            rhoE = rho*(e + 0.5*magSqr(U));
-        }
-        rhoE.boundaryFieldRef() == rho.boundaryField()*
-            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
+        #include "QGDEEqn.H"
         
         if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
         {
@@ -224,18 +176,13 @@ int main(int argc, char *argv[])
         
         runTime.write();
         
-        if (runTime.outputTime())
-        {
-            e.write();
-        }
-        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
         
         if (runTime.outputTime())
         {
-            tauQGD.write();
+            thermo.tauQGD().write();
         }
         
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;

@@ -25,11 +25,7 @@ boundaryField
     {
         type            zeroGradient;
     }
-    empty1
-    {
-        type            empty;
-    }
-    empty2
+    "(empty1|empty2)"
     {
         type            empty;
     }

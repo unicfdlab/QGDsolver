@@ -9,6 +9,8 @@
 //- Compute weights for least squares scheme for gradient calculation.
 void Foam::fvsc::leastSquaresBase::calculateWeights()
 {
+    //Pout << "Start calculateWeights()" << endl;
+    
     const faceList& faces = cMesh_.faces();
     GdfAll_.resize(faces.size());
     wf2All_.resize(faces.size());
@@ -19,6 +21,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
     //mesh_.checkCellDeterminant(true, &udCells);
     label nDegFaces = 0;
     scalar minDet = GREAT;
+    scalar detG = 0.0;
     
     //for internal faces
     forAll(faces, facei)
@@ -91,19 +94,23 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
             */
 
             G = G + G0;
-            if (det(G) < minDet)
+            detG = det(G);
+            if (detG < minDet)
             {
-                minDet = det(G);
+                minDet = detG;
             }
-            if (det(G) < 1)
+            
+            if (detG < 1)
             {
                 nDegFaces++;
                 internalDegFaces_.append(facei);
             }
-
-            G = inv(G);
-            G = G - G0;
-
+            else
+            {
+                G = inv(G);
+                G = G - G0;
+            }
+            
             forAll(df, i)
             {
                 df[i] = G&df[i];
@@ -119,6 +126,8 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
         Pout << "Min determinant      : " << minDet << endl;
         Pout << "Total # of deg. faces: " << nDegFaces << endl;
     }
+    
+    //Info << "End for not parallel" << endl;
     
     if (Pstream::parRun())
     {
@@ -146,6 +155,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 
                 nCorCells = corEnd_[iProcPatch][iFace] - corStart_[iProcPatch][iFace] + 1;
                 
+                //Pout << "corEnd = " << corEnd_[iProcPatch][iFace]  << " nCorCell = " << nCorCells << endl;
                 corCellCenters[iProcPatch][iFace].resize
                 (
                     nCorCells
@@ -186,6 +196,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 }
             }
             
+            //Pout << "neiCellCenters = " << neiCellCenters << endl;
         }
         
         // Step 3. Loop over all corner neigbouring processors and send/receive cell centers
@@ -209,6 +220,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                         locCc[iCell] = cMesh_.C()[cellId];
                     }
                     oProcStr << locCc;
+                    //Pout << "Sending " << locCc << " to " << procId << endl;
                 }
             }
             
@@ -224,6 +236,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     
                     List<vector> corCc (iProcStr);
                     
+                    //Pout << "Received from " << procId << " cell centers " << corCc << endl;
                     
                     const List<Triple<label> > & addr = corAddr_[iCorProc];
                     label patchNo = -1;
@@ -243,10 +256,13 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 }
             }
             
+            //Pout << "corCellCenters = " << corCellCenters << endl;
         }
         
         
         // Step 4. Calculate weights
+        //Pout << "neiCellCenters = " << neiCellCenters << endl;
+        //Pout << "corCellCenters = " << corCellCenters << endl;
         procDegFaces_.resize(nProcPatches_);
         forAll(myProcPatchCells_,iProcPatch)
         {
@@ -349,13 +365,16 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     
                     G = G + G0;
                     
-                    if (det(G) < 1)
+                    detG = det(G);
+                    if (detG < 1)
                     {
                         procDegFaces_[iProcPatch].append(facei);
                     }
-                    
-                    G = inv(G);
-                    G = G - G0;
+                    else
+                    {
+                        G = inv(G);
+                        G = G - G0;
+                    }
                     
                     forAll(df, i)
                     {
@@ -368,5 +387,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
             }
         }
     }
+    
+    //Pout << "End calculateWeights()" << endl;
 };
 

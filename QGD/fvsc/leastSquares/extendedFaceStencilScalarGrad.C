@@ -49,7 +49,8 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
     forAll(internalDegFaces_, facei)
     {
         dFaceId = internalDegFaces_[facei];
-        gradIF[dFaceId] = nf_[dFaceId] * sngF[dFaceId];
+        //gradIF[dFaceId] = nf_[dFaceId] * sngF[dFaceId];
+        gradIF[dFaceId] = sngF[dFaceId] * nf_[dFaceId];
     }
     
     //update boundary field
@@ -229,11 +230,11 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
             {
                 degId = degProcFaces[iFace];
                 
-                pgradf[degId] = nf_.boundaryField()[procPatchId][degId]*
-                sngF.boundaryField()[procPatchId][degId];
+                //pgradf[degId] = nf_.boundaryField()[procPatchId][degId]*
+                //sngF.boundaryField()[procPatchId][degId];
                 
-                //pgradf[degId] = sngF.boundaryField()[procPatchId][degId] * 
-                //    nf_.boundaryField()[procPatchId][degId];
+                pgradf[degId] = sngF.boundaryField()[procPatchId][degId] * 
+                    nf_.boundaryField()[procPatchId][degId];
             }
         }
     }

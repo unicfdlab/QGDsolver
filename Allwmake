@@ -4,9 +4,13 @@ cd QGD; wmake libso; cd ../
 
 cd QGDFoam; ./Allwmake; cd ../
 
+cd TQGDFoam; ../Allwmake; cd ../
+
 cd sQGDFoam; ./Allwmake; cd ../
 
 cd svQGDFoam; ./Allwmake; cd ../
+
+cd utils/selectBadCells; wmake; cd ../../
 
 #
 #END-OF-FILE

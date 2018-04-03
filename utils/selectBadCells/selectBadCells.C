@@ -32,8 +32,11 @@ Description
 
 #include "argList.H"
 #include "Time.H"
+#include "primitiveMeshTools.H"
 #include "polyMesh.H"
 #include "cellSet.H"
+#include "faceSet.H"
+#include "IOdictionary.H"
 
 using namespace Foam;
 
@@ -56,8 +59,23 @@ int main(int argc, char *argv[])
     #include "createTime.H"
     #include "createPolyMesh.H"
     
+    IOdictionary QGDCellQuality
+    (
+        IOobject
+        (
+            "QGDCellQuality",
+            runTime.system(),
+            mesh,
+            IOobject::MUST_READ,
+            IOobject::NO_WRITE
+        )
+    );
+    
+    scalar faceCosine (readScalar(QGDCellQuality.lookup("faceCosine")));
+    scalar maxAspectRatio(readScalar(QGDCellQuality.lookup("maxAspectRatio")));
+    
     // Destination cellSet.
-    cellSet badCellsSet (mesh, "badCells", IOobject::NO_READ);
+    cellSet badFaceAngle (mesh, "badFaceAngle", IOobject::NO_READ);
     
     const labelListList& pointFaces = 
         mesh.pointFaces();
@@ -99,26 +117,26 @@ int main(int argc, char *argv[])
                 if ((inei == knei) && (inei >= 0))
                 {
                     
-                    if (dotnf >= 0.996194698) // 5 degrees
+                    if (dotnf >= faceCosine) // 5 degrees
                     {
-                        badCellsSet.insert(inei);
+                        badFaceAngle.insert(inei);
                     }
                 }
                 
                 if ((iown == kown) || (iown == knei))
                 {
 
-                    if (dotnf >= 0.996194698) // 5 degrees
+                    if (dotnf >= faceCosine) // 5 degrees
                     {
-                        badCellsSet.insert(iown);
+                        badFaceAngle.insert(iown);
                     }
                 }
                 
                 if (inei == kown)
                 {
-                    if (dotnf >= 0.996194698) // 5 degrees
+                    if (dotnf >= faceCosine) // 5 degrees
                     {
-                        badCellsSet.insert(inei);
+                        badFaceAngle.insert(inei);
                     }
                 }
                 
@@ -126,15 +144,40 @@ int main(int argc, char *argv[])
         }
     }
     
-//    Info<< "Selected " << insideCells.size() << " of " << mesh.nCells()
-//        << " cells" << nl << nl
-//        << "Writing selected cells to cellSet " << insideCells.name()
-//        << nl << nl
-//        << "Use this cellSet e.g. with subsetMesh : " << nl << nl
-//        << "    subsetMesh " << insideCells.name()
-//        << nl << endl;
+    badFaceAngle.write();
     
-    badCellsSet.write();
+    //
+    // Select cells with high aspect ratio
+    //
+
+    scalarField openness(mesh.cellVolumes().size(), 0);
+    scalarField aspectRatio(mesh.cellVolumes().size(), 1);
+    
+    primitiveMeshTools::cellClosedness
+    (
+        mesh,
+        mesh.geometricD(),
+        mesh.faceAreas(),
+        mesh.cellVolumes(),
+        openness,
+        aspectRatio
+    );
+    
+    cellSet highAspectRatio (mesh, "highAspectRatio", IOobject::NO_READ);
+    
+    forAll(aspectRatio, iCell)
+    {
+        if (aspectRatio[iCell] > maxAspectRatio)
+        {
+            highAspectRatio.insert(iCell);
+        }
+    }
+    
+//    faceSet badFacesSet (mesh, "badFaces", IOobject::NO_READ);
+//    
+//    mesh.checkFaceFlatness(true, 0.95, &badFacesSet);
+//    
+//    badFacesSet.write();
     
     Info<< "End\n" << endl;
     

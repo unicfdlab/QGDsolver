@@ -28,12 +28,10 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
     QGDCoeffs(io, mesh, dict)
 {
     scalar PrQGD = 1.0;
-    
     if (dict.found("PrQGD"))
     {
         dict.lookup("PrQGD") >> PrQGD;
     }
-    
     PrQGD_.primitiveFieldRef() = PrQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
     
@@ -53,7 +51,10 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
     else
     {
         scalar ScQGD = 1.0;
-        dict.lookup("ScQGD") >> ScQGD;
+        if (dict.found("ScQGD"))
+        {
+            dict.lookup("ScQGD") >> ScQGD;
+        }
         ScQGD_.primitiveFieldRef() = ScQGD;
         ScQGD_.boundaryFieldRef() = ScQGD;
     }

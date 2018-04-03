@@ -37,7 +37,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarFie
 {
     surfaceScalarField sF = linearInterpolate(vF);
     
-    tmp<surfaceVectorField> tgradIF(nf_ * fvc::snGrad(vF));
+    tmp<surfaceVectorField> tgradIF(fvc::snGrad(vF) * nf_);
     
     return tgradIF;
 };
@@ -51,7 +51,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarFie
 Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::reduced::Grad(const volVectorField& iVF)
 {
 
-    tmp<surfaceTensorField> tgradIVF(nf_* fvc::snGrad(iVF));
+    tmp<surfaceTensorField> tgradIVF(fvc::snGrad(iVF) * nf_);
 
     return tgradIVF;
 };

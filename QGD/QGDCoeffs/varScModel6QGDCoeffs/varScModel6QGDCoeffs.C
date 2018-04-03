@@ -173,10 +173,19 @@ varScModel6QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
     
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
     
+    this->ScQGD_ = (mag(fvc::grad(rho)) * hQGD_ / rho);
+    
     this->ScQGD_ = 
-        rC_ *
-        (mag(fvc::grad(rho)) * hQGD_ / rho) +
-        (1.0 - rC_) * ScQGD_;
+        0.5*(tanh((this->ScQGD_ - 0.2)*20.0) + 1.0);
+
+    fvc::smooth(this->ScQGD_, smoothCoeff_);
+    
+    //apply tanh filter
+//    volScalarField tanSc
+//    (
+//        "tanSc",
+//        0.5*(tanh((this->ScQGD_ - 0.2)*20.0) + 1.0)
+//    );
     
     this->ScQGD_ = 
         max(this->ScQGD_, minSc_);
@@ -196,8 +205,6 @@ varScModel6QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
         }
     }
     
-    fvc::smooth(this->ScQGD_, smoothCoeff_);
-
     Info<< "max/min ScQGD: " 
         << max(this->ScQGD_).value() << "/"
         << min(this->ScQGD_).value() << endl;
@@ -205,7 +212,7 @@ varScModel6QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
     if (runTime_.outputTime())
     {
         this->ScQGD_.write();
-        this->hQGD_.write();
+//        tanSc.write();
     }
     
     forAll(p.primitiveField(), celli)

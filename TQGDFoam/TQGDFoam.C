@@ -22,12 +22,12 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    QGDFoam
+    TQGDFoam
 
 Description
     Solver for unsteady 3D turbulent flow of perfect gas governed by
-    quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
-    infinity).
+    quasi-gas dynamic (QGD) equations at subsonic and transsonic Mach 
+    numbers (from 0 to 2-3).
     
     QGD system of equations has been developed by scientific group from
     Keldysh Institute of Applied Mathematics, 
@@ -50,7 +50,7 @@ Description
     \endverbatim
     
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
-
+    
 
 \*---------------------------------------------------------------------------*/
 
@@ -123,13 +123,82 @@ int main(int argc, char *argv[])
         e.oldTime();
         
         // --- Solve density
-        #include "QGDRhoEqn.H"
+        solve
+        (
+            fvm::ddt(rho)
+            +
+            fvc::div(phiJm)
+        );
         
         // --- Solve momentum
-        #include "QGDUEqn.H"
+        solve
+        (
+            fvm::ddt(rhoU)
+            + 
+            fvc::div(phiJmU)
+            +
+            fvc::div(phiP)
+            -
+            fvc::div(phiPi)
+        );
+        
+        // Correct velocity
+        U.ref() =
+            rhoU()
+           /rho();
+        U.correctBoundaryConditions();
+        
+        // Solve diffusive QGD & NS part
+        if (implicitDiffusion)
+        {
+            fvVectorMatrix UEqn
+            (
+                fvm::ddt(rho, U) - fvc::ddt(rho,U)
+              - fvm::laplacian(muf, U)
+              - fvc::div(phiTauMC)
+            );
+            
+            solve
+            (
+                UEqn
+            );
+            
+            rhoU = rho*U;
+            
+            sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
+            
+            phiSigmaDotU = mesh.Sf() & sigmaDotUPtr(); //or eqn.flux()?
+        }
+        rhoU.boundaryFieldRef() == rho.boundaryField()*
+            U.boundaryField();
         
         //--- Solve energy
-        #include "QGDEEqn.H"
+        solve
+        (
+            fvm::ddt(rhoE)
+          + fvc::div(phiJmH)
+          + fvc::div(phiQ)
+          - fvc::div(phiPiU)
+          - fvc::div(phiSigmaDotU)
+        );
+        
+        // Correct energy
+        e = rhoE/rho - 0.5*magSqr(U);
+        e.correctBoundaryConditions();
+        
+        // Solve diffusive QGD & NS part
+        if (implicitDiffusion)
+        {
+            solve
+            (
+                fvm::ddt(rho, e) - fvc::ddt(rho,e)
+              - fvm::laplacian(alphauf, e)
+            );
+            
+            rhoE = rho*(e + 0.5*magSqr(U));
+        }
+        rhoE.boundaryFieldRef() == rho.boundaryField()*
+            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
         
         if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
         {

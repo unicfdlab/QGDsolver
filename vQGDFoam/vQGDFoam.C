@@ -70,6 +70,16 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "createFields.H"
     #include "createFaceFields.H"
+    surfaceScalarField zetaf
+    (
+        "zetaf",
+        muf*0.0
+    );
+    scalar ScV
+    (
+        readScalar(thermo.subDict("QGD").lookup("ScV"))
+    );
+
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
 
@@ -94,6 +104,7 @@ int main(int argc, char *argv[])
          *
          */
         #include "updateFields.H"
+        zetaf = tauQGDf*pf*ScV;
         
         /*
          *
@@ -101,6 +112,16 @@ int main(int argc, char *argv[])
          *
          */
         #include "updateFluxes.H"
+        if (implicitDiffusion)
+        {
+            Pif = Pif + I*zetaf*linearInterpolate(fvc::div(U));
+        }
+        else
+        {
+            Pif = Pif + I*zetaf*divUf;
+        }
+        phiPi = mesh.Sf() & Pif;
+        phiPiU = mesh.Sf() & (Pif & Uf);
         
         /*
          *

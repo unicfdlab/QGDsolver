@@ -18,6 +18,7 @@ QGDCoeffs/QGDCoeffs/QGDCoeffs.C
 QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C
 QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C
 QGDCoeffs/varScModel5QGDCoeffs/varScModel5QGDCoeffs.C
+QGDCoeffs/varScModel6QGDCoeffs/varScModel6QGDCoeffs.C
 
 thermoModels/psiQGDThermo/psiQGDThermo.C
 thermoModels/psiQGDThermo/psiQGDThermos.C

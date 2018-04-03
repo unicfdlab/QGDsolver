@@ -80,18 +80,6 @@ int main(int argc, char *argv[])
     scalar meanCoNum = 0.0;
 
     Info<< "\nStarting time loop\n" << endl;
-    
-    
-    vector jj(1, 2, 3);
-    vector uu(1, 2, 3);
-    
-    tensor T1 = jj * uu;
-    
-    //tensor T1 (1, 1, 1, 2, 2, 2, 3, 3, 3);
-    
-    vector b1 (1, 1, 1);
-    Info << "T1 = " << T1 << endl;
-    Info << "T1 & b1 = " << (T1.T() & b1) << endl;
 
     while (runTime.run())
     {
@@ -132,82 +120,13 @@ int main(int argc, char *argv[])
         e.oldTime();
         
         // --- Solve density
-        solve
-        (
-            fvm::ddt(rho)
-            +
-            fvc::div(phiJm)
-        );
+        #include "QGDRhoEqn.H"
         
         // --- Solve momentum
-        solve
-        (
-            fvm::ddt(rhoU)
-            + 
-            fvc::div(phiJmU)
-            +
-            fvc::div(phiP)
-            -
-            fvc::div(phiPi)
-        );
-        
-        // Correct velocity
-        U.ref() =
-            rhoU()
-           /rho();
-        U.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
-        {
-            fvVectorMatrix UEqn
-            (
-                fvm::ddt(rho, U) - fvc::ddt(rho,U)
-              - fvm::laplacian(muf, U)
-              - fvc::div(phiTauMC)
-            );
-            
-            solve
-            (
-                UEqn
-            );
-            
-            rhoU = rho*U;
-            
-            sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
-            
-            phiSigmaDotU = sigmaDotUPtr() & mesh.Sf(); //or eqn.flux()?
-        }
-        rhoU.boundaryFieldRef() == rho.boundaryField()*
-            U.boundaryField();
+        #include "QGDUEqn.H"
         
         //--- Solve energy
-        solve
-        (
-            fvm::ddt(rhoE)
-          + fvc::div(phiJmH)
-          + fvc::div(phiQ)
-          - fvc::div(phiPiU)
-          - fvc::div(phiSigmaDotU)
-        );
-        
-        // Correct energy
-        e = rhoE/rho - 0.5*magSqr(U);
-        e.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
-        {
-            solve
-            (
-                fvm::ddt(rho, e) - fvc::ddt(rho,e)
-              - fvm::laplacian(alphauf, e)
-            );
-            
-            rhoE = rho*(e + 0.5*magSqr(U));
-        }
-        rhoE.boundaryFieldRef() == rho.boundaryField()*
-            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
+        #include "QGDEEqn.H"
         
         thermo.correct();
         
@@ -226,7 +145,7 @@ int main(int argc, char *argv[])
         
         if (runTime.outputTime())
         {
-            tauQGD.write();
+            thermo.tauQGD().write();
         }
         
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;

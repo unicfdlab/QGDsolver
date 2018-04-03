@@ -62,8 +62,9 @@ phi = phiJm;
 // Fluxes for momentum balance equation
 //---------Start---------
 
-phiJmU = mesh.Sf() & (jm * Uf);
-//phiJmU = Foam::T(jm * Uf) & mesh.Sf();
+//phiJmU = mesh.Sf() & (jm * Uf);
+//phiJmU = jm * (Uf & mesh.Sf());
+phiJmU = (jm * Uf) & mesh.Sf();
 
 phiP = mesh.Sf() * pf;
 
@@ -106,7 +107,8 @@ else
     phiTauMC = mesh.Sf() & tauMCPtr();
 }
 
-phiPi = mesh.Sf() & Pif;
+//phiPi = mesh.Sf() & Pif;
+phiPi = Pif & mesh.Sf();
 
 //---------End---------
 
