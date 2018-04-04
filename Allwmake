@@ -1,8 +1,8 @@
 #!/bin/sh
 
-cd QGD; wmake libso; cd ../
+cd QHD; wmake libso; cd ../
 
-cd QGDFoam; ./Allwmake; cd ../
+cd QHDFoam; ./Allwmake; cd ../
 
 #
 #END-OF-FILE

@@ -18,8 +18,8 @@ QGDCoeffs/QGDCoeffs/QGDCoeffs.C
 QGDCoeffs/alphaHbyUQHD/alphaHbyUQHD.C
 QGDCoeffs/alphaH2bynuQHD/alphaH2bynuQHD.C
 
-thermoModels/rhoQGDThermo/rhoQGDThermo.C
-thermoModels/rhoQGDThermo/rhoQGDThermos.C
+thermoModels/rhoQHDThermo/rhoQGDThermo.C
+thermoModels/rhoQHDThermo/rhoQGDThermos.C
 
 LIB = $(FOAM_USER_LIBBIN)/libQHD
 

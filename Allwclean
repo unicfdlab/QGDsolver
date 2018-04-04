@@ -1,8 +1,8 @@
 #!/bin/sh
 
-cd QGD; wclean; wcleanLnIncludeAll; cd ../
+cd QHD; wclean; wcleanLnIncludeAll; cd ../
 
-cd QGDFoam; ./Allwclean; cd ../
+cd QHDFoam; ./Allwclean; cd ../
 
 cd mQGDFoam; ./Allwclean; cd ../
 
