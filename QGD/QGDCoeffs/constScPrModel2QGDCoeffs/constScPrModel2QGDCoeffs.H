@@ -16,7 +16,7 @@ public:
 
     //-
     TypeName ("constScPrModel2QGDCoeffs");
-    
+
     //-
     constScPrModel2QGDCoeffs
     (
@@ -24,12 +24,12 @@ public:
         const fvMesh& mesh,
         const dictionary& dict
     );
-    
+
     //-
     ~constScPrModel2QGDCoeffs();
-    
+
     //-
-    void correct(const psiQGDThermo&);
+    void correct(const QGDThermo&);
 
 };
 
@@ -43,5 +43,3 @@ public:
 //
 //END-OF-FILe
 //
-
-

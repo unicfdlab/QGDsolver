@@ -175,7 +175,7 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::leastSquares::Div(const volVecto
     surfaceVectorField gradComp1 = Grad(iVF.component(1));
     surfaceVectorField gradComp2 = Grad(iVF.component(2));
 
-    tmp<surfaceScalarField> tdivIVF(0*fvc::snGrad(iVF) & nf_);
+    tmp<surfaceScalarField> tdivIVF(0 * (nf_ & fvc::snGrad(iVF)));
     surfaceScalarField& divIVF = tdivIVF.ref();
     
     divIVF.primitiveFieldRef() = gradComp0.primitiveField().component(0)
@@ -219,7 +219,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Div(const volTenso
     tmp<surfaceScalarField> divComp1 (gradComp1().component(0) + gradComp4().component(1) + gradComp7().component(2));
     tmp<surfaceScalarField> divComp2 (gradComp2().component(0) + gradComp5().component(1) + gradComp8().component(2));
 
-    tmp<surfaceVectorField> tdivITF(0*fvc::snGrad(iTF.component(0)) * nf_);
+    tmp<surfaceVectorField> tdivITF(0*nf_*fvc::snGrad(iTF.component(0)));
     surfaceVectorField& divITF = tdivITF.ref();
     
     divITF.primitiveFieldRef().replace(0, divComp0().primitiveField());

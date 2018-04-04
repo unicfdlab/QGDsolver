@@ -12,7 +12,7 @@ namespace Foam
 {
 
 //forward declaration of psiQGDThermo
-class psiQGDThermo;
+class QGDThermo;
 
 namespace qgd
 {
@@ -21,16 +21,16 @@ class QGDCoeffs : public regIOobject, public refCount
 {
 
 protected:
-    
+
     //-
     const fvMesh& mesh_;
-    
+
     //-
     const Time& runTime_;
-    
+
     //-
     volScalarField muQGD_;
-    
+
     //-
     volScalarField alphauQGD_;
 
@@ -39,32 +39,32 @@ protected:
 
     //-
     volScalarField hQGD_;
-    
+
     //-
     volScalarField aQGD_;
-    
+
     //-
     volScalarField tauQGD_;
-    
+
     //-
     surfaceScalarField tauQGDf_;
-    
+
     //-
     volScalarField PrQGD_;
-    
+
     //-
     volScalarField ScQGD_;
 
 protected:
-    
+
     //-
     virtual void updateQGDLength(const fvMesh&);
 
 public:
- 
+
     //-
     TypeName("QGDCoeffs");
-    
+
     //-
     declareRunTimeSelectionTable
     (
@@ -78,7 +78,7 @@ public:
         ),
         (io, mesh, dict)
     );
-    
+
     //- Construct from components
     QGDCoeffs
     (
@@ -86,7 +86,7 @@ public:
         const fvMesh& mesh,
         const dictionary& dict
     );
-    
+
     //- Return a reference to the selected fvscStencil model
     static autoPtr<QGDCoeffs> New
     (
@@ -94,34 +94,34 @@ public:
         const fvMesh& mesh,
         const dictionary& dict
     );
-    
+
     //-
     virtual ~QGDCoeffs();
-    
+
     //-
     virtual bool writeData(Ostream&) const
     {
         return true;
     }
-    
+
     //-
-    virtual void correct(const psiQGDThermo&);
-    
+    virtual void correct(const QGDThermo&);
+
     //-
     const volScalarField& hQGD() const;
-    
+
     //-
     const volScalarField& tauQGD() const;
 
     //-
     const surfaceScalarField& hQGDf() const;
-    
+
     //-
     const surfaceScalarField& tauQGDf() const;
 
     //-
     const volScalarField& muQGD() const;
-    
+
     //-
     const volScalarField& alphauQGD() const;
 
@@ -136,5 +136,3 @@ public:
 //
 //END-OF-FILE
 //
-
-

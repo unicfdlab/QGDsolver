@@ -33,14 +33,13 @@
         linearInterpolate(p)
     );
     
-   
+    
     surfaceScalarField Tf
     (
         "Tf",
 	linearInterpolate(T)
     );
-
-
+    
     // Heat capacity at constant pressure
     surfaceScalarField Cpf
     (
@@ -53,7 +52,6 @@
         "muf",
         linearInterpolate(thermo.mu()*0.0)
     );
-       
     
     /*
      *
@@ -61,30 +59,10 @@
      *
      */
     // OpenFOAM delta coeffs can be negative for coupled patches
-    surfaceScalarField hQGDf
-    (
-        "hQGD",
-        1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
-    );
-    forAll(mesh.boundaryMesh(), iPatch)
-    {
-        if (!isA<coupledFvPatch>(mesh.boundaryMesh()[iPatch]))
-        {
-            hQGDf.boundaryFieldRef()[iPatch] *= 2.0;
-        }
-    }
-    
     surfaceScalarField taubyrhof
     (
         "taubyrhof",
-	linearInterpolate(tauQGD/rho)
-    );
-
-
-    surfaceScalarField tauQGDf
-    (
-        "tauQGD",
-        linearInterpolate(tauQGD)
+	tauQGDf/rhof
     );
     
     surfaceScalarField alphaf

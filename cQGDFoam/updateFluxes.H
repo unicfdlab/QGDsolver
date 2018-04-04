@@ -15,35 +15,43 @@ gradRhof = fvsc::grad(rho);
 //Continuity equation fluxes
 //---------Start---------
 
+//rhoW = tauQGDf * (fvsc::div(rhoU*U) + gradPf); //rhoW should be zero at wall
+//rhoW = tauQGDf * 
+//        (
+//            (rhofUf * divUf)
+//            +
+//            (Uf & gradRhoUf)
+//            +
+//            gradPf
+//        );
+
+rhoWStar = tauQGDf * ((rhofUf & gradUf) + gradPf);
+
 rhoW = tauQGDf *
         (
             ((Uf * gradRhof) & Uf)
             +
-            (rhoUf * divUf)
-            +
-            ((rhoUf & gradUf) + gradPf)
-        );
+            (rhoUf * divUf) //was rhoUf
+        )
+        +
+        rhoWStar;
 
-jm = rhoUf - rhoW;
+jm = rhofUf - rhoW;
 
 phiJm = mesh.Sf() & jm;
-phi = phiJm;
+phi   = mesh.Sf() & rhofUf;
 //---------End---------
 
 // Fluxes for momentum balance equation
 //---------Start---------
 
 phiJmU = mesh.Sf() & (jm * Uf);
+
 phiP = mesh.Sf() * pf;
 
 Pif = 
     //QGD diffusive fluxes
-    tauQGDf*
-    (
-        (UrhoUf & gradUf)
-        +
-        Uf*gradPf
-    )
+    Uf * rhoWStar
     +
     tauQGDf *
     (
@@ -79,14 +87,12 @@ phiPi = mesh.Sf() & Pif;
 phiJmH = phiJm * Hf;
 
 qf =
-    -tauQGDf*
+    -
+    tauQGDf*rhofUf*
     (
-        UrhoUf & 
-        (
-            gradef
-            - (pf / rhof / rhof) * gradRhof
-            //+ pf * fvsc::grad(1.0 / rho)
-        )
+        (Uf & gradef)
+        -
+        (pf * (Uf & gradRhof) / rhof / rhof)
     );
     
 if (!implicitDiffusion)

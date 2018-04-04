@@ -29,9 +29,7 @@ taubyrhof = tauQGDf/rhof;
 // Fluxes for momentum balance equation
 //---------Start---------
 
-
 phiPi = muf/rhof * mesh.Sf() & (gradUf+gradUf.T());
-
 
 //---------End---------
 

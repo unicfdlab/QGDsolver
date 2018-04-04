@@ -37,7 +37,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarFie
 {
     surfaceScalarField sF = linearInterpolate(vF);
     
-    tmp<surfaceVectorField> tgradIF(fvc::snGrad(vF) * nf_);
+    tmp<surfaceVectorField> tgradIF(nf_ * fvc::snGrad(vF));
     
     return tgradIF;
 };
@@ -51,14 +51,14 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarFie
 Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::reduced::Grad(const volVectorField& iVF)
 {
 
-    tmp<surfaceTensorField> tgradIVF(fvc::snGrad(iVF) * nf_);
+    tmp<surfaceTensorField> tgradIVF(nf_ * fvc::snGrad(iVF));
 
     return tgradIVF;
 };
 
 Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(const volVectorField& iVF)
 {
-    tmp<surfaceScalarField> tdivIVF(fvc::snGrad(iVF) & nf_);
+    tmp<surfaceScalarField> tdivIVF(nf_ & fvc::snGrad(iVF));
     
     return tdivIVF;
 };
@@ -71,7 +71,7 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(const volVectorFiel
 // \return           Divergence of iTF (vector field) which was computed on the faces of mesh.
 Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Div(const volTensorField& iTF)
 {
-    tmp<surfaceVectorField> tdivITF(Foam::T(fvc::snGrad(iTF)) & nf_);
+    tmp<surfaceVectorField> tdivITF(nf_ & fvc::snGrad(iTF));
     
     return tdivITF;
 }

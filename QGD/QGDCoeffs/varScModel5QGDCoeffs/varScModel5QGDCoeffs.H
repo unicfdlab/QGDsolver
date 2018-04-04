@@ -24,17 +24,17 @@ protected:
     scalar badQualitySc_;
     scalar qgdAspectRatioThreshold_;
     scalar constSc_;
-    
+
     scalarField cqSc_;
-    
+
     autoPtr<cellSet> constScCellSetPtr_;
-    
+
 
 public:
 
     //-
     TypeName ("varScModel5QGDCoeffs");
-    
+
     //-
     varScModel5QGDCoeffs
     (
@@ -42,12 +42,12 @@ public:
         const fvMesh& mesh,
         const dictionary& dict
     );
-    
+
     //-
     ~varScModel5QGDCoeffs();
-    
+
     //-
-    void correct(const psiQGDThermo&);
+    void correct(const QGDThermo&);
 
 };
 
@@ -61,5 +61,3 @@ public:
 //
 //END-OF-FILe
 //
-
-

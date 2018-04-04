@@ -41,26 +41,26 @@ varScModel5QGDCoeffs::varScModel5QGDCoeffs
     constScCellSetPtr_(NULL)
 {
     scalar ScQGD = 0.0, PrQGD = 1.0;
-    
+
     dict.lookup("ScQGD") >> ScQGD;
     dict.lookup("PrQGD") >> PrQGD;
-    
+
     ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
-    
+
     ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
-    
+
     if (dict.found("smoothCoeff"))
     {
         dict.lookup("smoothCoeff") >> smoothCoeff_;
     }
-    
+
     if (dict.found("rC"))
     {
         dict.lookup("rC") >> rC_;
     }
-    
+
     if (dict.found("minSc"))
     {
         dict.lookup("minSc") >> minSc_;
@@ -75,10 +75,10 @@ varScModel5QGDCoeffs::varScModel5QGDCoeffs
     {
         dict.lookup("badQualitySc") >> badQualitySc_;
     }
-    
+
     scalarField openness(mesh.V().size(), 0);
     scalarField aspectRatio(mesh.V().size(), 1);
-    
+
     primitiveMeshTools::cellClosedness
     (
         mesh_,
@@ -97,12 +97,12 @@ varScModel5QGDCoeffs::varScModel5QGDCoeffs
             //cqSc_[iCell] = badQualitySc_;
         }
     }
-    
+
     if (dict.found("constScCellSet"))
     {
         word constScCellSet (dict.lookup("constScCellSet"));
         constSc_ = ScQGD;
-        
+
         constScCellSetPtr_.reset
         (
             new cellSet
@@ -114,7 +114,7 @@ varScModel5QGDCoeffs::varScModel5QGDCoeffs
             )
         );
     }
-    
+
     /*
     {
         volScalarField hRatio(this->hQGD_);
@@ -138,7 +138,7 @@ varScModel5QGDCoeffs::varScModel5QGDCoeffs
                 {
                     pid = mesh.boundaryMesh().whichPatch(fid);
                     pfid= mesh.boundary()[pid].patch().whichFace(fid);
-                    
+
                     if (hQGDf_.boundaryField()[pid][pfid] > hmax)
                     {
                         hmax = hQGDf_.boundaryField()[pid][pfid];
@@ -162,43 +162,43 @@ varScModel5QGDCoeffs::~varScModel5QGDCoeffs()
 }
 
 void Foam::qgd::
-varScModel5QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
+varScModel5QGDCoeffs::correct(const Foam::QGDThermo& qgdThermo)
 {
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();
     const volScalarField rho(qgdThermo.rho()*1.0);
-    
-    this->tauQGDf_= linearInterpolate(this->aQGD_) 
+
+    this->tauQGDf_= linearInterpolate(this->aQGD_)
                     / linearInterpolate(cSound) * hQGDf_;
-    
+
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
-    
-    this->ScQGD_ = 
+
+    this->ScQGD_ =
         rC_ *
         (mag(fvc::grad(rho)) * hQGD_ / rho) +
         (1.0 - rC_) * ScQGD_;
-    
-    this->ScQGD_ = 
+
+    this->ScQGD_ =
         max(this->ScQGD_, minSc_);
     this->ScQGD_ =
         min(this->ScQGD_, maxSc_);
-    
-    this->ScQGD_.primitiveFieldRef() = 
+
+    this->ScQGD_.primitiveFieldRef() =
         max(this->ScQGD_.primitiveField(), cqSc_);
-        
+
     if (constScCellSetPtr_.valid())
     {
         const cellSet& constScCells = constScCellSetPtr_();
-        
+
         forAllConstIter(cellSet, constScCells, iter)
         {
             ScQGD_[iter.key()] = constSc_;
         }
     }
-    
+
     fvc::smooth(this->ScQGD_, smoothCoeff_);
 
-    Info<< "max/min ScQGD: " 
+    Info<< "max/min ScQGD: "
         << max(this->ScQGD_).value() << "/"
         << min(this->ScQGD_).value() << endl;
 
@@ -207,41 +207,41 @@ varScModel5QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
         this->ScQGD_.write();
         this->hQGD_.write();
     }
-    
+
     forAll(p.primitiveField(), celli)
     {
-        muQGD_.primitiveFieldRef()[celli] = 
-            p.primitiveField()[celli] * 
+        muQGD_.primitiveFieldRef()[celli] =
+            p.primitiveField()[celli] *
             ScQGD_.primitiveField()[celli] *
             tauQGD_.primitiveField()[celli];
-        
-        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] / 
+
+        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] /
             PrQGD_.primitiveField()[celli];
     }
-    
+
     forAll(p.boundaryField(), patchi)
     {
         forAll(p.boundaryField()[patchi], facei)
         {
-            muQGD_.boundaryFieldRef()[patchi][facei] = 
-                p.boundaryField()[patchi][facei] * 
+            muQGD_.boundaryFieldRef()[patchi][facei] =
+                p.boundaryField()[patchi][facei] *
                 ScQGD_.boundaryField()[patchi][facei] *
                 tauQGD_.boundaryField()[patchi][facei];
 
-            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
+            alphauQGD_.boundaryFieldRef()[patchi][facei] =
                 muQGD_.boundaryFieldRef()[patchi][facei] /
                 PrQGD_.boundaryField()[patchi][facei];
         }
     }
-    
+
 //    if (mesh_.thisDb().foundObject<volVectorField>("U"))
 //    {
-//    
+//
 //        const volVectorField& U = mesh_.thisDb().lookupObject<volVectorField>("U");
-//        
+//
 //        //tauQGD_ = (qgdThermo.mu() + muQGD_)/(p * ScQGD_);
 //        //cPe = (hQGD_ * mag(U) * rho / muQGD_)*ScQGD_;
-//        
+//
 //        if (runTime_.outputTime())
 //        {
 //            cRe = hQGD_ * mag(U) * rho / (qgdThermo.mu() + muQGD_);
@@ -253,5 +253,3 @@ varScModel5QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
 //
 //END-OF-FILE
 //
-
-

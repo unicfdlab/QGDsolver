@@ -112,8 +112,10 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             }
         }
     }
-    
-    this->correctQGD();
+
+    this->gamma_ == (this->Cp() / this->Cv());
+    this->c_ = sqrt(this->gamma_ / this->psi());
+    this->correctQGD(this->mu_, this->alpha_);
 }
 
 
@@ -156,7 +158,7 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::correct()
     this->psi_.oldTime();
 
     calculate();
-    
+
     if (debug)
     {
         Info<< "    Finished" << endl;

@@ -64,11 +64,6 @@
         muf*0.0
     );
     
-    /*
-     *
-     * QGD coefficients
-     *
-     */
     surfaceScalarField cf
     (
         "cf",

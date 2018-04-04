@@ -7,20 +7,20 @@
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
-    
+
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
     for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 #include "QGDCoeffs.H"
@@ -30,7 +30,7 @@ License
 #include "Time.H"
 #include "addToRunTimeSelectionTable.H"
 #include "coupledFvsPatchFields.H"
-#include "psiQGDThermo.H"
+#include "QGDThermo.H"
 #include "linear.H"
 #include "emptyFvPatch.H"
 
@@ -58,10 +58,10 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
 )
 {
     Info<< "Selecting QGD coeffs evaluation approach type " << qgdCoeffsType << endl;
-    
+
     dictionaryConstructorTable::iterator cstrIter =
         dictionaryConstructorTablePtr_->find(qgdCoeffsType);
-    
+
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
         FatalErrorIn
@@ -72,7 +72,7 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
         << dictionaryConstructorTablePtr_->sortedToc()
         << exit(FatalError);
     }
-    
+
     return autoPtr<QGDCoeffs>
     (
         cstrIter()
@@ -206,7 +206,7 @@ QGDCoeffs::~QGDCoeffs()
 {
 }
 
-void Foam::qgd::QGDCoeffs::correct(const psiQGDThermo& qgdThermo)
+void Foam::qgd::QGDCoeffs::correct(const QGDThermo& qgdThermo)
 {
     forAll(tauQGD_, celli)
     {
@@ -220,15 +220,15 @@ void Foam::qgd::QGDCoeffs::correct(const psiQGDThermo& qgdThermo)
     {
         forAll(tauQGD_.boundaryField()[patchi], facei)
         {
-            tauQGD_.boundaryFieldRef()[patchi][facei] = 
+            tauQGD_.boundaryFieldRef()[patchi][facei] =
                 0.0;
-            muQGD_.boundaryFieldRef()[patchi][facei] = 
+            muQGD_.boundaryFieldRef()[patchi][facei] =
                 0.0;
-            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
+            alphauQGD_.boundaryFieldRef()[patchi][facei] =
                 0.0;
-            PrQGD_.boundaryFieldRef()[patchi][facei] = 
+            PrQGD_.boundaryFieldRef()[patchi][facei] =
                 1.0;
-            ScQGD_.boundaryFieldRef()[patchi][facei] = 
+            ScQGD_.boundaryFieldRef()[patchi][facei] =
                 1.0;
         }
     }
@@ -245,7 +245,7 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
             hnei = mag(mesh.C()[mesh.neighbour()[iFace]] - mesh.Cf()[iFace]);
             hQGDf_.primitiveFieldRef()[iFace] = 2.0*min(hown, hnei);
         }
-        
+
         forAll(mesh.boundary(), patchi)
         {
             const fvPatch& fvp = mesh.boundary()[patchi];
@@ -255,7 +255,7 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
             }
         }
     }
-    
+
     scalar hint = 0.0;
     scalar surf = 0.0;
     label  fid  = 0;
@@ -269,7 +269,7 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
         forAll(c, facei)
         {
             fid  = c[facei];
-            
+
             if (mesh.isInternalFace(fid))
             {
                 hint += hQGDf_[fid] * mesh.magSf()[fid];
@@ -283,7 +283,7 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
                     if (!isA<emptyFvPatch>(mesh.boundary()[pid]))
                     {
                         pfid = mesh.boundaryMesh()[pid].whichFace(fid);
-                    
+
                         hint += hQGDf_.boundaryField()[pid][pfid] *
                             mesh.magSf().boundaryField()[pid][pfid];
                         surf += mesh.magSf().boundaryField()[pid][pfid];
@@ -291,10 +291,10 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
                 }
             }
         }
-        
+
         hQGD_.primitiveFieldRef()[celli] = hint / surf;
     }
-    
+
     forAll(mesh.boundary(), patchi)
     {
         if (!isA<emptyFvPatch>(mesh.boundary()[patchi]))
@@ -340,4 +340,3 @@ const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::tauQGDf() const
 
 
 //END-OF-FILE
-

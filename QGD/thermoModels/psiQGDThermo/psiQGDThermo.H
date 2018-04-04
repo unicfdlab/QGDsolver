@@ -35,6 +35,7 @@ SourceFiles
 #ifndef psiQGDThermo_H
 #define psiQGDThermo_H
 
+#include "QGDThermo.H"
 #include "psiThermo.H"
 #include "runTimeSelectionTables.H"
 #include "QGDCoeffs.H"
@@ -50,7 +51,7 @@ namespace Foam
 
 class psiQGDThermo
 :
-    public psiThermo
+    public psiThermo, public QGDThermo
 {
 
 protected:
@@ -59,21 +60,12 @@ protected:
 
         //- Construct as copy (not implemented)
         psiQGDThermo(const psiQGDThermo&);
-        
-        //-
-        autoPtr<Foam::qgd::QGDCoeffs> qgdCoeffsPtr_;
-        
+
         //-
         volScalarField c_;
-        
+
         //-
         volScalarField gamma_;
-        
-        //-
-        Switch implicitDiffusion_;
-        
-        //-
-        void correctQGD();
 
 public:
 
@@ -115,34 +107,24 @@ public:
 
 
     // Member functions
-    
+
     //-
     bool read();
-    
+
     //-
     const volScalarField& c() const;
-    
-    //-
-    const volScalarField& hQGD() const;
-    
-    //-
-    const volScalarField& tauQGD() const;
 
     //-
-    const surfaceScalarField& hQGDf() const;
-    
-    //-
-    const surfaceScalarField& tauQGDf() const;
+    virtual const volScalarField& p() const;
 
     //-
-    const volScalarField& muQGD() const;
-    
-    //-
-    const volScalarField& alphauQGD() const;
-    
-    //-
-    Switch implicitDiffusion() const;
+    volScalarField& p();
 
+    //-
+    virtual tmp<volScalarField> rho() const;
+
+    //-
+    virtual tmp<volScalarField> mu() const;
 };
 
 

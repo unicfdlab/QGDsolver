@@ -11,35 +11,42 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      decomposeParDict;
+    object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 4;
+application     QHDFoam;
 
-method          scotch;
+startFrom       startTime;
 
-simpleCoeffs
-{
-    n               (8 1 1);
-    delta           0.001;
-}
+startTime       0;
 
-hierarchicalCoeffs
-{
-    n               (1 1 1);
-    delta           0.001;
-    order           xyz;
-}
+stopAt          endTime;
 
-manualCoeffs
-{
-    dataFile        "";
-}
+endTime         20.0;
 
-distributed     no;
+deltaT          0.005;
 
-roots           ( );
+writeControl    timeStep;
 
+writeInterval   50;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+ajustTimeStep   false;
+
+maxCo           0.7;
 
 // ************************************************************************* //

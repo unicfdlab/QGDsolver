@@ -1,5 +1,5 @@
 #include "constScPrModel1QGDCoeffs.H"
-#include "psiQGDThermo.H"
+#include "QGDThermo.H"
 #include "addToRunTimeSelectionTable.H"
 #include "linear.H"
 
@@ -34,7 +34,7 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
     }
     PrQGD_.primitiveFieldRef() = PrQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
-    
+
     IOobject ScHeader
     (
         "ScQGD",
@@ -43,7 +43,7 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
         IOobject::READ_IF_PRESENT,
         IOobject::NO_WRITE
     );
-    
+
     if (ScHeader.headerOk())
     {
         //do nothing
@@ -66,40 +66,40 @@ constScPrModel1QGDCoeffs::~constScPrModel1QGDCoeffs()
 }
 
 void Foam::qgd::
-constScPrModel1QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
+constScPrModel1QGDCoeffs::correct(const Foam::QGDThermo& qgdThermo)
 {
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();
-    
+
     this->tauQGDf_= linearInterpolate(this->aQGD_ / cSound) * hQGDf_;
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
-    
+
     forAll(p.primitiveField(), celli)
     {
-        muQGD_.primitiveFieldRef()[celli] = 
-            p.primitiveField()[celli] * 
+        muQGD_.primitiveFieldRef()[celli] =
+            p.primitiveField()[celli] *
             ScQGD_.primitiveField()[celli] *
             tauQGD_.primitiveField()[celli];
-        
-        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] / 
+
+        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] /
             PrQGD_.primitiveField()[celli];
     }
-    
+
     forAll(p.boundaryField(), patchi)
     {
         forAll(p.boundaryField()[patchi], facei)
         {
-            muQGD_.boundaryFieldRef()[patchi][facei] = 
-                p.boundaryField()[patchi][facei] * 
+            muQGD_.boundaryFieldRef()[patchi][facei] =
+                p.boundaryField()[patchi][facei] *
                 ScQGD_.boundaryField()[patchi][facei] *
                 tauQGD_.boundaryField()[patchi][facei];
 
-            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
+            alphauQGD_.boundaryFieldRef()[patchi][facei] =
                 muQGD_.boundaryFieldRef()[patchi][facei] /
                 PrQGD_.boundaryField()[patchi][facei];
         }
     }
-    
+
     if (runTime_.outputTime())
     {
         ScQGD_.write();
@@ -109,5 +109,3 @@ constScPrModel1QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
 //
 //END-OF-FILE
 //
-
-

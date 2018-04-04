@@ -11,10 +11,11 @@ rhof = linearInterpolate(rho);
 Uf = linearInterpolate(U);
 
 // Momentum
-//rhofUf = rhof*Uf; //linearInterpolate(rhoU);
 rhoUf = linearInterpolate(rhoU);
-rhofUf = rhof*Uf;
-//rhofUf = linearInterpolate(rhoU);
+rhofUf= rhof*Uf;
+
+// Nonlinear Tensor
+UrhoUf = linearInterpolate(U*rhoU);
 
 // Pressure
 pf = linearInterpolate(p);
@@ -30,15 +31,37 @@ gammam1f = gammaf - 1;
 Cpf = linearInterpolate(thermo.Cp());
     
 // Total specific enthalpy
-Hf = (linearInterpolate(rhoE) + pf)/rhof;
+//Hf = (linearInterpolate(rhoE) + pf)/rhof;
+Hf = linearInterpolate((rhoE + p)/rho);
 
 /*
  *
- * QGD coefficients now updated in thermo library
+ * QGD coefficients are now updated in the thermo library
  *
  */
 alphauf    = linearInterpolate(turbulence->alphaEff());
 muf        = linearInterpolate(turbulence->muEff());
 
+//surfaceScalarField tauGammaPf
+//(
+//    "tauGammaPf",
+//    linearInterpolate(tauQGD*gamma*p)
+//);
+//
+//surfaceVectorField tauUf
+//(
+//    "tauUf",
+//    linearInterpolate(tauQGD*U)
+//);
+//
+//surfaceTensorField tauUrhoUf
+//(
+//    "tauUrhoUf",
+//    linearInterpolate(tauQGD*U*rhoU)
+//);
+
+//tauQGDf    = 0.5* hQGDf / cf;
+//muf        = pf * tauQGDf;
+//alphauf    = muf*1.0;
 
 

@@ -7,7 +7,7 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
+    version     4.1;
     format      ascii;
     class       dictionary;
     location    "constant";
@@ -17,44 +17,48 @@ FoamFile
 
 thermoType
 {
-    type            hePsiQGDThermo;
+    type            heRhoQGDThermo;
     mixture         pureMixture;
     transport       const;
-    thermo          hConst;
+    thermo          eConst;
     equationOfState perfectGas;
     specie          specie;
     energy          sensibleInternalEnergy;
 }
+
+// Note: these are the properties for fuel
 
 mixture
 {
     specie
     {
         nMoles          1;
-        molWeight       20785;
+        molWeight       28.96;
     }
+
+    
     thermodynamics
     {
-        Cp              1.4;
-        Hf              0.0;
+        Hf              0;
+        Sf              0;
+        Cp              1005;
+        Cv              1004;
     }
+    
     transport
     {
-        mu              0;
-        Pr              1;
+        mu   0.0116115;
+        Pr   0.73;
+        beta 0.00177;
     }
 }
 
 QGD
 {
-    QGDCoeffs constScPrModel1QGDCoeffs;
-    constScPrModel1QGDCoeffsDict
-    {
-        ScQGD 1;
-        PrQGD 1;
-    }
     implicitDiffusion true;
+    QGDCoeffs alphaHbyUQHD;
+    alphaHbyUQHDDict
+    {
+       UQHD 1;
+    }
 }
-
-
-// ************************************************************************* //

@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    sQGDFoam
+    QGDFoam
 
 Description
     Solver for unsteady 3D turbulent flow of perfect gas governed by
@@ -56,7 +56,6 @@ Description
 
 #include "fvCFD.H"
 #include "QGD.H"
-#include "fvOptions.H"
 #include "turbulentFluidThermoModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -73,7 +72,6 @@ int main(int argc, char *argv[])
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
-    #include "createFvOptions.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -87,11 +85,8 @@ int main(int argc, char *argv[])
     {
         /*
          *
-         * Update QGD viscosity
-         *
          */
         turbulence->correct();
-        
         
         /*
          *

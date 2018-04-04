@@ -76,7 +76,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     volScalarField::Boundary& psiBf =
         this->psi_.boundaryFieldRef();
 
-    volScalarField::Boundary& rhoBf = 
+    volScalarField::Boundary& rhoBf =
 	this->rho_.boundaryFieldRef();
 
     volScalarField::Boundary& heBf =
@@ -130,8 +130,10 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             }
         }
     }
-    
-    this->correctQGD();
+
+    this->gamma_ == (this->Cp() / this->Cv());
+    this->c_ = sqrt(this->gamma_ / this->psi());
+    this->correctQGD(this->mu_, this->alpha_);
 }
 
 
@@ -147,7 +149,6 @@ Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::heRhoQGDThermo
     heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
 {
     calculate();
-    Info << "After calculate()" << endl;
     // Switch on saving old time
     this->psi_.oldTime();
 }
@@ -174,7 +175,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::correct()
     this->psi_.oldTime();
 
     calculate();
-    
+
     if (debug)
     {
         Info<< "    Finished" << endl;

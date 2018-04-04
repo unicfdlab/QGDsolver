@@ -36,8 +36,9 @@ SourceFiles
 #define rhoQGDThermo_H
 
 #include "rhoThermo.H"
+#include "QGDThermo.H"
 #include "runTimeSelectionTables.H"
-#include "QGDCoeffs.H"
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -50,7 +51,7 @@ namespace Foam
 
 class rhoQGDThermo
 :
-    public rhoThermo
+    public rhoThermo, public QGDThermo
 {
 
 protected:
@@ -59,21 +60,13 @@ protected:
 
         //- Construct as copy (not implemented)
         rhoQGDThermo(const rhoQGDThermo&);
-        
-        //-
-        autoPtr<Foam::qgd::QGDCoeffs> qgdCoeffsPtr_;
-        
+
         //-
         volScalarField c_;
-        
+
         //-
         volScalarField gamma_;
-        
-        //-
-        Switch implicitDiffusion_;
-        
-        //-
-        void correctQGD();
+
 
 public:
 
@@ -123,28 +116,24 @@ public:
 
 
     // Member functions
-    
+
     //-
     bool read();
-    
+
     //-
     const volScalarField& c() const;
-    
-    //-
-    const volScalarField& hQGD() const;
-    
-    //-
-    const volScalarField& tauQGD() const;
-    
-    //-
-    const volScalarField& muQGD() const;
-    
-    //-
-    const volScalarField& alphauQGD() const;
 
     //-
-    Switch implicitDiffusion() const;
+    virtual const volScalarField& p() const;
 
+    //-
+    volScalarField& p();
+
+    //-
+    virtual tmp<volScalarField> rho() const;
+
+    //-
+    virtual tmp<volScalarField> mu() const;
 };
 
 
