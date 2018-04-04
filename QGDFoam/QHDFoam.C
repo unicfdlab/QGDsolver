@@ -55,7 +55,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "QGD.H"
+#include "QHD.H"
 #include "turbulentFluidThermoModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
          *
          */
         #include "readTimeControls.H"
-        #include "QGDCourantNo.H"
+        #include "QHDCourantNo.H"
         #include "setDeltaT.H"
         
         runTime++;

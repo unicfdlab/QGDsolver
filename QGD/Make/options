@@ -7,7 +7,7 @@ EXE_INC = \
     -I$(LIB_SRC)/TurbulenceModels/compressible/lnInclude \
     -I$(LIB_SRC)/dynamicMesh/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
-    -IthermoModels/rhoQGDThermo \
+    -IthermoModels/rhoQHDThermo \
     -IthermoModels/powerLaw
 
 EXE_LIBS = \
