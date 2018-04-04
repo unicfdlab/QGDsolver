@@ -21,6 +21,22 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
+Class
+    Foam::qgd::rhoQGDThermo
+
+
+
+Description
+    Class describing thermophysical properties of perfect gas with motion
+    governed by Quasi-Hydro dynamics equations.
+
+
+SourceFiles
+
+    rhoQGDThermo.C
+
+
+
 \*---------------------------------------------------------------------------*/
 
 #include "rhoQGDThermo.H"

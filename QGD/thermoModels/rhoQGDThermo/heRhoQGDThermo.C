@@ -21,6 +21,15 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
+Class
+    Foam::qgd::rhoQGDThermo
+
+Description
+    Energy for a perfect gas mixture with QHD equations
+
+SourceFiles
+    heRhoQGDThermo.C
+
 \*---------------------------------------------------------------------------*/
 
 #include "heRhoQGDThermo.H"
