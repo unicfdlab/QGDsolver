@@ -1,1 +1,0 @@
-../QGDCoeffs/alphaHbyUQHD/alphaHbyUQHD.C
