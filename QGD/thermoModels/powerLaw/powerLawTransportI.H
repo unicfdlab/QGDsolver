@@ -2,11 +2,14 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
-     \\/     M anipulation  |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
 -------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver, based on OpenFOAM library.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -21,7 +24,16 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-\*---------------------------------------------------------------------------*/
+class:
+    Foam::powerLawTransport
+description:
+    Definition of templates
+source:
+    powerLawTransportI.H
+    powerLawTransport.C
+
+
+\*----------------------------------------------------------------------------*/
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 

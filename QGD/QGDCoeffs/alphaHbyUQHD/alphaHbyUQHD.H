@@ -28,7 +28,16 @@ Class
     alphaHbyUQHD
 
 Description
-    Class for one of possible ways of tau calculating.
+    Class for one of possible ways of $\tau$ calculating.
+    in this case $\tau$ parameter is calculating by
+
+    $$ \tau = \alpha \cdot \frac{h}{U_0} $$
+
+    Where:
+
+    $\tau$ is regularisation parameter, $\alpha$ is parameter
+    which depends by user in constant foulder, $h$ is size of the mesh
+    and $U_0$ is characteristic velocity
 
 SourceFiles
     alphaHbyUQHD.C

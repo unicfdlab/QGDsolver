@@ -30,6 +30,13 @@ Class
 Description
     Class for one of possible ways of tau calculating.
 
+$$    \tau_QGD = \alpha \cdot \frac{h^2}{\nu}  $$
+
+    where $\tau_QGD$ - regulatisation parameter, $\alpha$ - parameter
+    which depends by user in constant foulder, $h$ - size of mesh,
+    $\nu$ - kinetic viscosity.
+
+
 SourceFiles
     alphaH2bynuQHD.C
 
