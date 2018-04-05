@@ -1,3 +1,31 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
 #include "varScModel5QGDCoeffs.H"
 #include "psiQGDThermo.H"
 #include "addToRunTimeSelectionTable.H"
@@ -233,21 +261,6 @@ varScModel5QGDCoeffs::correct(const Foam::QGDThermo& qgdThermo)
                 PrQGD_.boundaryField()[patchi][facei];
         }
     }
-
-//    if (mesh_.thisDb().foundObject<volVectorField>("U"))
-//    {
-//
-//        const volVectorField& U = mesh_.thisDb().lookupObject<volVectorField>("U");
-//
-//        //tauQGD_ = (qgdThermo.mu() + muQGD_)/(p * ScQGD_);
-//        //cPe = (hQGD_ * mag(U) * rho / muQGD_)*ScQGD_;
-//
-//        if (runTime_.outputTime())
-//        {
-//            cRe = hQGD_ * mag(U) * rho / (qgdThermo.mu() + muQGD_);
-//            cRe.write();
-//        }
-//    }
 }
 
 //

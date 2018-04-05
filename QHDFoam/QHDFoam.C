@@ -2,8 +2,10 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
-     \\/     M anipulation  |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -22,24 +24,24 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    QGDFoam
+    QHDFoam
 
 Description
-    Solver for unsteady 3D turbulent flow of perfect gas governed by
-    quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
-    infinity).
-    
-    QGD system of equations has been developed by scientific group from
-    Keldysh Institute of Applied Mathematics, 
+    Solver for unsteady 3D turbulent flow of incompressible fluid governed by
+    quasi-hydrodynamic dynamic (QHD) equations.
+
+    QHD system of equations has been developed by scientific group from
+    Keldysh Institute of Applied Mathematics,
     see http://elizarova.imamod.ru/selection-of-papers.html
-    
-    A comprehensive description of QGD equations and their applications can be found here:
+
+    A comprehensive description of QGD equations and their applications
+    can be found here:
     \verbatim
     Elizarova, T.G.
     "Quasi-Gas Dynamic equations"
     Springer, 2009
     \endverbatim
-    
+
     A brief of theory on QGD and QHD system of equations:
     \verbatim
     Elizarova, T.G. and Sheretov, Y.V.
@@ -48,7 +50,7 @@ Description
     J. Computational Mathematics and Mathematical Physics, vol. 41, no. 2, pp 219-234,
     2001
     \endverbatim
-    
+
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
 
 
@@ -89,14 +91,14 @@ int main(int argc, char *argv[])
          *
          */
         #include "updateFields.H"
-        
+
         /*
          *
          * Update fluxes
          *
          */
        #include "updateFluxes.H"
-        
+
         /*
          *
          * Update time step
@@ -105,15 +107,15 @@ int main(int argc, char *argv[])
         #include "readTimeControls.H"
         #include "QHDCourantNo.H"
         #include "setDeltaT.H"
-        
+
         runTime++;
-        
+
         Info<< "Time = " << runTime.timeName() << nl << endl;
-        
+
         // --- Store old time values
         U.oldTime();
         T.oldTime();
-        turbulence->correct();	
+        turbulence->correct();
         //Continuity equation
         fvScalarMatrix pEqn
         (
@@ -123,23 +125,23 @@ int main(int argc, char *argv[])
         );
 
 	pEqn.setReference(pRefCell, pRefValue);
-        
+
         pEqn.solve();
-        
+
         phi = phiu - phiwo + pEqn.flux();
-        
+
 	gradPf = fvsc::grad(p);
 
-        
+
 	Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof + beta*g*Tf);
-   
+
 	phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
 
       	// --- Solve U
         solve
         (
             fvm::ddt(U)
-            + 
+            +
             fvc::div(phiUf)
             +
             fvc::grad(p)/rho
@@ -151,18 +153,18 @@ int main(int argc, char *argv[])
             -
             BdFrc
         );
-       
+
 	phiTf = phi * Tf;
-        
+
         // --- Solve T
         solve
         (
             fvm::ddt(T)
           + fvc::div(phiTf)
           - fvm::laplacian(Hif,T)
-        );      
+        );
         runTime.write();
-        
+
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
@@ -171,14 +173,14 @@ int main(int argc, char *argv[])
         {
             thermo.tauQGD().write();
         }
-        
+
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
         Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;
         Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
         Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
     }
-    
-    
+
+
     Info<< "End\n" << endl;
 
     return 0;
