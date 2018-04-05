@@ -15,7 +15,7 @@ fi
 
 runApplication blockMesh
 runApplication decomposePar
-runApplication mpirun -np 8 `getApplication` -parallel
+runApplication mpirun -np 4 `getApplication` -parallel
 runApplication reconstructPar
 runApplication postProcess -func sampleDict
 

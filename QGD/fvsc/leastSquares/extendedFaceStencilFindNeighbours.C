@@ -1,3 +1,32 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+    
+\*---------------------------------------------------------------------------*/
+
+
 #include "leastSquaresBase.H"
 #include "processorFvPatch.H"
 #include "polyMesh.H"
@@ -10,8 +39,6 @@
 //- Find neighbour cells for each face (throught face points).
 void Foam::fvsc::leastSquaresBase::findNeighbours()
 {
-    Pout << "Start findNeighbours()" << endl;
-
     // List of faces
     const faceList& faces = cMesh_.faces();
     labelListList neighbourCellsForFace(cMesh_.nInternalFaces());
@@ -247,11 +274,6 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             }
         }
 
-        //Pout << "ownEnd=" << ownEnd_ << endl;
-        //Pout << "neiStart=" << neiStart_ << endl;
-        //Pout << "neiEnd=" << neiEnd_ << endl;
-        //Pout << "corStart=" << corStart_ << endl;
-        //Pout << "corEnd=" << corEnd_ << endl;
         //select point which belongs to more than 2 processors
         
         DynamicList<label> multipleProcsPoints;
@@ -479,15 +501,11 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                                     fPatchId
                                 );
                             }
-                            //Pout << "faceId = " << faceId << endl;
-                            //Pout << "fPatchId = " << fPatchId << endl;
                         }
                     }
                 }
             }
         }
-        
-        //Pout << "faceIds = " << faceIds << endl;
         
         //store for each face - global cell id at neighbouring process
         {
@@ -523,10 +541,6 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                             cornerProcess = false;
                         }
                         
-//                        Pout<< " gCellId = " << gCellId 
-//                            << " procId = " << procId
-//                            << " cornerProcess = " << cornerProcess << endl;
-                        
                         if (cornerProcess) // "corner" process
                         {
                             fCells.insert(gCellId); //make sure cell ids are unique
@@ -549,9 +563,6 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                 );
             }
         }
-        
-//        Pout << "faceNeigCells = " << faceNeigCells << endl;
-//        Pout << "neigProcFaces = " << neigProcFaces << endl;
         
         //and create the list of cells ids, requested from neigb. process and addresing
         //table from these cells to current proc. patch faces
@@ -621,11 +632,6 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             }
         }
         
-//        Pout << "corAddr_ = " << corAddr_ << endl;
-//        Pout << "gCellIds = " << globalCorCellIds << endl;
-//        Pout << "neigProcs= " << neigProcs_ << endl;
-//        Pout << "procPairs= " << procPairs_ << endl;
-
         //redistribute global cell ids amongth other processors
         //and convert global addressing to local addressing
         forAll(neigProcs_, iProc)
@@ -668,11 +674,8 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             }
         }
         
-        //Pout << "corProcIds = " << corProcIds_ << endl;
-        //Pout << "corCellIds = " << corCellIds_ << endl;
     }
     
-    Pout << "End findNeighbours()" << endl;
 };
 
 //

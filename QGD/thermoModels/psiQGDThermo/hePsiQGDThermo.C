@@ -2,11 +2,14 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
-     \\/     M anipulation  |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
 -------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver, based on OpenFOAM library.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -112,8 +115,10 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             }
         }
     }
-    
-    this->correctQGD();
+
+    this->gamma_ == (this->Cp() / this->Cv());
+    this->c_ = sqrt(this->gamma_ / this->psi());
+    this->correctQGD(this->mu_, this->alpha_);
 }
 
 
@@ -156,7 +161,7 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::correct()
     this->psi_.oldTime();
 
     calculate();
-    
+
     if (debug)
     {
         Info<< "    Finished" << endl;

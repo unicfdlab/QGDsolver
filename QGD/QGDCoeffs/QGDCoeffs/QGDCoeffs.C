@@ -2,25 +2,28 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
-     \\/     M anipulation  |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
 -------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
 License
-    This file is part of OpenFOAM.
-    
+    This file is part of QGDsolver, based on OpenFOAM library.
+
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
     for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 #include "QGDCoeffs.H"
@@ -30,7 +33,9 @@ License
 #include "Time.H"
 #include "addToRunTimeSelectionTable.H"
 #include "coupledFvsPatchFields.H"
-#include "psiQGDThermo.H"
+#include "QGDThermo.H"
+#include "linear.H"
+#include "emptyFvPatch.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -56,10 +61,10 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
 )
 {
     Info<< "Selecting QGD coeffs evaluation approach type " << qgdCoeffsType << endl;
-    
+
     dictionaryConstructorTable::iterator cstrIter =
         dictionaryConstructorTablePtr_->find(qgdCoeffsType);
-    
+
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
         FatalErrorIn
@@ -70,7 +75,7 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
         << dictionaryConstructorTablePtr_->sortedToc()
         << exit(FatalError);
     }
-    
+
     return autoPtr<QGDCoeffs>
     (
         cstrIter()
@@ -122,6 +127,11 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         mesh,
         dimensionSet(1, -1, -1, 0, 0)
     ),
+    hQGDf_
+    (
+        "hQGDf",
+        1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
+    ),
     hQGD_
     (
         IOobject
@@ -132,7 +142,8 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
             IOobject::NO_READ,
             IOobject::NO_WRITE
         ),
-        qgdLength(mesh)()
+        mesh,
+        hQGDf_.dimensions()
     ),
     aQGD_
     (
@@ -159,6 +170,11 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         mesh,
         dimensionSet(0, 0, 1, 0, 0)
     ),
+    tauQGDf_
+    (
+        "tauQGDf",
+        linearInterpolate(tauQGD_)
+    ),
     PrQGD_
     (
         IOobject
@@ -179,20 +195,21 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
             "ScQGD",
             mesh.time().timeName(),
             mesh,
-            IOobject::NO_READ,
+            IOobject::READ_IF_PRESENT,
             IOobject::NO_WRITE
         ),
         mesh,
         dimensionSet(0, 0, 0, 0, 0)
     )
 {
+    this->updateQGDLength(mesh);
 }
 
 QGDCoeffs::~QGDCoeffs()
 {
 }
 
-void Foam::qgd::QGDCoeffs::correct(const psiQGDThermo& qgdThermo)
+void Foam::qgd::QGDCoeffs::correct(const QGDThermo& qgdThermo)
 {
     forAll(tauQGD_, celli)
     {
@@ -206,79 +223,93 @@ void Foam::qgd::QGDCoeffs::correct(const psiQGDThermo& qgdThermo)
     {
         forAll(tauQGD_.boundaryField()[patchi], facei)
         {
-            tauQGD_.boundaryFieldRef()[patchi][facei] = 
+            tauQGD_.boundaryFieldRef()[patchi][facei] =
                 0.0;
-            muQGD_.boundaryFieldRef()[patchi][facei] = 
+            muQGD_.boundaryFieldRef()[patchi][facei] =
                 0.0;
-            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
+            alphauQGD_.boundaryFieldRef()[patchi][facei] =
                 0.0;
-            PrQGD_.boundaryFieldRef()[patchi][facei] = 
+            PrQGD_.boundaryFieldRef()[patchi][facei] =
                 1.0;
-            ScQGD_.boundaryFieldRef()[patchi][facei] = 
+            ScQGD_.boundaryFieldRef()[patchi][facei] =
                 1.0;
         }
     }
 }
 
-Foam::tmp<Foam::volScalarField> Foam::qgd::QGDCoeffs::qgdLength(const fvMesh& mesh)
+void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
 {
-    tmp<volScalarField> tqgdLen
-    (
-        new volScalarField
-        (
-            IOobject
-            (
-                "hQGD",
-                mesh.time().timeName(),
-                mesh,
-                IOobject::NO_READ,
-                IOobject::NO_WRITE
-            ),
-            mesh,
-            dimensionSet(0, 1, 0, 0, 0)
-        )
-    );
-    
-    volScalarField& qgdLen = tqgdLen.ref();
-    
-    surfaceScalarField hf
-    (
-       1.0 / mag(mesh.surfaceInterpolation::deltaCoeffs())
-    );
-    
-    scalar cdist = 0.0;
-    forAll(qgdLen, celli)
+    {
+        scalar hown = 0.0;
+        scalar hnei = 0.0;
+        forAll(hQGDf_.primitiveField(), iFace)
+        {
+            hown = mag(mesh.C()[mesh.owner()[iFace]] - mesh.Cf()[iFace]);
+            hnei = mag(mesh.C()[mesh.neighbour()[iFace]] - mesh.Cf()[iFace]);
+            hQGDf_.primitiveFieldRef()[iFace] = 2.0*min(hown, hnei);
+        }
+
+        forAll(mesh.boundary(), patchi)
+        {
+            const fvPatch& fvp = mesh.boundary()[patchi];
+            if (!fvp.coupled())
+            {
+                hQGDf_.boundaryFieldRef()[patchi] *= 2.0;
+            }
+        }
+    }
+
+    scalar hint = 0.0;
+    scalar surf = 0.0;
+    label  fid  = 0;
+    forAll(hQGD_, celli)
     {
         const cell& c = mesh.cells()[celli];
-        scalar maxlen = 0.0;
+        hint = 0.0;
+        surf = 0.0;
+        label pid = -1;
+        label pfid = -1;
         forAll(c, facei)
         {
-            if (mesh.isInternalFace(c[facei]))
+            fid  = c[facei];
+
+            if (mesh.isInternalFace(fid))
             {
-                cdist = hf[c[facei]];
-                if (cdist > maxlen)
+                hint += hQGDf_[fid] * mesh.magSf()[fid];
+                surf += mesh.magSf()[fid];
+            }
+            else
+            {
+                pid = mesh.boundaryMesh().whichPatch(fid);
+                if (pid >= 0)
                 {
-                    maxlen = hf[c[facei]];
+                    if (!isA<emptyFvPatch>(mesh.boundary()[pid]))
+                    {
+                        pfid = mesh.boundaryMesh()[pid].whichFace(fid);
+
+                        hint += hQGDf_.boundaryField()[pid][pfid] *
+                            mesh.magSf().boundaryField()[pid][pfid];
+                        surf += mesh.magSf().boundaryField()[pid][pfid];
+                    }
                 }
             }
         }
-        qgdLen.primitiveFieldRef()[celli] = maxlen;
+
+        hQGD_.primitiveFieldRef()[celli] = hint / surf;
     }
-    
+
     forAll(mesh.boundary(), patchi)
     {
-        const fvPatch& fvp = mesh.boundary()[patchi];
-        if (fvp.coupled())
+        if (!isA<emptyFvPatch>(mesh.boundary()[patchi]))
         {
-            qgdLen.boundaryFieldRef()[patchi] = hf.boundaryField()[patchi];
-        }
-        else
-        {
-            qgdLen.boundaryFieldRef()[patchi] = 2.0*hf.boundaryField()[patchi];
+            hQGD_.boundaryFieldRef()[patchi] = hQGDf_.boundaryField()[patchi] * 1.0;
         }
     }
-    
-    return tqgdLen;
+}
+
+const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::hQGDf() const
+{
+    return hQGDf_;
 }
 
 const Foam::volScalarField& Foam::qgd::QGDCoeffs::hQGD() const
@@ -301,10 +332,14 @@ const Foam::volScalarField& Foam::qgd::QGDCoeffs::tauQGD() const
     return tauQGD_;
 }
 
+const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::tauQGDf() const
+{
+    return tauQGDf_;
+}
+
 }; //namespace qgd
 
 }; //namespace Foam
 
 
 //END-OF-FILE
-

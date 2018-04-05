@@ -4,7 +4,15 @@ cd QGD; wclean; wcleanLnIncludeAll; cd ../
 
 cd QGDFoam; ./Allwclean; cd ../
 
-cd mQGDFoam; ./Allwclean; cd ../
+cd QHDFoam; ./Allwclean; cd ../
+
+cd TQGDFoam; ./Allwclean; cd ../
+
+cd cQGDFoam; ./Allwclean; cd ../
+
+cd vQGDFoam; ./Allwclean; cd ../
+
+cd utils/selectBadCells; wclean; cd ../../
 
 #
 #END-OF-FILE
