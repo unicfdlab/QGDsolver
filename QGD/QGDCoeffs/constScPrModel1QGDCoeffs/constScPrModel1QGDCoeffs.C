@@ -1,6 +1,35 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
 #include "constScPrModel1QGDCoeffs.H"
-#include "psiQGDThermo.H"
+#include "QGDThermo.H"
 #include "addToRunTimeSelectionTable.H"
+#include "linear.H"
 
 namespace Foam
 {
@@ -26,16 +55,37 @@ constScPrModel1QGDCoeffs::constScPrModel1QGDCoeffs
 :
     QGDCoeffs(io, mesh, dict)
 {
-    scalar ScQGD = 1.0, PrQGD = 1.0;
-    
-    dict.lookup("ScQGD") >> ScQGD;
-    dict.lookup("PrQGD") >> PrQGD;
-    
-    ScQGD_.primitiveFieldRef() = ScQGD;
+    scalar PrQGD = 1.0;
+    if (dict.found("PrQGD"))
+    {
+        dict.lookup("PrQGD") >> PrQGD;
+    }
     PrQGD_.primitiveFieldRef() = PrQGD;
-    
-    ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
+
+    IOobject ScHeader
+    (
+        "ScQGD",
+        mesh.time().timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::NO_WRITE
+    );
+
+    if (ScHeader.headerOk())
+    {
+        //do nothing
+    }
+    else
+    {
+        scalar ScQGD = 1.0;
+        if (dict.found("ScQGD"))
+        {
+            dict.lookup("ScQGD") >> ScQGD;
+        }
+        ScQGD_.primitiveFieldRef() = ScQGD;
+        ScQGD_.boundaryFieldRef() = ScQGD;
+    }
 }
 
 Foam::qgd::
@@ -44,42 +94,46 @@ constScPrModel1QGDCoeffs::~constScPrModel1QGDCoeffs()
 }
 
 void Foam::qgd::
-constScPrModel1QGDCoeffs::correct(const Foam::psiQGDThermo& qgdThermo)
+constScPrModel1QGDCoeffs::correct(const Foam::QGDThermo& qgdThermo)
 {
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();
-    
+
+    this->tauQGDf_= linearInterpolate(this->aQGD_ / cSound) * hQGDf_;
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
-    
+
     forAll(p.primitiveField(), celli)
     {
-        muQGD_.primitiveFieldRef()[celli] = 
-            p.primitiveField()[celli] * 
+        muQGD_.primitiveFieldRef()[celli] =
+            p.primitiveField()[celli] *
             ScQGD_.primitiveField()[celli] *
             tauQGD_.primitiveField()[celli];
-        
-        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] / 
+
+        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] /
             PrQGD_.primitiveField()[celli];
     }
-    
+
     forAll(p.boundaryField(), patchi)
     {
         forAll(p.boundaryField()[patchi], facei)
         {
-            muQGD_.boundaryFieldRef()[patchi][facei] = 
-                p.boundaryField()[patchi][facei] * 
+            muQGD_.boundaryFieldRef()[patchi][facei] =
+                p.boundaryField()[patchi][facei] *
                 ScQGD_.boundaryField()[patchi][facei] *
                 tauQGD_.boundaryField()[patchi][facei];
 
-            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
+            alphauQGD_.boundaryFieldRef()[patchi][facei] =
                 muQGD_.boundaryFieldRef()[patchi][facei] /
                 PrQGD_.boundaryField()[patchi][facei];
         }
+    }
+
+    if (runTime_.outputTime())
+    {
+        ScQGD_.write();
     }
 }
 
 //
 //END-OF-FILE
 //
-
-

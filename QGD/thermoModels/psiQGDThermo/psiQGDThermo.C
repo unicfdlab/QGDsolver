@@ -2,11 +2,14 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
-     \\/     M anipulation  |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
 -------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver, based on OpenFOAM library.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -22,6 +25,8 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 \*---------------------------------------------------------------------------*/
+
+
 
 #include "psiQGDThermo.H"
 #include "surfaceFields.H"
@@ -48,27 +53,17 @@ namespace Foam
 Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName)
 :
     psiThermo(mesh, phaseName),
-    qgdCoeffsPtr_
-    (
-        Foam::qgd::QGDCoeffs::New
-        (
-            this->subDict("QGD").lookup("QGDCoeffs"),
-            mesh,
-            this->subDict("QGD")
-        )
-    ),
+    QGDThermo(mesh, *this),
     c_
     (
         "thermo:c",
-        qgdCoeffsPtr_->hQGD()/mesh.time().deltaT()
+        qgdCoeffs().hQGD()/mesh.time().deltaT()
     ),
     gamma_
     (
         "thermo:gamma",
         c_ / c_
-        //this->Cp() / this->Cv()
-    ),
-    implicitDiffusion_(false)
+    )
 {
     this->read();
 }
@@ -94,57 +89,7 @@ Foam::psiQGDThermo::~psiQGDThermo()
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-void Foam::psiQGDThermo::correctQGD()
-{
-    this->gamma_ == (this->Cp() / this->Cv());
-    c_ = sqrt(gamma_ / this->psi());
-    
-    
-    qgdCoeffsPtr_->correct(*this);
-    const volScalarField& muQGD = this->muQGD();
-    const volScalarField& alphauQGD = this->alphauQGD();
-    
-//    this->tauQGD_ = this->aQGD_ * this->hQGD_  / this->c_;
-    
-    forAll(mu_.primitiveField(), celli)
-    {
-//        muQGD_.primitiveFieldRef()[celli] = 
-//            p_.primitiveField()[celli] * 
-//            ScQGD_ *
-//            tauQGD_.primitiveField()[celli];
-//            //aQGD_.primitiveField()[celli] *
-//            //hQGD_.primitiveField()[celli] /
-//            //c_.primitiveField()[celli];
-//        
-//        alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] / PrQGD_;
-//        
-        mu_.primitiveFieldRef()[celli] +=
-            muQGD.primitiveField()[celli];
-        alpha_.primitiveFieldRef()[celli] +=
-            alphauQGD.primitiveField()[celli];
-    }
-    
-    forAll(mu_.boundaryField(), patchi)
-    {
-        forAll(p_.boundaryField()[patchi], facei)
-        {
-//            muQGD_.boundaryFieldRef()[patchi][facei] = 
-//                p_.boundaryField()[patchi][facei] * ScQGD_ *
-//                tauQGD_.boundaryField()[patchi][facei];
-//                //aQGD_.boundaryField()[patchi][facei] *
-//                //hQGD_.boundaryField()[patchi][facei] /
-//                //c_.boundaryField()[patchi][facei];
-//
-//            alphauQGD_.boundaryFieldRef()[patchi][facei] = 
-//                muQGD_.boundaryField()[patchi][facei] / PrQGD_;
-        }
-        
-        mu_.boundaryFieldRef()[patchi] +=
-            muQGD.boundaryField()[patchi];
-        alpha_.boundaryFieldRef()[patchi] +=
-            alphauQGD.boundaryField()[patchi];
-    }
-}
+
 
 bool Foam::psiQGDThermo::read()
 {
@@ -152,11 +97,12 @@ bool Foam::psiQGDThermo::read()
     {
         return false;
     }
-    
-    //this->subDict("QGD").lookup("ScQGD") >> ScQGD_;
-    //this->subDict("QGD").lookup("PrQGD") >> PrQGD_;
-    this->subDict("QGD").lookup("implicitDiffusion") >> implicitDiffusion_;
-    
+
+    if (!QGDThermo::read())
+    {
+      return false;
+    }
+
     return true;
 }
 
@@ -165,29 +111,24 @@ const Foam::volScalarField& Foam::psiQGDThermo::c() const
     return this->c_;
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::hQGD() const
+const Foam::volScalarField& Foam::psiQGDThermo::p() const
 {
-    return qgdCoeffsPtr_->hQGD();
+  return psiThermo::p();
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::tauQGD() const
+Foam::volScalarField& Foam::psiQGDThermo::p()
 {
-    return qgdCoeffsPtr_->tauQGD();
+  return psiThermo::p();
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::muQGD() const
+Foam::tmp<Foam::volScalarField> Foam::psiQGDThermo::rho() const
 {
-    return qgdCoeffsPtr_->muQGD();
+  return psiThermo::rho();
 }
 
-const Foam::volScalarField& Foam::psiQGDThermo::alphauQGD() const
+Foam::tmp<Foam::volScalarField> Foam::psiQGDThermo::mu() const
 {
-    return qgdCoeffsPtr_->alphauQGD();
-}
-
-Foam::Switch Foam::psiQGDThermo::implicitDiffusion() const
-{
-    return implicitDiffusion_;
+  return psiThermo::mu();
 }
 
 // ************************************************************************* //

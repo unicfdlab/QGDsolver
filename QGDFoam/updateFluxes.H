@@ -4,8 +4,6 @@ gradPf = fvsc::grad(p);
 
 gradUf = fvsc::grad(U);
 
-//gradUfT= Foam::T(gradUf);
-
 divUf  = tr(gradUf);
 
 gradef = fvsc::grad(e);
@@ -17,22 +15,16 @@ gradRhof = fvsc::grad(rho);
 //Continuity equation fluxes
 //---------Start---------
 
-//rhoW = tauQGDf * (fvsc::div(rhoUU) + gradPf); //rhoW should be zero at wall
-
 rhoW = tauQGDf *
         (
-            //(gradUfT & rhofUf)
-            (rhofUf & gradUf)
-            +
-            //Uf * (Uf & gradRhof)
             ((Uf * gradRhof) & Uf)
             +
-            (rhofUf * divUf)
+            (rhoUf * divUf)
             +
-            gradPf
+            ((rhoUf & gradUf) + gradPf)
         );
 
-jm = rhofUf - rhoW;
+jm = rhoUf - rhoW;
 
 phiJm = mesh.Sf() & jm;
 phi = phiJm;
@@ -42,16 +34,19 @@ phi = phiJm;
 //---------Start---------
 
 phiJmU = mesh.Sf() & (jm * Uf);
-//phiJmU = Foam::T(jm * Uf) & mesh.Sf();
-
 phiP = mesh.Sf() * pf;
 
 Pif = 
     //QGD diffusive fluxes
+    tauQGDf*
+    (
+        (UrhoUf & gradUf)
+        +
+        Uf*gradPf
+    )
+    +
     tauQGDf *
     (
-        Uf * (rhof * (Uf & gradUf) + gradPf)
-        +
         I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
     );
     
@@ -69,8 +64,10 @@ if (!implicitDiffusion)
 }
 else
 {
-    tauMCPtr() = muf*linearInterpolate(Foam::T(fvc::grad(U)) - (2.0/3.0)*I*fvc::div(U));
-    phiTauMC = tauMCPtr() & mesh.Sf();
+    //tauMCPtr() = muf*linearInterpolate(Foam::T(fvc::grad(U)) - (2.0/3.0)*I*fvc::div(U));
+    //tauMCPtr() = muf*(Foam::T(gradUf) - (2.0/3.0)*I*divUf);
+    tauMCPtr() = linearInterpolate(turbulence->muEff() * dev2(Foam::T(fvc::grad(U))));
+    phiTauMC = mesh.Sf() & tauMCPtr();
 }
 
 phiPi = mesh.Sf() & Pif;
@@ -82,13 +79,16 @@ phiPi = mesh.Sf() & Pif;
 phiJmH = phiJm * Hf;
 
 qf =
-    -
-    tauQGDf*rhofUf*
+    -tauQGDf*
     (
-        (Uf & gradef)
-        -
-        (pf * (Uf & gradRhof) / rhof / rhof)
+        UrhoUf & 
+        (
+            gradef
+            - (pf / rhof / rhof) * gradRhof
+            //+ pf * fvsc::grad(1.0 / rho)
+        )
     );
+    
 if (!implicitDiffusion)
 {
     qf -=
