@@ -1,0 +1,21 @@
+#!/bin/sh
+
+cd QGD; wmake libso; cd ../
+
+cd QGDFoam; ./Allwmake; cd ../
+
+cd QHDFoam; ./Allwmake; cd ../
+
+cd TQGDFoam; ./Allwmake; cd ../
+
+cd cQGDFoam; ./Allwmake; cd ../
+
+cd vQGDFoam; ./Allwmake; cd ../
+
+cd utils/selectBadCells; wmake; cd ../../
+
+#
+#END-OF-FILE
+#
+
+
