@@ -2,10 +2,10 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2016-2017 OpenCFD Ltd.
-     \\/     M anipulation  |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2017 ISP RAS (www.unicfd.ru)
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -22,18 +22,10 @@ License
     for more details.
 
     You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-
-Class
-    alphaHbyUQHD
-
-Description
-    Class for one of possible ways of tau calculating.
-
-SourceFiles
-    alphaHbyUQHD.C
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>. 
 
 \*---------------------------------------------------------------------------*/
+
 
 #include "alphaHbyUQHD.H"
 #include "QGDThermo.H"
