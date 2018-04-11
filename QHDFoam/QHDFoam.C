@@ -146,10 +146,10 @@ int main(int argc, char *argv[])
             +
             fvc::grad(p)/rho
             -
-            //fvc::div(phiPi)
-	    fvm::laplacian(muf/rhof,U)
-	    -
-	    fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
+            fvc::div(phiPi)
+	    //fvm::laplacian(muf/rhof,U)
+	    //-
+	    //fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
             -
             BdFrc
         );
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
         (
             fvm::ddt(T)
           + fvc::div(phiTf)
-          - fvm::laplacian(Hif,T)
+          - fvc::laplacian(Hif,T)
         );
         runTime.write();
 
