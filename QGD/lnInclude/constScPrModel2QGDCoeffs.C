@@ -1,1 +1,0 @@
-../QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C
