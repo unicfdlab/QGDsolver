@@ -1,5 +1,16 @@
 /*
  *
+ * Gradients at faces
+ *
+ */
+gradUf = fvsc::grad(U);
+
+gradWf = fvsc::grad(W);
+
+gradTf = fvsc::grad(T);
+
+/*
+ *
  * QGD coefficients now updated in thermo library
  *
  */
@@ -18,11 +29,22 @@ rhof = linearInterpolate(rho);
 // Velocity
 Uf = linearInterpolate(U);
     
-// Pressure
-pf = linearInterpolate(p);
-
 // T
 Tf = linearInterpolate(T);
+
+//
+//BdFrc = 
+//fvc::reconstruct
+//(
+//    (
+//      - ghf*fvc::snGrad(T)*beta
+//    )*mesh.magSf()
+//);
+//-beta * gh * fvc::grad(T);
+
+//BdFrcf = -beta*ghf*fvsc::grad(T);
+BdFrc  = (1-beta*T)*g;
+BdFrcf = linearInterpolate(BdFrc);
 
 //Hi
 Hif = alphaf/rhof;

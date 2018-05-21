@@ -1,0 +1,25 @@
+SOURCE = \
+fvsc/fvsc.C \
+fvsc/fvscStencil/fvscStencil.C \
+fvsc/reduced/reducedFaceNormalStencil.C \
+fvsc/leastSquares/leastSquaresBase.C \
+fvsc/leastSquares/leastSquaresStencil.C \
+fvsc/leastSquares/extendedFaceStencilFindNeighbours.C \
+fvsc/leastSquares/extendedFaceStencilCalculateWeights.C \
+fvsc/leastSquares/extendedFaceStencilScalarGrad.C \
+fvsc/leastSquaresOpt/leastSquaresStencilOpt.C \
+fvsc/leastSquaresOpt/extendedFaceStencilScalarDer.C \
+fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C \
+buoyantFlux/buoyantFluxFvPatchScalarField.C \
+QGDCoeffs/QGDCoeffs/QGDCoeffs.C \
+QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C \
+QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C \
+QGDCoeffs/varScModel5QGDCoeffs/varScModel5QGDCoeffs.C \
+QGDCoeffs/alphaH2bynuQHD/alphaH2bynuQHD.C \
+QGDCoeffs/alphaHbyUQHD/alphaHbyUQHD.C \
+QGDCoeffs/alphabyGr/alphabyGr.C \
+thermoModels/QGDThermo/QGDThermo.C \
+thermoModels/psiQGDThermo/psiQGDThermo.C \
+thermoModels/psiQGDThermo/psiQGDThermos.C \
+thermoModels/rhoQGDThermo/rhoQGDThermo.C \
+thermoModels/rhoQGDThermo/rhoQGDThermos.C 

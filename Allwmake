@@ -6,6 +6,8 @@ cd QGDFoam; ./Allwmake; cd ../
 
 cd QHDFoam; ./Allwmake; cd ../
 
+cd QHDFoamBFS; ./Allwmake; cd ../
+
 cd TQGDFoam; ./Allwmake; cd ../
 
 cd cQGDFoam; ./Allwmake; cd ../

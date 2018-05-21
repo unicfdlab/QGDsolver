@@ -125,8 +125,11 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
         }
     }
 
-    this->gamma_ == (this->Cp() / this->Cv());
-    this->c_ = sqrt(this->gamma_ / this->psi());
+    if (!this->isochoric())
+    {
+        this->gamma_ == (this->Cp() / this->Cv());
+        this->c_ = sqrt(this->gamma_ / this->psi());
+    }
     this->correctQGD(this->mu_, this->alpha_);
 }
 

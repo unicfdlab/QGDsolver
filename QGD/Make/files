@@ -12,6 +12,8 @@ fvsc/leastSquares/extendedFaceStencilScalarGrad.C
 fvsc/leastSquaresOpt/leastSquaresStencilOpt.C
 fvsc/leastSquaresOpt/extendedFaceStencilScalarDer.C
 fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C
+/*   Boudary Conditions     */
+buoyantFlux/buoyantFluxFvPatchScalarField.C
 
 /* QGD Coeffs */
 QGDCoeffs/QGDCoeffs/QGDCoeffs.C
@@ -20,6 +22,7 @@ QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C
 QGDCoeffs/varScModel5QGDCoeffs/varScModel5QGDCoeffs.C
 QGDCoeffs/alphaH2bynuQHD/alphaH2bynuQHD.C
 QGDCoeffs/alphaHbyUQHD/alphaHbyUQHD.C
+QGDCoeffs/alphabyGr/alphabyGr.C
 /*QGDCoeffs/varScModel6QGDCoeffs/varScModel6QGDCoeffs.C*/
 
 thermoModels/QGDThermo/QGDThermo.C
