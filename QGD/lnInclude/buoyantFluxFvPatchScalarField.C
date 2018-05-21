@@ -1,1 +1,1 @@
-../buoyantFlux/buoyantFluxFvPatchScalarField.C
+../BCs/buoyantFlux/buoyantFluxFvPatchScalarField.C

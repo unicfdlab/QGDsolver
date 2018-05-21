@@ -1,7 +1,8 @@
-$(OBJECTS_DIR)/buoyantFlux/buoyantFluxFvPatchScalarField.C.dep: \
-buoyantFlux/buoyantFluxFvPatchScalarField.C \
-buoyantFlux/buoyantFluxFvPatchScalarField.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvPatchFields.H \
+$(OBJECTS_DIR)/BCs/cosVelocity/cosVelocityFvPatchVectorField.C.dep: \
+BCs/cosVelocity/cosVelocityFvPatchVectorField.C \
+BCs/cosVelocity/cosVelocityFvPatchVectorField.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/mixedFvPatchFields.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/mixedFvPatchField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvPatchField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvPatch.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/polyPatch.H \
@@ -404,9 +405,10 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeoMesh.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvPatchFieldNew.C \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvPatchField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvPatchField.C \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fixedGradientFvPatchFields.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fixedGradientFvPatchField.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fixedGradientFvPatchField.C \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/mixedFvPatchField.C \
+$(WM_PROJECT_DIR)/src/meshTools/lnInclude/coordinateSystem.H \
+$(WM_PROJECT_DIR)/src/meshTools/lnInclude/coordinateRotation.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addToRunTimeSelectionTable.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/volFields.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricFields.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/GeometricScalarField.H \
@@ -512,6 +514,5 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvsPatchField.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvsPatchField.C \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/fvsPatchFieldsFwd.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/calculatedFvsPatchFields.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addToRunTimeSelectionTable.H \
 
 

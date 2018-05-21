@@ -10,7 +10,8 @@ fvsc/leastSquares/extendedFaceStencilScalarGrad.C \
 fvsc/leastSquaresOpt/leastSquaresStencilOpt.C \
 fvsc/leastSquaresOpt/extendedFaceStencilScalarDer.C \
 fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C \
-buoyantFlux/buoyantFluxFvPatchScalarField.C \
+BCs/buoyantFlux/buoyantFluxFvPatchScalarField.C \
+BCs/cosVelocity/cosVelocityFvPatchVectorField.C \
 QGDCoeffs/QGDCoeffs/QGDCoeffs.C \
 QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C \
 QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C \

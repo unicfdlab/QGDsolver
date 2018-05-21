@@ -12,8 +12,9 @@ fvsc/leastSquares/extendedFaceStencilScalarGrad.C
 fvsc/leastSquaresOpt/leastSquaresStencilOpt.C
 fvsc/leastSquaresOpt/extendedFaceStencilScalarDer.C
 fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C
-/*   Boudary Conditions     */
-buoyantFlux/buoyantFluxFvPatchScalarField.C
+/*   Boundary Conditions     */
+BCs/buoyantFlux/buoyantFluxFvPatchScalarField.C
+BCs/cosVelocity/cosVelocityFvPatchVectorField.C
 
 /* QGD Coeffs */
 QGDCoeffs/QGDCoeffs/QGDCoeffs.C
