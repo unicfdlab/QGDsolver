@@ -30,7 +30,13 @@
         "BdFrcf",
         linearInterpolate(BdFrc)
     );
-    
+
+//    surfaceVectorField BdFrc0f
+//    (
+//        "BdFrc0f",
+//        linearInterpolate(BdFrc0)
+//    );
+
     surfaceScalarField Tf
     (
         "Tf",

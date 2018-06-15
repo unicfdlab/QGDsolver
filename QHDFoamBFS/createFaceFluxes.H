@@ -6,10 +6,10 @@ surfaceVectorField gradPf
     "gradPf", fvsc::grad(p)
 );
 
-surfaceVectorField gradP_rghf
-(
-    "gradP_rghf", fvsc::grad(p_rgh)
-);
+//surfaceVectorField gradP_rghf
+//(
+//    "gradP_rghf", fvsc::grad(p)
+//);
 
 surfaceTensorField gradUf
 (

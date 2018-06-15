@@ -58,6 +58,7 @@ Description
 
 #include "fvCFD.H"
 #include "QHD.H"
+#include "pisoControl.H"
 #include "turbulentFluidThermoModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -70,6 +71,9 @@ int main(int argc, char *argv[])
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
+    
+    pisoControl piso(mesh);
+    
     #include "createFields.H"
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
@@ -82,6 +86,41 @@ int main(int argc, char *argv[])
     scalar meanCoNum = 0.0;
 
     Info<< "\nStarting time loop\n" << endl;
+
+    
+    {
+        /*
+         *
+         * Update fields
+         *
+         */
+        #include "updateFields.H"
+
+        /*
+         *
+         * Update fluxes
+         *
+         */
+       #include "updateFluxes.H"
+       
+        while(piso.correctNonOrthogonal())
+        {
+            fvScalarMatrix pEqn
+            (
+                fvc::div(phiu)
+	        -fvc::div(phiwo)
+                -fvm::laplacian(taubyrhof,p_rgh)
+            );
+        
+            pEqn.setReference(pRefCell, getRefCellValue(p_rgh, pRefCell));
+        
+            pEqn.solve();
+        }
+        
+        volScalarField p_rgh0(p_rgh*1.0);
+        p_rgh0.rename("p_rgh0");
+        p_rgh0.write();
+    }
 
     while (runTime.run())
     {
@@ -117,22 +156,29 @@ int main(int argc, char *argv[])
         T.oldTime();
         turbulence->correct();
         //Continuity equation
-        fvScalarMatrix p_rghEqn
-        (
-             fvc::div(phiu)
-	    -fvc::div(phiwo)
-            -fvm::laplacian(taubyrhof,p_rgh)
-        );
+        while(piso.correctNonOrthogonal())
+        {
+            fvScalarMatrix pEqn
+            (
+                fvc::div(phiu)
+	        -fvc::div(phiwo)
+                -fvm::laplacian(taubyrhof,p_rgh)
+            );
         
-        p_rghEqn.setReference(pRefCell, getRefCellValue(p_rgh, pRefCell));
+            pEqn.setReference(pRefCell, getRefCellValue(p_rgh, pRefCell));
         
-        p_rghEqn.solve();
+            pEqn.solve();
+            
+            if (piso.finalNonOrthogonalIter())
+            {
+                phi = phiu - phiwo + pEqn.flux();
+            }
+        }
         
-        phi = phiu - phiwo + p_rghEqn.flux();
         
-        gradP_rghf = fvsc::grad(p_rgh);
+        gradPf = fvsc::grad(p_rgh);
         
-        Wf = tauQGDf*((Uf & gradUf) + gradP_rghf/rhof + BdFrcf);
+        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
         
         phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
 
@@ -149,7 +195,7 @@ int main(int argc, char *argv[])
             ==
             -
             fvc::grad(p_rgh)/rho
-            -
+            +
             BdFrc
         );
         
@@ -171,10 +217,10 @@ int main(int argc, char *argv[])
         {
             thermo.tauQGD().write();
         }
-
-        p = p_rgh + rho *(1-beta*T) * gh;
         
-        if (p_rgh.needReference())
+        //p = p_rgh + rho * (1-beta*T) * gh;
+        
+        if (p.needReference())
         {
             p += dimensionedScalar
             (
@@ -182,7 +228,7 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-            p_rgh = p - rho * (1-beta*T) * gh;
+            p = p_rgh + rho * (1-beta*T) * gh;
         }
 
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;

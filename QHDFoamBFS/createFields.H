@@ -38,6 +38,7 @@ volVectorField U
 );
 
 
+
 volScalarField rho
 (
     IOobject
@@ -64,26 +65,11 @@ volVectorField W
     U
 );
 
-
-
 dimensionedScalar beta
 (
     "beta",
     dimless/dimTemperature,
     thermo.subDict("mixture").subDict("transport")
-);
-
-
-surfaceScalarField phiu
-(
-    "phiu",
-    mesh.Sf() & linearInterpolate(U)
-);
-
-surfaceScalarField  phiwo
-(
-    "phiwo",
-    mesh.Sf() & linearInterpolate(W)
 );
 
 volScalarField p_rgh
@@ -99,6 +85,22 @@ volScalarField p_rgh
     mesh
 );
 
+p = p_rgh + rho*gh*(1 - beta*T);
+
+surfaceScalarField phiu
+(
+    "phiu",
+    mesh.Sf() & linearInterpolate(U)
+);
+
+surfaceScalarField  phiwo
+(
+    "phiwo",
+    mesh.Sf() & linearInterpolate(W)
+);
+
+
+
 surfaceScalarField phi
 (
     "phi",
@@ -108,8 +110,14 @@ surfaceScalarField phi
 volVectorField BdFrc
 (
     "BdFrc",
-    T*g*beta
+    -T*g*beta
 );
+
+//volVectorField BdFrc0
+//(
+//    "BdFrc0",
+//    -T*g*beta
+//);
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 

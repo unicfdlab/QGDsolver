@@ -42,10 +42,11 @@ Tf = linearInterpolate(T);
 //);
 //-beta * gh * fvc::grad(T);
 
-//BdFrcf = -beta*ghf*fvsc::grad(T);
+BdFrc  = beta*gh*fvc::grad(T);
+BdFrcf = beta*ghf*fvsc::grad(T);
 
-BdFrcf = -beta*ghf*gradTf;
-BdFrc  = -beta*gh*fvc::grad(T);
+//BdFrcf = -beta*g*Tf;// - BdFrc0f;
+//BdFrc  = -beta*g*T;// - BdFrc0;
 
 //Hi
 Hif = alphaf/rhof;

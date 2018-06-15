@@ -733,6 +733,13 @@ $(WM_PROJECT_DIR)/src/transportModels/compressible/lnInclude/compressibleTranspo
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/wallFvPatch.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wallPolyPatch.H \
 ../QGD/lnInclude/fvsc.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pisoControl.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControl.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControl.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControlTemplates.C \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/solutionControlI.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pimpleControlI.H \
+$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/pisoControlI.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/turbulentFluidThermoModel.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/CompressibleTurbulenceModel.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/TurbulenceModel.H \

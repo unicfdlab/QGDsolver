@@ -2,7 +2,7 @@
 //---------Start---------
 phiu  = mesh.Sf() & Uf;
 
-phiwo = mesh.Sf() & (tauQGDf*((Uf & gradUf) + BdFrcf));
+phiwo = mesh.Sf() & (tauQGDf*((Uf & gradUf) - BdFrcf));
 
 taubyrhof = tauQGDf/rhof;
 //---------End---------

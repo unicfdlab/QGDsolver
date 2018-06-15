@@ -175,11 +175,11 @@ void Foam::buoyantFluxFvPatchScalarField::updateCoeffs()
       patch().nf() &
       (
           BdFrc.boundaryField()[patch().index()] *
-          rho.boundaryField()[patch().index()]
+          rho.boundaryField()[patch().index()] 
       )
     );
     
-    this->gradient() = -bFlux;
+    this->gradient() = bFlux;
 
     fixedGradientFvPatchScalarField::updateCoeffs();
 
