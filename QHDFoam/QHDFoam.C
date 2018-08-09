@@ -117,22 +117,22 @@ int main(int argc, char *argv[])
         T.oldTime();
         turbulence->correct();
         //Continuity equation
-        fvScalarMatrix p_rghEqn
+        fvScalarMatrix pEqn
         (
              fvc::div(phiu)
 	    -fvc::div(phiwo)
-            -fvm::laplacian(taubyrhof,p_rgh)
+            -fvm::laplacian(taubyrhof,p)
         );
         
-        p_rghEqn.setReference(pRefCell, getRefCellValue(p_rgh, pRefCell));
+        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
         
-        p_rghEqn.solve();
+        pEqn.solve();
         
-        phi = phiu - phiwo + p_rghEqn.flux();
+        phi = phiu - phiwo + pEqn.flux();
         
-        gradP_rghf = fvsc::grad(p_rgh);
+        gradPf = fvsc::grad(p);
         
-        Wf = tauQGDf*((Uf & gradUf) + gradP_rghf/rhof + BdFrcf);
+        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
         
         phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
 
@@ -148,8 +148,8 @@ int main(int argc, char *argv[])
             fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
             ==
             -
-            fvc::grad(p_rgh)/rho
-            -
+            fvc::grad(p)/rho
+            +
             BdFrc
         );
         
@@ -172,9 +172,9 @@ int main(int argc, char *argv[])
             thermo.tauQGD().write();
         }
 
-        p = p_rgh + rho *(1-beta*T) * gh;
-        
-        if (p_rgh.needReference())
+//        p = p_rgh + rho *(1-beta*T) * gh;
+//        
+        if (p.needReference())
         {
             p += dimensionedScalar
             (
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-            p_rgh = p - rho * (1-beta*T) * gh;
+//            p_rgh = p - rho * (1-beta*T) * gh;
         }
 
         Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
@@ -200,6 +200,7 @@ int main(int argc, char *argv[])
             phiu.write();
             phi.write();
         }
+
     }
 
 

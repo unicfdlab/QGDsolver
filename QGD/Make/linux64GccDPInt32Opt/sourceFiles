@@ -12,6 +12,7 @@ fvsc/leastSquaresOpt/extendedFaceStencilScalarDer.C \
 fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C \
 BCs/buoyantFlux/buoyantFluxFvPatchScalarField.C \
 BCs/cosVelocity/cosVelocityFvPatchVectorField.C \
+BCs/qhdFlux/qhdFluxFvPatchScalarField.C \
 QGDCoeffs/QGDCoeffs/QGDCoeffs.C \
 QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C \
 QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C \
@@ -19,6 +20,7 @@ QGDCoeffs/varScModel5QGDCoeffs/varScModel5QGDCoeffs.C \
 QGDCoeffs/alphaH2bynuQHD/alphaH2bynuQHD.C \
 QGDCoeffs/alphaHbyUQHD/alphaHbyUQHD.C \
 QGDCoeffs/alphabyGr/alphabyGr.C \
+QGDCoeffs/constTau/constTau.C \
 thermoModels/QGDThermo/QGDThermo.C \
 thermoModels/psiQGDThermo/psiQGDThermo.C \
 thermoModels/psiQGDThermo/psiQGDThermos.C \
