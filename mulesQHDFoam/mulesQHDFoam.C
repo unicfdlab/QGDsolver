@@ -57,6 +57,18 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
+#include "CMULES.H"
+#include "EulerDdtScheme.H"
+#include "localEulerDdtScheme.H"
+#include "CrankNicolsonDdtScheme.H"
+#include "subCycle.H"
+#include "immiscibleIncompressibleTwoPhaseMixture.H"
+#include "turbulentTransportModel.H"
+#include "pimpleControl.H"
+#include "fvOptions.H"
+#include "CorrectPhi.H"
+#include "localEulerDdtScheme.H"
+#include "fvcSmooth.H"
 #include "QHD.H"
 #include "turbulentFluidThermoModel.H"
 
@@ -74,6 +86,8 @@ int main(int argc, char *argv[])
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
+
+
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -156,8 +170,8 @@ int main(int argc, char *argv[])
         phiTf = phi * Tf;
 
         // --- Solve T
-       
-        #include "T.H"
+        #include "alphaControls.H"
+        #include "MULESTEqn.H"
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"

@@ -1,13 +1,13 @@
 {
-    word alphaScheme("div(phi,alpha)");
-    word alpharScheme("div(phirb,alpha)");
+    word alphaScheme("div(phiTf)");
+    word alpharScheme("laplacian(Hif,T)");
 
     tmp<fv::ddtScheme<scalar>> ddtAlpha
     (
         fv::ddtScheme<scalar>::New
         (
             mesh,
-            mesh.ddtScheme("ddt(alpha)")
+            mesh.ddtScheme("ddt(T)")
         )
     );
 
@@ -79,22 +79,18 @@
 
     if (MULESCorr)
     {
-        fvScalarMatrix alpha1Eqn
+        fvScalarMatrix TEqn
         (
-            (
-                LTS
-              ? fv::localEulerDdtScheme<scalar>(mesh).fvmDdt(alpha1)
-              : fv::EulerDdtScheme<scalar>(mesh).fvmDdt(alpha1)
-            )
-          + fv::gaussConvectionScheme<scalar>
-            (
-                mesh,
-                phiCN,
-                upwind<scalar>(mesh, phiCN)
-            ).fvmDiv(phiCN, alpha1)
+              fvm::ddt(T)
+            + fvc::div(phiTf)
+            - fvc::laplacian(Hif,T)
+               
         );
 
-        alpha1Eqn.solve();
+        TEqn.solve();
+        
+        alpha1=T;
+        alphaPhi=phiTf;
 
         Info<< "Phase-1 volume fraction = "
             << alpha1.weightedAverage(mesh.Vsc()).value()
@@ -102,7 +98,7 @@
             << "  Max(" << alpha1.name() << ") = " << max(alpha1).value()
             << endl;
 
-        tmp<surfaceScalarField> talphaPhiUD(alpha1Eqn.flux());
+        tmp<surfaceScalarField> talphaPhiUD(TEqn.flux());
         alphaPhi = talphaPhiUD();
 
         if (alphaApplyPrevCorr && talphaPhiCorr0.valid())

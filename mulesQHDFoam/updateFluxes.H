@@ -17,4 +17,6 @@ taubyrhof = tauQGDf/rhof;
 // Fluxes for T
 //---------Start---------
 
+phiTf = alphaPhi;
+
 //---------End---------

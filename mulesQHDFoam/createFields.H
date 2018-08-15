@@ -124,10 +124,53 @@ turbulence.reset
         thermo
     ).ptr()
 );
+rho.oldTime();
 
 label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, mesh.solutionDict().subDict("PISO"), pRefCell, pRefValue);
+
+immiscibleIncompressibleTwoPhaseMixture mixture(U, phi);
+
+volScalarField& rho1(rho*(T));
+volScalarField& rho2(rho*(1-T));
+
+
+volScalarField& alpha1(T);
+volScalarField& alpha2(1-T);
+
+// MULES flux from previous time-step
+surfaceScalarField alphaPhi
+(
+    IOobject
+    (
+        "alphaPhi",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
+    phi*fvc::interpolate(alpha1)
+);
+
+// Mass flux
+surfaceScalarField rhoPhi
+(
+    IOobject
+    (
+        "rhoPhi",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    fvc::interpolate(rho)*phi
+);
+
+
+// MULES Correction
+tmp<surfaceScalarField> talphaPhiCorr0;
+
 
 //
 //END-OF-FILE
