@@ -132,12 +132,16 @@ setRefCell(p, mesh.solutionDict().subDict("PISO"), pRefCell, pRefValue);
 
 immiscibleIncompressibleTwoPhaseMixture mixture(U, phi);
 
-volScalarField& rho1(rho*(T));
-volScalarField& rho2(rho*(1-T));
 
+volScalarField& alpha1(mixture.alpha1());
+volScalarField& alpha2(mixture.alpha2());
 
-volScalarField& alpha1(T);
-volScalarField& alpha2(1-T);
+alpha1 = T;
+alpha2 = 1-T;
+
+const dimensionedScalar& rho1 = mixture.rho1();
+const dimensionedScalar& rho2 = mixture.rho2();
+ 
 
 // MULES flux from previous time-step
 surfaceScalarField alphaPhi
