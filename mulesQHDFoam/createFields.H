@@ -130,47 +130,7 @@ label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, mesh.solutionDict().subDict("PISO"), pRefCell, pRefValue);
 
-immiscibleIncompressibleTwoPhaseMixture mixture(U, phi);
-
-
-volScalarField& alpha1(mixture.alpha1());
-volScalarField& alpha2(mixture.alpha2());
-
-alpha1 = T;
-alpha2 = 1-T;
-
-const dimensionedScalar& rho1 = mixture.rho1();
-const dimensionedScalar& rho2 = mixture.rho2();
- 
-
-// MULES flux from previous time-step
-surfaceScalarField alphaPhi
-(
-    IOobject
-    (
-        "alphaPhi",
-        runTime.timeName(),
-        mesh,
-        IOobject::READ_IF_PRESENT,
-        IOobject::AUTO_WRITE
-    ),
-    phi*fvc::interpolate(alpha1)
-);
-
-// Mass flux
-surfaceScalarField rhoPhi
-(
-    IOobject
-    (
-        "rhoPhi",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
-    ),
-    fvc::interpolate(rho)*phi
-);
-
+volScalarField alpha1(T);
 
 // MULES Correction
 tmp<surfaceScalarField> talphaPhiCorr0;
