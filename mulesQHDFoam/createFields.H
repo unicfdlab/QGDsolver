@@ -16,7 +16,7 @@ thermo.correct();
 volScalarField& e = thermo.he();
 
 volScalarField& p = thermo.p();
-const volScalarField& T = thermo.T();
+volScalarField& T = const_cast<volScalarField&>(thermo.T());
 const surfaceScalarField& hQGDf = thermo.hQGDf();
 const surfaceScalarField& tauQGDf = thermo.tauQGDf();
 
