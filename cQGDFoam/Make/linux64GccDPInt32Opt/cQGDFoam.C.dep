@@ -721,19 +721,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/argListI.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/timeSelector.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarRanges.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/scalarRange.H \
-../QGD/lnInclude/QGD.H \
-../QGD/lnInclude/psiQGDThermo.H \
-../QGD/lnInclude/QGDThermo.H \
-$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/psiThermo.H \
-$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/fluidThermo.H \
-$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/basicThermo.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordIOList.H \
-$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/basicThermoTemplates.C \
-$(WM_PROJECT_DIR)/src/transportModels/compressible/lnInclude/compressibleTransportModel.H \
-../QGD/lnInclude/QGDCoeffs.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/wallFvPatch.H \
-$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wallPolyPatch.H \
-../QGD/lnInclude/fvsc.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/turbulentFluidThermoModel.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/CompressibleTurbulenceModel.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/TurbulenceModel.H \
@@ -751,6 +738,11 @@ $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/RASModel.C \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/LESModel.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/LESdelta.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/LESModel.C \
+$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/fluidThermo.H \
+$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/basicThermo.H \
+$(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/wordIOList.H \
+$(WM_PROJECT_DIR)/src/thermophysicalModels/basic/lnInclude/basicThermoTemplates.C \
+$(WM_PROJECT_DIR)/src/transportModels/compressible/lnInclude/compressibleTransportModel.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/turbulentFluidThermoModel.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addRegionOption.H \
@@ -766,10 +758,6 @@ $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/createTimeControls.H \
 updateFields.H \
 updateFluxes.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/readTimeControls.H \
-../QGD/lnInclude/QGDCourantNo.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/setDeltaT.H \
-../QGD/lnInclude/QGDRhoEqn.H \
-../QGD/lnInclude/QGDUEqn.H \
-../QGD/lnInclude/QGDEEqn.H \
 
 

@@ -157,6 +157,11 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         ),
         mesh
     ),
+    aQGDf_
+    (
+        "aQGDf",
+        linearInterpolate(aQGD_)
+    ),
     tauQGD_
     (
         IOobject
@@ -218,6 +223,7 @@ void Foam::qgd::QGDCoeffs::correct(const QGDThermo& qgdThermo)
         alphauQGD_.primitiveFieldRef()[celli] = 0.0;
         ScQGD_.primitiveFieldRef()[celli] = 1.0;
         PrQGD_.primitiveFieldRef()[celli] = 1.0;
+	aQGD_.primitiveFieldRef()[celli] = 0.0;
     }
     forAll(tauQGD_.boundaryField(), patchi)
     {
@@ -233,6 +239,8 @@ void Foam::qgd::QGDCoeffs::correct(const QGDThermo& qgdThermo)
                 1.0;
             ScQGD_.boundaryFieldRef()[patchi][facei] =
                 1.0;
+	    aQGD_.boundaryFieldRef()[patchi][facei] = 
+		0.0;
         }
     }
 }
@@ -336,6 +344,17 @@ const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::tauQGDf() const
 {
     return tauQGDf_;
 }
+
+const Foam::volScalarField& Foam::qgd::QGDCoeffs::aQGD() const
+{ 
+    return aQGD_;
+}
+
+const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::aQGDf() const
+{
+    return aQGDf_;
+}
+
 
 }; //namespace qgd
 

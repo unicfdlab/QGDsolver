@@ -82,12 +82,16 @@ protected:
     volScalarField aQGD_;
 
     //-
+    surfaceScalarField aQGDf_;
+
+    //-
     volScalarField tauQGD_;
 
     //-
     surfaceScalarField tauQGDf_;
 
     //-
+
     volScalarField PrQGD_;
 
     //-
@@ -162,6 +166,12 @@ public:
 
     //-
     const volScalarField& alphauQGD() const;
+
+    //-
+    const volScalarField& aQGD() const;
+
+    //-
+    const surfaceScalarField& aQGDf() const;
 
 };
 
