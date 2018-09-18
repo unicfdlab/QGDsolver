@@ -170,24 +170,35 @@ void Foam::qhdFluxFvPatchScalarField::updateCoeffs()
             ("phiwStar");
 
         if (this->patch().boundaryMesh().mesh().thisDb().
-            foundObject<surfaceScalarField>("tauQGDf")
+            foundObject<surfaceScalarField>("rhof")
            )
         {
-            const surfaceScalarField& tauQGDf = 
+            if (this->patch().boundaryMesh().mesh().thisDb().
+                foundObject<surfaceScalarField>("tauQGDf")
+               )
+            {
+                const surfaceScalarField& rhof = 
+                this->patch().boundaryMesh().mesh().
+                thisDb().lookupObject<surfaceScalarField>
+                ("rhof");
+
+                const surfaceScalarField& tauQGDf = 
                 this->patch().boundaryMesh().mesh().
                 thisDb().lookupObject<surfaceScalarField>
                 ("tauQGDf");
-        
-            scalarField fluxSnGrad
-            (
-                phiws.boundaryField()[patch().index()]
-                /
-                tauQGDf.boundaryField()[patch().index()]
-                /
-                patch().magSf()
-            );
-            
-            this->gradient() = -fluxSnGrad;
+
+                scalarField fluxSnGrad
+                (
+                    phiws.boundaryField()[patch().index()]
+                    /
+                    tauQGDf.boundaryField()[patch().index()]
+                    *
+                    rhof.boundaryField()[patch().index()]
+                    /
+                    patch().magSf()
+                );
+                this->gradient() = -fluxSnGrad;
+            }
         }
     }
     

@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
         solve
         (
             fvm::ddt(T)
-          + fvc::div(phiTf+(mesh.Sf() & (tauQGDf*(Uf * tr(gradUf))))*Tf)
+          + fvc::div(phiTf-(mesh.Sf() & (tauQGDf*(Uf * tr(gradUf))))*Tf)
           - fvc::laplacian(Hif,T)
         );
         

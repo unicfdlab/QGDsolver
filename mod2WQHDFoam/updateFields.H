@@ -30,7 +30,6 @@ rhof = linearInterpolate(rho);
 Uf = linearInterpolate(U);
     
 // T
-
 Tf = linearInterpolate(T);
 
 //
@@ -44,7 +43,7 @@ Tf = linearInterpolate(T);
 //-beta * gh * fvc::grad(T);
 
 //BdFrcf = -beta*ghf*fvsc::grad(T);
-BdFrc  = -beta*(T-T0)*g;
+BdFrc  = -beta*T*g;
 BdFrcf = linearInterpolate(BdFrc);
 
 //Hi

@@ -16,7 +16,7 @@ thermo.correct();
 volScalarField& e = thermo.he();
 
 volScalarField& p = thermo.p();
-volScalarField& T = const_cast<volScalarField&>(thermo.T());
+const volScalarField& T = thermo.T();
 const surfaceScalarField& hQGDf = thermo.hQGDf();
 const surfaceScalarField& tauQGDf = thermo.tauQGDf();
 
@@ -37,11 +37,6 @@ volVectorField U
     mesh
 );
 
-volScalarField T0
-(
-    "T0",
-    T
-);
 
 volScalarField rho
 (
@@ -129,17 +124,10 @@ turbulence.reset
         thermo
     ).ptr()
 );
-rho.oldTime();
 
 label pRefCell = 0;
 scalar pRefValue = 0.0;
-setRefCell(p, mesh.solutionDict().subDict("PIMPLE"), pRefCell, pRefValue);
-
-volScalarField alpha1(T);
-
-// MULES Correction
-tmp<surfaceScalarField> talphaPhiCorr0;
-
+setRefCell(p, mesh.solutionDict().subDict("PISO"), pRefCell, pRefValue);
 
 //
 //END-OF-FILE

@@ -57,16 +57,6 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "CMULES.H"
-#include "EulerDdtScheme.H"
-#include "localEulerDdtScheme.H"
-#include "CrankNicolsonDdtScheme.H"
-#include "subCycle.H"
-#include "pimpleControl.H"
-#include "fvOptions.H"
-#include "CorrectPhi.H"
-#include "localEulerDdtScheme.H"
-#include "fvcSmooth.H"
 #include "QHD.H"
 #include "turbulentFluidThermoModel.H"
 
@@ -84,9 +74,6 @@ int main(int argc, char *argv[])
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
-
-    pimpleControl pimple(mesh);
-
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -130,27 +117,18 @@ int main(int argc, char *argv[])
         T.oldTime();
         turbulence->correct();
         //Continuity equation
-	
-        while (pimple.correctNonOrthogonal())
-        {
-                // Pressure corrector
-
-            fvScalarMatrix pEqn
-            (
-                 fvc::div(phiu)
-	        -fvc::div(phiwo)
-                -fvm::laplacian(taubyrhof,p)
-            );
-	    
-            pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-            pEqn.solve();
-
-                if (pimple.finalNonOrthogonalIter())
-                {
-                    phi = phiu - phiwo + pEqn.flux();
-                }
-        }
+        fvScalarMatrix pEqn
+        (
+             fvc::div(phiu)
+	    -fvc::div(phiwo)
+            -fvm::laplacian(taubyrhof,p)
+        );
+        
+        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
+        
+        pEqn.solve();
+        
+        phi = phiu - phiwo + pEqn.flux();
         
         gradPf = fvsc::grad(p);
         
@@ -178,9 +156,13 @@ int main(int argc, char *argv[])
         phiTf = phi * Tf;
 
         // --- Solve T
-        #include "alphaControls.H"
-        #include "MULESTEqn.H"
-
+        solve
+        (
+            fvm::ddt(T)
+          + fvc::div(phiTf-(tauQGDf*(mesh.Sf()&(fvsc::div(U*U) - (Uf & gradUf))*Tf)))
+          - fvc::laplacian(Hif,T)
+        );
+        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
