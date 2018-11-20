@@ -17,6 +17,12 @@
         "Uf",
         linearInterpolate(U)
     );
+
+    surfaceScalarField pf
+    (
+        "pf",
+	linearInterpolate(p)
+    );
     
     //
     surfaceVectorField Wf

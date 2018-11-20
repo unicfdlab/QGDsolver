@@ -11,7 +11,7 @@
         )
     );
 
-    MULES::explicitSolve(T, phi, phiTf, 1, 0);
+    MULES::explicitSolve(T, phi, phiTf, gMax(T), gMin(T));
 
     solve(fvm::ddt(T)-fvc::ddt(T)-fvc::laplacian(Hif,T));
 

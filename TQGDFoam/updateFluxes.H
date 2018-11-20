@@ -1,7 +1,5 @@
 //Gradients and divergence
 //---------Start---------
-gradPf = fvsc::grad(p);
-
 gradUf = fvsc::grad(U);
 
 if (!implicitDiffusion)
@@ -14,10 +12,16 @@ if (!implicitDiffusion)
 
 //Continuity equation fluxes
 //---------Start---------
-rhoW = tauQGDf * ((rhofUf & gradUf) + gradPf);
+rhoW = tauQGDf * (rhofUf & gradUf);
 
-//jm = rhoUf - rhoW; //was rhoUf
-jm = rhofUf - rhoW; //was rhoUf
+phiw = mesh.Sf() & rhoW;
+
+gradPf = fvsc::grad(p);
+
+rhoW += tauQGDf * gradPf;
+
+jm = rhoUf - rhoW; //was rhoUf
+//jm = rhofUf - rhoW; //was rhoUf
 
 phiJm = mesh.Sf() & jm;
 phi   = mesh.Sf() & rhofUf;

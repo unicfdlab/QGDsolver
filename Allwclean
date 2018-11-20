@@ -14,6 +14,10 @@ cd cQGDFoam; ./Allwclean; cd ../
 
 cd vQGDFoam; ./Allwclean; cd ../
 
+cd mulesQHDFoam; ./Allwclean; cd ../
+
+cd mulesQHDFoamI; ./Allwclean; cd ../
+
 cd utils/selectBadCells; wclean; cd ../../
 
 #

@@ -123,6 +123,7 @@ fvscStencil::fvscStencil(const IOobject& io)
         mesh_.Sf() / mesh_.magSf()
     )
 {
+    nf_.rename("nf");
 }
 
 fvscStencil::~fvscStencil()

@@ -12,19 +12,26 @@ fvsc/leastSquares/extendedFaceStencilScalarGrad.C
 fvsc/leastSquaresOpt/leastSquaresStencilOpt.C
 fvsc/leastSquaresOpt/extendedFaceStencilScalarDer.C
 fvsc/leastSquaresOpt/extendedFaceStencilScalarGradOpt.C
+/* Shilnikov approximation */
+fvsc/GaussVolPoint/GaussVolPointBase1D.C
+fvsc/GaussVolPoint/GaussVolPointBase2D.C
+fvsc/GaussVolPoint/GaussVolPointBase3D.C
+fvsc/GaussVolPoint/GaussVolPointBase.C
+fvsc/GaussVolPoint/GaussVolPointStencil.C
+
 /*   Boundary Conditions     */
-BCs/buoyantFlux/buoyantFluxFvPatchScalarField.C
 BCs/cosVelocity/cosVelocityFvPatchVectorField.C
 BCs/qhdFlux/qhdFluxFvPatchScalarField.C
+BCs/qgdFlux/qgdFluxFvPatchScalarField.C
 
 /* QGD Coeffs */
 QGDCoeffs/QGDCoeffs/QGDCoeffs.C
-QGDCoeffs/constScPrModel1QGDCoeffs/constScPrModel1QGDCoeffs.C
-QGDCoeffs/constScPrModel2QGDCoeffs/constScPrModel2QGDCoeffs.C
-QGDCoeffs/varScModel5QGDCoeffs/varScModel5QGDCoeffs.C
-QGDCoeffs/alphaH2bynuQHD/alphaH2bynuQHD.C
-QGDCoeffs/alphaHbyUQHD/alphaHbyUQHD.C
-QGDCoeffs/alphabyGr/alphabyGr.C
+QGDCoeffs/constScPrModel1/constScPrModel1.C
+QGDCoeffs/constScPrModel2/constScPrModel2.C
+QGDCoeffs/varScModel5/varScModel5.C
+QGDCoeffs/H2bynuQHD/H2bynuQHD.C
+QGDCoeffs/HbyUQHD/HbyUQHD.C
+QGDCoeffs/byGr/byGr.C
 QGDCoeffs/constTau/constTau.C
 /*QGDCoeffs/varScModel6QGDCoeffs/varScModel6QGDCoeffs.C*/
 

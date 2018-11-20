@@ -68,6 +68,7 @@ Description
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
 #include "QHD.H"
+#include "turbulentTransportModel.H"
 #include "turbulentFluidThermoModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -87,7 +88,7 @@ int main(int argc, char *argv[])
 
     pimpleControl pimple(mesh);
 
-
+    turbulence->validate();
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     // Courant numbers used to adjust the time-step
@@ -119,7 +120,7 @@ int main(int argc, char *argv[])
          */
         #include "readTimeControls.H"
         #include "QHDCourantNo.H"
-        #include "setDeltaT.H"
+        #include "setDeltaT-QGDQHD.H"
 
         runTime++;
 

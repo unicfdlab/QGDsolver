@@ -98,6 +98,13 @@ surfaceScalarField phi
     linearInterpolate(rho*U) & mesh.Sf()
 );
 
+surfaceScalarField phiRhof
+(
+    "phiRhof",
+    linearInterpolate(rho)*phi
+);
+
+
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
 Info<< "Creating turbulence model\n" << endl;
@@ -107,7 +114,7 @@ turbulence.reset
     (
         rho,
         U,
-        phi,
+        phiRhof,
         thermo
     ).ptr()
 );

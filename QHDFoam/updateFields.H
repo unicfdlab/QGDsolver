@@ -15,7 +15,7 @@ gradTf = fvsc::grad(T);
  *
  */
 muf        = linearInterpolate(turbulence->muEff());
-alphaf = linearInterpolate(turbulence->alphaEff());
+alphaf = linearInterpolate(thermo.alpha());
 
 /*
  *

@@ -59,6 +59,8 @@ Description
 #include "fvCFD.H"
 #include "QHD.H"
 #include "turbulentFluidThermoModel.H"
+#include "turbulentTransportModel.H"
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -74,6 +76,8 @@ int main(int argc, char *argv[])
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
+
+    turbulence->validate();
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -106,7 +110,7 @@ int main(int argc, char *argv[])
          */
         #include "readTimeControls.H"
         #include "QHDCourantNo.H"
-        #include "setDeltaT.H"
+        #include "setDeltaT-QGDQHD.H"
 
         runTime++;
 
@@ -123,37 +127,37 @@ int main(int argc, char *argv[])
 	    -fvc::div(phiwo)
             -fvm::laplacian(taubyrhof,p)
         );
-        
-        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-        
-        pEqn.solve();
-        
-        phi = phiu - phiwo + pEqn.flux();
-        
-        gradPf = fvsc::grad(p);
-        
-        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
-        
-        phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
 
-        // --- Solve U
+        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
+
+        pEqn.solve();
+
+	phi = phiu - phiwo + pEqn.flux();
+
+        gradPf = fvsc::grad(p);
+
+
+        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
+
+	phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
+
+      	// --- Solve U
         solve
         (
             fvm::ddt(U)
             +
             fvc::div(phiUf)
+            +
+            fvc::grad(p)/rho
             -
             fvc::laplacian(muf/rhof,U)
             -
             fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-            ==
             -
-            fvc::grad(p)/rho
-            +
             BdFrc
         );
-        
-        phiTf = phi * Tf;
+
+	phiTf = phi * Tf;
 
         // --- Solve T
         solve
@@ -162,7 +166,8 @@ int main(int argc, char *argv[])
           + fvc::div(phiTf)
           - fvc::laplacian(Hif,T)
         );
-        
+        runTime.write();
+
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
@@ -171,9 +176,7 @@ int main(int argc, char *argv[])
         {
             thermo.tauQGD().write();
         }
-
-//        p = p_rgh + rho *(1-beta*T) * gh;
-//        
+  
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -182,26 +185,9 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-//            p_rgh = p - rho * (1-beta*T) * gh;
-        }
-
-        Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
-        Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;
-        Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
-        Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
-        
-        if(runTime.write())
-        {
-            phi.write();
-            Wf.write();
-            BdFrc.write();
-            BdFrcf.write();
-            phiwo.write();
-            phiu.write();
-            phi.write();
-        }
-
+	}
     }
+
 
 
     Info<< "End\n" << endl;

@@ -767,6 +767,6 @@ updateFields.H \
 updateFluxes.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/readTimeControls.H \
 ../QGD/lnInclude/QGDCourantNo.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/setDeltaT.H \
+../QGD/lnInclude/setDeltaT-QGDQHD.H \
 
 

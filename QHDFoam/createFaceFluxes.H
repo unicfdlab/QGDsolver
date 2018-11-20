@@ -1,15 +1,26 @@
+
+/*Field for debugging parallel execution*/
+//cellNo.correctBoundaryConditions();
+//surfaceVectorField cellNoGradf
+//(
+//    "cellNoGradf", fvsc::grad(cellNo)
+//);
+//
+//cellNoGradf.write();
+
 //Gradients and divergence
 //---------Start---------
+
 
 surfaceVectorField gradPf 
 (
     "gradPf", fvsc::grad(p)
 );
 
-//surfaceVectorField gradPf
-//(
-//    "gradP_rghf", fvsc::grad(p)
-//);
+surfaceVectorField gradTf
+(
+    "gradTf", fvsc::grad(T)
+);
 
 surfaceTensorField gradUf
 (
@@ -23,10 +34,16 @@ surfaceTensorField gradWf
     fvsc::grad(W)
 );
 
-surfaceVectorField gradTf
+surfaceVectorField gradRhof
 (
-    "gradTf",
-    fvsc::grad(T)
+    "gradRhof",
+    fvsc::grad(rho)
+);
+
+surfaceScalarField divUf
+(
+    "divUf",
+    tr(gradUf)
 );
 
 //---------End---------
@@ -42,22 +59,34 @@ surfaceVectorField phiUf
     phi * Uf + (mesh.Sf() & (Wf * Wf))
 );
 
+surfaceScalarField Pbyrho
+(
+    "Pbyrho",
+    pf/rhof
+);
+
 surfaceScalarField phiTf
 (
     "phiTf",
     phi*Tf
 );
 
-//surfaceVectorField phiPi
-//(
-//    "phiPi",
-//    muf/rhof * mesh.Sf() & (gradUf+gradUf.T())
-//);
+surfaceVectorField phiPi
+(
+    "phiPi",
+    muf/rhof * mesh.Sf() & (gradUf+gradUf.T())
+);
 
 //---------End---------
 
 // Fluxes for T balance equation
 //---------Start---------
+surfaceScalarField phiUmWT
+(
+    "phiUmWT",
+    ((Uf-Wf)*Tf) & mesh.Sf()
+);
+
 surfaceScalarField Hif
 (
     "Hif",

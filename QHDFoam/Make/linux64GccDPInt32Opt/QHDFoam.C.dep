@@ -751,6 +751,12 @@ $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/LESModel.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/LESdelta.H \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/turbulenceModels/lnInclude/LESModel.C \
 $(WM_PROJECT_DIR)/src/TurbulenceModels/compressible/lnInclude/turbulentFluidThermoModel.C \
+$(WM_PROJECT_DIR)/src/TurbulenceModels/incompressible/lnInclude/turbulentTransportModel.H \
+$(WM_PROJECT_DIR)/src/TurbulenceModels/incompressible/lnInclude/IncompressibleTurbulenceModel.H \
+$(WM_PROJECT_DIR)/src/TurbulenceModels/incompressible/lnInclude/incompressibleTurbulenceModel.H \
+$(WM_PROJECT_DIR)/src/TurbulenceModels/incompressible/lnInclude/IncompressibleTurbulenceModel.C \
+$(WM_PROJECT_DIR)/src/transportModels/incompressible/transportModel/transportModel.H \
+$(WM_PROJECT_DIR)/src/TurbulenceModels/incompressible/lnInclude/turbulentTransportModel.C \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/postProcess.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addRegionOption.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/addFunctionObjectOptions.H \
@@ -759,9 +765,6 @@ $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/setRootCase.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createTime.H \
 $(WM_PROJECT_DIR)/src/OpenFOAM/lnInclude/createMesh.H \
 createFields.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/readGravitationalAcceleration.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/readhRef.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/gh.H \
 createFaceFields.H \
 createFaceFluxes.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/createTimeControls.H \
@@ -769,6 +772,6 @@ updateFields.H \
 updateFluxes.H \
 $(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/readTimeControls.H \
 ../QGD/lnInclude/QHDCourantNo.H \
-$(WM_PROJECT_DIR)/src/finiteVolume/lnInclude/setDeltaT.H \
+../QGD/lnInclude/setDeltaT-QGDQHD.H \
 
 

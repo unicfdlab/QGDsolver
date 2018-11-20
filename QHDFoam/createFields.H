@@ -1,9 +1,3 @@
-#include "readGravitationalAcceleration.H"
-#include "readhRef.H"
-#include "gh.H"
-
-
-
 Info<< "Reading thermophysical properties\n" << endl;
 
 autoPtr<rhoQGDThermo> pThermo
@@ -37,7 +31,6 @@ volVectorField U
     mesh
 );
 
-
 volScalarField rho
 (
     IOobject
@@ -66,6 +59,23 @@ volVectorField W
 
 
 
+
+Info<< "\nReading gravitationalProperties" << endl;
+  
+IOdictionary gravitationalProperties
+(
+    IOobject
+    (
+        "gravitationalProperties",
+        runTime.constant(),
+        mesh,
+        IOobject::MUST_READ_IF_MODIFIED,
+        IOobject::NO_WRITE
+    )
+);
+
+const dimensionedVector g(gravitationalProperties.lookup("g"));
+
 dimensionedScalar beta
 (
     "beta",
@@ -82,22 +92,9 @@ surfaceScalarField phiu
 
 surfaceScalarField  phiwo
 (
-    "phiwStar",
+    "phiwo",
     mesh.Sf() & linearInterpolate(W)
 );
-
-//volScalarField p_rgh
-//(
-//    IOobject
-//    (
-//        "p_rgh",
-//        runTime.timeName(),
-//        mesh,
-//        IOobject::MUST_READ,
-//        IOobject::AUTO_WRITE
-//    ),
-//    mesh
-//);
 
 surfaceScalarField phi
 (
@@ -113,6 +110,12 @@ volVectorField BdFrc
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
+surfaceScalarField phiRhof
+(
+    "phiRhof",
+    linearInterpolate(rho)*phi
+);
+
 Info<< "Creating turbulence model\n" << endl;
 turbulence.reset
 (
@@ -120,7 +123,7 @@ turbulence.reset
     (
         rho,
         U,
-        phi,
+        phiRhof,
         thermo
     ).ptr()
 );

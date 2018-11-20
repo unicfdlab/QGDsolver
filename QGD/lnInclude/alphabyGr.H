@@ -1,1 +1,0 @@
-../QGDCoeffs/alphabyGr/alphabyGr.H

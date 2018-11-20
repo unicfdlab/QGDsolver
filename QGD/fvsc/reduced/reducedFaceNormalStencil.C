@@ -65,8 +65,6 @@ Foam::fvsc::reduced::~reduced()
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
 Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarField& vF)
 {
-    surfaceScalarField sF = linearInterpolate(vF);
-    
     tmp<surfaceVectorField> tgradIF(nf_ * fvc::snGrad(vF));
     
     return tgradIF;
