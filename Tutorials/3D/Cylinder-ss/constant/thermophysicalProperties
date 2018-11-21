@@ -51,12 +51,16 @@ mixture
     }
 }
 
+
 QGD
 {
-    ScQGD 1;
-    PrQGD 0.667;
     implicitDiffusion true;
+    QGDCoeffs constScPrModel1;
+    constScPrModel1Dict
+    {
+        ScQGD 1; 
+        PrQGD 0.067;
+    }
 }
-
 
 // ************************************************************************* //

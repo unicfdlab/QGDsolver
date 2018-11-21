@@ -2,6 +2,8 @@
 #include "readhRef.H"
 #include "gh.H"
 
+
+
 Info<< "Reading thermophysical properties\n" << endl;
 
 autoPtr<rhoQGDThermo> pThermo
@@ -21,7 +23,6 @@ const surfaceScalarField& tauQGDf = thermo.tauQGDf();
 Info << "Thermo corrected" << endl;
 
 autoPtr<compressible::turbulenceModel> turbulence;
-
 
 volVectorField U
 (
@@ -125,7 +126,6 @@ volVectorField BdFrc
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
 Info<< "Creating turbulence model\n" << endl;
-
 turbulence.reset
 (
     compressible::turbulenceModel::New
@@ -136,8 +136,6 @@ turbulence.reset
         thermo
     ).ptr()
 );
-
-
 rho.oldTime();
 
 label pRefCell = 0;

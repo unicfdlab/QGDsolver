@@ -13,8 +13,15 @@
 
     MULES::explicitSolve(T, phi, phiTf, gMax(T), gMin(T));
 
-    solve(fvm::ddt(T)-fvc::ddt(T)-fvc::laplacian(Hif,T));
-
+    if (implicitDiffusion)
+    {
+        solve(fvm::ddt(T)-fvc::ddt(T)-fvm::laplacian(Hif,T));
+    }
+    else
+    {
+        solve(fvm::ddt(T)-fvc::ddt(T)-fvc::laplacian(Hif,T));
+    }
+    
     Info <<"exit mules" << endl;
 }
 

@@ -160,22 +160,44 @@ int main(int argc, char *argv[])
         phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
 
         // --- Solve U
-        solve
-        (
-            fvm::ddt(U)
-            +
-            fvc::div(phiUf)
-            -
-            fvc::laplacian(muf/rhof,U)
-            -
-            fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-            ==
-            -
-            fvc::grad(p)/rho
-            +
-            BdFrc
-        );
-        
+        if (implicitDiffusion)
+        {
+            solve
+            (
+                fvm::ddt(U)
+                +
+                fvc::div(phiUf)
+                -
+                fvm::laplacian(muf/rhof,U)
+                -
+                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
+                ==
+                -
+                fvc::grad(p)/rho
+                +
+                BdFrc
+            );
+        }
+        else
+        {
+            solve
+            (
+                fvm::ddt(U)
+                +
+                fvc::div(phiUf)
+                -
+                fvc::laplacian(muf/rhof,U)
+                -
+                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
+                ==
+                -
+                fvc::grad(p)/rho
+                +
+                BdFrc
+            );
+        }
+
+	
         phiTf = phi * Tf;
 
         // --- Solve T
@@ -190,9 +212,8 @@ int main(int argc, char *argv[])
         {
             thermo.tauQGD().write();
         }
+	
 
-//        p = p_rgh + rho *(1-beta*T) * gh;
-//        
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -203,29 +224,11 @@ int main(int argc, char *argv[])
             );
 //            p_rgh = p - rho * (1-beta*T) * gh;
         }
-
-        Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
-        Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;
-        Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
-        Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
-        
-        if(runTime.write())
-        {
-            phi.write();
-            Wf.write();
-            BdFrc.write();
-            BdFrcf.write();
-            phiwo.write();
-            phiu.write();
-            phi.write();
-        }
-
     }
-
-
+    
     Info<< "End\n" << endl;
+    
 
     return 0;
 }
-
 // ************************************************************************* //
