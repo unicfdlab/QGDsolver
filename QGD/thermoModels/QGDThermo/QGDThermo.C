@@ -121,6 +121,18 @@ const Foam::volScalarField& Foam::QGDThermo::alphauQGD() const
     return qgdCoeffsPtr_->alphauQGD();
 }
 
+const Foam::volScalarField& Foam::QGDThermo::aQGD() const
+{
+    return qgdCoeffsPtr_->aQGD();
+}
+
+const Foam::surfaceScalarField& Foam::QGDThermo::aQGDf() const
+{
+    return qgdCoeffsPtr_->aQGDf();
+}
+
+
+
 Foam::Switch Foam::QGDThermo::implicitDiffusion() const
 {
     return implicitDiffusion_;

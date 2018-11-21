@@ -59,6 +59,8 @@ Description
 #include "fvCFD.H"
 #include "QHD.H"
 #include "turbulentFluidThermoModel.H"
+#include "turbulentTransportModel.H"
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -74,6 +76,8 @@ int main(int argc, char *argv[])
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
+
+    turbulence->validate();
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -106,7 +110,7 @@ int main(int argc, char *argv[])
          */
         #include "readTimeControls.H"
         #include "QHDCourantNo.H"
-        #include "setDeltaT.H"
+        #include "setDeltaT-QGDQHD.H"
 
         runTime++;
 
@@ -124,16 +128,16 @@ int main(int argc, char *argv[])
             -fvm::laplacian(taubyrhof,p)
         );
 
-	pEqn.setReference(pRefCell, pRefValue);
+        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
 
         pEqn.solve();
 
-        phi = phiu - phiwo + pEqn.flux();
+	phi = phiu - phiwo + pEqn.flux();
 
-	gradPf = fvsc::grad(p);
+        gradPf = fvsc::grad(p);
 
 
-	Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof + beta*g*Tf);
+        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
 
 	phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
 
@@ -146,10 +150,9 @@ int main(int argc, char *argv[])
             +
             fvc::grad(p)/rho
             -
-            //fvc::div(phiPi)
-	    fvm::laplacian(muf/rhof,U)
-	    -
-	    fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
+            fvc::laplacian(muf/rhof,U)
+            -
+            fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
             -
             BdFrc
         );
@@ -161,7 +164,7 @@ int main(int argc, char *argv[])
         (
             fvm::ddt(T)
           + fvc::div(phiTf)
-          - fvm::laplacian(Hif,T)
+          - fvc::laplacian(Hif,T)
         );
         runTime.write();
 
@@ -173,12 +176,18 @@ int main(int argc, char *argv[])
         {
             thermo.tauQGD().write();
         }
-
-        Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
-        Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;
-        Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
-        Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
+  
+        if (p.needReference())
+        {
+            p += dimensionedScalar
+            (
+                "p",
+                p.dimensions(),
+                pRefValue - getRefCellValue(p, pRefCell)
+            );
+	}
     }
+
 
 
     Info<< "End\n" << endl;

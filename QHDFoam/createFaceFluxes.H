@@ -1,8 +1,9 @@
 
 /*Field for debugging parallel execution*/
+//cellNo.correctBoundaryConditions();
 //surfaceVectorField cellNoGradf
 //(
-//    "cellNoGradf", faceStencil.faceScalarGrad(cellNo)
+//    "cellNoGradf", fvsc::grad(cellNo)
 //);
 //
 //cellNoGradf.write();
@@ -10,9 +11,15 @@
 //Gradients and divergence
 //---------Start---------
 
+
 surfaceVectorField gradPf 
 (
     "gradPf", fvsc::grad(p)
+);
+
+surfaceVectorField gradTf
+(
+    "gradTf", fvsc::grad(T)
 );
 
 surfaceTensorField gradUf

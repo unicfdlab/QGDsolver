@@ -31,7 +31,6 @@ volVectorField U
     mesh
 );
 
-
 volScalarField rho
 (
     IOobject
@@ -57,6 +56,9 @@ volVectorField W
     ),
     U
 );
+
+
+
 
 Info<< "\nReading gravitationalProperties" << endl;
   
@@ -108,6 +110,12 @@ volVectorField BdFrc
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
+surfaceScalarField phiRhof
+(
+    "phiRhof",
+    linearInterpolate(rho)*phi
+);
+
 Info<< "Creating turbulence model\n" << endl;
 turbulence.reset
 (
@@ -115,7 +123,7 @@ turbulence.reset
     (
         rho,
         U,
-        phi,
+        phiRhof,
         thermo
     ).ptr()
 );

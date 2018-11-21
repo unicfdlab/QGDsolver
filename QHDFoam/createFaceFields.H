@@ -5,7 +5,6 @@
      */
     
     // Density
-    
     surfaceScalarField rhof
     (
         "rhof",
@@ -18,6 +17,12 @@
         "Uf",
         linearInterpolate(U)
     );
+
+    surfaceScalarField pf
+    (
+        "pf",
+	linearInterpolate(p)
+    );
     
     //
     surfaceVectorField Wf
@@ -25,14 +30,12 @@
         "Wf",
         linearInterpolate(W)
     );
-
-    // Pressure
-    surfaceScalarField pf
-    (
-        "pf",
-        linearInterpolate(p)
-    );
     
+    surfaceVectorField BdFrcf
+    (
+        "BdFrcf",
+        linearInterpolate(BdFrc)
+    );
     
     surfaceScalarField Tf
     (
@@ -62,17 +65,13 @@
     surfaceScalarField taubyrhof
     (
         "taubyrhof",
-	tauQGDf/rhof
+        tauQGDf/rhof
     );
     
     surfaceScalarField alphaf
     (
         "alphaf",
-	linearInterpolate(thermo.alpha())
+        linearInterpolate(thermo.alpha())
     );
 
-    surfaceVectorField BdFrcf
-    (
-        "BdFrcf",
-	linearInterpolate(BdFrc)
-    );
+

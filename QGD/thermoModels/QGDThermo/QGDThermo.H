@@ -121,6 +121,13 @@ public:
   const volScalarField& alphauQGD() const;
 
   //-
+  const volScalarField& aQGD() const;
+
+  //-
+  const surfaceScalarField& aQGDf() const;
+
+
+  //-
   Switch implicitDiffusion() const;
 
   //-

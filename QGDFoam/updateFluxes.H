@@ -1,7 +1,5 @@
 //Gradients and divergence
 //---------Start---------
-gradPf = fvsc::grad(p);
-
 gradUf = fvsc::grad(U);
 
 divUf  = tr(gradUf);
@@ -21,13 +19,19 @@ rhoW = tauQGDf *
             +
             (rhoUf * divUf)
             +
-            ((rhoUf & gradUf) + gradPf)
+            (rhoUf & gradUf)
         );
+
+phiw = mesh.Sf() & rhoW;
+
+gradPf = fvsc::grad(p);
+
+rhoW += tauQGDf * gradPf;
 
 jm = rhoUf - rhoW;
 
 phiJm = mesh.Sf() & jm;
-phi = phiJm;
+phi = mesh.Sf() & rhoUf;
 //---------End---------
 
 // Fluxes for momentum balance equation

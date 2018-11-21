@@ -57,6 +57,15 @@ surfaceVectorField rhofUf
 
 phi = rhofUf & mesh.Sf();
 
+
+surfaceScalarField phiw
+(
+    "phiwStar",
+    0.0*phi
+);
+
+
+
 surfaceVectorField rhoW
 (
     "rhoW",
