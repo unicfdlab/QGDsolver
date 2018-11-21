@@ -21,6 +21,22 @@ solvers
     {
         solver diagonal;
     }
+
+    U
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        nSweeps         2;
+        tolerance       1e-10;
+        relTol          0;
+    }
+
+    e
+    {
+        $U;
+        tolerance       1e-10;
+        relTol          0;
+    }
 }
 
 // ************************************************************************* //

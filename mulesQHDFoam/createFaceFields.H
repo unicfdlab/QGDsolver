@@ -3,15 +3,14 @@
      * Linear interpolation of fields from volumes to face centers
      *
      */
-   
-    //Dencity
+    
+    // Density
     surfaceScalarField rhof
     (
         "rhof",
         linearInterpolate(rho)
     );
-
-
+    
     // Velocity
     surfaceVectorField Uf
     (
