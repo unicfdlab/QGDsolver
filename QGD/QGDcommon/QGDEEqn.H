@@ -30,18 +30,27 @@ source file:
     QGDFoam.C
 
 \*----------------------------------------------------------------------------*/
-    solve
+
+    fvScalarMatrix EEqn
     (
         fvm::ddt(rhoE)
       + fvc::div(phiJmH)
       + fvc::div(phiQ)
       - fvc::div(phiPiU)
       - fvc::div(phiSigmaDotU)
+      ==
+      fvOptions(rhoE)
     );
-
+    
+    fvOptions.constrain(EEqn);
+    
+    EEqn.solve();
+    
     // Correct energy
     e = rhoE/rho - 0.5*magSqr(U);
     e.correctBoundaryConditions();
+    
+    fvOptions.correct(e);
     
     // Solve diffusive QGD & NS part
     if (implicitDiffusion)

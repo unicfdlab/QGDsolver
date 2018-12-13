@@ -126,7 +126,6 @@ public:
   //-
   const surfaceScalarField& aQGDf() const;
 
-
   //-
   Switch implicitDiffusion() const;
 

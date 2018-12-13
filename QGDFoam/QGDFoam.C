@@ -116,7 +116,6 @@ int main(int argc, char *argv[])
          */
         #include "readTimeControls.H"
         #include "QGDCourantNo.H"
-        #include "setDeltaT.H"
         #include "setDeltaT-QGDQHD.H"
 
         runTime++;

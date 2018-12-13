@@ -79,10 +79,10 @@ protected:
     volScalarField hQGD_;
 
     //-
-    volScalarField aQGD_;
-
+    tmp<volScalarField> taQGD_;
+    
     //-
-    surfaceScalarField aQGDf_;
+    volScalarField& aQGD_;
 
     //-
     volScalarField tauQGD_;
@@ -91,7 +91,6 @@ protected:
     surfaceScalarField tauQGDf_;
 
     //-
-
     volScalarField PrQGD_;
 
     //-
@@ -101,6 +100,9 @@ protected:
 
     //-
     virtual void updateQGDLength(const fvMesh&);
+    
+    //-
+    tmp<volScalarField> readOrCreateAlphaQGD(const fvMesh& );
 
 public:
 
@@ -166,12 +168,6 @@ public:
 
     //-
     const volScalarField& alphauQGD() const;
-
-    //-
-    const volScalarField& aQGD() const;
-
-    //-
-    const surfaceScalarField& aQGDf() const;
 
 };
 
