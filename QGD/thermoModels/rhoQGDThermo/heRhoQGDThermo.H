@@ -81,6 +81,14 @@ public:
         );
 
 
+        //- Construct from mesh and phase name and dictionary name
+        heRhoQGDThermo
+        (
+            const fvMesh&,
+            const word& phaseName,
+            const word& dictionaryName
+        );
+
     //- Destructor
     virtual ~heRhoQGDThermo();
 

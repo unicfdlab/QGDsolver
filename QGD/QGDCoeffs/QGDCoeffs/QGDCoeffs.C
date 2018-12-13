@@ -127,7 +127,7 @@ tmp<volScalarField> QGDCoeffs::readOrCreateAlphaQGD(const fvMesh& mesh)
         IOobject::NO_WRITE
     );
     
-    if (aQGDHeader.headerOk())
+    if (aQGDHeader.good())
     {
         aQGDHeader.writeOpt() = IOobject::AUTO_WRITE;
         

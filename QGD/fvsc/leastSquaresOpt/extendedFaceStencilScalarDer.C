@@ -34,7 +34,6 @@ License
 #include "Ostream.H"
 #include <HashTable.H>
 
-
 void Foam::fvsc::leastSquaresOpt::faceScalarDer(const Field<scalar>& iF,const Field<scalar>& sF,int com, surfaceScalarField& rField)
 {
     forAll(sF, facei)

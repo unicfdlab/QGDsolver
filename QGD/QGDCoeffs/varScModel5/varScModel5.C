@@ -66,7 +66,7 @@ varScModel5::varScModel5
     qgdAspectRatioThreshold_(1.5),
     constSc_(0.05),
     cqSc_(mesh.V().size(), 0.0),
-    constScCellSetPtr_(NULL)
+    constScCellSetPtr_(nullptr)
 {
     scalar ScQGD = 0.0, PrQGD = 1.0;
 

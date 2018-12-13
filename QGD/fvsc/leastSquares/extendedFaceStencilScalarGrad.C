@@ -141,7 +141,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
     
     //Step 1. Send field data to neighbouring processors (non-blocking mode)
     
-    PstreamBuffers pBuffers(Pstream::nonBlocking);
+    PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
     forAll(procPairs_, procI)
     {
         label procId = neigProcs_[procI];
@@ -169,6 +169,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
         {
             label cellId = -1;
             label addrId = corProcIds_[procId];
+            //label addrId = corProcIds_.capacity();
             forAll(corCellIds_[addrId], iCellId)
             {
                 cellId = corCellIds_[addrId][iCellId];
