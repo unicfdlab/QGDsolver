@@ -103,6 +103,11 @@ varScModel5::varScModel5
     {
         dict.lookup("badQualitySc") >> badQualitySc_;
     }
+    
+    if (dict.found("maxAspectRatio"))
+    {
+        dict.lookup("maxAspectRatio")) >> qgdAspectRatioThreshold_;
+    }
 
     scalarField openness(mesh.V().size(), 0);
     scalarField aspectRatio(mesh.V().size(), 1);
