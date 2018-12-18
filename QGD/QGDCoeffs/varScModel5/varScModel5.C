@@ -106,7 +106,7 @@ varScModel5::varScModel5
     
     if (dict.found("maxAspectRatio"))
     {
-        dict.lookup("maxAspectRatio")) >> qgdAspectRatioThreshold_;
+        dict.lookup("maxAspectRatio") >> qgdAspectRatioThreshold_;
     }
 
     scalarField openness(mesh.V().size(), 0);
