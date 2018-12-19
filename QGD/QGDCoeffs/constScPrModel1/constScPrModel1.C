@@ -72,7 +72,7 @@ constScPrModel1::constScPrModel1
         IOobject::NO_WRITE
     );
 
-    if (ScHeader.good())
+    if (ScHeader.typeHeaderOk<volScalarField>())
     {
         //do nothing, ScQGD field is present
         ScQGD_.writeOpt() = IOobject::AUTO_WRITE;
