@@ -40,7 +40,7 @@ qgdCoeffsPtr_
 (
     Foam::qgd::QGDCoeffs::New
     (
-        dict_.subDict("QGD").lookup("QGDCoeffs"),
+        dict_.subDict("QGD").get<word>("QGDCoeffs"),
         mesh,
         dict_.subDict("QGD")
     )
