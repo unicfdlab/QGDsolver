@@ -20,6 +20,8 @@
                 mean        on;
                 prime2Mean  off;
                 base        time;
+                windowType  exact;
+                allowRestart true;
                 window      2e-3; // optional averaging window
             }
 
@@ -28,6 +30,8 @@
                 mean        on;
                 prime2Mean  off;
                 base        time;
+                windowType  exact;
+                allowRestart true;
                 window      2e-3; // optional averaging window
             }
             
@@ -36,6 +40,8 @@
                 mean        on;
                 prime2Mean  off;
                 base        time;
+                windowType  exact;
+                allowRestart true;
                 window      2e-3;
             }
         );
