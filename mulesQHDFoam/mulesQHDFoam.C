@@ -208,16 +208,6 @@ int main(int argc, char *argv[])
         #include "alphaControls.H"
         #include "MULESTEqn.H"
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
-
-        if (runTime.outputTime())
-        {
-            thermo.tauQGD().write();
-        }
-	
-
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -228,6 +218,12 @@ int main(int argc, char *argv[])
             );
 //            p_rgh = p - rho * (1-beta*T) * gh;
         }
+	    
+	runTime.write();
+	    
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+            << nl << endl;
     }
     
     Info<< "End\n" << endl;
