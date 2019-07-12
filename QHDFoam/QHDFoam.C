@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 
         Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
 
-	surfaceVectorField phiUfWf = mesh.Sf() & (Uf * Wf)
+	surfaceVectorField phiUfWf = mesh.Sf() & (Uf * Wf);
 	phiUfWf.setOriented(true);
         phiUf = phi * Uf;
 	phiUf.setOriented(true);
