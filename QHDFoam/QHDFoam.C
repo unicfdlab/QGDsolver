@@ -170,17 +170,7 @@ int main(int argc, char *argv[])
           + fvc::div(phiTf)
           - fvc::laplacian(Hif,T)
         );
-        runTime.write();
 
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
-
-        if (runTime.outputTime())
-        {
-            thermo.tauQGD().write();
-        }
-  
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -190,6 +180,13 @@ int main(int argc, char *argv[])
                 pRefValue - getRefCellValue(p, pRefCell)
             );
 	}
+	    
+	runTime.write();
+	    
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+            << nl << endl;
+	    
     }
 
 
