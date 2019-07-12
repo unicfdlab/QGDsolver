@@ -3,6 +3,7 @@
 phiu  = mesh.Sf() & Uf;
 
 phiwo = mesh.Sf() & (tauQGDf*((Uf & gradUf) - BdFrcf));
+phiwo.setOriented(true);
 
 taubyrhof = tauQGDf/rhof;
 //---------End---------
