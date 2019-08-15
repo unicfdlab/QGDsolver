@@ -1,40 +1,33 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  4.x                                   |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|  \\    /   O peration     | Version:  2.0.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volVectorField;
-    object      U;
+    class       dictionary;
+    object      decomposeParDict;
 }
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 1 -1 0 0 0 0];
+numberOfSubdomains 4;
 
-internalField   uniform (0 0 0);
+method          scotch; //hierarchical;
 
-boundaryField
+scotchCoeffs
 {
-    movingWall
-    {
-        type            fixedValue;
-        value           uniform (1 0 0);
-    }
+}
 
-    fixedWalls
-    {
-        type            noSlip;
-    }
-
-    frontAndBack
-    {
-        type            slip;
-    }
+hierarchicalCoeffs
+{
+    n           (1 1 4);
+    delta       0.001;
+    order       zyx;
 }
 
 // ************************************************************************* //

@@ -35,7 +35,7 @@ boundaryField
 
     frontAndBack
     {
-        type            empty;
+        type            slip;
     }
 }
 
