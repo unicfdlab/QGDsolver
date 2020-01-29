@@ -22,72 +22,68 @@ License
     for more details.
 
     You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>. 
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+Class
+    Foam::qgd::constScPrModel1n
+
+Description
+    Class describing QGD model coefficients using constant values for
+    Sc^{QGD}, Pr^{QGD} and specified \alpha field:
+
+    \tau^{QGD} = \alpha h / c
+
+    \mu^{QGD} = \tau^{QGD} p Sc^{QGD}
+
+    \lambda^{QGD} = \mu^{QGD} Cp / Pr^{QGD}
+
+SourceFiles
+    constScPrModel1n.C
 
 \*---------------------------------------------------------------------------*/
 
+#include "QGDCoeffs.H"
 
-#include "byGr.H"
-#include "QGDThermo.H"
-#include "addToRunTimeSelectionTable.H"
-#include "linear.H"
-#include "fvCFD.H"
-
+#ifndef constScPrModel1n_H
+#define constScPrModel1n_H
 
 namespace Foam
 {
+
 namespace qgd
 {
-    defineTypeNameAndDebug(byGr,0);
-    addToRunTimeSelectionTable
+
+class constScPrModel1n : public QGDCoeffs
+{
+
+public:
+
+    //-
+    TypeName ("constScPrModel1n");
+
+    //-
+    constScPrModel1n
     (
-        QGDCoeffs,
-        byGr,
-        dictionary
+        const IOobject& io,
+        const fvMesh& mesh,
+        const dictionary& dict
     );
-}
-}
 
-Foam::qgd::
-byGr::byGr
-(
-    const IOobject& io,
-    const fvMesh& mesh,
-    const dictionary& dict
-)
-:
-    QGDCoeffs(io, mesh, dict),
-    Gr_(0.0)
-{
-    scalar ScQGD = 0.0, PrQGD = 1.0;
+    //-
+    ~constScPrModel1n();
 
-    ScQGD_.primitiveFieldRef() = ScQGD;
-    PrQGD_.primitiveFieldRef() = PrQGD;
-    muQGD_.primitiveFieldRef() = 0.0;
-    alphauQGD_.primitiveFieldRef() = 0.0;
+    //-
+    void correct(const QGDThermo&);
 
-    ScQGD_.boundaryFieldRef() = ScQGD;
-    PrQGD_.boundaryFieldRef() = PrQGD;
-    muQGD_.boundaryFieldRef() = 0.0;
-    alphauQGD_.boundaryFieldRef() = 0.0;
+};
 
-  
 
-    dict.lookup("Gr") >> Gr_;
-}
+}//namespace qgd
 
-Foam::qgd::
-byGr::~byGr()
-{
-}
+}//namespace Foam
 
-void Foam::qgd::
-byGr::correct(const Foam::QGDThermo& qgdThermo)
-{
-    this->tauQGD_ = dimensionedScalar("tauQGD",dimTime,1/Gr_);
-    this->tauQGDf_= linearInterpolate(this->tauQGD_);
-}
+#endif
 
 //
-//END-OF-FILE
+//END-OF-FILe
 //

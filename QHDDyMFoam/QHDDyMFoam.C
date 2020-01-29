@@ -24,32 +24,16 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    QHDFoam
+    QHDDyMFoam
 
 Description
     Solver for unsteady 3D turbulent flow of incompressible fluid governed by
-    quasi-hydrodynamic dynamic (QHD) equations.
+    quasi-hydrodynamic dynamic (QHD) equations with support for deforming
+    meshes.
 
     QHD system of equations has been developed by scientific group from
     Keldysh Institute of Applied Mathematics,
     see http://elizarova.imamod.ru/selection-of-papers.html
-
-    A comprehensive description of QGD equations and their applications
-    can be found here:
-    \verbatim
-    Elizarova, T.G.
-    "Quasi-Gas Dynamic equations"
-    Springer, 2009
-    \endverbatim
-
-    A brief of theory on QGD and QHD system of equations:
-    \verbatim
-    Elizarova, T.G. and Sheretov, Y.V.
-    "Theoretical and numerical analysis of quasi-gasdynamic and quasi-hydrodynamic
-    equations"
-    J. Computational Mathematics and Mathematical Physics, vol. 41, no. 2, pp 219-234,
-    2001
-    \endverbatim
 
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
 
@@ -57,20 +41,11 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "upwind.H"
-#include "CMULES.H"
-#include "EulerDdtScheme.H"
-#include "localEulerDdtScheme.H"
-#include "CrankNicolsonDdtScheme.H"
-#include "subCycle.H"
-#include "pimpleControl.H"
-#include "fvOptions.H"
-#include "CorrectPhi.H"
-#include "localEulerDdtScheme.H"
-#include "fvcSmooth.H"
+#include "dynamicFvMesh.H"
 #include "QHD.H"
-#include "turbulentTransportModel.H"
 #include "turbulentFluidThermoModel.H"
+#include "turbulentTransportModel.H"
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -81,15 +56,18 @@ int main(int argc, char *argv[])
 
     #include "setRootCase.H"
     #include "createTime.H"
-    #include "createMesh.H"
+    #include "createDynamicFvMesh.H"
     #include "createFields.H"
+    bool checkMeshCourantNo
+    (
+        thermo.subDict("QGD").lookupOrDefault("checkMeshCourantNo", false)
+    );
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
 
-    pimpleControl pimple(mesh);
-
     turbulence->validate();
+
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     // Courant numbers used to adjust the time-step
@@ -100,29 +78,21 @@ int main(int argc, char *argv[])
 
     while (runTime.run())
     {
-        /*
-         *
-         * Update fields
-         *
-         */
-        #include "updateFields.H"
+        checkMeshCourantNo = thermo.subDict("QGD").lookupOrDefault
+        (
+            "checkMeshCourantNo",
+            checkMeshCourantNo
+        );
 
-        /*
-         *
-         * Update fluxes
-         *
-         */
-       #include "updateFluxes.H"
+      #include "readTimeControls.H"
+      #include "QHDCourantNo.H"
+      #include "setDeltaT-QGDQHD.H"
 
         /*
          *
          * Update time step
          *
          */
-        #include "readTimeControls.H"
-        #include "QHDCourantNo.H"
-        #include "setDeltaT-QGDQHD.H"
-
         runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
@@ -130,85 +100,100 @@ int main(int argc, char *argv[])
         // --- Store old time values
         U.oldTime();
         T.oldTime();
-        turbulence->correct();
+
+        /*
+         *
+         * Update the mesh
+         *
+         */
+        mesh.update();
+
+        /*
+         *
+         * Update fields
+         *
+         */
+        #include "updateFields.H"
+        
+        /*
+         *
+         * Update fluxes
+         *
+         */
+        #include "updateFluxes.H"
+
         //Continuity equation
-	
-        while (pimple.correctNonOrthogonal())
+        fvScalarMatrix pEqn
+        (
+             fvc::div(phiu)
+            -fvc::div(phiwo)
+            -fvm::laplacian(taubyrhof,p)
+        );
+
+        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
+
+        pEqn.solve();
+
+        phi = phiu - phiwo + pEqn.flux();
+
+        if (mesh.changing())
         {
-                // Pressure corrector
+            fvc::makeRelative(phi, U);
 
-            fvScalarMatrix pEqn
-            (
-                 fvc::div(phiu)
-	        -fvc::div(phiwo)
-                -fvm::laplacian(taubyrhof,p)
-            );
-	    
-            pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-            pEqn.solve();
-
-                if (pimple.finalNonOrthogonalIter())
-                {
-                    phi = phiu - phiwo + pEqn.flux();
-                }
+            if (checkMeshCourantNo)
+            {
+                #include "meshCourantNo.H"
+            }
         }
-        
+
+        turbulence->correct();
+
         gradPf = fvsc::grad(p);
-        
+
         Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
-        
-	surfaceVectorField phiUfWf = mesh.Sf() & (Uf * Wf);
-	phiUfWf.setOriented(true);
+
+        surfaceVectorField phiUfWf = mesh.Sf() & (Uf * Wf);
+        phiUfWf.setOriented(true);
         phiUf = phi * Uf;
-	phiUf.setOriented(true);
-	phiUf -= phiUfWf;
+        phiUf.setOriented(true);
+        phiUf -= phiUfWf;
 
         // --- Solve U
-        if (implicitDiffusion)
-        {
-            solve
-            (
-                fvm::ddt(U)
-                +
-                fvc::div(phiUf)
-                -
-                fvm::laplacian(muf/rhof,U)
-                -
-                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-                ==
-                -
-                fvc::grad(p)/rho
-                +
-                BdFrc
-            );
-        }
-        else
-        {
-            solve
-            (
-                fvm::ddt(U)
-                +
-                fvc::div(phiUf)
-                -
-                fvc::laplacian(muf/rhof,U)
-                -
-                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-                ==
-                -
-                fvc::grad(p)/rho
-                +
-                BdFrc
-            );
-        }
+        solve
+        (
+            fvm::ddt(U)
+            +
+            fvc::div(phiUf)
+            +
+            fvc::grad(p)/rho
+            -
+            fvm::laplacian(muf/rhof,U)
+            -
+            fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
+            -
+            BdFrc
+        );
 
-	
-        phiTf = phi * Tf;
-
+        //phiTf = phi * Tf;
+        phiTf = fvc::flux
+        (
+            phi,
+            T,
+            "div(phi,T)"
+        );
+        //surfaceScalarField phiTauUdotGradT = 
+        //    tauQGDf* phiu * (Uf & gradTf);
+        
         // --- Solve T
-        #include "alphaControls.H"
-        #include "MULESTEqn.H"
-
+        solve
+        (
+            fvm::ddt(T)
+          + fvc::div(phiTf)
+          //- fvc::div(phiTauUdotGradT)
+          - fvm::laplacian(Hif,T)
+        );
+        Info << "max/min of T: " << max(T).value() << "/" << min(T).value() << endl;
+        
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -217,19 +202,21 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-//            p_rgh = p - rho * (1-beta*T) * gh;
-        }
-	    
+	}
+
 	runTime.write();
-	    
+
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
+
     }
-    
+
+
+
     Info<< "End\n" << endl;
-    
 
     return 0;
 }
+
 // ************************************************************************* //

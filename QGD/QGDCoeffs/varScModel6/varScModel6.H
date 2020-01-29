@@ -2,10 +2,10 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2016-2017 OpenCFD Ltd.
-     \\/     M anipulation  |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2017 ISP RAS (www.unicfd.ru)
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -25,62 +25,62 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    byGr
+    Foam::qgd::constScPrModel2
 
 Description
-    Class for one of possible ways of $\tau$ calculating.
-    in this case $\tau$ parameter is calculating by
+    Class describing QGD model coefficients using dynamic values for
+    Sc^{QGD}, Pr^{QGD} and specified \alpha field:
 
-    $$ \tau = \frac{\alpha}{Gr} $$
+    Sc^{QGD} = min(\h^QGD abs(\nabla \rho)/\rho, 1)
 
-    Where:
+    \tau^{QGD} = \alpha h / c + \mu / (p Sc)
 
-    $\tau$ is regularisation parameter, $\alpha$ is parameter
-    which depends by user in constant folder.
-    
-    $Gr$ is Grashof number:
+    \mu^{QGD} = (\alpha h / c) p Sc^{QGD}
 
-    $$\frac{g \beta \Delta TH}{\nu^2}$$
-
-    Where:
-
-    $\beta$ is the coefficient of thermal expansion
-    $\Delta T$ is deiffetence of temperatures
-    $\nu$ is the kinematic viscosity
-
+    \lambda^{QGD} = \mu^{QGD} Cp / Pr^{QGD}
 
 SourceFiles
-    byGr.C
+    constScPrModel2.C
 
 \*---------------------------------------------------------------------------*/
-
-
-
-
 #include "QGDCoeffs.H"
 
-#ifndef byGr_H
-#define byGr_H
+#ifndef varScModel6_H
+#define varScModel6_H
 
 namespace Foam
 {
 
+class cellSet;
+
 namespace qgd
 {
 
-class byGr : public QGDCoeffs
+class varScModel6 : public QGDCoeffs
 {
 
-    //-
-    scalar Gr_;
+protected:
+
+    scalar smoothCoeff_;
+    scalar rC_;
+    scalar minSc_;
+    scalar maxSc_;
+    scalar badQualitySc_;
+    scalar qgdAspectRatioThreshold_;
+    scalar constSc_;
+
+    scalarField cqSc_;
+
+    autoPtr<cellSet> constScCellSetPtr_;
+
 
 public:
 
     //-
-    TypeName ("byGr");
+    TypeName ("varScModel6");
 
     //-
-    byGr
+    varScModel6
     (
         const IOobject& io,
         const fvMesh& mesh,
@@ -88,14 +88,10 @@ public:
     );
 
     //-
-    ~byGr();
+    ~varScModel6();
 
     //-
     void correct(const QGDThermo&);
-
-private:
-
-    //-
 
 };
 
