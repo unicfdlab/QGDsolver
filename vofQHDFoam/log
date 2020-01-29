@@ -1,0 +1,30 @@
+In file included from /unicluster/bl2x220Cluster/opt/fvm/OpenDTEF/OpenDTEF-v1812/src/OpenFOAM/lnInclude/postProcess.H:131:0,
+                 from vofQHDFoam.C:70:
+./createFields.H: In function 'int main(int, char**)':
+./createFields.H:28:17: warning: unused variable 'e' [-Wunused-variable]
+ volScalarField& e = thermo.he();
+                 ^
+./createFields.H:31:27: warning: unused variable 'tauQGDf' [-Wunused-variable]
+ const surfaceScalarField& tauQGDf = thermo.tauQGDf();
+                           ^~~~~~~
+./createFields.H:32:27: warning: unused variable 'hQGDf' [-Wunused-variable]
+ const surfaceScalarField& hQGDf = thermo.hQGDf();
+                           ^~~~~
+In file included from vofQHDFoam.C:97:0:
+updateFields.H:42:17: error: 'tauQGD' was not declared in this scope
+ BdFrc  = (rho + tauQGD*(U & fvc::grad(alphal))*(rhog-rhol))*g;
+                 ^~~~~~
+vofQHDFoam.C:137:9: error: 'gradPf' was not declared in this scope
+         gradPf = fvsc::grad(p);
+         ^~~~~~
+vofQHDFoam.C:148:37: error: conversion from 'Foam::tmp<Foam::GeometricField<double, Foam::fvsPatchField, Foam::surfaceMesh> >' to non-scalar type 'Foam::surfaceVectorField {aka Foam::GeometricField<Foam::Vector<double>, Foam::fvsPatchField, Foam::surfaceMesh>}' requested
+      phiu*tauQGDf*(Uf & gradAlphalf)*(rhog-rhol);
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from vofQHDFoam.C:75:0:
+createFields.H:28:17: warning: unused variable 'e' [-Wunused-variable]
+ volScalarField& e = thermo.he();
+                 ^
+vofQHDFoam.C:86:12: warning: unused variable 'meanCoNum' [-Wunused-variable]
+     scalar meanCoNum = 0.0;
+            ^~~~~~~~~
+make: *** [Make/linux64GccDPInt32Opt/vofQHDFoam.o] Error 1

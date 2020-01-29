@@ -1,0 +1,3 @@
+vofQHDFoam.C
+
+EXE = $(FOAM_APPBIN)/vofQHDFoam
