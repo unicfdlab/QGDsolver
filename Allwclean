@@ -8,6 +8,14 @@ cd QHDFoam; ./Allwclean; cd ../
 
 cd mulesQHDFoam; ./Allwclean; cd ../
 
+cd zQGDFoam; ./Allwclean; cd ../
+
+cd interQHDFoam; ./Allwclean; cd ../
+
+cd particlesQGDFoam; ./Allwclean; cd ../
+
+cd QHDDyMFoam; ./Allwclean; cd ../
+
 cd utils/selectBadCells; wclean; cd ../../
 
 #

@@ -22,6 +22,7 @@ fvsc/GaussVolPoint/GaussVolPointStencil.C
 /*   Boundary Conditions     */
 BCs/cosVelocity/cosVelocityFvPatchVectorField.C
 BCs/qhdFlux/qhdFluxFvPatchScalarField.C
+BCs/mQhdFlux/mQhdFluxFvPatchScalarField.C
 BCs/qgdFlux/qgdFluxFvPatchScalarField.C
 
 /* QGD Coeffs */
@@ -35,12 +36,14 @@ QGDCoeffs/H2bynuQHD/H2bynuQHD.C
 QGDCoeffs/HbyUQHD/HbyUQHD.C
 QGDCoeffs/T0byGr/T0byGr.C
 QGDCoeffs/constTau/constTau.C
-
+QGDCoeffs/twoPhaseConstTau/twoPhaseConstTau.C
 
 thermoModels/QGDThermo/QGDThermo.C
 thermoModels/psiQGDThermo/psiQGDThermo.C
 thermoModels/psiQGDThermo/psiQGDThermos.C
 thermoModels/rhoQGDThermo/rhoQGDThermo.C
 thermoModels/rhoQGDThermo/rhoQGDThermos.C
+thermoModels/qInterfaceProperties/qInterfaceProperties.C
+thermoModels/twoPhaseIcoQGDThermo/twoPhaseIcoQGDThermo.C
 
 LIB = $(FOAM_LIBBIN)/libQGD
