@@ -2,6 +2,8 @@
 
 cd QGD; wclean; wcleanLnIncludeAll; cd ../
 
+cd TwoPhaseQGD; wclean; wcleanLnIncludeAll; cd ../
+
 cd QGDFoam; ./Allwclean; cd ../
 
 cd QHDFoam; ./Allwclean; cd ../

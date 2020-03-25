@@ -18,8 +18,7 @@ EXE_LIBS = \
     -lcompressibleTransportModels \
     -lfluidThermophysicalModels \
     -lspecie \
-    -linterfaceProperties \
-    -ltwoPhaseMixture \
     -lturbulenceModels \
     -lcompressibleTurbulenceModels \
+    -L$(FOAM_USER_LIBBIN) \
     -lQGD

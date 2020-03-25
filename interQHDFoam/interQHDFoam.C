@@ -286,11 +286,11 @@ int main(int argc, char *argv[])
         
         phiRhofWf = phiu*(alpha1f*rho1*W1 + alpha2f*rho2*W2);
         phiRhofWf.setOriented(true);
-        phiUfRhof = fvc::flux
+        phiUfRhof = qgdFlux
         (
             rhoPhi,
             U,
-            "div(rhoPhi,U)"
+            Uf
         )
         -
         phiRhofWf;
@@ -307,7 +307,7 @@ int main(int argc, char *argv[])
             -
             fvc::laplacian(muf,U)
             -
-            fvc::div(muf*mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
+            fvc::div(muf*mesh.Sf() & qgdInterpolate(Foam::T(fvc::grad(U))))
             -
             BdFrc
             -
@@ -318,16 +318,6 @@ int main(int argc, char *argv[])
         U = rhoU / rho;
         U.correctBoundaryConditions();
         rhoU.boundaryFieldRef() = rho.boundaryField()*U.boundaryField();
-        
-        //if (p.needReference())
-        //{
-        //    p += dimensionedScalar
-        //    (
-        //        "p",
-        //        p.dimensions(),
-        //        pRefValue - getRefCellValue(p, pRefCell)
-        //    );
-	//}
 	
         /*
          *

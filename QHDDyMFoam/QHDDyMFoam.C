@@ -121,21 +121,9 @@ int main(int argc, char *argv[])
          *
          */
         #include "updateFluxes.H"
-
-        //Continuity equation
-        fvScalarMatrix pEqn
-        (
-             fvc::div(phiu)
-            -fvc::div(phiwo)
-            -fvm::laplacian(taubyrhof,p)
-        );
-
-        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-        pEqn.solve();
-
-        phi = phiu - phiwo + pEqn.flux();
-
+        
+        #include "QHDpEqn.H"
+        
         if (mesh.changing())
         {
             fvc::makeRelative(phi, U);
@@ -145,54 +133,12 @@ int main(int argc, char *argv[])
                 #include "meshCourantNo.H"
             }
         }
-
-        turbulence->correct();
-
-        gradPf = fvsc::grad(p);
-
-        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
-
-        surfaceVectorField phiUfWf = mesh.Sf() & (Uf * Wf);
-        phiUfWf.setOriented(true);
-        phiUf = phi * Uf;
-        phiUf.setOriented(true);
-        phiUf -= phiUfWf;
-
-        // --- Solve U
-        solve
-        (
-            fvm::ddt(U)
-            +
-            fvc::div(phiUf)
-            +
-            fvc::grad(p)/rho
-            -
-            fvm::laplacian(muf/rhof,U)
-            -
-            fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-            -
-            BdFrc
-        );
-
-        //phiTf = phi * Tf;
-        phiTf = fvc::flux
-        (
-            phi,
-            T,
-            "div(phi,T)"
-        );
-        //surfaceScalarField phiTauUdotGradT = 
-        //    tauQGDf* phiu * (Uf & gradTf);
         
-        // --- Solve T
-        solve
-        (
-            fvm::ddt(T)
-          + fvc::div(phiTf)
-          //- fvc::div(phiTauUdotGradT)
-          - fvm::laplacian(Hif,T)
-        );
-        Info << "max/min of T: " << max(T).value() << "/" << min(T).value() << endl;
+        turbulence->correct();
+        
+        #include "QHDUEqn.H"
+        
+        #include "QHDTEqn.H"
         
         if (p.needReference())
         {

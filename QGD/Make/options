@@ -20,3 +20,4 @@ EXE_LIBS = \
     -lspecie \
     -lturbulenceModels \
     -lcompressibleTurbulenceModels 
+

@@ -75,6 +75,20 @@ volScalarField rhoE
     rho*e + rho*0.5*magSqr(U)
 );
 
+volScalarField H
+(
+    IOobject
+    (
+        "Ht",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    (rhoE + p)/rho
+);
+
+
 surfaceScalarField phi
 (
     "phi",

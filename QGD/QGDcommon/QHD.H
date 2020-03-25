@@ -26,10 +26,12 @@ License
 Description
     Includation for QHD solver. Equations of state for QHD based on density.
     Class for fvsc namespace.
+
 Source file
-    QHDFoam.C
+    QHD.H
 \*-----------------------------------------------------------------------------*/
+
 #include "rhoQGDThermo.H"
 #include "wallFvPatch.H"
 #include "fvsc.H"
-
+#include "QGDInterpolate.H"

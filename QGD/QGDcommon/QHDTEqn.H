@@ -56,100 +56,36 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-#include "fvCFD.H"
-#include "QHD.H"
-#include "turbulentFluidThermoModel.H"
-#include "turbulentTransportModel.H"
-
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-int main(int argc, char *argv[])
 {
-    #define NO_CONTROL
-    #include "postProcess.H"
-
-    #include "setRootCase.H"
-    #include "createTime.H"
-    #include "createMesh.H"
-    #include "createFields.H"
-    #include "createFaceFields.H"
-    #include "createFaceFluxes.H"
-    #include "createTimeControls.H"
-
-    turbulence->validate();
-
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-    // Courant numbers used to adjust the time-step
-    scalar CoNum = 0.0;
-    scalar meanCoNum = 0.0;
-
-    Info<< "\nStarting time loop\n" << endl;
-
-    while (runTime.run())
+    phiTf = qgdFlux(phi,T,Tf);
+    surfaceScalarField phiTauTReg = tauQGDf*phi*(Uf & gradTf);
+    
+    // --- Solve T
+    if (implicitDiffusion)
     {
-        /*
-         *
-         * Update fields
-         *
-         */
-        #include "updateFields.H"
-
-        /*
-         *
-         * Update fluxes
-         *
-         */
-       #include "updateFluxes.H"
-
-        /*
-         *
-         * Update time step
-         *
-         */
-        #include "readTimeControls.H"
-        #include "QHDCourantNo.H"
-        #include "setDeltaT-QGDQHD.H"
-
-        runTime++;
-
-        Info<< "Time = " << runTime.timeName() << nl << endl;
-
-        // --- Store old time values
-        U.oldTime();
-        T.oldTime();
-        turbulence->correct();
-        
-        #include "QHDpEqn.H"
-        
-        #include "QHDUEqn.H"
-        
-        #include "QHDTEqn.H"
-        
-        if (p.needReference())
-        {
-            p += dimensionedScalar
-            (
-                "p",
-                p.dimensions(),
-                pRefValue - getRefCellValue(p, pRefCell)
-            );
-        }
-        
-        runTime.write();
-        
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
-        
+        solve
+        (
+            fvm::ddt(T)
+          + fvc::div(phiTf)
+          - fvm::laplacian(Hif,T)
+          - fvc::div(phiTauTReg)
+        );
     }
-
-
-
-    Info<< "End\n" << endl;
-
-    return 0;
+    else
+    {
+        solve
+        (
+            fvm::ddt(T)
+          + fvc::div(phiTf)
+          - fvc::laplacian(Hif,T)
+          - fvc::div(phiTauTReg)
+        );
+    }
+    
+    Info << "max/min of T: " << max(T).value() << "/" << min(T).value() << endl;
 }
 
-// ************************************************************************* //
+

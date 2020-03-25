@@ -1,3 +1,3 @@
 zQGDFoam.C
 
-EXE = $(FOAM_APPBIN)/zQGDFoam
+EXE = $(FOAM_USER_APPBIN)/zQGDFoam

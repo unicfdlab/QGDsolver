@@ -18,4 +18,5 @@ EXE_LIBS = \
     -lspecie \
     -lturbulenceModels \
     -lcompressibleTurbulenceModels \
+    -L$(FOAM_USER_LIBBIN) \
     -lQGD

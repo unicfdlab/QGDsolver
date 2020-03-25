@@ -36,4 +36,5 @@ EXE_LIBS = \
     -llagrangian \
     -llagrangianIntermediate \
     -llagrangianTurbulence \
+    -L$(FOAM_USER_LIBBIN) \
     -lQGD

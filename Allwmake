@@ -2,6 +2,8 @@
 
 cd QGD; wmake libso; cd ../
 
+cd TwoPhaseQGD; wmake libso; cd ../
+
 cd QGDFoam; ./Allwmake; cd ../
 
 cd QHDFoam; ./Allwmake; cd ../

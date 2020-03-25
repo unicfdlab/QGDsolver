@@ -131,79 +131,12 @@ int main(int argc, char *argv[])
         U.oldTime();
         T.oldTime();
         turbulence->correct();
-        //Continuity equation
-	
-        while (pimple.correctNonOrthogonal())
-        {
-                // Pressure corrector
-
-            fvScalarMatrix pEqn
-            (
-                 fvc::div(phiu)
-	        -fvc::div(phiwo)
-                -fvm::laplacian(taubyrhof,p)
-            );
-	    
-            pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-            pEqn.solve();
-
-                if (pimple.finalNonOrthogonalIter())
-                {
-                    phi = phiu - phiwo + pEqn.flux();
-                }
-        }
         
-        gradPf = fvsc::grad(p);
+        #include "QHDpEqn.H"
         
-        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
+        #include "QHDUEqn.H"
         
-	surfaceVectorField phiUfWf = mesh.Sf() & (Uf * Wf);
-	phiUfWf.setOriented(true);
-        phiUf = phi * Uf;
-	phiUf.setOriented(true);
-	phiUf -= phiUfWf;
-
-        // --- Solve U
-        if (implicitDiffusion)
-        {
-            solve
-            (
-                fvm::ddt(U)
-                +
-                fvc::div(phiUf)
-                -
-                fvm::laplacian(muf/rhof,U)
-                -
-                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-                ==
-                -
-                fvc::grad(p)/rho
-                +
-                BdFrc
-            );
-        }
-        else
-        {
-            solve
-            (
-                fvm::ddt(U)
-                +
-                fvc::div(phiUf)
-                -
-                fvc::laplacian(muf/rhof,U)
-                -
-                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-                ==
-                -
-                fvc::grad(p)/rho
-                +
-                BdFrc
-            );
-        }
-
-	
-        phiTf = phi * Tf;
+        phiTf = qgdFlux(phi,T,Tf);
 
         // --- Solve T
         #include "alphaControls.H"
