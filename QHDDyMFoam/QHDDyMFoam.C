@@ -148,10 +148,10 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-	}
-
-	runTime.write();
-
+        }
+        
+        runTime.write();
+        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;

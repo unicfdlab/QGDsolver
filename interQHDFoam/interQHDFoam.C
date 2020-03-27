@@ -60,6 +60,7 @@ Description
 #include "wallFvPatch.H"
 #include "fvsc.H"
 #include "twoPhaseIcoQGDThermo.H"
+#include "QGDInterpolate.H"
 #include "MULES.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -88,6 +88,7 @@ volScalarField H
     (rhoE + p)/rho
 );
 
+#include "createZeroSources.H"
 
 surfaceScalarField phi
 (

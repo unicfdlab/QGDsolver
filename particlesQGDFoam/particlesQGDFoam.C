@@ -120,9 +120,11 @@ int main(int argc, char *argv[])
         #include "QGDRhoEqn.H"
 
         // --- Solve momentum
+        rhoUSu = parcels.SU(U);
         #include "QGDUEqn.H"
 
         //--- Solve energy
+        rhoESu = parcels.Sh(e);
         #include "QGDEEqn.H"
 
         if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )

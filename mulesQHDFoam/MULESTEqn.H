@@ -20,11 +20,11 @@
 
     if (implicitDiffusion)
     {
-        solve(fvm::ddt(T)-fvc::ddt(T)-fvm::laplacian(Hif,T));
+        solve(fvm::ddt(T)-fvc::ddt(T)-fvm::laplacian(Hif,T) == TSu);
     }
     else
     {
-        solve(fvm::ddt(T)-fvc::ddt(T)-fvc::laplacian(Hif,T));
+        solve(fvm::ddt(T)-fvc::ddt(T)-fvc::laplacian(Hif,T) == TSu);
     }
 }
 

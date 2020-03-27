@@ -52,6 +52,8 @@ License
             fvc::grad(p)/rho
             +
             BdFrc
+            +
+            USu
         );
     }
     else
@@ -70,6 +72,8 @@ License
             fvc::grad(p)/rho
             +
             BdFrc
+            +
+            USu
         );
     }
 

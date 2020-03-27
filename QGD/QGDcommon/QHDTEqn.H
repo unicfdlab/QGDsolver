@@ -72,6 +72,8 @@ Description
           + fvc::div(phiTf)
           - fvm::laplacian(Hif,T)
           - fvc::div(phiTauTReg)
+          ==
+          TSu
         );
     }
     else
@@ -82,6 +84,8 @@ Description
           + fvc::div(phiTf)
           - fvc::laplacian(Hif,T)
           - fvc::div(phiTauTReg)
+          ==
+          TSu
         );
     }
     

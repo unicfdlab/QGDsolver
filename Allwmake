@@ -8,9 +8,17 @@ cd QGDFoam; ./Allwmake; cd ../
 
 cd QHDFoam; ./Allwmake; cd ../
 
-cd QHDDyMFoam; ./Allwmake; cd ../
-
 cd mulesQHDFoam; ./Allwmake; cd ../
+
+cd zQGDFoam; ./Allwmake; cd ../
+
+cd interQHDFoam; ./Allwmake; cd ../
+
+cd particlesQGDFoam; ./Allwmake; cd ../
+
+cd particlesQHDFoam; ./Allwmake; cd ../
+
+cd QHDDyMFoam; ./Allwmake; cd ../
 
 cd utils/selectBadCells; wmake; cd ../../
 

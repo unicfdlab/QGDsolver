@@ -132,6 +132,8 @@ label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, mesh.solutionDict().subDict("PISO"), pRefCell, pRefValue);
 
+#include "createIcoZeroSources.H"
+
 //
 //END-OF-FILE
 //

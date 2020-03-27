@@ -38,19 +38,13 @@ source file:
       + fvc::div(phiQ)
       - fvc::div(phiPiU)
       - fvc::div(phiSigmaDotU)
-      ==
-      fvOptions(rhoE)
     );
-    
-    fvOptions.constrain(EEqn);
     
     EEqn.solve();
     
     // Correct energy
     e = rhoE/rho - 0.5*magSqr(U);
     e.correctBoundaryConditions();
-    
-    fvOptions.correct(e);
     
     // Solve diffusive QGD & NS part
     if (implicitDiffusion)
@@ -59,9 +53,20 @@ source file:
         (
             fvm::ddt(rho, e) - fvc::ddt(rho,e)
           - fvm::laplacian(alphauf, e)
+          ==
+          rhoESu
         );
         
         rhoE = rho*(e + 0.5*magSqr(U));
+    }
+    else
+    {
+        solve
+        (
+            fvm::ddt(rho,e) - fvc::ddt(rhoE)
+            ==
+            rhoESu
+        );
     }
     
     rhoE.boundaryFieldRef() == rho.boundaryField()*

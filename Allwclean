@@ -16,6 +16,8 @@ cd interQHDFoam; ./Allwclean; cd ../
 
 cd particlesQGDFoam; ./Allwclean; cd ../
 
+cd particlesQHDFoam; ./Allwclean; cd ../
+
 cd QHDDyMFoam; ./Allwclean; cd ../
 
 cd utils/selectBadCells; wclean; cd ../../

@@ -57,20 +57,10 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "upwind.H"
-#include "CMULES.H"
-#include "EulerDdtScheme.H"
-#include "localEulerDdtScheme.H"
-#include "CrankNicolsonDdtScheme.H"
-#include "subCycle.H"
-#include "pimpleControl.H"
-#include "fvOptions.H"
-#include "CorrectPhi.H"
-#include "localEulerDdtScheme.H"
-#include "fvcSmooth.H"
 #include "QHD.H"
-#include "turbulentTransportModel.H"
 #include "turbulentFluidThermoModel.H"
+#include "turbulentTransportModel.H"
+#include "basicThermoCloud.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -87,9 +77,8 @@ int main(int argc, char *argv[])
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
 
-    pimpleControl pimple(mesh);
-
     turbulence->validate();
+
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     // Courant numbers used to adjust the time-step
@@ -136,15 +125,8 @@ int main(int argc, char *argv[])
         
         #include "QHDUEqn.H"
         
-        phiTf = qgdFlux(phi,T,Tf);
-
-        // --- Solve T
-        {
-            volScalarField& alpha1 = T;
-            #include "alphaControls.H"
-            #include "MULESTEqn.H"
-        }
-
+        #include "QHDTEqn.H"
+        
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -153,19 +135,21 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-//            p_rgh = p - rho * (1-beta*T) * gh;
         }
-	    
-	runTime.write();
-	    
+        
+        runTime.write();
+        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
+        
     }
-    
+
+
+
     Info<< "End\n" << endl;
-    
 
     return 0;
 }
+
 // ************************************************************************* //
