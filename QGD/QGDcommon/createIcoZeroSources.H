@@ -2,12 +2,12 @@
 fvVectorMatrix USu
 (
     U,
-    U.dimensions()/dimTime
+    U.dimensions()*dimVolume/dimTime
 );
 
 fvScalarMatrix TSu
 (
     T,
-    T.dimensions()/dimTime
+    T.dimensions()*dimVolume/dimTime
 );
 

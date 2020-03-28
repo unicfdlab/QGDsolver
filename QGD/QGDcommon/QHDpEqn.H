@@ -14,4 +14,3 @@
 
     phi = phiu - phiwo + pEqn.flux();
 }
-
