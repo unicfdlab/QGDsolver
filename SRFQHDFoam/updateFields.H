@@ -3,16 +3,19 @@
  * Gradients at faces
  *
  */
-Urel.correctBoundaryConditions();
-gradUrelf = fvsc::grad(Urel);
+gradUf = fvsc::grad(U);
+
+gradWf = fvsc::grad(W);
+
+gradTf = fvsc::grad(T);
 
 /*
  *
  * QGD coefficients now updated in thermo library
  *
  */
-muf    = linearInterpolate(turbulence->mu());
-alphaf = linearInterpolate(turbulence->alpha());
+muf    = qgdInterpolate(turbulence->muEff());
+alphaf = qgdInterpolate(thermo.alpha());
 
 /*
  *
@@ -21,29 +24,23 @@ alphaf = linearInterpolate(turbulence->alpha());
  */
 
 // Density
-rho.correctBoundaryConditions();
-rhof = linearInterpolate(rho);
+rhof = qgdInterpolate(rho);
 
 // Velocity
-Urelf = linearInterpolate(Urel);
+Uf   = qgdInterpolate(U);
     
 // T
-Tf = linearInterpolate(T);
+Tf   = qgdInterpolate(T);
 
-
-//rhok   = 1.0 - beta*T;
-
-BdFrc  = -2.0*(SRF->omega()^Urel);
-
-//BdFrc  = (rhok - rhok0)*g;
-BdFrc.correctBoundaryConditions();
-BdFrcf = fvc::interpolate(BdFrc);
+//
+BdFrc  = -beta*T*g - 2.0*(SRF->omega()^U);
+BdFrcf = qgdInterpolate(BdFrc);
 
 //Hi
 Hif = alphaf/rhof;
 
 // Heat capacity at constant pressure
-Cpf = linearInterpolate(thermo.Cp());
+Cpf = qgdInterpolate(thermo.Cp());
 
 
 

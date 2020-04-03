@@ -42,5 +42,7 @@ thermoModels/psiQGDThermo/psiQGDThermo.C
 thermoModels/psiQGDThermo/psiQGDThermos.C
 thermoModels/rhoQGDThermo/rhoQGDThermo.C
 thermoModels/rhoQGDThermo/rhoQGDThermos.C
+thermoModels/psiQGDReactionThermo/psiQGDReactionThermo.C
+thermoModels/psiQGDReactionThermo/psiQGDReactionThermos.C
 
 LIB = $(FOAM_USER_LIBBIN)/libQGD

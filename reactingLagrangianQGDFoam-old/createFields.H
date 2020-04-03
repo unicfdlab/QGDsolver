@@ -1,22 +1,11 @@
 Info<< "Reading thermophysical properties\n" << endl;
 
-autoPtr<psiQGDReactionThermo> pThermo(psiQGDReactionThermo::New(mesh));
-psiQGDReactionThermo& thermo = pThermo();
+autoPtr<psiQGDThermo> pThermo
+(
+    psiQGDThermo::New(mesh)
+);
+psiQGDThermo& thermo = pThermo();
 thermo.correct();
-
-SLGThermo slgThermo(mesh, thermo);
-
-basicSpecieMixture& composition = thermo.composition();
-PtrList<volScalarField>& Y = composition.Y();
-
-const word inertSpecie(thermo.get<word>("inertSpecie"));
-if (!composition.species().found(inertSpecie))
-{
-    FatalIOErrorIn(args.executable().c_str(), thermo)
-    << "Inert specie " << inertSpecie << " not found in available species "
-    << composition.species()
-    << exit(FatalIOError);
-}
 
 volScalarField& e = thermo.he();
 
@@ -58,6 +47,46 @@ volScalarField rho
     thermo.rho()
 );
 
+volScalarField y
+(
+    IOobject
+    (
+        "y",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+volScalarField rhoa
+(
+    "rhoa",
+    y*rho
+);
+
+
+//volScalarField cellNo
+//(
+//    IOobject
+//    (
+//        "cellNo",
+//        runTime.timeName(),
+//        mesh,
+//        IOobject::MUST_READ,
+//        IOobject::AUTO_WRITE
+//    ),
+//    mesh
+//);
+
+//forAll(cellNo, iCell)
+//{
+//    cellNo.primitiveFieldRef()[iCell] = scalar(iCell);
+//}
+//
+//cellNo.write();
+
 volVectorField rhoU
 (
     IOobject
@@ -84,21 +113,6 @@ volScalarField rhoE
     rho*e + rho*0.5*magSqr(U)
 );
 
-volScalarField H
-(
-    IOobject
-    (
-        "Ht",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::NO_WRITE
-    ),
-    (rhoE + p)/rho
-);
-
-#include "createZeroSources.H"
-
 surfaceScalarField phi
 (
     "phi",
@@ -124,30 +138,6 @@ turbulence.reset
         thermo
     ).ptr()
 );
-
-#include "readGravitationalAcceleration.H"
-#include "createClouds.H"
-
-Info<< "Creating combustion model\n" << endl;
-autoPtr<CombustionModel<psiQGDReactionThermo>> combustion
-(
-    CombustionModel<psiQGDReactionThermo>::New(thermo, turbulence())
-);
-
-volScalarField Qdot
-(
-    IOobject
-    (
-        "Qdot",
-        runTime.timeName(),
-        mesh,
-        IOobject::READ_IF_PRESENT,
-        IOobject::AUTO_WRITE
-    ),
-    mesh,
-    dimensionedScalar(dimEnergy/dimVolume/dimTime, Zero)
-);
-
 
 //
 //END-OF-FILE

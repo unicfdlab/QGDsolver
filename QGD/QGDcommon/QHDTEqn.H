@@ -61,7 +61,7 @@ Description
 
 {
     phiTf = qgdFlux(phi,T,Tf);
-    surfaceScalarField phiTauTReg = tauQGDf*phi*(Uf & gradTf);
+    surfaceScalarField phiTauTReg = tauQGDf*phiu*(Uf & gradTf);
     
     // --- Solve T
     if (implicitDiffusion)

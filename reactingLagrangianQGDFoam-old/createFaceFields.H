@@ -10,6 +10,13 @@
         "rhof",
         linearInterpolate(rho)
     );
+
+    //
+    surfaceScalarField yf
+    (
+        "yf",
+        linearInterpolate(y)
+    );
     
     // Velocity
     surfaceVectorField Uf

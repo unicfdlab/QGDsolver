@@ -31,13 +31,22 @@ rhoW += tauQGDf * gradPf;
 jm = rhoUf - rhoW;
 
 phiJm = mesh.Sf() & jm;
+
 phi = mesh.Sf() & rhoUf;
+
+phiJmyf = phiJm * yf;
+
+surfaceScalarField dydt = 
+    (-fvsc::div(rhoU*y) + yf*fvsc::div(rhoU))/rhof;
+phiJmyf += (mesh.Sf() & (rhoUf*tauQGDf*dydt));
+
+//phiJma  = 
 //---------End---------
 
 // Fluxes for momentum balance equation
 //---------Start---------
 
-phiJmU = qgdFlux(phiJm, U, Uf);
+phiJmU = mesh.Sf() & (jm * Uf);
 phiP = mesh.Sf() * pf;
 
 Pif = 
@@ -68,7 +77,9 @@ if (!implicitDiffusion)
 }
 else
 {
-    tauMCPtr() = qgdInterpolate(turbulence->muEff() * dev2(Foam::T(fvc::grad(U))));
+    //tauMCPtr() = muf*linearInterpolate(Foam::T(fvc::grad(U)) - (2.0/3.0)*I*fvc::div(U));
+    //tauMCPtr() = muf*(Foam::T(gradUf) - (2.0/3.0)*I*divUf);
+    tauMCPtr() = linearInterpolate(turbulence->muEff() * dev2(Foam::T(fvc::grad(U))));
     phiTauMC = mesh.Sf() & tauMCPtr();
 }
 
@@ -78,7 +89,7 @@ phiPi = mesh.Sf() & Pif;
 
 // Fluxes for energy balance equation
 //---------Start---------
-phiJmH = qgdFlux(phiJm,H,Hf);
+phiJmH = phiJm * Hf;
 
 qf =
     -tauQGDf*
@@ -87,6 +98,7 @@ qf =
         (
             gradef
             - (pf / rhof / rhof) * gradRhof
+            //+ pf * fvsc::grad(1.0 / rho)
         )
     );
     

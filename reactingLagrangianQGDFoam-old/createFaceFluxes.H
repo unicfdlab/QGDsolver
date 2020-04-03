@@ -1,3 +1,12 @@
+
+/*Field for debugging parallel execution*/
+//surfaceVectorField cellNoGradf
+//(
+//    "cellNoGradf", faceStencil.faceScalarGrad(cellNo)
+//);
+//
+//cellNoGradf.write();
+
 //Gradients and divergence
 //---------Start---------
 surfaceVectorField gradPf 
@@ -76,6 +85,12 @@ surfaceScalarField phiJm
 (
     "phiJm",
     mesh.Sf() & jm
+);
+
+surfaceScalarField phiJmyf
+(
+    "phiJmyf",
+    phiJm*0.0
 );
 
 //---------End---------
@@ -181,20 +196,3 @@ surfaceScalarField phiSigmaDotU
 );
 
 //---------End---------
-
-PtrList<surfaceScalarField> phiJmY(Y.size());
-forAll(phiJmY, i)
-{
-    if (i != inertIndex)
-    {
-        phiJmY.reset
-        (
-            i,
-            new surfaceScalarField
-            (
-                "phiJmY" + std::to_string(i),
-                phiJm*0.0
-            )
-        );
-    }
-}
