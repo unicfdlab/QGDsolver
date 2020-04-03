@@ -100,4 +100,15 @@ phiQ = mesh.Sf() & qf;
 
 phiPiU = mesh.Sf() & (Pif & Uf);
 
+forAll(Y[i], i)
+{
+    if ( i != inertIndex )
+    {
+        gradYf = fvsc::grad(Y[i]);
+        phiJmY[i] = qgdFlux(phiJm,Y[i],Yf[i]);
+        surfaceScalarField dydt = -(Uf & gradYf);
+        phiJmY[i] += (mesh.Sf() & (rhoUf*tauQGDf*dydt));
+    }
+}
+
 //---------End---------

@@ -4,6 +4,10 @@ cd QGD; wmake libso; cd ../
 
 cd TwoPhaseQGD; wmake libso; cd ../
 
+cd CombustionQGD; wmake libso; cd ../
+
+cd ChemistryQGD; wmake libso; cd ../
+
 cd QGDFoam; ./Allwmake; cd ../
 
 cd QHDFoam; ./Allwmake; cd ../
@@ -19,6 +23,10 @@ cd particlesQGDFoam; ./Allwmake; cd ../
 cd particlesQHDFoam; ./Allwmake; cd ../
 
 cd QHDDyMFoam; ./Allwmake; cd ../
+
+cd SRFQHDFoam; ./Allwmake; cd ../
+
+cd reactingLagrangianQGDFoam; ./Allwmake; cd ../
 
 cd utils/selectBadCells; wmake; cd ../../
 

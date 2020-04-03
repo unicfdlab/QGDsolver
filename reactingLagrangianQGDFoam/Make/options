@@ -18,6 +18,7 @@ EXE_INC = \
     -I$(LIB_SRC)/regionModels/surfaceFilmModels/lnInclude \
     -I$(LIB_SRC)/lagrangian/basic/lnInclude \
     -I$(LIB_SRC)/lagrangian/intermediate/lnInclude \
+    -I$(LIB_SRC)/combustionModels/lnInclude \
     -I../QGD/lnInclude
     
 
@@ -36,5 +37,8 @@ EXE_LIBS = \
     -llagrangian \
     -llagrangianIntermediate \
     -llagrangianTurbulence \
+    -lcombustionModels \
     -L$(FOAM_USER_LIBBIN) \
-    -lQGD
+    -lQGD \
+    -lcombustionQGDModels \
+    -lchemistryQGDModels

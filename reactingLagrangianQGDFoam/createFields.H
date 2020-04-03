@@ -17,6 +17,7 @@ if (!composition.species().found(inertSpecie))
     << composition.species()
     << exit(FatalIOError);
 }
+const label inertIndex(composition.species()[inertSpecie]);
 
 volScalarField& e = thermo.he();
 

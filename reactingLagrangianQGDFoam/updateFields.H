@@ -33,7 +33,7 @@ Cpf = qgdInterpolate(thermo.Cp());
 //Mass fractions
 forAll(Y,i)
 {
-    Yf[i] = linearInterpolate(Y[i]);
+    Yf[i] = qgdInterpolate(Y[i]);
 }
 
 // Total specific enthalpy

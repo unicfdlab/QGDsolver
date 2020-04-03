@@ -11,6 +11,19 @@
         linearInterpolate(rho)
     );
     
+    PtrList<surfaceScalarField> Yf (Y.size());
+    forAll(Y,i)
+    {
+        if (i != inertIndex)
+        {
+            Yf.set
+            (
+                i,
+                new surfaceScalarField(linearInterpolate(Y[i]))
+            );
+        }
+    }
+    
     // Velocity
     surfaceVectorField Uf
     (

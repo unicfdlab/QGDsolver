@@ -45,6 +45,7 @@ Description
 #include "fvOptions.H"
 #include "turbulentFluidThermoModel.H"
 #include "basicReactingCloud.H"
+#include "CombustionModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
         #include "QGDRhoEqn.H"
         
         // --- Solve for mass fractions
-        #incude "QGDYEqn.H"
+        #include "QGDYEqn.H"
 
         // --- Solve momentum
         rhoUSu = parcels.SU(U);

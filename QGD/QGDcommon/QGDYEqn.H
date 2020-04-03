@@ -29,7 +29,7 @@
             {
                 solve
                 (
-                    fvm::ddt(rho,Y)
+                    fvm::ddt(rho,Yi)
                     +
                     fvc::div(phiJmYi)
                     -

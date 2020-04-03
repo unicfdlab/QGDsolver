@@ -29,6 +29,12 @@ surfaceVectorField gradRhof
     fvsc::grad(rho)
 );
 
+surfaceVectorField gradYf
+(
+    "gradYf",
+    gradRhof/rhof
+);
+
 //---------End---------
 
 //Continuity equation fluxes
@@ -187,7 +193,7 @@ forAll(phiJmY, i)
 {
     if (i != inertIndex)
     {
-        phiJmY.reset
+        phiJmY.set
         (
             i,
             new surfaceScalarField
