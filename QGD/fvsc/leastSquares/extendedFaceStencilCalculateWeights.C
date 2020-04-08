@@ -1,3 +1,34 @@
+
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+    
+\*---------------------------------------------------------------------------*/
+
+
+
 #include "leastSquaresBase.H"
 #include "polyMesh.H"
 #include "fvMesh.H"
@@ -9,7 +40,7 @@
 //- Compute weights for least squares scheme for gradient calculation.
 void Foam::fvsc::leastSquaresBase::calculateWeights()
 {
-    Pout << "Start calculateWeights()" << endl;
+    //Pout << "Start calculateWeights()" << endl;
     
     const faceList& faces = cMesh_.faces();
     GdfAll_.resize(faces.size());
@@ -21,6 +52,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
     //mesh_.checkCellDeterminant(true, &udCells);
     label nDegFaces = 0;
     scalar minDet = GREAT;
+    scalar detG = 0.0;
     
     //for internal faces
     forAll(faces, facei)
@@ -93,19 +125,23 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
             */
 
             G = G + G0;
-            if (det(G) < minDet)
+            detG = det(G);
+            if (detG < minDet)
             {
-                minDet = det(G);
+                minDet = detG;
             }
-            if (det(G) < 1)
+            
+            if (detG < 1)
             {
                 nDegFaces++;
                 internalDegFaces_.append(facei);
             }
-
-            G = inv(G);
-            G = G - G0;
-
+            else
+            {
+                G = inv(G);
+                G = G - G0;
+            }
+            
             forAll(df, i)
             {
                 df[i] = G&df[i];
@@ -116,10 +152,13 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
         }
     }
     
-    Pout << "Min determinant      : " << minDet << endl;
-    Pout << "Total # of deg. faces: " << nDegFaces << endl;
+    if (nDegFaces > 0)
+    {
+        Pout << "Min determinant      : " << minDet << endl;
+        Pout << "Total # of deg. faces: " << nDegFaces << endl;
+    }
     
-    Info << "End for not parallel" << endl;
+    //Info << "End for not parallel" << endl;
     
     if (Pstream::parRun())
     {
@@ -164,7 +203,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
 
         // Step 2. Loop over all neighboring processors and send/receive cell centers
         {
-            PstreamBuffers pBuffers(Pstream::nonBlocking);
+            PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
         
             forAll(neigProcs_, iProcPair)
             {
@@ -193,7 +232,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
         
         // Step 3. Loop over all corner neigbouring processors and send/receive cell centers
         {
-            PstreamBuffers pBuffers(Pstream::nonBlocking);
+            PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
             
             // Send
             forAll(neigProcs_, iProcPair)
@@ -357,13 +396,16 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     
                     G = G + G0;
                     
-                    if (det(G) < 1)
+                    detG = det(G);
+                    if (detG < 1)
                     {
                         procDegFaces_[iProcPatch].append(facei);
                     }
-                    
-                    G = inv(G);
-                    G = G - G0;
+                    else
+                    {
+                        G = inv(G);
+                        G = G - G0;
+                    }
                     
                     forAll(df, i)
                     {
@@ -377,6 +419,6 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
         }
     }
     
-    Pout << "End calculateWeights()" << endl;
+    //Pout << "End calculateWeights()" << endl;
 };
 

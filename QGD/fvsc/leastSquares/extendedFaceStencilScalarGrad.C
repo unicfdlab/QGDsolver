@@ -1,3 +1,31 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+    
+\*---------------------------------------------------------------------------*/
+
 #include "leastSquaresStencil.H"
 #include "polyMesh.H"
 #include "fvMesh.H"
@@ -49,7 +77,8 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
     forAll(internalDegFaces_, facei)
     {
         dFaceId = internalDegFaces_[facei];
-        gradIF[dFaceId] = nf_[dFaceId] * sngF[dFaceId];
+        //gradIF[dFaceId] = nf_[dFaceId] * sngF[dFaceId];
+        gradIF[dFaceId] = sngF[dFaceId] * nf_[dFaceId];
     }
     
     //update boundary field
@@ -72,8 +101,9 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
 
         if (notConstrain)
         {
-            gradIF.boundaryFieldRef()[ipatch] = iF.boundaryField()[ipatch].snGrad() * 
-                nf_.boundaryField()[ipatch];
+            gradIF.boundaryFieldRef()[ipatch] = nf_.boundaryField()[ipatch] * 
+                iF.boundaryField()[ipatch].snGrad();
+
         }
     }
 
@@ -111,7 +141,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
     
     //Step 1. Send field data to neighbouring processors (non-blocking mode)
     
-    PstreamBuffers pBuffers(Pstream::nonBlocking);
+    PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
     forAll(procPairs_, procI)
     {
         label procId = neigProcs_[procI];
@@ -139,6 +169,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
         {
             label cellId = -1;
             label addrId = corProcIds_[procId];
+            //label addrId = corProcIds_.capacity();
             forAll(corCellIds_[addrId], iCellId)
             {
                 cellId = corCellIds_[addrId][iCellId];
@@ -230,10 +261,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
                 degId = degProcFaces[iFace];
                 
                 pgradf[degId] = nf_.boundaryField()[procPatchId][degId]*
-                sngF.boundaryField()[procPatchId][degId];
-                
-                //pgradf[degId] = sngF.boundaryField()[procPatchId][degId] * 
-                //    nf_.boundaryField()[procPatchId][degId];
+                    sngF.boundaryField()[procPatchId][degId];
             }
         }
     }

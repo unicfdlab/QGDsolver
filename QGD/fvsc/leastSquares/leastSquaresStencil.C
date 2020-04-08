@@ -1,3 +1,31 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+    
+\*---------------------------------------------------------------------------*/
+
 #include "leastSquaresStencil.H"
 #include "polyMesh.H"
 #include "fvMesh.H"
@@ -46,8 +74,9 @@ Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
 
     
         const labelList degenerateFaces = degenerateFacesSet.toc();
-        HashSet<label> intDegFaces;
-        List<HashSet<label> > procDegFaces (procDegFaces_.size());
+        
+        labelHashSet intDegFaces;
+        List<labelHashSet> procDegFaces (procDegFaces_.size());
     
         forAll(degenerateFaces, iDegFace)
         {
@@ -175,7 +204,7 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::leastSquares::Div(const volVecto
     surfaceVectorField gradComp1 = Grad(iVF.component(1));
     surfaceVectorField gradComp2 = Grad(iVF.component(2));
 
-    tmp<surfaceScalarField> tdivIVF(0*fvc::snGrad(iVF) & nf_);
+    tmp<surfaceScalarField> tdivIVF(0 * (nf_ & fvc::snGrad(iVF)));
     surfaceScalarField& divIVF = tdivIVF.ref();
     
     divIVF.primitiveFieldRef() = gradComp0.primitiveField().component(0)
@@ -219,7 +248,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Div(const volTenso
     tmp<surfaceScalarField> divComp1 (gradComp1().component(0) + gradComp4().component(1) + gradComp7().component(2));
     tmp<surfaceScalarField> divComp2 (gradComp2().component(0) + gradComp5().component(1) + gradComp8().component(2));
 
-    tmp<surfaceVectorField> tdivITF(0*fvc::snGrad(iTF.component(0)) * nf_);
+    tmp<surfaceVectorField> tdivITF(0*nf_*fvc::snGrad(iTF.component(0)));
     surfaceVectorField& divITF = tdivITF.ref();
     
     divITF.primitiveFieldRef().replace(0, divComp0().primitiveField());

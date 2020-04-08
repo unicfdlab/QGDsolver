@@ -32,7 +32,7 @@ divSchemes
 
 laplacianSchemes
 {
-    default         none;
+    default         Gauss linear corrected;
 }
 
 interpolationSchemes
@@ -52,7 +52,7 @@ fluxRequired
 
 fvsc
 {
-    default    leastSquares;
+    default    GaussVolPoint;
 }
 
 // ************************************************************************* //

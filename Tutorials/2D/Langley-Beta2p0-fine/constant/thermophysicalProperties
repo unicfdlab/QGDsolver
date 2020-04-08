@@ -54,10 +54,10 @@ mixture
 QGD
 {
     implicitDiffusion false;
-    QGDCoeffs constScPrModel1QGDCoeffs;
-    constScPrModel1QGDCoeffsDict
+    QGDCoeffs constScPrModel1;
+    constScPrModel1Dict
     {
-        ScQGD 1;
+        ScQGD 0.3;
         PrQGD 1;
     }
 }

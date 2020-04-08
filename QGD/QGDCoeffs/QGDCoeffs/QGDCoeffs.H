@@ -1,8 +1,47 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+Class
+    Foam::qgd::QGDCoeffs
+
+Description
+    Base class for all classes describing QGD model coefficients.
+    Provides interfaces for accessing QGD/QHD models coefficients \mu^{QGD},
+    \tau^{QGD}, \alpha^{QGD}, \alpha_u^{QGD}, h^{QGD}
+
+SourceFiles
+    QGDCoeffs.C
+
+\*---------------------------------------------------------------------------*/
 
 #include "fvMesh.H"
 #include "runTimeSelectionTables.H"
 #include "regIOobject.H"
 #include "volFields.H"
+#include "surfaceFields.H"
 
 #ifndef QGDCoeffs_H
 #define QGDCoeffs_H
@@ -11,7 +50,7 @@ namespace Foam
 {
 
 //forward declaration of psiQGDThermo
-class psiQGDThermo;
+class QGDThermo;
 
 namespace qgd
 {
@@ -20,44 +59,56 @@ class QGDCoeffs : public regIOobject, public refCount
 {
 
 protected:
-    
+
     //-
     const fvMesh& mesh_;
-    
+
     //-
     const Time& runTime_;
-    
+
     //-
     volScalarField muQGD_;
-    
+
     //-
     volScalarField alphauQGD_;
 
     //-
+    surfaceScalarField hQGDf_;
+
+    //-
     volScalarField hQGD_;
+
+    //-
+    tmp<volScalarField> taQGD_;
     
     //-
-    volScalarField aQGD_;
-    
+    volScalarField& aQGD_;
+
     //-
     volScalarField tauQGD_;
-    
+
+    //-
+    surfaceScalarField tauQGDf_;
+
     //-
     volScalarField PrQGD_;
-    
+
     //-
     volScalarField ScQGD_;
 
 protected:
+
+    //-
+    virtual void updateQGDLength(const fvMesh&);
     
     //-
-    virtual tmp<volScalarField> qgdLength(const fvMesh& mesh);
+    tmp<volScalarField> readOrCreateAlphaQGD(const fvMesh& );
 
 public:
- 
+
     //-
     TypeName("QGDCoeffs");
-    
+
     //-
     declareRunTimeSelectionTable
     (
@@ -71,7 +122,7 @@ public:
         ),
         (io, mesh, dict)
     );
-    
+
     //- Construct from components
     QGDCoeffs
     (
@@ -79,7 +130,7 @@ public:
         const fvMesh& mesh,
         const dictionary& dict
     );
-    
+
     //- Return a reference to the selected fvscStencil model
     static autoPtr<QGDCoeffs> New
     (
@@ -87,28 +138,34 @@ public:
         const fvMesh& mesh,
         const dictionary& dict
     );
-    
+
     //-
     virtual ~QGDCoeffs();
-    
+
     //-
     virtual bool writeData(Ostream&) const
     {
         return true;
     }
-    
+
     //-
-    virtual void correct(const psiQGDThermo&);
-    
+    virtual void correct(const QGDThermo&);
+
     //-
     const volScalarField& hQGD() const;
-    
+
     //-
     const volScalarField& tauQGD() const;
-    
+
+    //-
+    const surfaceScalarField& hQGDf() const;
+
+    //-
+    const surfaceScalarField& tauQGDf() const;
+
     //-
     const volScalarField& muQGD() const;
-    
+
     //-
     const volScalarField& alphauQGD() const;
 
@@ -123,5 +180,3 @@ public:
 //
 //END-OF-FILE
 //
-
-
