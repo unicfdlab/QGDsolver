@@ -14,8 +14,8 @@ gradTf = fvsc::grad(T);
  * QGD coefficients now updated in thermo library
  *
  */
-muf    = linearInterpolate(turbulence->mu());
-alphaf = linearInterpolate(turbulence->alpha());
+muf    = qgdInterpolate(turbulence->mu());
+alphaf = qgdInterpolate(turbulence->alpha());
 
 /*
  *
@@ -24,23 +24,22 @@ alphaf = linearInterpolate(turbulence->alpha());
  */
 
 // Density
-rhof = linearInterpolate(rho);
+rhof = qgdInterpolate(rho);
 
 // Velocity
-Uf = linearInterpolate(U);
+Uf   = qgdInterpolate(U);
     
 // T
-
-Tf = linearInterpolate(T);
+Tf   = qgdInterpolate(T);
 
 BdFrc  = -beta*(T-T0)*g;
-BdFrcf = fvc::interpolate(BdFrc);
+BdFrcf = qgdInterpolate(BdFrc);
 
 //Hi
 Hif = alphaf/rhof;
 
 // Heat capacity at constant pressure
-Cpf = linearInterpolate(thermo.Cp());
+Cpf = qgdInterpolate(thermo.Cp());
 
 
 

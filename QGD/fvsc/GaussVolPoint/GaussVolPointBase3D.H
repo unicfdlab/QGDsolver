@@ -42,7 +42,7 @@ class GaussVolPointBase3D
     /* coefficients for quad faces */
 
     //+
-    DynamicList<label> qf_;
+    List<label> qf_;
     
     //+
     List<List<scalar> > aqx_;
@@ -71,10 +71,41 @@ class GaussVolPointBase3D
     //+
     List<List<scalar> > bvq_;
     
-    //+
-    List<List<scalar> > bmv65_;
+    /* coefficients for tri faces */
+    //
+    List<label> tf_;
+    
+    //
+    List<List<scalar> > atx_;
+    
+    //
+    List<List<scalar> > aty_;
+    
+    //
+    List<List<scalar> > atz_;
+    
+    //
+    List<scalar> vt_;
+    
+    //
+    List<List<label> > btf_;
+    
+    //
+    List<List<List<scalar> > > batx_;
 
+    //
+    List<List<List<scalar> > > baty_;
+
+    //
+    List<List<List<scalar> > > batz_;
+    
+    //-
+    List<List<scalar> > bvt_;
+    
     /* coefficients for other faces */
+    
+    //-
+    List<List<scalar> > bmvON_;
     
     //+
     DynamicList<label> of_;
@@ -162,6 +193,18 @@ protected:
         const faceList& faces,
         surfaceVectorField& divf,
         const surfaceVectorField& dfdn
+    );
+    
+    //- Calculate weights for triangles
+    void triCalcWeights
+    (
+        const fvMesh& m
+    );
+
+    //- Calcualte weights for quads
+    void quaCalcWeights
+    (
+        const fvMesh& m
     );
 
 public:

@@ -33,7 +33,7 @@ boundaryField
         value           $internalField;
         p0              $internalField;
         U               U;
-        phi             phiJm;
+        phi             phi;
         psi		thermo:psi;
         gamma           0.9;
         refValue	$internalField;

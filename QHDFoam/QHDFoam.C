@@ -120,63 +120,13 @@ int main(int argc, char *argv[])
         U.oldTime();
         T.oldTime();
         turbulence->correct();
-        //Continuity equation
-        fvScalarMatrix pEqn
-        (
-             fvc::div(phiu)
-	    -fvc::div(phiwo)
-            -fvm::laplacian(taubyrhof,p)
-        );
-
-        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-        pEqn.solve();
-
-	phi = phiu - phiwo + pEqn.flux();
-
-        gradPf = fvsc::grad(p);
-
-
-        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
-
-	phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
-
-      	// --- Solve U
-        solve
-        (
-            fvm::ddt(U)
-            +
-            fvc::div(phiUf)
-            +
-            fvc::grad(p)/rho
-            -
-            fvc::laplacian(muf/rhof,U)
-            -
-            fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-            -
-            BdFrc
-        );
-
-	phiTf = phi * Tf;
-
-        // --- Solve T
-        solve
-        (
-            fvm::ddt(T)
-          + fvc::div(phiTf)
-          - fvc::laplacian(Hif,T)
-        );
-        runTime.write();
-
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
-
-        if (runTime.outputTime())
-        {
-            thermo.tauQGD().write();
-        }
-  
+        
+        #include "QHDpEqn.H"
+        
+        #include "QHDUEqn.H"
+        
+        #include "QHDTEqn.H"
+        
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -185,7 +135,14 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-	}
+        }
+        
+        runTime.write();
+        
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+            << nl << endl;
+        
     }
 
 
