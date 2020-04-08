@@ -8,5 +8,4 @@ runApplication blockMesh
 runApplication setFields
 runApplication `getApplication`
 runApplication postProcess -func sampleDict
-
 #------------------------------------------------------------------------------

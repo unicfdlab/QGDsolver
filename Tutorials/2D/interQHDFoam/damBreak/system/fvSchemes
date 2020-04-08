@@ -25,14 +25,18 @@ gradSchemes
     default         Gauss linear;
 }
 
+
 divSchemes
 {
     default         none;
 
     div((nuEff*dev2(T(grad(U))))) Gauss linear;
+    div(phi,alpha1) Gauss Minmod;
+//    div(rhoPhi,U) Gauss Minmod; //linear; 
     div(phi,T) Gauss Minmod;
-    div(phi,alphal) Gauss vanLeer;
-    div(rhoPhi,U) Gauss linearUpwind grad(U);
+    div(phir,alphar) Gauss Minmod;
+
+
 }
 
 laplacianSchemes
