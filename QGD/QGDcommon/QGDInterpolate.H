@@ -46,21 +46,21 @@ qgdFlux
 (
     const GeometricField<scalar, Foam::fvsPatchField, Foam::surfaceMesh>& flux,
     const GeometricField<T, Foam::fvPatchField, Foam::volMesh > &psi,
-    const GeometricField<T, Foam::fvsPatchField, Foam::surfaceMesh>& psif
+    const GeometricField<T, Foam::fvsPatchField, Foam::surfaceMesh>& psif,
+    const word fluxName
 )
 {
-    word fluxName = "div("+flux.name()+","+psi.name()+")";
     if (psi.mesh().schemesDict().subDict("divSchemes").found(fluxName))
     {
-        if
-        (
-            psi.mesh().schemesDict().subDict("divSchemes").template get<word>(fluxName)
-            ==
-            "linear"
-        )
-        {
-            return flux*psif;
-        }
+        //if
+        //(
+        //    psi.mesh().schemesDict().subDict("divSchemes").template get<word>(fluxName)
+        //    ==
+        //    "linear"
+        //)
+        //{
+        //    return flux*psif;
+        //}
         return fvc::flux
         (
             flux,
@@ -69,6 +69,32 @@ qgdFlux
         );
     }
     return flux*psif;
+}
+
+template<class T>
+tmp<GeometricField<T, Foam::fvsPatchField, Foam::surfaceMesh> >
+qgdFlux
+(
+    const GeometricField<scalar, Foam::fvsPatchField, Foam::surfaceMesh>& flux,
+    const GeometricField<T, Foam::fvPatchField, Foam::volMesh > &psi,
+    const GeometricField<T, Foam::fvsPatchField, Foam::surfaceMesh>& psif
+)
+{
+    word fluxName = "div("+flux.name()+","+psi.name()+")";
+    return qgdFlux(flux,psi,psif,fluxName);
+}
+
+
+template<class T>
+tmp<GeometricField<T, Foam::fvsPatchField, Foam::surfaceMesh> >
+qgdFlux
+(
+    const tmp<GeometricField<scalar, Foam::fvsPatchField, Foam::surfaceMesh>>& flux,
+    const tmp<GeometricField<T, Foam::fvPatchField, Foam::volMesh >> &psi,
+    const tmp<GeometricField<T, Foam::fvsPatchField, Foam::surfaceMesh>>& psif
+)
+{
+    return qgdFlux(flux(),psi(),psif());
 }
 
 }

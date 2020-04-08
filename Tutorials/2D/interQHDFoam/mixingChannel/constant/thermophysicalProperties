@@ -32,28 +32,16 @@ nul  nul  [0 2 -1 0 0]            1e-05;
 rhol rhol [1 -3 0 0 0]            1;
 nug  nug  [0 2 -1 0 0]            1e-05;
 rhog rhog [1 -3 0 0 0]            0.001;
-taul      [0 0 1 0 0] 0.02500e-3; //liquid
-taug      [0 0 1 0 0] 0.050e-3; //air
-sigma     [1 0 -2 0 0] 0.0;
+taul      [0 0 1 0 0 ]            0.2500e-3; //liquid
+taug      [0 0 1 0 0 ]            0.5000e-3; //air
+sigma     [1 0 -2 0 0]            0.0;
 
 QGD
 {
     implicitDiffusion true;
-    //QGDCoeffs constTau;
-    //QGDCoeffs H2bynuQHD;
-    QGDCoeffs constTau;
-    constTauDict
-    {
-       Tau 1;
-    }
-    
-    H2bynyQHDDict
-    {
-    }
+    QGDCoeffs twoPhaseConstTau;
     
     twoPhaseConstTauDict
     {
-        tau1 0.02500e-3; //liquid
-        tau2 0.050e-3; //air
     }
 }

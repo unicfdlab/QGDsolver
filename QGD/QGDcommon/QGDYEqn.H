@@ -2,7 +2,19 @@
     combustion->correct();
     Qdot = combustion->Qdot();
     volScalarField Yt(0.0*Y[0]);
-
+    
+    forAll(diffusiveFlux[inertIndex].internalField(), iFace)
+    {
+        diffusiveFlux[inertIndex].primitiveFieldRef()[iFace] = 0.0;
+    }
+    forAll(diffusiveFlux[inertIndex].boundaryFieldRef(), iPatch)
+    {
+        forAll(diffusiveFlux[inertIndex].boundaryFieldRef()[iPatch], iFace)
+        {
+            diffusiveFlux[inertIndex].boundaryFieldRef()[iPatch][iFace] = 0.0;
+        }
+    }
+    
     forAll(Y, i)
     {
         if (i != inertIndex && composition.active(i))
@@ -12,18 +24,23 @@
             
             if (implicitDiffusion)
             {
-                solve
+                fvScalarMatrix YEqn
                 (
                     fvm::ddt(rho,Yi)
                     +
                     fvc::div(phiJmYi)
                     -
-                    fvm::laplacian(muf,Yi)
+                    fvm::laplacian(muf/ScNumbers[i],Yi)
                     ==
                     combustion->R(Yi)
                     +
                     parcels.SYi(i, Yi)
                 );
+                
+                YEqn.solve();
+                
+                diffusiveFlux[i] = YEqn.flux();
+                diffusiveFlux[inertIndex] -= diffusiveFlux[i];
             }
             else
             {
@@ -33,12 +50,15 @@
                     +
                     fvc::div(phiJmYi)
                     -
-                    fvc::laplacian(muf,Yi)
+                    fvc::laplacian(muf/ScNumbers[i],Yi)
                     ==
                     combustion->R(Yi)
                     +
                     parcels.SYi(i, Yi)
                 );
+                
+                diffusiveFlux[i] = (muf / ScNumbers[i]) * fvc::snGrad(Yi.oldTime()) * mesh.magSf();
+                diffusiveFlux[inertIndex] -= diffusiveFlux[i];
             }
             
             Yi.max(0.0);
@@ -49,8 +69,6 @@
         Y[inertIndex].max(0.0);
     }
 }
-
-                                                                               
 
 //
 //END-OF-FILE

@@ -125,33 +125,34 @@ int main(int argc, char *argv[])
         
         // --- Solve for mass fractions
         #include "QGDYEqn.H"
-
+        
         // --- Solve momentum
         rhoUSu = parcels.SU(U);
         #include "QGDUEqn.H"
-
+        
         //--- Solve energy
         rhoESu = parcels.Sh(e) + Qdot;
+        #include "addEnergyFluxes.H"
         #include "QGDEEqn.H"
-
+        
         if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
         {
             U.write();
             e.write();
             rho.write();
         }
-
+        
         thermo.correct();
-
+        
         // Correct pressure
         p.ref() =
             rho()
            /psi();
         p.correctBoundaryConditions();
         rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
-
+        
         runTime.write();
-
+        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;

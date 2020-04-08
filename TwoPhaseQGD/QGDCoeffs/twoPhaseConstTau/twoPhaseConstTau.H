@@ -59,12 +59,6 @@ namespace qgd
 class twoPhaseConstTau : public QGDCoeffs
 {
 
-    //-
-    scalar tau1_;
-    
-    //-
-    scalar tau2_;
-
 public:
 
     //-

@@ -19,6 +19,8 @@ if (!composition.species().found(inertSpecie))
 }
 const label inertIndex(composition.species()[inertSpecie]);
 
+#include "readScNumbers.H"
+
 volScalarField& e = thermo.he();
 
 volScalarField& p = thermo.p();

@@ -37,6 +37,7 @@ if (adjustTimeStep)
     scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
     scalar maxDeltaT1 = min(thermo.tauQGDf()()).value();
     maxDeltaT1 = min(maxDeltaT,maxDeltaT1)*0.75;
+    Info << "maxDeltaT1 = " << maxDeltaT1 << endl;
 
     runTime.setDeltaT
     (
