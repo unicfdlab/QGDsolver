@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     #include "createTime.H"
     #include "createMesh.H"
     #include "createFields.H"
+    Info << "Basic fields are created" << endl;
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
     scalar meanCoNum = 0.0;
 
     Info<< "\nStarting time loop\n" << endl;
-
+    
     while (runTime.run())
     {
         /*
@@ -127,7 +128,7 @@ int main(int argc, char *argv[])
         #include "QGDYEqn.H"
         
         // --- Solve momentum
-        rhoUSu = parcels.SU(U);
+        //rhoUSu = parcels.SU(U);
         #include "QGDUEqn.H"
         
         //--- Solve energy
@@ -140,6 +141,9 @@ int main(int argc, char *argv[])
             U.write();
             e.write();
             rho.write();
+            forAll(Y, i)
+                Y[i].write();
+            p.write();
         }
         
         thermo.correct();

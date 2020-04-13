@@ -203,15 +203,15 @@ forAll(phiJmY, i)
                 phiJm*0.0
             )
         );
-        
-        diffusiveFlux.set
-        (
-            i,
-            new surfaceScalarField
-            (
-                "diffusiveFlux" + std::to_string(i),
-                phiJm*0.0
-            )
-        );
     }
+    
+    diffusiveFlux.set
+    (
+        i,
+        new surfaceScalarField
+        (
+            "diffusiveFlux" + std::to_string(i),
+            phiJm*0.0
+        )
+    );
 }

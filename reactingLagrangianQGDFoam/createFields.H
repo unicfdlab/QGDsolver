@@ -1,3 +1,22 @@
+volVectorField U
+(
+    IOobject
+    (
+        "U",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+surfaceScalarField phi
+(
+    "phi",
+    linearInterpolate(dimensionedScalar("0",dimensionSet(1,-3,0,0,0),0.0)*U) & mesh.Sf()
+);
+
 Info<< "Reading thermophysical properties\n" << endl;
 
 autoPtr<psiQGDReactionThermo> pThermo(psiQGDReactionThermo::New(mesh));
@@ -35,19 +54,7 @@ Info << "Thermo corrected" << endl;
 
 autoPtr<compressible::turbulenceModel> turbulence;
 
-volVectorField U
-(
-    IOobject
-    (
-        "U",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
-
+Info << "Creating density field" << endl;
 volScalarField rho
 (
     IOobject
@@ -102,17 +109,6 @@ volScalarField H
 
 #include "createZeroSources.H"
 
-surfaceScalarField phi
-(
-    "phi",
-    linearInterpolate(rho*U) & mesh.Sf()
-);
-
-surfaceScalarField phiRhof
-(
-    "phiRhof",
-    linearInterpolate(rho)*phi
-);
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
@@ -123,7 +119,7 @@ turbulence.reset
     (
         rho,
         U,
-        phiRhof,
+        phi,
         thermo
     ).ptr()
 );

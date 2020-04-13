@@ -20,7 +20,6 @@
         Hf*0.0
     );
     
-    
     forAll(Y, iCmpt)
     {
         scalarField& hiIF = Hi.ref();
@@ -29,7 +28,7 @@
         
         forAll(hiIF, iCell)
         {
-            hiIF[iCell] = thermo.composition().Hs(iCmpt, pIF[iCell], TIF[iCell]);
+            hiIF[iCell] = thermo.composition().Es(iCmpt, pIF[iCell], TIF[iCell]);
         }
         
         forAll(Hi.boundaryField(), iPatch)
