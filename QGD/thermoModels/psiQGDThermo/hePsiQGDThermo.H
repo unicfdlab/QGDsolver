@@ -78,6 +78,14 @@ public:
             const word& phaseName
         );
 
+        //- Construct from mesh and phase name
+        hePsiQGDThermo
+        (
+            const fvMesh&,
+            const word& phaseName,
+            const word& dictionaryName
+        );
+
 
     //- Destructor
     virtual ~hePsiQGDThermo();

@@ -95,7 +95,6 @@ int main(int argc, char *argv[])
          */
         turbulence->correct();
 
-
         /*
          *
          * Update fields
@@ -117,7 +116,7 @@ int main(int argc, char *argv[])
          */
         #include "readTimeControls.H"
         #include "QGDCourantNo.H"
-        #include "setDeltaT.H"
+        #include "setDeltaT-QGDQHD.H"
 
         runTime++;
 
@@ -160,16 +159,6 @@ int main(int argc, char *argv[])
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
-
-        if (runTime.outputTime())
-        {
-            thermo.tauQGD().write();
-        }
-
-        Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
-        Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;
-        Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
-        Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
     }
 
     Info<< "End\n" << endl;

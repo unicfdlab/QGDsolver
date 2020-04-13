@@ -97,6 +97,14 @@ public:
             const word& phaseName
         );
 
+        //- Construct from mesh and phase name
+        psiQGDThermo
+        (
+            const fvMesh&,
+            const word& phaseName,
+            const word& dictName
+        );
+
 
     //- Selector
     static autoPtr<psiQGDThermo> New
@@ -105,6 +113,13 @@ public:
         const word& phaseName=word::null
     );
 
+    //- Selector
+    static autoPtr<psiQGDThermo> New
+    (
+        const fvMesh& mesh,
+        const word& phaseName,
+        const word& dictName
+    );
 
     //- Destructor
     virtual ~psiQGDThermo();

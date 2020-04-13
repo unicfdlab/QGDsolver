@@ -79,7 +79,10 @@ protected:
     volScalarField hQGD_;
 
     //-
-    volScalarField aQGD_;
+    tmp<volScalarField> taQGD_;
+    
+    //-
+    volScalarField& aQGD_;
 
     //-
     volScalarField tauQGD_;
@@ -97,6 +100,9 @@ protected:
 
     //-
     virtual void updateQGDLength(const fvMesh&);
+    
+    //-
+    tmp<volScalarField> readOrCreateAlphaQGD(const fvMesh& );
 
 public:
 

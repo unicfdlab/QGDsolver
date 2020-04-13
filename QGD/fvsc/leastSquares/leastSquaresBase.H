@@ -64,7 +64,10 @@ protected:
         using List3 = List2<List<T> >;
     
         template <class T>
-        using labelHashTable = HashTable<T,label>;
+        using labelHashTable = HashTable<T,label,Hash<label>>;
+        
+        typedef
+        HashSet<label,Hash<label>> labelHashSet;
     
         template <class T>
         using Triple = FixedList<T,3>;

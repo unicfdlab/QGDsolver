@@ -56,8 +56,8 @@ mixture
 QGD
 {
     implicitDiffusion true;
-    QGDCoeffs alphaHbyUQHD;
-    alphaHbyUQHDDict
+    QGDCoeffs HbyUQHD;
+    HbyUQHDDict
     {
        UQHD 1;
     }

@@ -140,6 +140,23 @@ Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
 }
 
 
+template<class BasicPsiThermo, class MixtureType>
+Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
+(
+    const fvMesh& mesh,
+    const word& phaseName,
+    const word& dictionaryName
+)
+:
+    heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName, dictionaryName)
+{
+    calculate();
+
+    // Switch on saving old time
+    this->psi_.oldTime();
+}
+
+
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>

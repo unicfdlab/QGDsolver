@@ -125,8 +125,11 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
         }
     }
 
-    this->gamma_ == (this->Cp() / this->Cv());
-    this->c_ = sqrt(this->gamma_ / this->psi());
+    if (!this->isochoric())
+    {
+        this->gamma_ == (this->Cp() / this->Cv());
+        this->c_ = sqrt(this->gamma_ / this->psi());
+    }
     this->correctQGD(this->mu_, this->alpha_);
 }
 
@@ -141,6 +144,21 @@ Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::heRhoQGDThermo
 )
 :
     heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
+{
+    calculate();
+    // Switch on saving old time
+    this->psi_.oldTime();
+}
+
+template<class BasicPsiThermo, class MixtureType>
+Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::heRhoQGDThermo
+(
+    const fvMesh& mesh,
+    const word& phaseName,
+    const word& dictionaryName
+)
+:
+    heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName, dictionaryName)
 {
     calculate();
     // Switch on saving old time

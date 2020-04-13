@@ -74,8 +74,9 @@ Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
 
     
         const labelList degenerateFaces = degenerateFacesSet.toc();
-        HashSet<label> intDegFaces;
-        List<HashSet<label> > procDegFaces (procDegFaces_.size());
+        
+        labelHashSet intDegFaces;
+        List<labelHashSet> procDegFaces (procDegFaces_.size());
     
         forAll(degenerateFaces, iDegFace)
         {

@@ -108,28 +108,28 @@ public:
     virtual tmp<surfaceVectorField> Grad(const volScalarField& vF)
     {
         notImplemented("tmp<surfaceVectorField> Grad(const volScalarField& vF)");
-        return tmp<surfaceVectorField>(NULL);
+        return tmp<surfaceVectorField>(nullptr);
     }
 
     //-
     virtual tmp<surfaceTensorField> Grad(const volVectorField& iVF)
     {
         notImplemented("tmp<surfaceTensorField> Grad(const volVectorField& vF)");
-        return tmp<surfaceTensorField>(NULL);
+        return tmp<surfaceTensorField>(nullptr);
     }
 
     //-
     virtual tmp<surfaceScalarField> Div(const volVectorField& iVF)
     {
         notImplemented("tmp<surfaceScalarField> Grad(const volVectorField& vF)");
-        return tmp<surfaceScalarField>(NULL);
+        return tmp<surfaceScalarField>(nullptr);
     }
 
     //-
     virtual tmp<surfaceVectorField> Div(const volTensorField& iTF)
     {
         notImplemented("tmp<surfaceVectorField> Grad(const volTensorField& vF)");
-        return tmp<surfaceVectorField>(NULL);
+        return tmp<surfaceVectorField>(nullptr);
     }
 
 

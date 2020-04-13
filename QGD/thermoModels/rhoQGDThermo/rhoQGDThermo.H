@@ -97,20 +97,27 @@ public:
             const word& phaseName
         );
 
-        //- Construct from mesh, dictionary and
+        //- Construct from mesh and phase name
         rhoQGDThermo
         (
             const fvMesh&,
-            const dictionary&,
-            const word& phaseName
+            const word& phaseName,
+            const word& dictName
         );
-
 
     //- Selector
     static autoPtr<rhoQGDThermo> New
     (
         const fvMesh& mesh,
         const word& phaseName=word::null
+    );
+
+    //- Selector
+    static autoPtr<rhoQGDThermo> New
+    (
+        const fvMesh& mesh,
+        const word& phaseName,
+        const word& dictName
     );
 
 
