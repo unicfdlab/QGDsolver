@@ -99,8 +99,7 @@ if (!implicitDiffusion)
 phiQ = mesh.Sf() & qf;
 
 phiPiU = mesh.Sf() & (Pif & Uf);
-
-forAll(Y[i], i)
+forAll(Y, i)
 {
     if ( i != inertIndex )
     {

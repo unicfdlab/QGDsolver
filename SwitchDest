@@ -1,4 +1,12 @@
 #!/bin/sh
+#
+# Use this script to switch destination of compiled
+# OpenFOAM sources in all folder descent to this one:
+# - to swith destination to FOAM_APPBIN and FOAM_LIBBIN run:
+# ./SwitchDest
+# - to switch desctination to FOAM_USER_APPBIN and FOAM_USER_LIBBIN run:
+# ./SwitchDest USER
+#
 
 export FROM="FOAM_USER"
 export TO="FOAM"

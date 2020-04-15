@@ -32,6 +32,11 @@ License
 #include "fvMesh.H"
 #include "QGDCoeffs.H"
 
+namespace Foam
+{
+    defineTypeNameAndDebug (QGDThermo, 0);
+}
+
 Foam::QGDThermo::QGDThermo(const fvMesh& mesh, const dictionary& dict)
 :
 mesh_(mesh),

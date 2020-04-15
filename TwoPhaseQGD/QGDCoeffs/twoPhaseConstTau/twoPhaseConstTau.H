@@ -2,10 +2,10 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2016-2017 OpenCFD Ltd.
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+                QGDsolver   | Copyright (C) 2016-2017 ISP RAS (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -23,36 +23,69 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-Global
-    QHDCourantNo
+
+Class
+    twoPhaseConstTau
 
 Description
-    Calculates the mean and maximum wave speed based Courant Numbers.
+    Class for one of possible ways of tau calculating.
+
+$$    \tau_QGD = \alpha \cdot \frac{h^2}{\nu}  $$
+
+    where $\tau_QGD$ - regulatisation parameter, $\alpha$ - parameter
+    which depends by user in constant foulder, $h$ - size of mesh,
+    $\nu$ - kinetic viscosity.
+
+
+SourceFiles
+    twoPhaseConstTau.C
 
 \*---------------------------------------------------------------------------*/
 
-if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
+
+
+
+#include "QGDCoeffs.H"
+
+#ifndef twoPhaseConstTau_H
+#define twoPhaseConstTau_H
+
+namespace Foam
 {
-    surfaceScalarField Unf
+
+namespace qgd
+{
+
+class twoPhaseConstTau : public QGDCoeffs
+{
+
+public:
+
+    //-
+    TypeName ("twoPhaseConstTau");
+
+    //-
+    twoPhaseConstTau
     (
-        "Unf",
-        Uf & mesh.Sf() / mesh.magSf()
+        const IOobject& io,
+        const fvMesh& mesh,
+        const dictionary& dict
     );
-    
-    surfaceScalarField Cof
-    (
-        "Cof",
-        runTime.deltaT()*
-        (
-            mag(Unf)/hQGDf
-        )
-    );
-    
-    CoNum = max(Cof).value();
-    
-    Info << "Courant Number = " << CoNum << endl;
-}
+
+    //-
+    ~twoPhaseConstTau();
+
+    //-
+    void correct(const QGDThermo&);
+};
 
 
+}//namespace qgd
 
-// ************************************************************************* //
+}//namespace Foam
+
+#endif
+
+//
+//END-OF-FILe
+//
