@@ -66,12 +66,13 @@ solvers
         }
     }
 
-    "(rhoU|U|alphal)"
+    "(rhoU|U|alpha.l)"
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-08;
         relTol          0;
+        cAlpha          1;
     }
 
     "(rhoU|UFinal|alphalFinal)"

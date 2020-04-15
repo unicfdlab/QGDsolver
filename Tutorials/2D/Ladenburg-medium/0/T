@@ -28,7 +28,7 @@ boundaryField
     
     "(outlet|freestream)"
     {
-        type            inletOutlet
+        type            inletOutlet;
         value           uniform 297;
         inletValue      uniform 297;
     }
