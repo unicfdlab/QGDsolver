@@ -23,7 +23,7 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 #include "leastSquaresStencil.H"
@@ -46,17 +46,15 @@ License
 //                   Allowable values: constant reference to the volScalarField.
 //
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScalarField& iF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(
+    const volScalarField& iF)
 {
     surfaceScalarField sF = linearInterpolate(iF);
     surfaceScalarField sngF (fvc::snGrad(iF));
-
     tmp<surfaceVectorField> tgradIF(0.0 * nf_ * sngF);
     surfaceVectorField& gradIF = tgradIF.ref();
-    
     // List of faces
     const faceList& faces = mesh_.faces();
-
     vector gf = vector::zero;
     forAll(faces, facei)
     {
@@ -65,13 +63,12 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
             gf = vector::zero;
             forAll(GdfAll_[facei], i)
             {
-                gf = gf + wf2All_[facei][i]*GdfAll_[facei][i]*(iF[neighbourCells_[facei][i]] - sF[facei]);
+                gf = gf + wf2All_[facei][i] * GdfAll_[facei][i] * (iF[neighbourCells_[facei][i]]
+                        - sF[facei]);
             }
-
             gradIF[facei] = gf;
         }
     }
-    
     //process faces with degenerate stencil
     label dFaceId = -1;
     forAll(internalDegFaces_, facei)
@@ -80,12 +77,12 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
         //gradIF[dFaceId] = nf_[dFaceId] * sngF[dFaceId];
         gradIF[dFaceId] = sngF[dFaceId] * nf_[dFaceId];
     }
-    
     //update boundary field
     forAll(mesh_.boundaryMesh(), ipatch)
     {
         bool notConstrain = true;
         const fvPatch& fvp = mesh_.boundary()[ipatch];
+
         if
         (
             isA<emptyFvPatch>(fvp) ||
@@ -93,7 +90,7 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
             isA<coupledFvPatch>(fvp) ||
             isA<symmetryFvPatch>(fvp) ||
             isA<symmetryPlaneFvPatch>(fvp)
-//            fvp.coupled()
+            //            fvp.coupled()
         )
         {
             notConstrain = false;
@@ -101,24 +98,24 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
 
         if (notConstrain)
         {
-            gradIF.boundaryFieldRef()[ipatch] = nf_.boundaryField()[ipatch] * 
-                iF.boundaryField()[ipatch].snGrad();
-
+            gradIF.boundaryFieldRef()[ipatch] = nf_.boundaryField()[ipatch] *
+                                                iF.boundaryField()[ipatch].snGrad();
         }
     }
 
-    if(!Pstream::parRun())
+    if (!Pstream::parRun())
     {
         return tgradIF;
     }
-    
+
     /*
      *
      * Update processor patches for parallel case
      *
      */
     //allocate storage for near-patch field
-    List3<scalar> procVfValues(nProcPatches_); //array of values from neighb. processors
+    List3<scalar> procVfValues(
+        nProcPatches_); //array of values from neighb. processors
     //set values from this domain
     label cellId = -1;
     forAll(procPairs_, patchI)
@@ -138,31 +135,27 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
             }
         }
     }
-    
     //Step 1. Send field data to neighbouring processors (non-blocking mode)
-    
     PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
     forAll(procPairs_, procI)
     {
         label procId = neigProcs_[procI];
-//        label dataSz = 0;
-        
+        //        label dataSz = 0;
         DynamicList<scalar> locVf;
-        
+
         if (procPairs_[procI] > -1) //patch proc pair
         {
             forAll(procVfValues[procI], faceI)
             {
-                for(
-                        label
-                        cellI = 0;
-                        cellI <= ownEnd_[procI][faceI];
-                        cellI++
-                    )
+                for (
+                    label
+                    cellI = 0;
+                    cellI <= ownEnd_[procI][faceI];
+                    cellI++
+                )
                 {
                     locVf.append(procVfValues[procI][faceI][cellI]);
                 }
-
             }
         }
         else //corner connected process
@@ -176,34 +169,32 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
                 locVf.append(iF.primitiveField()[cellId]);
             }
         }
-        
+
         UOPstream oProcStr(procId, pBuffers);
         oProcStr << locVf;
     }
-    
     //Step 2. Recieve field data from neighbouring processors
     pBuffers.finishedSends();
     label iCorProc = 0;
     forAll(procPairs_, procI)
     {
         label procId = neigProcs_[procI];
-        
         UIPstream iProcStr(procId, pBuffers);
         List<scalar> locVf (iProcStr);
-        
+
         if (procPairs_[procI] > -1)
         {
             label iVf = 0;
             forAll(neiStart_[procI], iFace)
             {
-                for(
-                        label
-                        iCell=neiStart_[procI][iFace];
-                        iCell<=neiEnd_[procI][iFace];
-                        iCell++
-                    )
+                for (
+                    label
+                    iCell = neiStart_[procI][iFace];
+                    iCell <= neiEnd_[procI][iFace];
+                    iCell++
+                )
                 {
-                    procVfValues[procI][iFace][iCell] = 
+                    procVfValues[procI][iFace][iCell] =
                         locVf[iVf];
                     iVf++;
                 }
@@ -215,57 +206,50 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Grad(const volScal
             label faceNo  = -1;
             label cellNo  = -1;
             label offset  = -1;
-            
             const List<Triple<label> >& addr = corAddr_[iCorProc];
-            
             forAll(addr, iVal)
             {
                 patchNo = addr[iVal][0];
                 faceNo  = addr[iVal][1];
                 cellNo  = addr[iVal][2];
-                
                 offset = corStart_[patchNo][faceNo];
-                procVfValues[patchNo][faceNo][cellNo+offset] = locVf[iVal];
+                procVfValues[patchNo][faceNo][cellNo + offset] = locVf[iVal];
             }
             iCorProc++;
         }
     }
-
     //Step 3. Calculate gradient at faces on processor patches
     forAll(procPairs_, patchI)
     {
         label procPatchId = procPairs_[patchI];
+
         if (procPatchId > -1)
         {
             fvsPatchVectorField& pgradf = gradIF.boundaryFieldRef()[procPatchId];
-            const List2<scalar> & pvf = procVfValues[patchI];
-            const List2<scalar> & pwf2= procWf2_[patchI];
-            const List2<vector> & pgdf= procGdf_[patchI];
-        
+            const List2<scalar>& pvf = procVfValues[patchI];
+            const List2<scalar>& pwf2 = procWf2_[patchI];
+            const List2<vector>& pgdf = procGdf_[patchI];
             forAll(pgradf, iFace)
             {
                 gf = vector::zero;
                 forAll(procGdf_[patchI][iFace], i)
                 {
-                    gf = gf + pwf2[iFace][i]*pgdf[iFace][i]*
-                            (pvf[iFace][i] - sF.boundaryField()[procPatchId][iFace]);
+                    gf = gf + pwf2[iFace][i] * pgdf[iFace][i] *
+                         (pvf[iFace][i] - sF.boundaryField()[procPatchId][iFace]);
                 }
                 pgradf[iFace] = gf;
             }
-            
             //Update processor degenerate faces
             const labelList& degProcFaces = procDegFaces_[patchI];
             label degId = -1;
             forAll(degProcFaces, iFace)
             {
                 degId = degProcFaces[iFace];
-                
-                pgradf[degId] = nf_.boundaryField()[procPatchId][degId]*
-                    sngF.boundaryField()[procPatchId][degId];
+                pgradf[degId] = nf_.boundaryField()[procPatchId][degId] *
+                                sngF.boundaryField()[procPatchId][degId];
             }
         }
     }
-    
     return tgradIF;
 };
 

@@ -1,0 +1,89 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+-------------------------------------------------------------------------------
+                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
+License
+    This file is part of QGDsolver, based on OpenFOAM library.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+Class
+    Foam::qgd::constScPrModel1n
+
+Description
+    Class describing QGD model coefficients using constant values for
+    Sc^{QGD}, Pr^{QGD} and specified \alpha field:
+
+    \tau^{QGD} = \alpha h / c
+
+    \mu^{QGD} = \tau^{QGD} p Sc^{QGD}
+
+    \lambda^{QGD} = \mu^{QGD} Cp / Pr^{QGD}
+
+SourceFiles
+    constScPrModel1n.C
+
+\*---------------------------------------------------------------------------*/
+
+#include "QGDCoeffs.H"
+
+#ifndef constScPrModel1n_H
+#define constScPrModel1n_H
+
+namespace Foam
+{
+
+namespace qgd
+{
+
+class constScPrModel1n : public QGDCoeffs
+{
+
+    public:
+
+        //-
+        TypeName ("constScPrModel1n");
+
+        //-
+        constScPrModel1n
+        (
+            const IOobject& io,
+            const fvMesh& mesh,
+            const dictionary& dict
+        );
+
+        //-
+        ~constScPrModel1n();
+
+        //-
+        void correct(const QGDThermo&);
+
+};
+
+
+}//namespace qgd
+
+}//namespace Foam
+
+#endif
+
+//
+//END-OF-FILe
+//

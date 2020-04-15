@@ -1,0 +1,15 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/transportModels/twoPhaseMixture/lnInclude \
+    -I$(LIB_SRC)/transportModels/interfaceProperties/lnInclude \
+    -I../QGD/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lfvOptions \
+    -lspecie \
+    -lturbulenceModels \
+    -linterfaceProperties \
+    -ltwoPhaseMixture \
+    -lincompressibleTransportModels \
+    -lincompressibleTurbulenceModels

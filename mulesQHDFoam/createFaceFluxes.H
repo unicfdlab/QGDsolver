@@ -1,7 +1,7 @@
 //Gradients and divergence
 //---------Start---------
 
-surfaceVectorField gradPf 
+surfaceVectorField gradPf
 (
     "gradPf", fvsc::grad(p)
 );
@@ -39,13 +39,13 @@ surfaceVectorField gradTf
 surfaceVectorField phiUf
 (
     "phiUf",
-    phi * Uf + (mesh.Sf() & (Wf * Wf))
+    phi * Uf + (mesh.Sf() & (Wf* Wf))
 );
 
 surfaceScalarField phiTf
 (
     "phiTf",
-    phi*Tf
+    phi* Tf
 );
 
 //surfaceVectorField phiPi
@@ -61,8 +61,8 @@ surfaceScalarField phiTf
 surfaceScalarField Hif
 (
     "Hif",
-    alphaf/rhof
+    alphaf / rhof
 );
-Info << "Creating Face Fluxes is done"<< endl;
+Info << "Creating Face Fluxes is done" << endl;
 
 //---------End---------

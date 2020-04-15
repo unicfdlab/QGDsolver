@@ -36,7 +36,7 @@ Foam::qhdFluxFvPatchScalarField::qhdFluxFvPatchScalarField
     const fvPatch& p,
     const DimensionedField<scalar, volMesh>& iF
 )
-:
+    :
     fixedGradientFvPatchScalarField(p, iF)
 {}
 
@@ -47,7 +47,7 @@ Foam::qhdFluxFvPatchScalarField::qhdFluxFvPatchScalarField
     const DimensionedField<scalar, volMesh>& iF,
     const dictionary& dict
 )
-:
+    :
     fixedGradientFvPatchScalarField(p, iF)
 {
     patchType() = dict.lookupOrDefault<word>("patchType", word::null);
@@ -75,11 +75,10 @@ Foam::qhdFluxFvPatchScalarField::qhdFluxFvPatchScalarField
     const DimensionedField<scalar, volMesh>& iF,
     const fvPatchFieldMapper& mapper
 )
-:
+    :
     fixedGradientFvPatchScalarField(p, iF)
 {
     patchType() = ptf.patchType();
-
     // Map gradient. Set unmapped values and overwrite with mapped ptf
     gradient() = 0.0;
     gradient().map(ptf.gradient(), mapper);
@@ -90,21 +89,20 @@ Foam::qhdFluxFvPatchScalarField::qhdFluxFvPatchScalarField
         if (iF.size())
         {
             // Note: cannot ask for nf() if zero faces
-
             scalarField::operator=
             (
                 //patchInternalField() + gradient()/patch().deltaCoeffs()
                 // ***HGW Hack to avoid the construction of mesh.deltaCoeffs
                 // which fails for AMI patches for some mapping operations
                 patchInternalField()
-              + gradient()*(patch().nf() & patch().delta())
+                + gradient() * (patch().nf() & patch().delta())
             );
-    }
-    else
-    {
-        // Enforce mapping of values so we have a valid starting value. This
-        // constructor is used when reconstructing fields
-        this->map(ptf, mapper);
+        }
+        else
+        {
+            // Enforce mapping of values so we have a valid starting value. This
+            // constructor is used when reconstructing fields
+            this->map(ptf, mapper);
         }
     }
     else
@@ -119,7 +117,7 @@ Foam::qhdFluxFvPatchScalarField::qhdFluxFvPatchScalarField
 (
     const qhdFluxFvPatchScalarField& wbppsf
 )
-:
+    :
     fixedGradientFvPatchScalarField(wbppsf)
 {}
 
@@ -129,7 +127,7 @@ Foam::qhdFluxFvPatchScalarField::qhdFluxFvPatchScalarField
     const qhdFluxFvPatchScalarField& wbppsf,
     const DimensionedField<scalar, volMesh>& iF
 )
-:
+    :
     fixedGradientFvPatchScalarField(wbppsf, iF)
 {}
 
@@ -159,9 +157,9 @@ void Foam::qhdFluxFvPatchScalarField::updateCoeffs()
     {
         return;
     }
-    
+
     if (this->patch().boundaryMesh().mesh().thisDb().
-        foundObject<surfaceScalarField>("phiwStar")
+            foundObject<surfaceScalarField>("phiwStar")
        )
     {
         const surfaceScalarField& phiws =
@@ -170,23 +168,21 @@ void Foam::qhdFluxFvPatchScalarField::updateCoeffs()
             ("phiwStar");
 
         if (this->patch().boundaryMesh().mesh().thisDb().
-            foundObject<surfaceScalarField>("rhof")
+                foundObject<surfaceScalarField>("rhof")
            )
         {
             if (this->patch().boundaryMesh().mesh().thisDb().
-                foundObject<surfaceScalarField>("tauQGDf")
+                    foundObject<surfaceScalarField>("tauQGDf")
                )
             {
-                const surfaceScalarField& rhof = 
-                this->patch().boundaryMesh().mesh().
-                thisDb().lookupObject<surfaceScalarField>
-                ("rhof");
-
-                const surfaceScalarField& tauQGDf = 
-                this->patch().boundaryMesh().mesh().
-                thisDb().lookupObject<surfaceScalarField>
-                ("tauQGDf");
-
+                const surfaceScalarField& rhof =
+                    this->patch().boundaryMesh().mesh().
+                    thisDb().lookupObject<surfaceScalarField>
+                    ("rhof");
+                const surfaceScalarField& tauQGDf =
+                    this->patch().boundaryMesh().mesh().
+                    thisDb().lookupObject<surfaceScalarField>
+                    ("tauQGDf");
                 scalarField fluxSnGrad
                 (
                     phiws.boundaryField()[patch().index()]
@@ -201,9 +197,8 @@ void Foam::qhdFluxFvPatchScalarField::updateCoeffs()
             }
         }
     }
-    
+
     fixedGradientFvPatchScalarField::updateCoeffs();
-    
     // if (curTimeIndex_ != this->db().time().timeIndex())
     // {
     //     FatalErrorInFunction
@@ -211,8 +206,6 @@ void Foam::qhdFluxFvPatchScalarField::updateCoeffs()
     //            " updateCoeffs() or evaluate() to set the boundary gradient."
     //         << exit(FatalError);
     // }
-
-
 }
 
 
@@ -227,11 +220,11 @@ void Foam::qhdFluxFvPatchScalarField::write(Ostream& os) const
 
 namespace Foam
 {
-    makePatchTypeField
-    (
-        fvPatchScalarField,
-        qhdFluxFvPatchScalarField
-    );
+makePatchTypeField
+(
+    fvPatchScalarField,
+    qhdFluxFvPatchScalarField
+);
 }
 
 

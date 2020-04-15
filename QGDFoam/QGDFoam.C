@@ -64,27 +64,23 @@ Description
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    #define NO_CONTROL
-    #include "postProcess.H"
-
-    #include "setRootCase.H"
-    #include "createTime.H"
-    #include "createMesh.H"
-    #include "createFields.H"
-    #include "createFaceFields.H"
-    #include "createFaceFluxes.H"
-    #include "createTimeControls.H"
-    #include "createFvOptions.H"
-
+#define NO_CONTROL
+#include "postProcess.H"
+#include "setRootCase.H"
+#include "createTime.H"
+#include "createMesh.H"
+#include "createFields.H"
+#include "createFaceFields.H"
+#include "createFaceFluxes.H"
+#include "createTimeControls.H"
+#include "createFvOptions.H"
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
     // Courant numbers used to adjust the time-step
     scalar CoNum = 0.0;
     scalar meanCoNum = 0.0;
-
-    Info<< "\nStarting time loop\n" << endl;
+    Info << "\nStarting time loop\n" << endl;
 
     while (runTime.run())
     {
@@ -94,49 +90,40 @@ int main(int argc, char *argv[])
          *
          */
         turbulence->correct();
-
         /*
          *
          * Update fields
          *
          */
-        #include "updateFields.H"
-
+#include "updateFields.H"
         /*
          *
          * Update fluxes
          *
          */
-        #include "updateFluxes.H"
-
+#include "updateFluxes.H"
         /*
          *
          * Update time step
          *
          */
-        #include "readTimeControls.H"
-        #include "QGDCourantNo.H"
-        #include "setDeltaT-QGDQHD.H"
-
+#include "readTimeControls.H"
+#include "QGDCourantNo.H"
+#include "setDeltaT-QGDQHD.H"
         runTime++;
-
-        Info<< "Time = " << runTime.timeName() << nl << endl;
-
+        Info << "Time = " << runTime.timeName() << nl << endl;
         // --- Store old time values
         rho.oldTime();
         rhoU.oldTime();
         U.oldTime();
         rhoE.oldTime();
         e.oldTime();
-
         // --- Solve density
-        #include "QGDRhoEqn.H"
-
+#include "QGDRhoEqn.H"
         // --- Solve momentum
-        #include "QGDUEqn.H"
-
+#include "QGDUEqn.H"
         //--- Solve energy
-        #include "QGDEEqn.H"
+#include "QGDEEqn.H"
 
         if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
         {
@@ -146,23 +133,19 @@ int main(int argc, char *argv[])
         }
 
         thermo.correct();
-
         // Correct pressure
         p.ref() =
             rho()
-           /psi();
+            / psi();
         p.correctBoundaryConditions();
-        rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
-
+        rho.boundaryFieldRef() = psi.boundaryField() * p.boundaryField();
         runTime.write();
-
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
     }
 
-    Info<< "End\n" << endl;
-
+    Info << "End\n" << endl;
     return 0;
 }
 

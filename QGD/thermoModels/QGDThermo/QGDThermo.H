@@ -49,88 +49,88 @@ class fvMesh;
 class dictionary;
 namespace qgd
 {
-  class QGDCoeffs;
+class QGDCoeffs;
 }
 
 class QGDThermo
 {
 
-  //-
-  const fvMesh& mesh_;
+        //-
+        const fvMesh& mesh_;
 
-  //-
-  const dictionary& dict_;
+        //-
+        const dictionary& dict_;
 
-  //-
-  autoPtr<Foam::qgd::QGDCoeffs> qgdCoeffsPtr_;
+        //-
+        autoPtr<Foam::qgd::QGDCoeffs> qgdCoeffsPtr_;
 
-  //-
-  Switch implicitDiffusion_;
+        //-
+        Switch implicitDiffusion_;
 
-private:
+    private:
 
-  //-
-  QGDThermo();
+        //-
+        QGDThermo();
 
-  //-
-  QGDThermo(const QGDThermo& );
+        //-
+        QGDThermo(const QGDThermo& );
 
-protected:
+    protected:
 
-  //-
-  qgd::QGDCoeffs& qgdCoeffs();
+        //-
+        qgd::QGDCoeffs& qgdCoeffs();
 
-  //-
-  void correctQGD(volScalarField& mu, volScalarField& alphau);
+        //-
+        void correctQGD(volScalarField& mu, volScalarField& alphau);
 
-public:
+    public:
 
-  //- Construct from mesh and dictionary
-  QGDThermo(const fvMesh& mesh, const dictionary& dict);
+        //- Construct from mesh and dictionary
+        QGDThermo(const fvMesh& mesh, const dictionary& dict);
 
-  virtual ~QGDThermo();
+        virtual ~QGDThermo();
 
-  //-
-  virtual const volScalarField& c() const = 0;
+        //-
+        virtual const volScalarField& c() const = 0;
 
-  //-
-  virtual const volScalarField& p() const = 0;
+        //-
+        virtual const volScalarField& p() const = 0;
 
-  //-
-  virtual tmp<volScalarField> rho() const = 0;
+        //-
+        virtual tmp<volScalarField> rho() const = 0;
 
-  //-
-  virtual tmp<volScalarField> mu() const = 0;
+        //-
+        virtual tmp<volScalarField> mu() const = 0;
 
-  //-
-  const volScalarField& hQGD() const;
+        //-
+        const volScalarField& hQGD() const;
 
-  //-
-  const volScalarField& tauQGD() const;
+        //-
+        const volScalarField& tauQGD() const;
 
-  //-
-  const surfaceScalarField& hQGDf() const;
+        //-
+        const surfaceScalarField& hQGDf() const;
 
-  //-
-  const surfaceScalarField& tauQGDf() const;
+        //-
+        const surfaceScalarField& tauQGDf() const;
 
-  //-
-  const volScalarField& muQGD() const;
+        //-
+        const volScalarField& muQGD() const;
 
-  //-
-  const volScalarField& alphauQGD() const;
+        //-
+        const volScalarField& alphauQGD() const;
 
-  //-
-  const volScalarField& aQGD() const;
+        //-
+        const volScalarField& aQGD() const;
 
-  //-
-  const surfaceScalarField& aQGDf() const;
+        //-
+        const surfaceScalarField& aQGDf() const;
 
-  //-
-  Switch implicitDiffusion() const;
+        //-
+        Switch implicitDiffusion() const;
 
-  //-
-  virtual bool read();
+        //-
+        virtual bool read();
 
 };
 }

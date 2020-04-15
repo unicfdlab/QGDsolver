@@ -29,7 +29,7 @@ Class
 Discription
     Methods calculating of defferential operators without tangential direvatives
 Source files
-    GaussVolPointStencil.C   
+    GaussVolPointStencil.C
 
 
 
@@ -55,32 +55,32 @@ namespace fvsc
 \*---------------------------------------------------------------------------*/
 
 class GaussVolPoint
-:
+    :
     public fvscStencil,
     public GaussVolPointBase
 {
 
-public:
+    public:
 
         TypeName ("GaussVolPoint");
 
-    // Constructors
+        // Constructors
 
-        //- Construct from IOobject. 
+        //- Construct from IOobject.
         GaussVolPoint(const IOobject&);
 
         //- Destructor
         ~GaussVolPoint();
-        
+
         //-
         tmp<surfaceVectorField> Grad(const volScalarField& iF);
-        
+
         //-
         tmp<surfaceTensorField> Grad(const volVectorField& iVF);
-        
+
         //-
         tmp<surfaceScalarField> Div(const volVectorField& iVF);
-        
+
         //-
         tmp<surfaceVectorField> Div(const volTensorField& iTF);
 };

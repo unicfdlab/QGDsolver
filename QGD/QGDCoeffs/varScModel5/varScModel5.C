@@ -39,13 +39,13 @@ namespace Foam
 {
 namespace qgd
 {
-    defineTypeNameAndDebug(varScModel5,0);
-    addToRunTimeSelectionTable
-    (
-        QGDCoeffs,
-        varScModel5,
-        dictionary
-    );
+defineTypeNameAndDebug(varScModel5, 0);
+addToRunTimeSelectionTable
+(
+    QGDCoeffs,
+    varScModel5,
+    dictionary
+);
 }
 }
 
@@ -56,7 +56,7 @@ varScModel5::varScModel5
     const fvMesh& mesh,
     const dictionary& dict
 )
-:
+    :
     QGDCoeffs(io, mesh, dict),
     smoothCoeff_(0.1),
     rC_(0.5),
@@ -69,13 +69,10 @@ varScModel5::varScModel5
     constScCellSetPtr_(nullptr)
 {
     scalar ScQGD = 0.0, PrQGD = 1.0;
-
     dict.lookup("ScQGD") >> ScQGD;
     dict.lookup("PrQGD") >> PrQGD;
-
     ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
-
     ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
 
@@ -104,9 +101,13 @@ varScModel5::varScModel5
         dict.lookup("badQualitySc") >> badQualitySc_;
     }
 
+    if (dict.found("maxAspectRatio"))
+    {
+        dict.lookup("maxAspectRatio") >> qgdAspectRatioThreshold_;
+    }
+
     scalarField openness(mesh.V().size(), 0);
     scalarField aspectRatio(mesh.V().size(), 1);
-
     primitiveMeshTools::cellClosedness
     (
         mesh_,
@@ -116,7 +117,6 @@ varScModel5::varScModel5
         openness,
         aspectRatio
     );
-
     forAll(aspectRatio, iCell)
     {
         if (aspectRatio[iCell] > qgdAspectRatioThreshold_)
@@ -130,7 +130,6 @@ varScModel5::varScModel5
     {
         word constScCellSet (dict.lookup("constScCellSet"));
         constSc_ = ScQGD;
-
         constScCellSetPtr_.reset
         (
             new cellSet
@@ -194,30 +193,24 @@ varScModel5::correct(const Foam::QGDThermo& qgdThermo)
 {
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();
-    const volScalarField rho(qgdThermo.rho()*1.0);
-
-    this->tauQGDf_= linearInterpolate(this->aQGD_)
-                    / linearInterpolate(cSound) * hQGDf_;
-
+    const volScalarField rho(qgdThermo.rho() * 1.0);
+    this->tauQGDf_ = linearInterpolate(this->aQGD_)
+                     / linearInterpolate(cSound) * hQGDf_;
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
-
     this->ScQGD_ =
         rC_ *
         (mag(fvc::grad(rho)) * hQGD_ / rho) +
         (1.0 - rC_) * ScQGD_;
-
     this->ScQGD_ =
         max(this->ScQGD_, minSc_);
     this->ScQGD_ =
         min(this->ScQGD_, maxSc_);
-
     this->ScQGD_.primitiveFieldRef() =
         max(this->ScQGD_.primitiveField(), cqSc_);
 
     if (constScCellSetPtr_.valid())
     {
         const cellSet& constScCells = constScCellSetPtr_();
-
         forAllConstIter(cellSet, constScCells, iter)
         {
             ScQGD_[iter.key()] = constSc_;
@@ -225,10 +218,9 @@ varScModel5::correct(const Foam::QGDThermo& qgdThermo)
     }
 
     fvc::smooth(this->ScQGD_, smoothCoeff_);
-
-    Info<< "max/min ScQGD: "
-        << max(this->ScQGD_).value() << "/"
-        << min(this->ScQGD_).value() << endl;
+    Info << "max/min ScQGD: "
+         << max(this->ScQGD_).value() << "/"
+         << min(this->ScQGD_).value() << endl;
 
     if (runTime_.outputTime())
     {
@@ -242,11 +234,9 @@ varScModel5::correct(const Foam::QGDThermo& qgdThermo)
             p.primitiveField()[celli] *
             ScQGD_.primitiveField()[celli] *
             tauQGD_.primitiveField()[celli];
-
         alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] /
-            PrQGD_.primitiveField()[celli];
+                                                PrQGD_.primitiveField()[celli];
     }
-
     forAll(p.boundaryField(), patchi)
     {
         forAll(p.boundaryField()[patchi], facei)
@@ -255,7 +245,6 @@ varScModel5::correct(const Foam::QGDThermo& qgdThermo)
                 p.boundaryField()[patchi][facei] *
                 ScQGD_.boundaryField()[patchi][facei] *
                 tauQGD_.boundaryField()[patchi][facei];
-
             alphauQGD_.boundaryFieldRef()[patchi][facei] =
                 muQGD_.boundaryFieldRef()[patchi][facei] /
                 PrQGD_.boundaryField()[patchi][facei];

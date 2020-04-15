@@ -24,7 +24,7 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 
@@ -41,19 +41,16 @@ License
 void Foam::fvsc::leastSquaresBase::calculateWeights()
 {
     //Pout << "Start calculateWeights()" << endl;
-    
     const faceList& faces = cMesh_.faces();
     GdfAll_.resize(faces.size());
     wf2All_.resize(faces.size());
     label cellDim = 3;
-    
     //create list of underdetermined cells:
     //cellSet udCells(mesh_, "udCells", mesh_.nCells()/100);
     //mesh_.checkCellDeterminant(true, &udCells);
     label nDegFaces = 0;
     scalar minDet = GREAT;
     scalar detG = 0.0;
-    
     //for internal faces
     forAll(faces, facei)
     {
@@ -62,22 +59,18 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
             List<vector> df(neighbourCells_[facei].size());
             scalarList wf2(neighbourCells_[facei].size());
             symmTensor G(0);
-            
             vector Cf = cMesh_.faceCentres()[facei];
-            
             forAll(neighbourCells_[facei], i)
             {
                 df[i] = cMesh_.cellCentres()[neighbourCells_[facei][i]] - Cf;
-                wf2[i] = 1/magSqr(df[i]);
+                wf2[i] = 1 / magSqr(df[i]);
                 symmTensor addToG(0);
                 addToG = sqr(df[i]);
                 addToG = addToG * wf2[i];
                 G += addToG;
             }
-            
             symmTensor G0(0);
             cellDim = 3;
-            
             //correct G tensor for zero directions
             {
                 if (mag(G.xx()) < SMALL)
@@ -85,29 +78,30 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     G0.xx() = 1;
                     cellDim--;
                 }
+
                 if (mag(G.yy()) < SMALL)
                 {
                     G0.yy() = 1;
                     cellDim--;
                 }
+
                 if (mag(G.zz()) < SMALL)
                 {
                     G0.zz() = 1;
                     cellDim--;
                 }
-                
+
                 if (cellDim != cMesh_.nGeometricD())
                 {
                     WarningInFunction
-                        << "face " << facei << " with center "
-                        << cMesh_.faceCentres()[facei] << nl
-                        << " connected to cells with dimensions " << cellDim
-                        << " less then geometric " << cMesh_.nGeometricD() 
-                        << nl << endl;
+                            << "face " << facei << " with center "
+                            << cMesh_.faceCentres()[facei] << nl
+                            << " connected to cells with dimensions " << cellDim
+                            << " less then geometric " << cMesh_.nGeometricD()
+                            << nl << endl;
                     Pout << "Degenerate face: " << facei << endl;
                 }
             }
-            
             /*
             if(mesh_.nGeometricD()==1)
             {
@@ -123,14 +117,14 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 }
             };
             */
-
             G = G + G0;
             detG = det(G);
+
             if (detG < minDet)
             {
                 minDet = detG;
             }
-            
+
             if (detG < 1)
             {
                 nDegFaces++;
@@ -141,35 +135,32 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 G = inv(G);
                 G = G - G0;
             }
-            
+
             forAll(df, i)
             {
-                df[i] = G&df[i];
+                df[i] = G & df[i];
             }
-
             GdfAll_[facei] = df;
             wf2All_[facei] = wf2;
         }
     }
-    
+
     if (nDegFaces > 0)
     {
         Pout << "Min determinant      : " << minDet << endl;
         Pout << "Total # of deg. faces: " << nDegFaces << endl;
     }
-    
+
     //Info << "End for not parallel" << endl;
-    
+
     if (Pstream::parRun())
     {
         List3<vector> ownCellCenters(nProcPatches_);
         List3<vector> neiCellCenters(nProcPatches_);
         List3<vector> corCellCenters(nProcPatches_);
         //List<label> nOwnCells(nProcPatches_, 0);
-        
         label cellId = -1;
         label nCorCells = -1;
-        
         //Step 1. Set cell centers at my patches
         //Cell centers are stored only per processor patch
         forAll(ownCellCenters, iProcPatch)
@@ -183,57 +174,49 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 (
                     myProcPatchCells_[iProcPatch][iFace].size()
                 );
-                
                 nCorCells = corEnd_[iProcPatch][iFace] - corStart_[iProcPatch][iFace] + 1;
-                
                 //Pout << "corEnd = " << corEnd_[iProcPatch][iFace]  << " nCorCell = " << nCorCells << endl;
                 corCellCenters[iProcPatch][iFace].resize
                 (
                     nCorCells
                 );
-                
                 forAll(ownCellCenters[iProcPatch][iFace], iCell)
                 {
                     cellId = myProcPatchCells_[iProcPatch][iFace][iCell];
                     ownCellCenters[iProcPatch][iFace][iCell] = cMesh_.C()[cellId];
                 }
-                    //nOwnCells[iProcPatch] += ownCellCenters[iProcPatch][iFace].size();
+                //nOwnCells[iProcPatch] += ownCellCenters[iProcPatch][iFace].size();
             }
         }
-
         // Step 2. Loop over all neighboring processors and send/receive cell centers
         {
             PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
-        
             forAll(neigProcs_, iProcPair)
             {
-                if (procPairs_[iProcPair] > -1) //send cell centers for patch-neighbouring processes
+                if (procPairs_[iProcPair] >
+                        -1) //send cell centers for patch-neighbouring processes
                 {
                     label procId = neigProcs_[iProcPair];
                     UOPstream oProcStr(procId, pBuffers);
                     oProcStr << ownCellCenters[iProcPair];
                 }
             }
-            
             pBuffers.finishedSends();
-        
             forAll(neigProcs_, iProcPair)
             {
-                if (procPairs_[iProcPair] > -1) //recieve cell centers for patch-neighbouring processes
+                if (procPairs_[iProcPair] >
+                        -1) //recieve cell centers for patch-neighbouring processes
                 {
                     label procId = neigProcs_[iProcPair];
                     UIPstream iProcStr(procId, pBuffers);
                     iProcStr >> neiCellCenters[iProcPair];
                 }
             }
-            
             //Pout << "neiCellCenters = " << neiCellCenters << endl;
         }
-        
         // Step 3. Loop over all corner neigbouring processors and send/receive cell centers
         {
             PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
-            
             // Send
             forAll(neigProcs_, iProcPair)
             {
@@ -242,9 +225,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     label procId = neigProcs_[iProcPair];
                     UOPstream oProcStr(procId, pBuffers);
                     label id = corProcIds_[procId];
-                    
                     List<vector> locCc (corCellIds_[id].size());
-                    
                     forAll(locCc, iCell)
                     {
                         label cellId = corCellIds_[id][iCell];
@@ -254,7 +235,6 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     //Pout << "Sending " << locCc << " to " << procId << endl;
                 }
             }
-            
             // Recieve
             pBuffers.finishedSends();
             label iCorProc = 0;
@@ -264,89 +244,72 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                 {
                     label procId = neigProcs_[iProcPair];
                     UIPstream iProcStr(procId, pBuffers);
-                    
                     List<vector> corCc (iProcStr);
-                    
                     //Pout << "Received from " << procId << " cell centers " << corCc << endl;
-                    
-                    const List<Triple<label> > & addr = corAddr_[iCorProc];
+                    const List<Triple<label> >& addr = corAddr_[iCorProc];
                     label patchNo = -1;
                     label faceNo  = -1;
                     label cellNo  = -1;
-                    
                     forAll(corCc, iCell)
                     {
                         patchNo = addr[iCell][0];
                         faceNo  = addr[iCell][1];
                         cellNo  = addr[iCell][2];
-                        
                         corCellCenters[patchNo][faceNo][cellNo] = corCc[iCell];
                     }
-                    
                     iCorProc++;
                 }
             }
-            
             //Pout << "corCellCenters = " << corCellCenters << endl;
         }
-        
-        
         // Step 4. Calculate weights
         //Pout << "neiCellCenters = " << neiCellCenters << endl;
         //Pout << "corCellCenters = " << corCellCenters << endl;
         procDegFaces_.resize(nProcPatches_);
-        forAll(myProcPatchCells_,iProcPatch)
+        forAll(myProcPatchCells_, iProcPatch)
         {
             if (procPairs_[iProcPatch] > -1)
             {
                 const label iProcPatchId = procPairs_[iProcPatch];
                 const fvPatch& fvp       = cMesh_.boundary()[iProcPatchId];
-                
                 label nFaceCells = 0;
-                
                 forAll(ownCellCenters[iProcPatch], facei)
                 {
                     nFaceCells = corEnd_[iProcPatch][facei] + 1;
-                    
                     List<vector> df (nFaceCells, vector::zero);
                     List<scalar> wf2(nFaceCells, 0.0);
-
                     symmTensor G(0);
-                    
                     forAll(ownCellCenters[iProcPatch][facei], i)
                     {
                         df[i] = ownCellCenters[iProcPatch][facei][i] - fvp.Cf()[facei];
-                        wf2[i] = 1/magSqr(df[i]);
+                        wf2[i] = 1 / magSqr(df[i]);
                         symmTensor addToG(0);
                         addToG = sqr(df[i]);
                         addToG = addToG * wf2[i];
                         G += addToG;
                     }
-                    
                     label k = neiStart_[iProcPatch][facei];
                     forAll(neiCellCenters[iProcPatch][facei], i)
                     {
                         df[k] = neiCellCenters[iProcPatch][facei][i] - fvp.Cf()[facei];
-                        wf2[k] = 1/magSqr(df[k]);
+                        wf2[k] = 1 / magSqr(df[k]);
                         symmTensor addToG(0);
                         addToG = sqr(df[k]);
                         addToG = addToG * wf2[k];
                         G += addToG;
                         k++;
                     }
-                    
                     label l = corStart_[iProcPatch][facei];
                     forAll(corCellCenters[iProcPatch][facei], i)
                     {
                         df[l] = corCellCenters[iProcPatch][facei][i] - fvp.Cf()[facei];
-                        wf2[l] = 1/magSqr(df[l]);
+                        wf2[l] = 1 / magSqr(df[l]);
                         symmTensor addToG(0);
                         addToG = sqr(df[l]);
                         addToG = addToG * wf2[l];
                         G += addToG;
                         l++;
                     }
-                    
                     symmTensor G0(0);
                     cellDim = 3;
                     /*
@@ -364,7 +327,6 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                         }
                     };
                     */
-        
                     //correct G tensor for zero directions
                     {
                         if (mag(G.xx()) < SMALL)
@@ -372,11 +334,13 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                             G0.xx() = 1;
                             cellDim--;
                         }
+
                         if (mag(G.yy()) < SMALL)
                         {
                             G0.yy() = 1;
                             cellDim--;
                         }
+
                         if (mag(G.zz()) < SMALL)
                         {
                             G0.zz() = 1;
@@ -387,16 +351,16 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     if (cellDim != cMesh_.nGeometricD())
                     {
                         WarningInFunction
-                            << "face " << facei << " with center "
-                            << fvp.Cf()[facei] << nl
-                            << " connected to cells with dimensions " << cellDim
-                            << " less then geometric " << cMesh_.nGeometricD() 
-                            << nl << endl;
+                                << "face " << facei << " with center "
+                                << fvp.Cf()[facei] << nl
+                                << " connected to cells with dimensions " << cellDim
+                                << " less then geometric " << cMesh_.nGeometricD()
+                                << nl << endl;
                     }
-                    
+
                     G = G + G0;
-                    
                     detG = det(G);
+
                     if (detG < 1)
                     {
                         procDegFaces_[iProcPatch].append(facei);
@@ -406,19 +370,18 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                         G = inv(G);
                         G = G - G0;
                     }
-                    
+
                     forAll(df, i)
                     {
-                        df[i] = G&df[i];
+                        df[i] = G & df[i];
                     }
-                    
                     procGdf_[iProcPatch][facei] = df;
                     procWf2_[iProcPatch][facei] = wf2;
                 }
             }
         }
     }
-    
+
     //Pout << "End calculateWeights()" << endl;
 };
 

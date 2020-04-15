@@ -29,7 +29,7 @@ Class
 Discription
     Methods calculating of defferential operators without tangential direvatives
 Source files
-    reducedFaceNormalStencil.C   
+    reducedFaceNormalStencil.C
 
 
 
@@ -54,31 +54,31 @@ namespace fvsc
 \*---------------------------------------------------------------------------*/
 
 class reduced
-:
+    :
     public fvscStencil
 {
 
-public:
+    public:
 
         TypeName ("reduced");
 
-    // Constructors
+        // Constructors
 
-        //- Construct from IOobject. 
+        //- Construct from IOobject.
         reduced(const IOobject&);
 
         //- Destructor
         ~reduced();
-        
+
         //-
         tmp<surfaceVectorField> Grad(const volScalarField& iF);
-        
+
         //-
         tmp<surfaceTensorField> Grad(const volVectorField& iVF);
-        
+
         //-
         tmp<surfaceScalarField> Div(const volVectorField& iVF);
-        
+
         //-
         tmp<surfaceVectorField> Div(const volTensorField& iTF);
 };

@@ -59,7 +59,7 @@ fluxRequired
 
 fvsc
 {
-    default    leastSquaresOpt;
+    default    GaussVolPoint;
 }
 
 // ************************************************************************* //

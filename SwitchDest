@@ -1,0 +1,40 @@
+#!/bin/sh
+
+export FROM="FOAM_USER"
+export TO="FOAM"
+
+if [ "$1" = "USER" ]
+then
+    FROM="FOAM"
+    TO="FOAM_USER"
+fi
+
+changeDist()
+{
+    local locDIR=$1
+    cd $locDIR
+    local locFILES=`ls .`
+    for locF in $locFILES
+    do
+        if [ -d $locF ]
+        then
+            if [ "$locF" = "Make" ]
+            then
+                echo $locDIR
+                sed -i "s/$FROM/$TO/g" Make/options
+                sed -i "s/$FROM/$TO/g" Make/files
+            else
+                changeDist $locF
+            fi
+        fi
+    done
+    cd ../
+}
+
+changeDist $PWD
+
+#
+#END-OF-FILE
+#
+
+

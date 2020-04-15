@@ -43,22 +43,20 @@ using namespace Foam;
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-//    argList::addNote
-//    (
-//        "Create a cellSet for cells with their centres inside the defined "
-//        "surface.\n"
-//        "Surface must be closed and singly connected."
-//    );
+    //    argList::addNote
+    //    (
+    //        "Create a cellSet for cells with their centres inside the defined "
+    //        "surface.\n"
+    //        "Surface must be closed and singly connected."
+    //    );
     argList::noParallel();
     //argList::validArgs.append("surfaceFile");
     //argList::validArgs.append("cellSet");
-    
-    #include "setRootCase.H"
-    #include "createTime.H"
-    #include "createPolyMesh.H"
-    
+#include "setRootCase.H"
+#include "createTime.H"
+#include "createPolyMesh.H"
     IOdictionary QGDCellQuality
     (
         IOobject
@@ -70,18 +68,13 @@ int main(int argc, char *argv[])
             IOobject::NO_WRITE
         )
     );
-    
     scalar faceCosine (readScalar(QGDCellQuality.lookup("faceCosine")));
     scalar maxAspectRatio(readScalar(QGDCellQuality.lookup("maxAspectRatio")));
-    
     // Destination cellSet.
     cellSet badFaceAngle (mesh, "badFaceAngle", IOobject::NO_READ);
-    
-    const labelListList& pointFaces = 
+    const labelListList& pointFaces =
         mesh.pointFaces();
-    
     const label nInternalFaces = mesh.nInternalFaces();
-    
     forAll(pointFaces, ipoint)
     {
         forAll(pointFaces[ipoint], iface)
@@ -89,49 +82,49 @@ int main(int argc, char *argv[])
             label ifaceId = pointFaces[ipoint][iface];
             label inei = -1;
             label iown = mesh.faceOwner()[ifaceId];
+
             if (ifaceId < nInternalFaces)
             {
                 inei = mesh.faceNeighbour()[ifaceId];
             }
-            
+
             forAll(pointFaces[ipoint], kface)
             {
                 label kfaceId = pointFaces[ipoint][kface];
+
                 if (ifaceId == kfaceId)
                 {
                     continue;
                 }
-                
+
                 label knei = -1;
                 label kown = mesh.faceOwner()[kfaceId];
+
                 if (kfaceId < nInternalFaces)
                 {
                     knei = mesh.faceNeighbour()[kfaceId];
                 }
-                
+
                 vector ni = mesh.faceAreas()[ifaceId] / mag(mesh.faceAreas()[ifaceId]);
                 vector nk = mesh.faceAreas()[kfaceId] / mag(mesh.faceAreas()[kfaceId]);
-                
                 scalar dotnf = mag( ni & nk );
-                
+
                 if ((inei == knei) && (inei >= 0))
                 {
-                    
                     if (dotnf >= faceCosine) // 5 degrees
                     {
                         badFaceAngle.insert(inei);
                     }
                 }
-                
+
                 if ((iown == kown) || (iown == knei))
                 {
-
                     if (dotnf >= faceCosine) // 5 degrees
                     {
                         badFaceAngle.insert(iown);
                     }
                 }
-                
+
                 if (inei == kown)
                 {
                     if (dotnf >= faceCosine) // 5 degrees
@@ -139,20 +132,15 @@ int main(int argc, char *argv[])
                         badFaceAngle.insert(inei);
                     }
                 }
-                
             }
         }
     }
-    
     badFaceAngle.write();
-    
     //
     // Select cells with high aspect ratio
     //
-
     scalarField openness(mesh.cellVolumes().size(), 0);
     scalarField aspectRatio(mesh.cellVolumes().size(), 1);
-    
     primitiveMeshTools::cellClosedness
     (
         mesh,
@@ -162,9 +150,7 @@ int main(int argc, char *argv[])
         openness,
         aspectRatio
     );
-    
     cellSet highAspectRatio (mesh, "highAspectRatio", IOobject::NO_READ);
-    
     forAll(aspectRatio, iCell)
     {
         if (aspectRatio[iCell] > maxAspectRatio)
@@ -172,15 +158,12 @@ int main(int argc, char *argv[])
             highAspectRatio.insert(iCell);
         }
     }
-    
-//    faceSet badFacesSet (mesh, "badFaces", IOobject::NO_READ);
-//    
-//    mesh.checkFaceFlatness(true, 0.95, &badFacesSet);
-//    
-//    badFacesSet.write();
-    
-    Info<< "End\n" << endl;
-    
+    //    faceSet badFacesSet (mesh, "badFaces", IOobject::NO_READ);
+    //
+    //    mesh.checkFaceFlatness(true, 0.95, &badFacesSet);
+    //
+    //    badFacesSet.write();
+    Info << "End\n" << endl;
     return 0;
 }
 

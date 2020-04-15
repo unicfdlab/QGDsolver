@@ -64,18 +64,18 @@ namespace Foam
 \*---------------------------------------------------------------------------*/
 
 class qgdFluxFvPatchScalarField
-:
+    :
     public fixedGradientFvPatchScalarField
 {
 
 
-public:
+    public:
 
-    //- Runtime type information
-    TypeName("qgdFlux");
+        //- Runtime type information
+        TypeName("qgdFlux");
 
 
-    // Constructors
+        // Constructors
 
         //- Construct from patch and internal field
         qgdFluxFvPatchScalarField
@@ -112,9 +112,9 @@ public:
         virtual tmp<fvPatchScalarField> clone() const
         {
             return tmp<fvPatchScalarField>
-            (
-                new qgdFluxFvPatchScalarField(*this)
-            );
+                   (
+                       new qgdFluxFvPatchScalarField(*this)
+                   );
         }
 
         //- Construct as copy setting internal field reference
@@ -131,13 +131,13 @@ public:
         ) const
         {
             return tmp<fvPatchScalarField>
-            (
-                new qgdFluxFvPatchScalarField(*this, iF)
-            );
+                   (
+                       new qgdFluxFvPatchScalarField(*this, iF)
+                   );
         }
 
 
-    // Member functions
+        // Member functions
 
         ////- Update the patch pressure gradient field from the given snGradp
         //virtual void updateSnGrad(const scalarField& snGradp);

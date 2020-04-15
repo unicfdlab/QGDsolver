@@ -35,13 +35,13 @@ namespace Foam
 {
 namespace qgd
 {
-    defineTypeNameAndDebug(H2bynuQHD,0);
-    addToRunTimeSelectionTable
-    (
-        QGDCoeffs,
-        H2bynuQHD,
-        dictionary
-    );
+defineTypeNameAndDebug(H2bynuQHD, 0);
+addToRunTimeSelectionTable
+(
+    QGDCoeffs,
+    H2bynuQHD,
+    dictionary
+);
 }
 }
 
@@ -52,17 +52,15 @@ H2bynuQHD::H2bynuQHD
     const fvMesh& mesh,
     const dictionary& dict
 )
-:
+    :
     QGDCoeffs(io, mesh, dict)
 {
     scalar ScQGD = 0.0, PrQGD = 1.0;
-//
-
+    //
     ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
     muQGD_.primitiveFieldRef() = 0.0;
     alphauQGD_.primitiveFieldRef() = 0.0;
-
     ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
     muQGD_.boundaryFieldRef() = 0.0;
@@ -77,9 +75,9 @@ H2bynuQHD::~H2bynuQHD()
 void Foam::qgd::
 H2bynuQHD::correct(const QGDThermo& qgdThermo)
 {
-    const volScalarField  nu     = qgdThermo.mu()/qgdThermo.rho();
+    const volScalarField  nu     = qgdThermo.mu() / qgdThermo.rho();
     this->tauQGD_ = this->aQGD_ * sqr(this->hQGD_) / nu;
-    this->tauQGDf_= linearInterpolate(this->tauQGD_);
+    this->tauQGDf_ = linearInterpolate(this->tauQGD_);
 }
 
 //

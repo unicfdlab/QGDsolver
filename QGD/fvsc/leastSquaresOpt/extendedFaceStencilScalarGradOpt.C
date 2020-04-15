@@ -23,7 +23,7 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 
@@ -47,33 +47,33 @@ License
 //                   Allowable values: constant reference to the volScalarField.
 //
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquaresOpt::Grad(const volScalarField& iF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquaresOpt::Grad(
+    const volScalarField& iF)
 {
-    surfaceScalarField sF = linearInterpolate(iF); 
-    return Grad(iF,sF);
+    surfaceScalarField sF = linearInterpolate(iF);
+    return Grad(iF, sF);
 };
 
-Foam::tmp<Foam::surfaceVectorField> 
-Foam::fvsc::leastSquaresOpt::Grad(const volScalarField& iF, const surfaceScalarField& sF)
+Foam::tmp<Foam::surfaceVectorField>
+Foam::fvsc::leastSquaresOpt::Grad(const volScalarField& iF,
+                                  const surfaceScalarField& sF)
 {
-
-    tmp<surfaceVectorField> tgradIF(0.0*nf_*fvc::snGrad(iF));
+    tmp<surfaceVectorField> tgradIF(0.0 * nf_ * fvc::snGrad(iF));
     surfaceVectorField& gradIF = tgradIF.ref();
     //scalarField tField = sF;
-    surfaceScalarField tField = sF*0;
-
-    faceScalarDer(iF.primitiveField(),sF.primitiveField(),0,tField);
+    surfaceScalarField tField = sF * 0;
+    faceScalarDer(iF.primitiveField(), sF.primitiveField(), 0, tField);
     gradIF.primitiveFieldRef().replace(0, tField);
-    faceScalarDer(iF.primitiveField(),sF.primitiveField(),1,tField);
+    faceScalarDer(iF.primitiveField(), sF.primitiveField(), 1, tField);
     gradIF.primitiveFieldRef().replace(1, tField);
-    faceScalarDer(iF.primitiveField(),sF.primitiveField(),2,tField);
+    faceScalarDer(iF.primitiveField(), sF.primitiveField(), 2, tField);
     gradIF.primitiveFieldRef().replace(2, tField);
-    
     //update boundary field
     forAll(mesh_.boundaryMesh(), ipatch)
     {
         bool notConstrain = true;
         const fvPatch& fvp = mesh_.boundary()[ipatch];
+
         if
         (
             isA<emptyFvPatch>(fvp) ||
@@ -88,38 +88,33 @@ Foam::fvsc::leastSquaresOpt::Grad(const volScalarField& iF, const surfaceScalarF
 
         if (notConstrain)
         {
-            gradIF.boundaryFieldRef()[ipatch] = 
-                nf_.boundaryField()[ipatch] * 
+            gradIF.boundaryFieldRef()[ipatch] =
+                nf_.boundaryField()[ipatch] *
                 iF.boundaryField()[ipatch].snGrad();
         }
     }
 
-    if(!Pstream::parRun())
+    if (!Pstream::parRun())
     {
         return tgradIF;
     }
-    
+
     /*
      *
      * Update processor patches for parallel case
      *
      */
-    
     //allocate storage for near-patch field
-
-    List3<scalar> procVfValues(nProcPatches_); //array of values from neighb. processors
-    formVfValues(iF,procVfValues);
-
-    faceScalarDer(procVfValues,sF,0,tField);
+    List3<scalar> procVfValues(
+        nProcPatches_); //array of values from neighb. processors
+    formVfValues(iF, procVfValues);
+    faceScalarDer(procVfValues, sF, 0, tField);
     gradIF.boundaryFieldRef().replace(0, tField.boundaryFieldRef());
-    faceScalarDer(procVfValues,sF,1,tField);
+    faceScalarDer(procVfValues, sF, 1, tField);
     gradIF.boundaryFieldRef().replace(1, tField.boundaryFieldRef());
-    faceScalarDer(procVfValues,sF,2,tField);
+    faceScalarDer(procVfValues, sF, 2, tField);
     gradIF.boundaryFieldRef().replace(2, tField.boundaryFieldRef());
-    
     return tgradIF;
-
-
 };
 
 //

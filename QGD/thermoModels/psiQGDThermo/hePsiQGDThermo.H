@@ -52,10 +52,10 @@ namespace Foam
 
 template<class BasicPsiThermo, class MixtureType>
 class hePsiQGDThermo
-:
+    :
     public heThermo<BasicPsiThermo, MixtureType>
 {
-    // Private Member Functions
+        // Private Member Functions
 
         //- Calculate the thermo variables
         void calculate();
@@ -63,13 +63,13 @@ class hePsiQGDThermo
         //- Construct as copy (not implemented)
         hePsiQGDThermo(const hePsiQGDThermo<BasicPsiThermo, MixtureType>&);
 
-public:
+    public:
 
-    //- Runtime type information
-    TypeName("hePsiQGDThermo");
+        //- Runtime type information
+        TypeName("hePsiQGDThermo");
 
 
-    // Constructors
+        // Constructors
 
         //- Construct from mesh and phase name
         hePsiQGDThermo
@@ -87,18 +87,18 @@ public:
         );
 
 
-    //- Destructor
-    virtual ~hePsiQGDThermo();
+        //- Destructor
+        virtual ~hePsiQGDThermo();
 
 
-    // Member functions
+        // Member functions
 
         //- Update properties
         virtual void correct();
 
-    // Accesss functions
+        // Accesss functions
 
-    virtual tmp<volScalarField> gamma() const;
+        virtual tmp<volScalarField> gamma() const;
 
 };
 
@@ -110,7 +110,7 @@ public:
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #ifdef NoRepository
-    #include "hePsiQGDThermo.C"
+#include "hePsiQGDThermo.C"
 #endif
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -32,21 +32,21 @@ License
 
 namespace Foam
 {
-    defineTypeNameAndDebug(rhoQGDThermo, 0);
-    defineRunTimeSelectionTable(rhoQGDThermo, fvMesh);
+defineTypeNameAndDebug(rhoQGDThermo, 0);
+defineRunTimeSelectionTable(rhoQGDThermo, fvMesh);
 }
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::rhoQGDThermo::rhoQGDThermo(const fvMesh& mesh, const word& phaseName)
-:
+    :
     rhoThermo(mesh, phaseName),
     QGDThermo(mesh, *this),
     c_
     (
         "thermo:c",
-        qgdCoeffs().hQGD()/mesh.time().deltaT()
+        qgdCoeffs().hQGD() / mesh.time().deltaT()
     ),
     gamma_
     (
@@ -57,14 +57,15 @@ Foam::rhoQGDThermo::rhoQGDThermo(const fvMesh& mesh, const word& phaseName)
     this->read();
 }
 
-Foam::rhoQGDThermo::rhoQGDThermo(const fvMesh& mesh, const word& phaseName, const word& dictName)
-:
-    rhoThermo(mesh, phaseName,dictName),
+Foam::rhoQGDThermo::rhoQGDThermo(const fvMesh& mesh, const word& phaseName,
+                                 const word& dictName)
+    :
+    rhoThermo(mesh, phaseName, dictName),
     QGDThermo(mesh, *this),
     c_
     (
         "thermo:c",
-        qgdCoeffs().hQGD()/mesh.time().deltaT()
+        qgdCoeffs().hQGD() / mesh.time().deltaT()
     ),
     gamma_
     (
@@ -116,7 +117,7 @@ bool Foam::rhoQGDThermo::read()
 
     if (!QGDThermo::read())
     {
-      return false;
+        return false;
     }
 
     return true;
@@ -129,22 +130,22 @@ const Foam::volScalarField& Foam::rhoQGDThermo::c() const
 
 const Foam::volScalarField& Foam::rhoQGDThermo::p() const
 {
-  return rhoThermo::p();
+    return rhoThermo::p();
 }
 
 Foam::volScalarField& Foam::rhoQGDThermo::p()
 {
-  return rhoThermo::p();
+    return rhoThermo::p();
 }
 
 Foam::tmp<Foam::volScalarField> Foam::rhoQGDThermo::rho() const
 {
-  return rhoThermo::rho();
+    return rhoThermo::rho();
 }
 
 Foam::tmp<Foam::volScalarField> Foam::rhoQGDThermo::mu() const
 {
-  return rhoThermo::mu();
+    return rhoThermo::mu();
 }
 
 // ************************************************************************* //

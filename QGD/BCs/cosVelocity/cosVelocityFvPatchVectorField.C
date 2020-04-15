@@ -37,7 +37,7 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF
 )
-:
+    :
     mixedFvPatchVectorField(p, iF),
     A_(0.0, 0.0, 0.0),
     H_(1.0),
@@ -50,8 +50,8 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
     this->refGrad() = pTraits<vector>::zero;
     this->valueFraction() = 0.0;
     this->setPatchVelocities(this->refValue());
-    
-    Info << "Executing cosVelocityFvPatchVectorField(fvPatch, DimensionedField) " << endl;
+    Info << "Executing cosVelocityFvPatchVectorField(fvPatch, DimensionedField) " <<
+         endl;
 }
 
 
@@ -62,7 +62,7 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
     const DimensionedField<vector, volMesh>& iF,
     const fvPatchFieldMapper& mapper
 )
-:
+    :
     mixedFvPatchField<vector>(ptf, p, iF, mapper),
     A_(ptf.A_),
     H_(ptf.H_),
@@ -73,8 +73,8 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
 {
     this->setPatchVelocities(this->refValue());
     mixedFvPatchVectorField::updateCoeffs();
-
-    Info << "Executing cosVelocityFvPatchVectorField(cosVelocity, fvPatch, DimensionedField, fvPatchFieldMapper) " << endl;
+    Info << "Executing cosVelocityFvPatchVectorField(cosVelocity, fvPatch, DimensionedField, fvPatchFieldMapper) "
+         << endl;
 }
 
 
@@ -84,10 +84,9 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
     const DimensionedField<vector, volMesh>& iF,
     const dictionary& dict
 )
-:
+    :
     mixedFvPatchField<vector>(p, iF)
 {
-    
     dict.lookup("A") >> A_;
     dict.lookup("H") >> H_;
     dict.lookup("Hdirection") >> Hdirection_;
@@ -112,8 +111,8 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
     this->valueFraction() = 1.0;
     this->setPatchVelocities(this->refValue());
     mixedFvPatchVectorField::updateCoeffs();
-
-    Info << "Executing cosVelocityFvPatchVectorField(fvPatch, DimensionedField, dictionary) " << endl;
+    Info << "Executing cosVelocityFvPatchVectorField(fvPatch, DimensionedField, dictionary) "
+         << endl;
 }
 
 
@@ -121,7 +120,7 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
 (
     const cosVelocityFvPatchVectorField& ptpsf
 )
-:
+    :
     mixedFvPatchVectorField(ptpsf),
     A_(ptpsf.A_),
     H_(ptpsf.H_),
@@ -140,7 +139,7 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
     const cosVelocityFvPatchVectorField& ptpsf,
     const DimensionedField<vector, volMesh>& iF
 )
-:
+    :
     mixedFvPatchVectorField(ptpsf, iF),
     A_(ptpsf.A_),
     H_(ptpsf.H_),
@@ -150,8 +149,8 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
     minZ_(ptpsf.minZ_)
 {
     this->setPatchVelocities(this->refValue());
-
-    Info << "Executing cosVelocityFvPatchVectorField(const cosVelocity, const DimensionedField) " << endl;
+    Info << "Executing cosVelocityFvPatchVectorField(const cosVelocity, const DimensionedField) "
+         << endl;
 }
 
 
@@ -160,11 +159,11 @@ Foam::cosVelocityFvPatchVectorField::cosVelocityFvPatchVectorField
 void Foam::cosVelocityFvPatchVectorField::autoMap(const fvPatchFieldMapper& m)
 {
     mixedFvPatchField<vector>::autoMap(m);
-
     Info << "Executing autoMap " << endl;
 }
 
-void Foam::cosVelocityFvPatchVectorField::rmap(const fvPatchVectorField& pf, const labelList& ll)
+void Foam::cosVelocityFvPatchVectorField::rmap(const fvPatchVectorField& pf,
+        const labelList& ll)
 {
     mixedFvPatchField<vector>::rmap(pf, ll);
     Info << "Executing rmap " << endl;
@@ -173,18 +172,19 @@ void Foam::cosVelocityFvPatchVectorField::rmap(const fvPatchVectorField& pf, con
 void Foam::cosVelocityFvPatchVectorField::setPatchVelocities (vectorField& pV)
 {
     scalarField z = (this->patch().Cf() & Hdirection_) - minZ_;
-    
     forAll(pV, iFace)
     {
-	scalar t = this->patch().boundaryMesh().mesh().time().value();
-	this->refGrad()[iFace] = vector (0.0, 0.0, 0.0);
-	this->valueFraction()[iFace] = 1.0;
-	pV[iFace] = 
-	    A_ * cos(Foam::constant::mathematical::pi * z[iFace] / H_) * (-omega0_) * sin(omega0_ * t + phi0_);
-	if (z[iFace] < 0.0 || z[iFace] > H_)
-	{
-	    pV[iFace] = A_*0.0;
-	}
+        scalar t = this->patch().boundaryMesh().mesh().time().value();
+        this->refGrad()[iFace] = vector (0.0, 0.0, 0.0);
+        this->valueFraction()[iFace] = 1.0;
+        pV[iFace] =
+            A_ * cos(Foam::constant::mathematical::pi * z[iFace] / H_) * (-omega0_) * sin(
+                omega0_ * t + phi0_);
+
+        if (z[iFace] < 0.0 || z[iFace] > H_)
+        {
+            pV[iFace] = A_ * 0.0;
+        }
     }
 }
 
@@ -194,41 +194,32 @@ void Foam::cosVelocityFvPatchVectorField::updateCoeffs()
     {
         return;
     }
-    
-    this->setPatchVelocities(this->refValue());
-    
-    Info << "max/min velocity: " << gMax(this->refValue()) << "/" << gMin(this->refValue()) << endl;
 
+    this->setPatchVelocities(this->refValue());
+    Info << "max/min velocity: " << gMax(this->refValue()) << "/" << gMin(
+             this->refValue()) << endl;
     mixedFvPatchField<vector>::updateCoeffs();
 }
 
 
 void Foam::cosVelocityFvPatchVectorField::write(Ostream& os) const
 {
-
     mixedFvPatchVectorField::write(os);
-
     os.writeKeyword("A") << A_ << token::END_STATEMENT << nl;
-        
     os.writeKeyword("H") << H_ << token::END_STATEMENT << nl;
-    
     os.writeKeyword("minZ") << minZ_ << token::END_STATEMENT << nl;
-    
     os.writeKeyword("Hdirection") << Hdirection_ << token::END_STATEMENT << nl;
-    
     os.writeKeyword("omega0") << omega0_ << token::END_STATEMENT << nl;
-    
     os.writeKeyword("phi0") << phi0_ << token::END_STATEMENT << nl;
-    
 }
 
 namespace Foam
 {
-    makePatchTypeField
-    (
-        fvPatchVectorField,
-        cosVelocityFvPatchVectorField
-    );
+makePatchTypeField
+(
+    fvPatchVectorField,
+    cosVelocityFvPatchVectorField
+);
 }
 
 // ************************************************************************* //

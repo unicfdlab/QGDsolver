@@ -17,28 +17,28 @@ namespace fvsc
 class GaussVolPointBase1D
 {
 
-    //-
-    tmp<surfaceVectorField> nfRef_;
+        //-
+        tmp<surfaceVectorField> nfRef_;
 
-public:
+    public:
 
-    //-
-    GaussVolPointBase1D(const fvMesh& mesh);
-    
-    //-
-    ~GaussVolPointBase1D();
-    
-    //-
-    void faceGrad(const volScalarField& f, surfaceVectorField& gradf);
+        //-
+        GaussVolPointBase1D(const fvMesh& mesh);
 
-    //-
-    void faceGrad(const volVectorField& f, surfaceTensorField& gradf);
+        //-
+        ~GaussVolPointBase1D();
 
-    //-
-    void faceDiv(const volVectorField& f, surfaceScalarField& divf);
-    
-    //-
-    void faceDiv(const volTensorField& f, surfaceVectorField& divf);
+        //-
+        void faceGrad(const volScalarField& f, surfaceVectorField& gradf);
+
+        //-
+        void faceGrad(const volVectorField& f, surfaceTensorField& gradf);
+
+        //-
+        void faceDiv(const volVectorField& f, surfaceScalarField& divf);
+
+        //-
+        void faceDiv(const volTensorField& f, surfaceVectorField& divf);
 
 };
 

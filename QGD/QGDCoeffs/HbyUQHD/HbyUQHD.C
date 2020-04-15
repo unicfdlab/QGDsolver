@@ -22,7 +22,7 @@ License
     for more details.
 
     You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>. 
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 \*---------------------------------------------------------------------------*/
 
@@ -36,13 +36,13 @@ namespace Foam
 {
 namespace qgd
 {
-    defineTypeNameAndDebug(HbyUQHD,0);
-    addToRunTimeSelectionTable
-    (
-        QGDCoeffs,
-        HbyUQHD,
-        dictionary
-    );
+defineTypeNameAndDebug(HbyUQHD, 0);
+addToRunTimeSelectionTable
+(
+    QGDCoeffs,
+    HbyUQHD,
+    dictionary
+);
 }
 }
 
@@ -53,19 +53,16 @@ HbyUQHD::HbyUQHD
     const fvMesh& mesh,
     const dictionary& dict
 )
-:
+    :
     QGDCoeffs(io, mesh, dict),
     UQHD_(0.0)
 {
     scalar ScQGD = 0.0, PrQGD = 1.0;
-
     dict.lookup("UQHD") >> UQHD_;
-
     ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
     muQGD_.primitiveFieldRef() = 0.0;
     alphauQGD_.primitiveFieldRef() = 0.0;
-
     ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
     muQGD_.boundaryFieldRef() = 0.0;
@@ -80,8 +77,9 @@ HbyUQHD::~HbyUQHD()
 void Foam::qgd::
 HbyUQHD::correct(const Foam::QGDThermo& qgdThermo)
 {
-    this->tauQGD_ = this->aQGD_ * this->hQGD_ /dimensionedScalar("UQGD", dimLength/dimTime, UQHD_);
-    this->tauQGDf_= linearInterpolate(this->tauQGD_);
+    this->tauQGD_ = this->aQGD_ * this->hQGD_ / dimensionedScalar("UQGD",
+                    dimLength / dimTime, UQHD_);
+    this->tauQGDf_ = linearInterpolate(this->tauQGD_);
 }
 
 //

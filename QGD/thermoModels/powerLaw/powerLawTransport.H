@@ -92,17 +92,17 @@ Ostream& operator<<
 
 template<class Thermo>
 class powerLawTransport
-:
+    :
     public Thermo
 {
-    // Private data
+        // Private data
 
         //- Constant dynamic viscosity [Pa.s]
         scalar mu0_;
 
         //- [K]
         scalar T0_;
-        
+
         //- power coeff.
         scalar k_;
 
@@ -110,7 +110,7 @@ class powerLawTransport
         scalar rPr_;
 
 
-    // Private Member Functions
+        // Private Member Functions
 
         //- Construct from components
         inline powerLawTransport
@@ -123,9 +123,9 @@ class powerLawTransport
         );
 
 
-public:
+    public:
 
-    // Constructors
+        // Constructors
 
         //- Construct as named copy
         inline powerLawTransport(const word&, const powerLawTransport&);
@@ -146,7 +146,7 @@ public:
         inline static autoPtr<powerLawTransport> New(const dictionary& dict);
 
 
-    // Member functions
+        // Member functions
 
         //- Return the instantiated type name
         static word typeName()
@@ -170,7 +170,7 @@ public:
         void write(Ostream& os) const;
 
 
-    // Member operators
+        // Member operators
 
         inline powerLawTransport& operator=(const powerLawTransport&);
 
@@ -181,7 +181,7 @@ public:
         inline void operator*=(const scalar);
 
 
-    // Friend operators
+        // Friend operators
 
         friend powerLawTransport operator+ <Thermo>
         (
@@ -208,7 +208,7 @@ public:
         );
 
 
-    // Ostream Operator
+        // Ostream Operator
 
         friend Ostream& operator<< <Thermo>
         (

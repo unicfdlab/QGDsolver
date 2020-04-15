@@ -1,4 +1,4 @@
-Info<< "Reading thermophysical properties\n" << endl;
+Info << "Reading thermophysical properties\n" << endl;
 
 autoPtr<rhoQGDThermo> pThermo
 (
@@ -49,10 +49,10 @@ volVectorField W
     IOobject
     (
         "W",
-	runTime.timeName(),
-	mesh,
-	IOobject::NO_READ,
-	IOobject::NO_WRITE
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
     ),
     U
 );
@@ -60,8 +60,8 @@ volVectorField W
 
 
 
-Info<< "\nReading gravitationalProperties" << endl;
-  
+Info << "\nReading gravitationalProperties" << endl;
+
 IOdictionary gravitationalProperties
 (
     IOobject
@@ -79,7 +79,7 @@ const dimensionedVector g(gravitationalProperties.lookup("g"));
 dimensionedScalar beta
 (
     "beta",
-    dimless/dimTemperature,
+    dimless / dimTemperature,
     thermo.subDict("mixture").subDict("transport")
 );
 
@@ -105,7 +105,7 @@ surfaceScalarField phi
 volVectorField BdFrc
 (
     "BdFrc",
-    T*g*beta
+    T* g* beta
 );
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
@@ -116,7 +116,7 @@ surfaceScalarField phiRhof
     linearInterpolate(rho)*phi
 );
 
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 turbulence.reset
 (
     compressible::turbulenceModel::New
@@ -131,6 +131,8 @@ turbulence.reset
 label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, mesh.solutionDict().subDict("PISO"), pRefCell, pRefValue);
+
+#include "createIcoZeroSources.H"
 
 //
 //END-OF-FILE

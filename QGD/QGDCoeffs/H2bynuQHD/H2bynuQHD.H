@@ -59,24 +59,24 @@ namespace qgd
 class H2bynuQHD : public QGDCoeffs
 {
 
-public:
+    public:
 
-    //-
-    TypeName ("H2bynuQHD");
+        //-
+        TypeName ("H2bynuQHD");
 
-    //-
-    H2bynuQHD
-    (
-        const IOobject& io,
-        const fvMesh& mesh,
-        const dictionary& dict
-    );
+        //-
+        H2bynuQHD
+        (
+            const IOobject& io,
+            const fvMesh& mesh,
+            const dictionary& dict
+        );
 
-    //-
-    ~H2bynuQHD();
+        //-
+        ~H2bynuQHD();
 
-    //-
-    void correct(const QGDThermo&);
+        //-
+        void correct(const QGDThermo&);
 };
 
 

@@ -33,25 +33,24 @@ License
 #include "QGDCoeffs.H"
 
 Foam::QGDThermo::QGDThermo(const fvMesh& mesh, const dictionary& dict)
-:
-mesh_(mesh),
-dict_(dict),
-qgdCoeffsPtr_
-(
-    Foam::qgd::QGDCoeffs::New
+    :
+    mesh_(mesh),
+    dict_(dict),
+    qgdCoeffsPtr_
     (
-        dict_.subDict("QGD").lookup("QGDCoeffs"),
-        mesh,
-        dict_.subDict("QGD")
-    )
-),
-implicitDiffusion_(true)
+        Foam::qgd::QGDCoeffs::New
+        (
+            dict_.subDict("QGD").get<word>("QGDCoeffs"),
+            mesh,
+            dict_.subDict("QGD")
+        )
+    ),
+    implicitDiffusion_(true)
 {
 }
 
 Foam::QGDThermo::~QGDThermo()
 {
-
 }
 
 bool Foam::QGDThermo::read()
@@ -64,33 +63,28 @@ bool Foam::QGDThermo::read()
     {
         implicitDiffusion_ = true;
     }
-  
-  return true;
+
+    return true;
 }
 
 void Foam::QGDThermo::correctQGD(volScalarField& mu, volScalarField& alphau)
 {
     qgdCoeffsPtr_->correct(*this);
-
     const volScalarField& muQGD = this->muQGD();
     const volScalarField& alphauQGD = this->alphauQGD();
-
     forAll(mu.primitiveField(), celli)
     {
         mu.primitiveFieldRef()[celli] +=
             muQGD.primitiveField()[celli];
-
         alphau.primitiveFieldRef()[celli] +=
             alphauQGD.primitiveField()[celli];
     }
-
     forAll(mu.boundaryField(), patchi)
     {
         forAll(mu.boundaryField()[patchi], facei)
         {
             mu.boundaryFieldRef()[patchi][facei] +=
                 muQGD.boundaryField()[patchi][facei];
-
             alphau.boundaryFieldRef()[patchi][facei] +=
                 alphauQGD.boundaryField()[patchi][facei];
         }
@@ -134,7 +128,7 @@ Foam::Switch Foam::QGDThermo::implicitDiffusion() const
 
 Foam::qgd::QGDCoeffs& Foam::QGDThermo::qgdCoeffs()
 {
-  return qgdCoeffsPtr_();
+    return qgdCoeffsPtr_();
 }
 
 //

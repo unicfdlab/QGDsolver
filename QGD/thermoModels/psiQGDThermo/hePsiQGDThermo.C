@@ -35,48 +35,36 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 {
     const scalarField& hCells = this->he_;
     const scalarField& pCells = this->p_;
-
     scalarField& TCells = this->T_.primitiveFieldRef();
     scalarField& psiCells = this->psi_.primitiveFieldRef();
     scalarField& muCells = this->mu_.primitiveFieldRef();
     scalarField& alphaCells = this->alpha_.primitiveFieldRef();
-
     forAll(TCells, celli)
     {
         const typename MixtureType::thermoType& mixture_ =
             this->cellMixture(celli);
-
         TCells[celli] = mixture_.THE
-        (
-            hCells[celli],
-            pCells[celli],
-            TCells[celli]
-        );
-
+                        (
+                            hCells[celli],
+                            pCells[celli],
+                            TCells[celli]
+                        );
         psiCells[celli] = mixture_.psi(pCells[celli], TCells[celli]);
-
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli]);
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
     }
-
     volScalarField::Boundary& pBf =
         this->p_.boundaryFieldRef();
-
     volScalarField::Boundary& TBf =
         this->T_.boundaryFieldRef();
-
     volScalarField::Boundary& psiBf =
         this->psi_.boundaryFieldRef();
-
     volScalarField::Boundary& heBf =
         this->he().boundaryFieldRef();
-
     volScalarField::Boundary& muBf =
         this->mu_.boundaryFieldRef();
-
     volScalarField::Boundary& alphaBf =
         this->alpha_.boundaryFieldRef();
-
     forAll(this->T_.boundaryField(), patchi)
     {
         fvPatchScalarField& pp = pBf[patchi];
@@ -92,9 +80,7 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             {
                 const typename MixtureType::thermoType& mixture_ =
                     this->patchFaceMixture(patchi, facei);
-
                 phe[facei] = mixture_.HE(pp[facei], pT[facei]);
-
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
@@ -106,16 +92,13 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             {
                 const typename MixtureType::thermoType& mixture_ =
                     this->patchFaceMixture(patchi, facei);
-
                 pT[facei] = mixture_.THE(phe[facei], pp[facei], pT[facei]);
-
                 ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
             }
         }
     }
-
     this->gamma_ == (this->Cp() / this->Cv());
     this->c_ = sqrt(this->gamma_ / this->psi());
     this->correctQGD(this->mu_, this->alpha_);
@@ -130,11 +113,10 @@ Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
     const fvMesh& mesh,
     const word& phaseName
 )
-:
+    :
     heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
 {
     calculate();
-
     // Switch on saving old time
     this->psi_.oldTime();
 }
@@ -147,11 +129,10 @@ Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
     const word& phaseName,
     const word& dictionaryName
 )
-:
+    :
     heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName, dictionaryName)
 {
     calculate();
-
     // Switch on saving old time
     this->psi_.oldTime();
 }
@@ -176,17 +157,17 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::correct()
 
     // force the saving of the old-time values
     this->psi_.oldTime();
-
     calculate();
 
     if (debug)
     {
-        Info<< "    Finished" << endl;
+        Info << "    Finished" << endl;
     }
 }
 
 template<class BasicPsiThermo, class MixtureType>
-Foam::tmp<Foam::volScalarField> Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
+Foam::tmp<Foam::volScalarField>
+Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
 {
     return this->gamma_;
 }

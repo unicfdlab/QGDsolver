@@ -59,39 +59,39 @@ namespace qgd
 class varScModel5 : public QGDCoeffs
 {
 
-protected:
+    protected:
 
-    scalar smoothCoeff_;
-    scalar rC_;
-    scalar minSc_;
-    scalar maxSc_;
-    scalar badQualitySc_;
-    scalar qgdAspectRatioThreshold_;
-    scalar constSc_;
+        scalar smoothCoeff_;
+        scalar rC_;
+        scalar minSc_;
+        scalar maxSc_;
+        scalar badQualitySc_;
+        scalar qgdAspectRatioThreshold_;
+        scalar constSc_;
 
-    scalarField cqSc_;
+        scalarField cqSc_;
 
-    autoPtr<cellSet> constScCellSetPtr_;
+        autoPtr<cellSet> constScCellSetPtr_;
 
 
-public:
+    public:
 
-    //-
-    TypeName ("varScModel5");
+        //-
+        TypeName ("varScModel5");
 
-    //-
-    varScModel5
-    (
-        const IOobject& io,
-        const fvMesh& mesh,
-        const dictionary& dict
-    );
+        //-
+        varScModel5
+        (
+            const IOobject& io,
+            const fvMesh& mesh,
+            const dictionary& dict
+        );
 
-    //-
-    ~varScModel5();
+        //-
+        ~varScModel5();
 
-    //-
-    void correct(const QGDThermo&);
+        //-
+        void correct(const QGDThermo&);
 
 };
 

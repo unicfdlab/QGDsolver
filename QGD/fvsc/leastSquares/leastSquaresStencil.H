@@ -25,12 +25,12 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 Class
-   leastSquares 
-Discription 
+   leastSquares
+Discription
     Realisation least squares method for calculationg of defferential operators
 Source file
-    leastSquaresStencil.C 
-    
+    leastSquaresStencil.C
+
 
 
 \*---------------------------------------------------------------------------*/
@@ -66,20 +66,20 @@ namespace fvsc
 \*---------------------------------------------------------------------------*/
 
 class leastSquares
-:
+    :
     public fvscStencil, public leastSquaresBase
 {
 
-public:
+    public:
 
         TypeName ("leastSquares");
 
-// Constructors
+        // Constructors
 
         //- Construct from IOobject. Optional flag for if IOobject is the
         //  top level regIOobject.
         leastSquares(const IOobject&);
-        
+
         //- Destructor
         ~leastSquares();
 

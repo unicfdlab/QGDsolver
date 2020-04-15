@@ -22,54 +22,65 @@ License
     for more details.
 
     You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.   
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 description:
-    solvation of momentum equation for QGD solver
+    solution of momentum equation for QGD solver
 source file:
     QGDFoam.C
 
 \*----------------------------------------------------------------------------*/
+solve
+(
+    fvm::ddt(rhoU)
+    +
+    fvc::div(phiJmU)
+    +
+    fvc::div(phiP)
+    -
+    fvc::div(phiPi)
+    );
+
+// Correct velocity
+U.ref() =
+    rhoU()
+    / rho();
+U.correctBoundaryConditions();
+
+// Solve diffusive QGD & NS part
+if (implicitDiffusion)
+{
+    fvVectorMatrix UEqn
+    (
+        fvm::ddt(rho, U) - fvc::ddt(rho, U)
+        - fvm::laplacian(muf, U)
+        - fvc::div(phiTauMC)
+        ==
+        rhoUSu
+    );
     solve
     (
-        fvm::ddt(rhoU)
-        +
-        fvc::div(phiJmU)
-        +
-        fvc::div(phiP)
-        -
-        fvc::div(phiPi)
+        UEqn
     );
-    
-    // Correct velocity
-    U.ref() =
-        rhoU()
-       /rho();
-    U.correctBoundaryConditions();
-    
-   // Solve diffusive QGD & NS part
-    if (implicitDiffusion)
-    {
-        fvVectorMatrix UEqn
-        (
-            fvm::ddt(rho, U) - fvc::ddt(rho,U)
-            - fvm::laplacian(muf, U)
-            - fvc::div(phiTauMC)
-        );
-        
-        solve
-        (
-            UEqn
-        );
-        
-        rhoU = rho*U;
-        
-        sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
-        
-        phiSigmaDotU = mesh.Sf() & sigmaDotUPtr(); //or eqn.flux()?
-    }
-    rhoU.boundaryFieldRef() == rho.boundaryField()*
-    U.boundaryField();
-    
+    rhoU = rho * U;
+    sigmaDotUPtr() = (muf * linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
+    phiSigmaDotU = mesh.Sf() & sigmaDotUPtr(); //or eqn.flux()?
+}
+else
+{
+    // Correct velocity with distributed sources
+    solve
+    (
+        fvm::ddt(rho, U)
+        -
+        fvc::ddt(rhoU)
+        ==
+        rhoUSu
+    );
+}
+
+rhoU.boundaryFieldRef() == rho.boundaryField()*
+U.boundaryField();
+
 //
 //END-OF-FILE
 //

@@ -1,4 +1,4 @@
-Info<< "Reading thermophysical properties\n" << endl;
+Info << "Reading thermophysical properties\n" << endl;
 
 autoPtr<psiQGDThermo> pThermo
 (
@@ -47,26 +47,6 @@ volScalarField rho
     thermo.rho()
 );
 
-//volScalarField cellNo
-//(
-//    IOobject
-//    (
-//        "cellNo",
-//        runTime.timeName(),
-//        mesh,
-//        IOobject::MUST_READ,
-//        IOobject::AUTO_WRITE
-//    ),
-//    mesh
-//);
-
-//forAll(cellNo, iCell)
-//{
-//    cellNo.primitiveFieldRef()[iCell] = scalar(iCell);
-//}
-//
-//cellNo.write();
-
 volVectorField rhoU
 (
     IOobject
@@ -77,7 +57,7 @@ volVectorField rhoU
         IOobject::NO_READ,
         IOobject::NO_WRITE
     ),
-    rho*U
+    rho* U
 );
 
 volScalarField rhoE
@@ -90,13 +70,26 @@ volScalarField rhoE
         IOobject::NO_READ,
         IOobject::NO_WRITE
     ),
-    rho*e + rho*0.5*magSqr(U)
+    rho * e + rho * 0.5 * magSqr(U)
+);
+
+volScalarField H
+(
+    IOobject
+    (
+        "Ht",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    (rhoE + p) / rho
 );
 
 surfaceScalarField phi
 (
     "phi",
-    linearInterpolate(rho*U) & mesh.Sf()
+    linearInterpolate(rho* U) & mesh.Sf()
 );
 
 surfaceScalarField phiRhof
@@ -107,7 +100,7 @@ surfaceScalarField phiRhof
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 turbulence.reset
 (
     compressible::turbulenceModel::New
@@ -118,6 +111,8 @@ turbulence.reset
         thermo
     ).ptr()
 );
+
+#include "createZeroSources.H"
 
 //
 //END-OF-FILE

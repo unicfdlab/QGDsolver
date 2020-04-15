@@ -58,116 +58,116 @@ namespace qgd
 class QGDCoeffs : public regIOobject, public refCount
 {
 
-protected:
+    protected:
 
-    //-
-    const fvMesh& mesh_;
+        //-
+        const fvMesh& mesh_;
 
-    //-
-    const Time& runTime_;
+        //-
+        const Time& runTime_;
 
-    //-
-    volScalarField muQGD_;
+        //-
+        volScalarField muQGD_;
 
-    //-
-    volScalarField alphauQGD_;
+        //-
+        volScalarField alphauQGD_;
 
-    //-
-    surfaceScalarField hQGDf_;
+        //-
+        surfaceScalarField hQGDf_;
 
-    //-
-    volScalarField hQGD_;
+        //-
+        volScalarField hQGD_;
 
-    //-
-    tmp<volScalarField> taQGD_;
-    
-    //-
-    volScalarField& aQGD_;
+        //-
+        tmp<volScalarField> taQGD_;
 
-    //-
-    volScalarField tauQGD_;
+        //-
+        volScalarField& aQGD_;
 
-    //-
-    surfaceScalarField tauQGDf_;
+        //-
+        volScalarField tauQGD_;
 
-    //-
-    volScalarField PrQGD_;
+        //-
+        surfaceScalarField tauQGDf_;
 
-    //-
-    volScalarField ScQGD_;
+        //-
+        volScalarField PrQGD_;
 
-protected:
+        //-
+        volScalarField ScQGD_;
 
-    //-
-    virtual void updateQGDLength(const fvMesh&);
-    
-    //-
-    tmp<volScalarField> readOrCreateAlphaQGD(const fvMesh& );
+    protected:
 
-public:
+        //-
+        virtual void updateQGDLength(const fvMesh&);
 
-    //-
-    TypeName("QGDCoeffs");
+        //-
+        tmp<volScalarField> readOrCreateAlphaQGD(const fvMesh& );
 
-    //-
-    declareRunTimeSelectionTable
-    (
-        autoPtr,
-        QGDCoeffs,
-        dictionary,
+    public:
+
+        //-
+        TypeName("QGDCoeffs");
+
+        //-
+        declareRunTimeSelectionTable
+        (
+            autoPtr,
+            QGDCoeffs,
+            dictionary,
+            (
+                const IOobject& io,
+                const fvMesh& mesh,
+                const dictionary& dict
+            ),
+            (io, mesh, dict)
+        );
+
+        //- Construct from components
+        QGDCoeffs
         (
             const IOobject& io,
             const fvMesh& mesh,
             const dictionary& dict
-        ),
-        (io, mesh, dict)
-    );
+        );
 
-    //- Construct from components
-    QGDCoeffs
-    (
-        const IOobject& io,
-        const fvMesh& mesh,
-        const dictionary& dict
-    );
+        //- Return a reference to the selected fvscStencil model
+        static autoPtr<QGDCoeffs> New
+        (
+            const word& qgdCoeffsType,
+            const fvMesh& mesh,
+            const dictionary& dict
+        );
 
-    //- Return a reference to the selected fvscStencil model
-    static autoPtr<QGDCoeffs> New
-    (
-        const word& qgdCoeffsType,
-        const fvMesh& mesh,
-        const dictionary& dict
-    );
+        //-
+        virtual ~QGDCoeffs();
 
-    //-
-    virtual ~QGDCoeffs();
+        //-
+        virtual bool writeData(Ostream&) const
+        {
+            return true;
+        }
 
-    //-
-    virtual bool writeData(Ostream&) const
-    {
-        return true;
-    }
+        //-
+        virtual void correct(const QGDThermo&);
 
-    //-
-    virtual void correct(const QGDThermo&);
+        //-
+        const volScalarField& hQGD() const;
 
-    //-
-    const volScalarField& hQGD() const;
+        //-
+        const volScalarField& tauQGD() const;
 
-    //-
-    const volScalarField& tauQGD() const;
+        //-
+        const surfaceScalarField& hQGDf() const;
 
-    //-
-    const surfaceScalarField& hQGDf() const;
+        //-
+        const surfaceScalarField& tauQGDf() const;
 
-    //-
-    const surfaceScalarField& tauQGDf() const;
+        //-
+        const volScalarField& muQGD() const;
 
-    //-
-    const volScalarField& muQGD() const;
-
-    //-
-    const volScalarField& alphauQGD() const;
+        //-
+        const volScalarField& alphauQGD() const;
 
 };
 

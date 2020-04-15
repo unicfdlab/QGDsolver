@@ -30,7 +30,7 @@ Description
     Namespace for calculating differential operators with least squares method.
 Source file
     fvsc.C
-    
+
 \*---------------------------------------------------------------------------*/
 #include "fvMesh.H"
 #include "regIOobject.H"
@@ -49,94 +49,94 @@ namespace fvsc
 class fvscStencil : public regIOobject, public refCount
 {
 
-protected:
-    
-    //-
-    const fvMesh& mesh_;
-    
-    //-
-    const Time& runTime_;
-    
-    //-
-    surfaceVectorField nf_;
-    
-    //-
-    static PtrList<fvscStencil> stencils_;
+    protected:
 
-public:
- 
-    //-
-    TypeName("fvscStencil");
-    
-    //-
-    declareRunTimeSelectionTable
-    (
-        autoPtr,
-        fvscStencil,
-        components,
+        //-
+        const fvMesh& mesh_;
+
+        //-
+        const Time& runTime_;
+
+        //-
+        surfaceVectorField nf_;
+
+        //-
+        static PtrList<fvscStencil> stencils_;
+
+    public:
+
+        //-
+        TypeName("fvscStencil");
+
+        //-
+        declareRunTimeSelectionTable
+        (
+            autoPtr,
+            fvscStencil,
+            components,
+            (
+                const IOobject& io
+            ),
+            (io)
+        );
+
+        //- Construct from components
+        fvscStencil
         (
             const IOobject& io
-        ),
-        (io)
-    );
-    
-    //- Construct from components
-    fvscStencil
-    (
-        const IOobject& io
-    );
-    
-    //- Return a reference to the selected fvscStencil model
-    static autoPtr<fvscStencil> New
-    (
-        const word& name,
-        const fvMesh& mesh
-    );
-    
-    //-
-    //static tmp<fvscStencil> lookupOrNew
-    static fvscStencil& lookupOrNew
-    (
-        const word& nname,
-        const fvMesh& mesh
-    );
-    
-    //-
-    virtual ~fvscStencil();
-    
-    //-
-    virtual tmp<surfaceVectorField> Grad(const volScalarField& vF)
-    {
-        notImplemented("tmp<surfaceVectorField> Grad(const volScalarField& vF)");
-        return tmp<surfaceVectorField>(nullptr);
-    }
+        );
 
-    //-
-    virtual tmp<surfaceTensorField> Grad(const volVectorField& iVF)
-    {
-        notImplemented("tmp<surfaceTensorField> Grad(const volVectorField& vF)");
-        return tmp<surfaceTensorField>(nullptr);
-    }
+        //- Return a reference to the selected fvscStencil model
+        static autoPtr<fvscStencil> New
+        (
+            const word& name,
+            const fvMesh& mesh
+        );
 
-    //-
-    virtual tmp<surfaceScalarField> Div(const volVectorField& iVF)
-    {
-        notImplemented("tmp<surfaceScalarField> Grad(const volVectorField& vF)");
-        return tmp<surfaceScalarField>(nullptr);
-    }
+        //-
+        //static tmp<fvscStencil> lookupOrNew
+        static fvscStencil& lookupOrNew
+        (
+            const word& nname,
+            const fvMesh& mesh
+        );
 
-    //-
-    virtual tmp<surfaceVectorField> Div(const volTensorField& iTF)
-    {
-        notImplemented("tmp<surfaceVectorField> Grad(const volTensorField& vF)");
-        return tmp<surfaceVectorField>(nullptr);
-    }
+        //-
+        virtual ~fvscStencil();
+
+        //-
+        virtual tmp<surfaceVectorField> Grad(const volScalarField& vF)
+        {
+            notImplemented("tmp<surfaceVectorField> Grad(const volScalarField& vF)");
+            return tmp<surfaceVectorField>(nullptr);
+        }
+
+        //-
+        virtual tmp<surfaceTensorField> Grad(const volVectorField& iVF)
+        {
+            notImplemented("tmp<surfaceTensorField> Grad(const volVectorField& vF)");
+            return tmp<surfaceTensorField>(nullptr);
+        }
+
+        //-
+        virtual tmp<surfaceScalarField> Div(const volVectorField& iVF)
+        {
+            notImplemented("tmp<surfaceScalarField> Grad(const volVectorField& vF)");
+            return tmp<surfaceScalarField>(nullptr);
+        }
+
+        //-
+        virtual tmp<surfaceVectorField> Div(const volTensorField& iTF)
+        {
+            notImplemented("tmp<surfaceVectorField> Grad(const volTensorField& vF)");
+            return tmp<surfaceVectorField>(nullptr);
+        }
 
 
-    virtual bool writeData(Ostream&) const
-    {
-        return true;
-    }
+        virtual bool writeData(Ostream&) const
+        {
+            return true;
+        }
 };
 
 }

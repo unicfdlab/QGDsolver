@@ -6,7 +6,7 @@
 #include "fvcSnGrad.H"
 
 Foam::fvsc::GaussVolPointBase1D::GaussVolPointBase1D(const fvMesh& mesh)
-:
+    :
     nfRef_(mesh.thisDb().lookupObject<surfaceVectorField>("nf"))
 {
 };
@@ -16,7 +16,8 @@ Foam::fvsc::GaussVolPointBase1D::~GaussVolPointBase1D()
 {
 }
 
-void Foam::fvsc::GaussVolPointBase1D::faceGrad(const volScalarField& f, surfaceVectorField& gradf)
+void Foam::fvsc::GaussVolPointBase1D::faceGrad(const volScalarField& f,
+        surfaceVectorField& gradf)
 {
     if (f.mesh().nGeometricD() == 1)
     {
@@ -24,7 +25,8 @@ void Foam::fvsc::GaussVolPointBase1D::faceGrad(const volScalarField& f, surfaceV
     }
 };
 
-void Foam::fvsc::GaussVolPointBase1D::faceGrad(const volVectorField& f, surfaceTensorField& gradf)
+void Foam::fvsc::GaussVolPointBase1D::faceGrad(const volVectorField& f,
+        surfaceTensorField& gradf)
 {
     if (f.mesh().nGeometricD() == 1)
     {
@@ -32,7 +34,8 @@ void Foam::fvsc::GaussVolPointBase1D::faceGrad(const volVectorField& f, surfaceT
     }
 };
 
-void Foam::fvsc::GaussVolPointBase1D::faceDiv(const volVectorField& f, surfaceScalarField& divf)
+void Foam::fvsc::GaussVolPointBase1D::faceDiv(const volVectorField& f,
+        surfaceScalarField& divf)
 {
     if (f.mesh().nGeometricD() == 1)
     {
@@ -40,7 +43,8 @@ void Foam::fvsc::GaussVolPointBase1D::faceDiv(const volVectorField& f, surfaceSc
     }
 };
 
-void Foam::fvsc::GaussVolPointBase1D::faceDiv(const volTensorField& f, surfaceVectorField& divf)
+void Foam::fvsc::GaussVolPointBase1D::faceDiv(const volTensorField& f,
+        surfaceVectorField& divf)
 {
     if (f.mesh().nGeometricD() == 1)
     {

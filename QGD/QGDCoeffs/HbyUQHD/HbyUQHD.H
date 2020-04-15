@@ -61,29 +61,29 @@ namespace qgd
 class HbyUQHD : public QGDCoeffs
 {
 
-public:
+    public:
 
-    //-
-    TypeName ("HbyUQHD");
+        //-
+        TypeName ("HbyUQHD");
 
-    //-
-    HbyUQHD
-    (
-        const IOobject& io,
-        const fvMesh& mesh,
-        const dictionary& dict
-    );
+        //-
+        HbyUQHD
+        (
+            const IOobject& io,
+            const fvMesh& mesh,
+            const dictionary& dict
+        );
 
-    //-
-    ~HbyUQHD();
+        //-
+        ~HbyUQHD();
 
-    //-
-    void correct(const QGDThermo&);
+        //-
+        void correct(const QGDThermo&);
 
-private:
+    private:
 
-    //-
-    scalar UQHD_ ;
+        //-
+        scalar UQHD_ ;
 
 };
 

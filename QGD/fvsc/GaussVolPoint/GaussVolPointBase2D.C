@@ -12,7 +12,7 @@
 #include "volPointInterpolation.H"
 
 Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
-:
+    :
     c1_(mesh.neighbour().size(), 0.0),
     c2_(mesh.neighbour().size(), 0.0),
     c3_(mesh.neighbour().size(), 0.0),
@@ -48,15 +48,12 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
         List<scalar> den(mesh.neighbour().size(), 1.0);
         List<vector> v42(mesh.neighbour().size(), vector::one);
         List<vector> v13(mesh.neighbour().size(), vector::one);
-        
         List<List<scalar> > cosa1e(mesh.boundary().size());
         List<List<scalar> > cosa2e(mesh.boundary().size());
         List<List<scalar> > sina1e(mesh.boundary().size());
         List<List<scalar> > sina2e(mesh.boundary().size());
         List<List<scalar> > dene(mesh.boundary().size());
-        
-        label ip1=-1, ic2=-1, ip3=-1, ic4=-1;
-        
+        label ip1 = -1, ic2 = -1, ip3 = -1, ic4 = -1;
         forAll(mesh.geometricD(), iDir)
         {
             if (mesh.geometricD()[iDir] < 1)
@@ -64,6 +61,7 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
                 ie3_ = iDir;
             }
         }
+
         if (ie3_ == 0)
         {
             e1_ = vector(0, 1, 0);
@@ -72,6 +70,7 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
             ie2_ = 2;
             ie3_ = 0;
         }
+
         if (ie3_ == 1)
         {
             e1_ = vector(1, 0, 0);
@@ -80,6 +79,7 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
             ie2_ = 2;
             ie3_ = 1;
         }
+
         if (ie3_ == 2)
         {
             e1_ = vector(1, 0, 0);
@@ -88,14 +88,14 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
             ie2_ = 1;
             ie3_ = 2;
         }
-        
-        forAll(mesh.neighbour(), iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
+
+        forAll(mesh.neighbour(),
+               iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
         {
             ic2 = mesh.neighbour()[iFace]; //cell center for point #2
             ic4 = mesh.owner()[iFace];     //cell center for point #4
-            
             const face& f = mesh.faces()[iFace];
-            #warning "Raise error if number of points on face is not equal to 4"
+#warning "Raise error if number of points on face is not equal to 4"
             forAll(f, ip)
             {
                 if (mesh.points()[f[ip]][ie3_] >= mesh.C()[ic2][ie3_])
@@ -115,40 +115,36 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
                     }
                 }
             }
-            
             ic2_[iFace]  = ic2;
             ic4_[iFace]  = ic4;
             ip3_[iFace]  = ip3;
             ip1_[iFace]  = ip1;
-                         
             v42[iFace]   = mesh.C()[ic2] - mesh.C()[ic4];
             v13[iFace]   = mesh.points()[ip3] - mesh.points()[ip1];
             mv42_[iFace] = mag(v42[iFace]);
             mv13_[iFace] = mag(v13[iFace]);
-                         
-            cosa1[iFace] = (v42[iFace]/mv42_[iFace]) & e1_;
-            cosa2[iFace] = (v13[iFace]/mv13_[iFace]) & e1_;
-            sina1[iFace] = (v42[iFace]/mv42_[iFace]) & e2_;
-            sina2[iFace] = (v13[iFace]/mv13_[iFace]) & e2_;
-                         
-            den[iFace]   = sina2[iFace]*cosa1[iFace] - sina1[iFace]*cosa2[iFace];
+            cosa1[iFace] = (v42[iFace] / mv42_[iFace]) & e1_;
+            cosa2[iFace] = (v13[iFace] / mv13_[iFace]) & e1_;
+            sina1[iFace] = (v42[iFace] / mv42_[iFace]) & e2_;
+            sina2[iFace] = (v13[iFace] / mv13_[iFace]) & e2_;
+            den[iFace]   = sina2[iFace] * cosa1[iFace] - sina1[iFace] * cosa2[iFace];
             c1_[iFace]   = sina2[iFace] / den[iFace];
             c2_[iFace]   = sina1[iFace] / den[iFace];
             c3_[iFace]   = cosa1[iFace] / den[iFace];
             c4_[iFace]   = cosa2[iFace] / den[iFace];
         }
-        
         //Info << "Creating weights" << endl;
         forAll(mesh.boundary(), iPatch)
         {
             label patchId = iPatch;
+
             if (
                 !isA<emptyFvPatch>(mesh.boundary()[patchId])
                 &&
                 !isA<wedgeFvPatch>(mesh.boundary()[patchId])
-                )
+            )
             {
-                if 
+                if
                 (
                     isA<coupledFvPatch>(mesh.boundary()[patchId])
                     &&
@@ -168,6 +164,7 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
                         processorPatch_.append(false);
                     }
                 }
+
                 ordinaryPatches_.append(patchId);
                 List<vector> v42(mesh.boundary()[patchId].size(), vector::one);
                 List<vector> v13(mesh.boundary()[patchId].size(), vector::one);
@@ -185,43 +182,40 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
                 c2e_[patchId].resize(v42.size());
                 c3e_[patchId].resize(v42.size());
                 c4e_[patchId].resize(v42.size());
-                
                 ic4e_[patchId] = mesh.boundary()[patchId].faceCells();
-                
+
                 //set v42 vector centers for point 2 if patch is processor
                 if (isA<processorFvPatch>(mesh.boundary()[patchId]))
                 {
-                    const processorPolyPatch & procPolyPatch = 
+                    const processorPolyPatch& procPolyPatch =
                         refCast<const processorFvPatch>(mesh.boundary()[patchId]).procPolyPatch();
-                    
                     forAll(v42, iFace)
                     {
-                        v42[iFace] = procPolyPatch.neighbFaceCellCentres()[iFace] - 
-                            mesh.C()[ic4e_[patchId][iFace]];
+                        v42[iFace] = procPolyPatch.neighbFaceCellCentres()[iFace] -
+                                     mesh.C()[ic4e_[patchId][iFace]];
                     }
                 }
                 else
                 {
                     forAll(v42, iFace)
                     {
-                        v42[iFace] = 2.0*(mesh.boundary()[patchId].Cf()[iFace] - 
-                            mesh.C()[ic4e_[patchId][iFace]]);
+                        v42[iFace] = 2.0 * (mesh.boundary()[patchId].Cf()[iFace] -
+                                            mesh.C()[ic4e_[patchId][iFace]]);
                     }
                 }
-                
+
                 forAll(mesh.boundary()[patchId], iFace)
                 {
-                    label ip1=-1, ip3=-1, ic4=ic4e_[patchId][iFace];
+                    label ip1 = -1, ip3 = -1, ic4 = ic4e_[patchId][iFace];
                     label globalFaceID = mesh.boundary()[patchId].start() + iFace;
-                    
                     const face& f = mesh.faces()[globalFaceID];
                     forAll(f, ip)
                     {
-                         if (mesh.points()[f[ip]][ie3_] >= mesh.C()[ic4][ie3_])
-                         {
+                        if (mesh.points()[f[ip]][ie3_] >= mesh.C()[ic4][ie3_])
+                        {
                             ip1 = f[ip];
                             break;
-                         }
+                        }
                     }
                     forAll(f, ip)
                     {
@@ -234,24 +228,19 @@ Foam::fvsc::GaussVolPointBase2D::GaussVolPointBase2D(const fvMesh& mesh)
                             }
                         }
                     }
-                    
                     ip3e_[patchId][iFace]  = ip3;
                     ip1e_[patchId][iFace]  = ip1;
                     v13[iFace] = mesh.points()[ip3] - mesh.points()[ip1];
-                    
                     mv42e_[patchId][iFace] = mag(v42[iFace]);
                     mv13e_[patchId][iFace] = mag(v13[iFace]);
-                    
-                    cosa1e[patchId][iFace] = (v42[iFace]/mv42e_[patchId][iFace]) & e1_;
-                    cosa2e[patchId][iFace] = (v13[iFace]/mv13e_[patchId][iFace]) & e1_;
-                    sina1e[patchId][iFace] = (v42[iFace]/mv42e_[patchId][iFace]) & e2_;
-                    sina2e[patchId][iFace] = (v13[iFace]/mv13e_[patchId][iFace]) & e2_;
-                    
-                    dene[patchId][iFace]   = 
-                        sina2e[patchId][iFace]*cosa1e[patchId][iFace]
+                    cosa1e[patchId][iFace] = (v42[iFace] / mv42e_[patchId][iFace]) & e1_;
+                    cosa2e[patchId][iFace] = (v13[iFace] / mv13e_[patchId][iFace]) & e1_;
+                    sina1e[patchId][iFace] = (v42[iFace] / mv42e_[patchId][iFace]) & e2_;
+                    sina2e[patchId][iFace] = (v13[iFace] / mv13e_[patchId][iFace]) & e2_;
+                    dene[patchId][iFace]   =
+                        sina2e[patchId][iFace] * cosa1e[patchId][iFace]
                         -
-                        sina1e[patchId][iFace]*cosa2e[patchId][iFace];
-                    
+                        sina1e[patchId][iFace] * cosa2e[patchId][iFace];
                     c1e_[patchId][iFace]    = sina2e[patchId][iFace] / dene[patchId][iFace];
                     c2e_[patchId][iFace]    = sina1e[patchId][iFace] / dene[patchId][iFace];
                     c3e_[patchId][iFace]    = cosa1e[patchId][iFace] / dene[patchId][iFace];
@@ -268,10 +257,11 @@ Foam::fvsc::GaussVolPointBase2D::~GaussVolPointBase2D()
 }
 
 
-void Foam::fvsc::GaussVolPointBase2D::faceGrad(const volScalarField& f, surfaceVectorField& gradf)
+void Foam::fvsc::GaussVolPointBase2D::faceGrad(const volScalarField& f,
+        surfaceVectorField& gradf)
 {
     scalar dfdn = 0.0, dfdt = 0.0;
-    
+
     if (f.mesh().nGeometricD() == 2)
     {
         pointScalarField pF
@@ -281,66 +271,66 @@ void Foam::fvsc::GaussVolPointBase2D::faceGrad(const volScalarField& f, surfaceV
                 f
             )
         );
-        
-        forAll(f.mesh().neighbour(), iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
+        forAll(f.mesh().neighbour(),
+               iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
         {
             dfdn = (f[ic2_[iFace]] - f[ic4_[iFace]]) / mv42_[iFace];
             //
-            
             // df/dl2 (1-3)
             dfdt = (pF[ip3_[iFace]] - pF[ip1_[iFace]]) / mv13_[iFace];
             //
-            
-            gradf[iFace][ie1_] =  (dfdn*c1_[iFace] - dfdt*c2_[iFace]);
-            gradf[iFace][ie2_] =  (dfdt*c3_[iFace] - dfdn*c4_[iFace]);
+            gradf[iFace][ie1_] =  (dfdn * c1_[iFace] - dfdt * c2_[iFace]);
+            gradf[iFace][ie2_] =  (dfdt * c3_[iFace] - dfdn * c4_[iFace]);
             //gradf[iFace][ie1_] =  (dfdn*sina2_[iFace] - dfdt*sina1_[iFace])/den_[iFace];
             //gradf[iFace][ie2_] =  (dfdt*cosa1_[iFace] - dfdn*cosa2_[iFace])/den_[iFace];
             gradf[iFace][ie3_] = 0.0;
         }
-        
         List<List<scalar> > psi2(f.boundaryField().size());
-        
         forAll(ordinaryPatches_, iPatch)
         {
             label patchId = ordinaryPatches_[iPatch];
+
             if (processorPatch_[iPatch])
             {
                 psi2[patchId] = refCast<const processorFvPatchField<scalar> >
-                    (f.boundaryField()[patchId]).patchNeighbourField();
+                                (f.boundaryField()[patchId]).patchNeighbourField();
             }
             else
             {
-                psi2[patchId] = f.boundaryField()[patchId] + 
-                    f.boundaryField()[patchId].snGrad()
-                    *
-                    mv42e_[patchId]*0.5;
+                psi2[patchId] = f.boundaryField()[patchId] +
+                                f.boundaryField()[patchId].snGrad()
+                                *
+                                mv42e_[patchId] * 0.5;
             }
-            
+
             forAll(f.boundaryField()[patchId], iFace)
             {
                 //dfdn
-                dfdn = (psi2[patchId][iFace] - f[ic4e_[patchId][iFace]]) / mv42e_[patchId][iFace];
-                
+                dfdn = (psi2[patchId][iFace] - f[ic4e_[patchId][iFace]]) /
+                       mv42e_[patchId][iFace];
                 //dfdt
-                dfdt = (pF[ip3e_[patchId][iFace]] - pF[ip1e_[patchId][iFace]]) / mv13e_[patchId][iFace];
-                
-                gradf.boundaryFieldRef()[patchId][iFace][ie1_] = (dfdn*c1e_[patchId][iFace] - dfdt*c2e_[patchId][iFace]);
-                gradf.boundaryFieldRef()[patchId][iFace][ie2_] = (dfdt*c3e_[patchId][iFace] - dfdn*c4e_[patchId][iFace]);
+                dfdt = (pF[ip3e_[patchId][iFace]] - pF[ip1e_[patchId][iFace]]) /
+                       mv13e_[patchId][iFace];
+                gradf.boundaryFieldRef()[patchId][iFace][ie1_] = (dfdn * c1e_[patchId][iFace] -
+                        dfdt * c2e_[patchId][iFace]);
+                gradf.boundaryFieldRef()[patchId][iFace][ie2_] = (dfdt * c3e_[patchId][iFace] -
+                        dfdn * c4e_[patchId][iFace]);
                 gradf.boundaryFieldRef()[patchId][iFace][ie3_] = 0.0;
             }
         }
     }
     else
     {
-        #warning "Raise error if called not for 2D case"
+#warning "Raise error if called not for 2D case"
     }
 };
 
-void Foam::fvsc::GaussVolPointBase2D::faceDiv(const volVectorField& f, surfaceScalarField& divf)
+void Foam::fvsc::GaussVolPointBase2D::faceDiv(const volVectorField& f,
+        surfaceScalarField& divf)
 {
     scalar df1dn = 0.0, df1dt = 0.0,
-        df2dn = 0.0, df2dt = 0.0;
-    
+           df2dn = 0.0, df2dt = 0.0;
+
     if (f.mesh().nGeometricD() == 2)
     {
         pointVectorField pF
@@ -350,75 +340,74 @@ void Foam::fvsc::GaussVolPointBase2D::faceDiv(const volVectorField& f, surfaceSc
                 f
             )
         );
-        
-        forAll(f.mesh().neighbour(), iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
+        forAll(f.mesh().neighbour(),
+               iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
         {
             df1dn = (f[ic2_[iFace]][ie1_] - f[ic4_[iFace]][ie1_]) / mv42_[iFace];
             df2dn = (f[ic2_[iFace]][ie2_] - f[ic4_[iFace]][ie2_]) / mv42_[iFace];
             //
-            
             // df/dl2 (1-3)
             df1dt = (pF[ip3_[iFace]][ie1_] - pF[ip1_[iFace]][ie1_]) / mv13_[iFace];
             df2dt = (pF[ip3_[iFace]][ie2_] - pF[ip1_[iFace]][ie2_]) / mv13_[iFace];
             //
-            
-            divf[iFace] = (df1dn*c1_[iFace] - df1dt*c2_[iFace]) + 
-                (df2dt*c3_[iFace] - df2dn*c4_[iFace]);
+            divf[iFace] = (df1dn * c1_[iFace] - df1dt * c2_[iFace]) +
+                          (df2dt * c3_[iFace] - df2dn * c4_[iFace]);
         }
-        
         List<List<vector> > psi2(f.boundaryField().size());
-        
         forAll(ordinaryPatches_, iPatch)
         {
             label patchId = ordinaryPatches_[iPatch];
+
             if (processorPatch_[iPatch])
             {
                 psi2[patchId] = refCast<const processorFvPatchField<vector> >
-                    (f.boundaryField()[patchId]).patchNeighbourField();
+                                (f.boundaryField()[patchId]).patchNeighbourField();
             }
             else
             {
-                psi2[patchId] = f.boundaryField()[patchId] + 
-                    f.boundaryField()[patchId].snGrad()
-                    *
-                    mv42e_[patchId]*0.5;
+                psi2[patchId] = f.boundaryField()[patchId] +
+                                f.boundaryField()[patchId].snGrad()
+                                *
+                                mv42e_[patchId] * 0.5;
             }
-            
+
             forAll(f.boundaryField()[patchId], iFace)
             {
                 //dfdn
-                df1dn = (psi2[patchId][iFace][ie1_] - f[ic4e_[patchId][iFace]][ie1_]) / mv42e_[patchId][iFace];
-                df2dn = (psi2[patchId][iFace][ie2_] - f[ic4e_[patchId][iFace]][ie2_]) / mv42e_[patchId][iFace];
-                
+                df1dn = (psi2[patchId][iFace][ie1_] - f[ic4e_[patchId][iFace]][ie1_]) /
+                        mv42e_[patchId][iFace];
+                df2dn = (psi2[patchId][iFace][ie2_] - f[ic4e_[patchId][iFace]][ie2_]) /
+                        mv42e_[patchId][iFace];
                 //dfdt
-                df1dt = (pF[ip3e_[patchId][iFace]][ie1_] - pF[ip1e_[patchId][iFace]][ie1_]) / mv13e_[patchId][iFace];
-                df2dt = (pF[ip3e_[patchId][iFace]][ie2_] - pF[ip1e_[patchId][iFace]][ie2_]) / mv13e_[patchId][iFace];
-                
-                divf.boundaryFieldRef()[patchId][iFace] = 
-                    (df1dn*c1e_[patchId][iFace] - df1dt*c2e_[patchId][iFace])
+                df1dt = (pF[ip3e_[patchId][iFace]][ie1_] - pF[ip1e_[patchId][iFace]][ie1_]) /
+                        mv13e_[patchId][iFace];
+                df2dt = (pF[ip3e_[patchId][iFace]][ie2_] - pF[ip1e_[patchId][iFace]][ie2_]) /
+                        mv13e_[patchId][iFace];
+                divf.boundaryFieldRef()[patchId][iFace] =
+                    (df1dn * c1e_[patchId][iFace] - df1dt * c2e_[patchId][iFace])
                     +
-                    (df2dt*c3e_[patchId][iFace] - df2dn*c4e_[patchId][iFace]);
+                    (df2dt * c3e_[patchId][iFace] - df2dn * c4e_[patchId][iFace]);
             }
         }
     }
     else
     {
-        #warning "Raise error if called not for 2D case"
+#warning "Raise error if called not for 2D case"
     }
 };
 
-void Foam::fvsc::GaussVolPointBase2D::faceDiv(const volTensorField& f, surfaceVectorField& divf)
+void Foam::fvsc::GaussVolPointBase2D::faceDiv(const volTensorField& f,
+        surfaceVectorField& divf)
 {
     scalar df11dn = 0.0, df11dt = 0.0,
            df21dn = 0.0, df21dt = 0.0,
            df22dn = 0.0, df22dt = 0.0,
            df12dn = 0.0, df12dt = 0.0;
-    
-    label i11 = ie1_*3 + ie1_;
-    label i21 = ie2_*3 + ie1_;
-    label i22 = ie2_*3 + ie2_;
-    label i12 = ie1_*3 + ie2_;
-    
+    label i11 = ie1_ * 3 + ie1_;
+    label i21 = ie2_ * 3 + ie1_;
+    label i22 = ie2_ * 3 + ie2_;
+    label i12 = ie1_ * 3 + ie2_;
+
     if (f.mesh().nGeometricD() == 2)
     {
         pointTensorField pF
@@ -428,83 +417,80 @@ void Foam::fvsc::GaussVolPointBase2D::faceDiv(const volTensorField& f, surfaceVe
                 f
             )
         );
-        
-        forAll(f.mesh().neighbour(), iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
+        forAll(f.mesh().neighbour(),
+               iFace) //---> for(iFace=0; iFace < mesh_.neighbour().size(); iFace++)
         {
             df11dn = (f[ic2_[iFace]][i11] - f[ic4_[iFace]][i11]) / mv42_[iFace];
             df21dn = (f[ic2_[iFace]][i21] - f[ic4_[iFace]][i21]) / mv42_[iFace];
-            
             // df/dl2 (1-3)
             df11dt = (pF[ip3_[iFace]][i11] - pF[ip1_[iFace]][i11]) / mv13_[iFace];
             df21dt = (pF[ip3_[iFace]][i21] - pF[ip1_[iFace]][i21]) / mv13_[iFace];
-            
-            divf[iFace][ie1_] = 
-                (df11dn*c1_[iFace] - df11dt*c2_[iFace]) + //d/dx
-                (df21dt*c3_[iFace] - df21dn*c4_[iFace]);  //d/dy
-            
+            divf[iFace][ie1_] =
+                (df11dn * c1_[iFace] - df11dt * c2_[iFace]) + //d/dx
+                (df21dt * c3_[iFace] - df21dn * c4_[iFace]); //d/dy
             df22dn = (f[ic2_[iFace]][i22] - f[ic4_[iFace]][i22]) / mv42_[iFace];
             df12dn = (f[ic2_[iFace]][i12] - f[ic4_[iFace]][i12]) / mv42_[iFace];
-            
             // df/dl2 (1-3)
             df22dt = (pF[ip3_[iFace]][i22] - pF[ip1_[iFace]][i22]) / mv13_[iFace];
             df12dt = (pF[ip3_[iFace]][i12] - pF[ip1_[iFace]][i12]) / mv13_[iFace];
-
-            divf[iFace][ie2_] = 
-                (df12dn*c1_[iFace] - df12dt*c2_[iFace]) + //d/dx
-                (df22dt*c3_[iFace] - df22dn*c4_[iFace]);  //d/dy
+            divf[iFace][ie2_] =
+                (df12dn * c1_[iFace] - df12dt * c2_[iFace]) + //d/dx
+                (df22dt * c3_[iFace] - df22dn * c4_[iFace]); //d/dy
         }
-        
         List<List<tensor> > psi2(f.boundaryField().size());
-        
         forAll(ordinaryPatches_, iPatch)
         {
             label patchId = ordinaryPatches_[iPatch];
+
             if (processorPatch_[iPatch])
             {
                 psi2[patchId] = refCast<const processorFvPatchField<tensor> >
-                    (f.boundaryField()[patchId]).patchNeighbourField();
+                                (f.boundaryField()[patchId]).patchNeighbourField();
             }
             else
             {
-                psi2[patchId] = f.boundaryField()[patchId] + 
-                    f.boundaryField()[patchId].snGrad()
-                    *
-                    mv42e_[patchId]*0.5;
+                psi2[patchId] = f.boundaryField()[patchId] +
+                                f.boundaryField()[patchId].snGrad()
+                                *
+                                mv42e_[patchId] * 0.5;
             }
-            
+
             forAll(f.boundaryField()[patchId], iFace)
             {
                 //dfdn
-                df11dn = (psi2[patchId][iFace][i11] - f[ic4e_[patchId][iFace]][i11]) / mv42e_[patchId][iFace];
-                df21dn = (psi2[patchId][iFace][i21] - f[ic4e_[patchId][iFace]][i21]) / mv42e_[patchId][iFace];
-                
+                df11dn = (psi2[patchId][iFace][i11] - f[ic4e_[patchId][iFace]][i11]) /
+                         mv42e_[patchId][iFace];
+                df21dn = (psi2[patchId][iFace][i21] - f[ic4e_[patchId][iFace]][i21]) /
+                         mv42e_[patchId][iFace];
                 //dfdt
-                df11dt = (pF[ip3e_[patchId][iFace]][i11] - pF[ip1e_[patchId][iFace]][i11]) / mv13e_[patchId][iFace];
-                df21dt = (pF[ip3e_[patchId][iFace]][i21] - pF[ip1e_[patchId][iFace]][i21]) / mv13e_[patchId][iFace];
-                
-                divf.boundaryFieldRef()[patchId][iFace][ie1_] = 
-                    (df11dn*c1e_[patchId][iFace] - df11dt*c2e_[patchId][iFace])  //d/dx
+                df11dt = (pF[ip3e_[patchId][iFace]][i11] - pF[ip1e_[patchId][iFace]][i11]) /
+                         mv13e_[patchId][iFace];
+                df21dt = (pF[ip3e_[patchId][iFace]][i21] - pF[ip1e_[patchId][iFace]][i21]) /
+                         mv13e_[patchId][iFace];
+                divf.boundaryFieldRef()[patchId][iFace][ie1_] =
+                    (df11dn * c1e_[patchId][iFace] - df11dt * c2e_[patchId][iFace]) //d/dx
                     +
-                    (df21dt*c3e_[patchId][iFace] - df21dn*c4e_[patchId][iFace]); //d/dy
-                
+                    (df21dt * c3e_[patchId][iFace] - df21dn * c4e_[patchId][iFace]); //d/dy
                 //dfdn
-                df12dn = (psi2[patchId][iFace][i12] - f[ic4e_[patchId][iFace]][i12]) / mv42e_[patchId][iFace];
-                df22dn = (psi2[patchId][iFace][i22] - f[ic4e_[patchId][iFace]][i22]) / mv42e_[patchId][iFace];
-                
+                df12dn = (psi2[patchId][iFace][i12] - f[ic4e_[patchId][iFace]][i12]) /
+                         mv42e_[patchId][iFace];
+                df22dn = (psi2[patchId][iFace][i22] - f[ic4e_[patchId][iFace]][i22]) /
+                         mv42e_[patchId][iFace];
                 //dfdt
-                df12dt = (pF[ip3e_[patchId][iFace]][i12] - pF[ip1e_[patchId][iFace]][i12]) / mv13e_[patchId][iFace];
-                df22dt = (pF[ip3e_[patchId][iFace]][i22] - pF[ip1e_[patchId][iFace]][i22]) / mv13e_[patchId][iFace];
-                
-                divf.boundaryFieldRef()[patchId][iFace][ie2_] = 
-                    (df12dn*c1e_[patchId][iFace] - df12dt*c2e_[patchId][iFace])  //d/dx
+                df12dt = (pF[ip3e_[patchId][iFace]][i12] - pF[ip1e_[patchId][iFace]][i12]) /
+                         mv13e_[patchId][iFace];
+                df22dt = (pF[ip3e_[patchId][iFace]][i22] - pF[ip1e_[patchId][iFace]][i22]) /
+                         mv13e_[patchId][iFace];
+                divf.boundaryFieldRef()[patchId][iFace][ie2_] =
+                    (df12dn * c1e_[patchId][iFace] - df12dt * c2e_[patchId][iFace]) //d/dx
                     +
-                    (df22dt*c3e_[patchId][iFace] - df22dn*c4e_[patchId][iFace]); //d/dy
+                    (df22dt * c3e_[patchId][iFace] - df22dn * c4e_[patchId][iFace]); //d/dy
             }
         }
     }
     else
     {
-        #warning "Raise error if called not for 2D case"
+#warning "Raise error if called not for 2D case"
     }
 }
 

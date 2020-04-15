@@ -22,7 +22,7 @@ License
     for more details.
 
     You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>. 
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 \*---------------------------------------------------------------------------*/
 
@@ -36,13 +36,13 @@ namespace Foam
 {
 namespace qgd
 {
-    defineTypeNameAndDebug(constTau,0);
-    addToRunTimeSelectionTable
-    (
-        QGDCoeffs,
-        constTau,
-        dictionary
-    );
+defineTypeNameAndDebug(constTau, 0);
+addToRunTimeSelectionTable
+(
+    QGDCoeffs,
+    constTau,
+    dictionary
+);
 }
 }
 
@@ -53,26 +53,22 @@ constTau::constTau
     const fvMesh& mesh,
     const dictionary& dict
 )
-:
+    :
     QGDCoeffs(io, mesh, dict),
     tau_(0.0)
 {
     scalar ScQGD = 0.0, PrQGD = 1.0;
-
     ScQGD_.primitiveFieldRef() = ScQGD;
     PrQGD_.primitiveFieldRef() = PrQGD;
     muQGD_.primitiveFieldRef() = 0.0;
     alphauQGD_.primitiveFieldRef() = 0.0;
-
     ScQGD_.boundaryFieldRef() = ScQGD;
     PrQGD_.boundaryFieldRef() = PrQGD;
     muQGD_.boundaryFieldRef() = 0.0;
     alphauQGD_.boundaryFieldRef() = 0.0;
-    
     dict.lookup("Tau") >> tau_;
-
-    this->tauQGD_ = dimensionedScalar("tauQGD",dimTime,tau_);
-    this->tauQGDf_= linearInterpolate(this->tauQGD_);
+    this->tauQGD_ = dimensionedScalar("tauQGD", dimTime, tau_);
+    this->tauQGDf_ = linearInterpolate(this->tauQGD_);
 }
 
 Foam::qgd::

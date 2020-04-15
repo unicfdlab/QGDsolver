@@ -33,21 +33,19 @@ Description
 
 if (adjustTimeStep)
 {
-    scalar maxDeltaTFact = maxCo/(CoNum + SMALL);
-    scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
+    scalar maxDeltaTFact = maxCo / (CoNum + SMALL);
+    scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1 * maxDeltaTFact), 1.2);
     scalar maxDeltaT1 = min(thermo.tauQGDf()()).value();
-    maxDeltaT1 = min(maxDeltaT,maxDeltaT1)*0.75;
-
+    maxDeltaT1 = min(maxDeltaT, maxDeltaT1) * 0.75;
     runTime.setDeltaT
     (
         min
         (
-            deltaTFact*runTime.deltaTValue(),
+            deltaTFact * runTime.deltaTValue(),
             maxDeltaT1
         )
     );
-
-    Info<< "deltaT = " <<  runTime.deltaTValue() << endl;
+    Info << "deltaT = " <<  runTime.deltaTValue() << endl;
 }
 
 // ************************************************************************* //

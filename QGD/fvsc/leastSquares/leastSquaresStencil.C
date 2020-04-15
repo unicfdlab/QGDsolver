@@ -23,7 +23,7 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 #include "leastSquaresStencil.H"
@@ -40,20 +40,20 @@ namespace Foam
 {
 namespace fvsc
 {
-    defineTypeNameAndDebug(leastSquares,0);
-    addToRunTimeSelectionTable
-    (
-        fvscStencil,
-        leastSquares,
-        components
-    );
+defineTypeNameAndDebug(leastSquares, 0);
+addToRunTimeSelectionTable
+(
+    fvscStencil,
+    leastSquares,
+    components
+);
 }
 }
 
 
 // constructors
 Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
-:
+    :
     fvscStencil(io),
     leastSquaresBase(mesh_)
 {
@@ -65,23 +65,18 @@ Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
         IOobject::READ_IF_PRESENT,
         IOobject::NO_WRITE
     );
-    
+
     if (degenerateFacesSet.size() > 0) //.headerOk())
     {
         Info << "Found set with faces for reduced approximation QGD terms" << endl;
-        
         //read list of degenerated faces
-
-    
         const labelList degenerateFaces = degenerateFacesSet.toc();
-        
         labelHashSet intDegFaces;
         List<labelHashSet> procDegFaces (procDegFaces_.size());
-    
         forAll(degenerateFaces, iDegFace)
         {
             label faceId = degenerateFaces[iDegFace];
-    
+
             if (mesh_.isInternalFace(faceId))
             {
                 intDegFaces.insert(faceId);
@@ -98,7 +93,7 @@ Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
                         break;
                     }
                 }
-                
+
                 if (iPatch > -1)
                 {
                     procDegFaces[iPatch].insert
@@ -110,7 +105,6 @@ Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
                 }
             }
         }
-        
         internalDegFaces_.append(intDegFaces.toc());
         forAll(procDegFaces, iProcPair)
         {
@@ -125,7 +119,8 @@ Foam::fvsc::leastSquares::leastSquares(const IOobject& io)
     }
     else
     {
-        Info << "Set \"degenerateStencilFaces\" with faces for reduced approximation QGD terms not found" << endl;
+        Info << "Set \"degenerateStencilFaces\" with faces for reduced approximation QGD terms not found"
+             << endl;
     }
 }
 
@@ -139,56 +134,58 @@ Foam::fvsc::leastSquares::~leastSquares()
 //                 Allowable values: constant reference to the volVectorField.
 //
 // \return         Gradient of iVF (tensor field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::leastSquares::Grad(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::leastSquares::Grad(
+    const volVectorField& iVF)
 {
     surfaceVectorField gradComp0col = Grad(iVF.component(0));
     surfaceVectorField gradComp1col = Grad(iVF.component(1));
     surfaceVectorField gradComp2col = Grad(iVF.component(2));
-
-    tmp<surfaceTensorField> tgradIVF(0* nf_* fvc::snGrad(iVF));
+    tmp<surfaceTensorField> tgradIVF(0 * nf_ * fvc::snGrad(iVF));
     surfaceTensorField& gradIVF = tgradIVF.ref();
-    
     //set internal field
-    gradIVF.primitiveFieldRef().replace(0, gradComp0col.primitiveField().component(0));
-    gradIVF.primitiveFieldRef().replace(1, gradComp1col.primitiveField().component(0));
-    gradIVF.primitiveFieldRef().replace(2, gradComp2col.primitiveField().component(0));
-    
-    gradIVF.primitiveFieldRef().replace(3, gradComp0col.primitiveField().component(1));
-    gradIVF.primitiveFieldRef().replace(4, gradComp1col.primitiveField().component(1));
-    gradIVF.primitiveFieldRef().replace(5, gradComp2col.primitiveField().component(1));
-    
-    gradIVF.primitiveFieldRef().replace(6, gradComp0col.primitiveField().component(2));
-    gradIVF.primitiveFieldRef().replace(7, gradComp1col.primitiveField().component(2));
-    gradIVF.primitiveFieldRef().replace(8, gradComp2col.primitiveField().component(2));
-    
+    gradIVF.primitiveFieldRef().replace(0,
+                                        gradComp0col.primitiveField().component(0));
+    gradIVF.primitiveFieldRef().replace(1,
+                                        gradComp1col.primitiveField().component(0));
+    gradIVF.primitiveFieldRef().replace(2,
+                                        gradComp2col.primitiveField().component(0));
+    gradIVF.primitiveFieldRef().replace(3,
+                                        gradComp0col.primitiveField().component(1));
+    gradIVF.primitiveFieldRef().replace(4,
+                                        gradComp1col.primitiveField().component(1));
+    gradIVF.primitiveFieldRef().replace(5,
+                                        gradComp2col.primitiveField().component(1));
+    gradIVF.primitiveFieldRef().replace(6,
+                                        gradComp0col.primitiveField().component(2));
+    gradIVF.primitiveFieldRef().replace(7,
+                                        gradComp1col.primitiveField().component(2));
+    gradIVF.primitiveFieldRef().replace(8,
+                                        gradComp2col.primitiveField().component(2));
     //set external fields
     forAll(mesh_.boundaryMesh(), patchi)
     {
         forAll(mesh_.boundary()[patchi], facei)
         {
-            gradIVF.boundaryFieldRef()[patchi][facei].component(0) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(0) =
                 gradComp0col.boundaryField()[patchi][facei].component(0);
-            gradIVF.boundaryFieldRef()[patchi][facei].component(1) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(1) =
                 gradComp1col.boundaryField()[patchi][facei].component(0);
-            gradIVF.boundaryFieldRef()[patchi][facei].component(2) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(2) =
                 gradComp2col.boundaryField()[patchi][facei].component(0);
-
-            gradIVF.boundaryFieldRef()[patchi][facei].component(3) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(3) =
                 gradComp0col.boundaryField()[patchi][facei].component(1);
-            gradIVF.boundaryFieldRef()[patchi][facei].component(4) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(4) =
                 gradComp1col.boundaryField()[patchi][facei].component(1);
-            gradIVF.boundaryFieldRef()[patchi][facei].component(5) = 
-                    gradComp2col.boundaryField()[patchi][facei].component(1);
-
-            gradIVF.boundaryFieldRef()[patchi][facei].component(6) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(5) =
+                gradComp2col.boundaryField()[patchi][facei].component(1);
+            gradIVF.boundaryFieldRef()[patchi][facei].component(6) =
                 gradComp0col.boundaryField()[patchi][facei].component(2);
-            gradIVF.boundaryFieldRef()[patchi][facei].component(7) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(7) =
                 gradComp1col.boundaryField()[patchi][facei].component(2);
-            gradIVF.boundaryFieldRef()[patchi][facei].component(8) = 
+            gradIVF.boundaryFieldRef()[patchi][facei].component(8) =
                 gradComp2col.boundaryField()[patchi][facei].component(2);
         }
     }
-
     return tgradIVF;
 };
 
@@ -198,29 +195,26 @@ Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::leastSquares::Grad(const volVect
 //                   Allowable values: constant reference to the volVectorField.
 //
 // \return           Divergence of iVF (scalar field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::leastSquares::Div(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::leastSquares::Div(
+    const volVectorField& iVF)
 {
     surfaceVectorField gradComp0 = Grad(iVF.component(0));
     surfaceVectorField gradComp1 = Grad(iVF.component(1));
     surfaceVectorField gradComp2 = Grad(iVF.component(2));
-
     tmp<surfaceScalarField> tdivIVF(0 * (nf_ & fvc::snGrad(iVF)));
     surfaceScalarField& divIVF = tdivIVF.ref();
-    
     divIVF.primitiveFieldRef() = gradComp0.primitiveField().component(0)
-                               + gradComp1.primitiveField().component(1)
-                               + gradComp2.primitiveField().component(2);
-    
+                                 + gradComp1.primitiveField().component(1)
+                                 + gradComp2.primitiveField().component(2);
     forAll(mesh_.boundary(), patchi)
     {
-        divIVF.boundaryFieldRef()[patchi] = 
+        divIVF.boundaryFieldRef()[patchi] =
             gradComp0.boundaryField()[patchi].component(0)
             +
             gradComp1.boundaryField()[patchi].component(1)
             +
             gradComp2.boundaryField()[patchi].component(2);
     }
-    
     return tdivIVF;
 };
 
@@ -230,44 +224,41 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::leastSquares::Div(const volVecto
 //                   Allowable values: constant reference to the volTensorField.
 //
 // \return           Divergence of iTF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Div(const volTensorField& iTF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::leastSquares::Div(
+    const volTensorField& iTF)
 {
     tmp<surfaceVectorField> gradComp0 (Grad(iTF.component(0)));
     tmp<surfaceVectorField> gradComp1 (Grad(iTF.component(1)));
     tmp<surfaceVectorField> gradComp2 (Grad(iTF.component(2)));
-    
     tmp<surfaceVectorField> gradComp3 (Grad(iTF.component(3)));
     tmp<surfaceVectorField> gradComp4 (Grad(iTF.component(4)));
     tmp<surfaceVectorField> gradComp5 (Grad(iTF.component(5)));
-
     tmp<surfaceVectorField> gradComp6 (Grad(iTF.component(6)));
     tmp<surfaceVectorField> gradComp7 (Grad(iTF.component(7)));
     tmp<surfaceVectorField> gradComp8 (Grad(iTF.component(8)));
-
-    tmp<surfaceScalarField> divComp0 (gradComp0().component(0) + gradComp3().component(1) + gradComp6().component(2));
-    tmp<surfaceScalarField> divComp1 (gradComp1().component(0) + gradComp4().component(1) + gradComp7().component(2));
-    tmp<surfaceScalarField> divComp2 (gradComp2().component(0) + gradComp5().component(1) + gradComp8().component(2));
-
-    tmp<surfaceVectorField> tdivITF(0*nf_*fvc::snGrad(iTF.component(0)));
+    tmp<surfaceScalarField> divComp0 (gradComp0().component(
+                                          0) + gradComp3().component(1) + gradComp6().component(2));
+    tmp<surfaceScalarField> divComp1 (gradComp1().component(
+                                          0) + gradComp4().component(1) + gradComp7().component(2));
+    tmp<surfaceScalarField> divComp2 (gradComp2().component(
+                                          0) + gradComp5().component(1) + gradComp8().component(2));
+    tmp<surfaceVectorField> tdivITF(0 * nf_ * fvc::snGrad(iTF.component(0)));
     surfaceVectorField& divITF = tdivITF.ref();
-    
     divITF.primitiveFieldRef().replace(0, divComp0().primitiveField());
     divITF.primitiveFieldRef().replace(1, divComp1().primitiveField());
     divITF.primitiveFieldRef().replace(2, divComp2().primitiveField());
-    
     forAll(mesh_.boundary(), patchi)
     {
         forAll(mesh_.boundary()[patchi], facei)
         {
-            divITF.boundaryFieldRef()[patchi][facei].component(0) = 
+            divITF.boundaryFieldRef()[patchi][facei].component(0) =
                 divComp0().boundaryField()[patchi][facei];
-            divITF.boundaryFieldRef()[patchi][facei].component(1) = 
+            divITF.boundaryFieldRef()[patchi][facei].component(1) =
                 divComp1().boundaryField()[patchi][facei];
-            divITF.boundaryFieldRef()[patchi][facei].component(2) = 
+            divITF.boundaryFieldRef()[patchi][facei].component(2) =
                 divComp2().boundaryField()[patchi][facei];
         }
     }
-    
     return tdivITF;
 }
 

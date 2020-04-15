@@ -43,21 +43,21 @@ License
 
 namespace Foam
 {
-    defineTypeNameAndDebug(psiQGDThermo, 0);
-    defineRunTimeSelectionTable(psiQGDThermo, fvMesh);
+defineTypeNameAndDebug(psiQGDThermo, 0);
+defineRunTimeSelectionTable(psiQGDThermo, fvMesh);
 }
 
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName)
-:
+    :
     psiThermo(mesh, phaseName),
     QGDThermo(mesh, *this),
     c_
     (
         "thermo:c",
-        qgdCoeffs().hQGD()/mesh.time().deltaT()
+        qgdCoeffs().hQGD() / mesh.time().deltaT()
     ),
     gamma_
     (
@@ -68,14 +68,15 @@ Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName)
     this->read();
 }
 
-Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName, const word& dictName)
-:
+Foam::psiQGDThermo::psiQGDThermo(const fvMesh& mesh, const word& phaseName,
+                                 const word& dictName)
+    :
     psiThermo(mesh, phaseName, dictName),
     QGDThermo(mesh, *this),
     c_
     (
         "thermo:c",
-        qgdCoeffs().hQGD()/mesh.time().deltaT()
+        qgdCoeffs().hQGD() / mesh.time().deltaT()
     ),
     gamma_
     (
@@ -128,7 +129,7 @@ bool Foam::psiQGDThermo::read()
 
     if (!QGDThermo::read())
     {
-      return false;
+        return false;
     }
 
     return true;
@@ -141,22 +142,22 @@ const Foam::volScalarField& Foam::psiQGDThermo::c() const
 
 const Foam::volScalarField& Foam::psiQGDThermo::p() const
 {
-  return psiThermo::p();
+    return psiThermo::p();
 }
 
 Foam::volScalarField& Foam::psiQGDThermo::p()
 {
-  return psiThermo::p();
+    return psiThermo::p();
 }
 
 Foam::tmp<Foam::volScalarField> Foam::psiQGDThermo::rho() const
 {
-  return psiThermo::rho();
+    return psiThermo::rho();
 }
 
 Foam::tmp<Foam::volScalarField> Foam::psiQGDThermo::mu() const
 {
-  return psiThermo::mu();
+    return psiThermo::mu();
 }
 
 // ************************************************************************* //

@@ -52,8 +52,8 @@ SourceFiles
 Class
     Foam::cosVelocityFvPatchVectorField
 Description
-    
-    
+
+
 SourceFiles
     cosVelocityFvPatchVectorField.C
 \*---------------------------------------------------------------------------*/
@@ -75,38 +75,38 @@ namespace Foam
 \*---------------------------------------------------------------------------*/
 
 class cosVelocityFvPatchVectorField
-:
+    :
     public mixedFvPatchVectorField
 {
-protected:
+    protected:
 
-    // Private data
+        // Private data
 
-        //- 
+        //-
         vector A_;
-        
+
         //-
         scalar H_;
-        
+
         //-
         vector Hdirection_;
 
-        //- 
+        //-
         scalar omega0_;
-        
+
         //-
         scalar phi0_;
-        
+
         //-
         scalar minZ_;
 
-public:
+    public:
 
-    //- Runtime type information
-    TypeName("cosVelocity");
+        //- Runtime type information
+        TypeName("cosVelocity");
 
 
-    // Constructors
+        // Constructors
 
         //- Construct from patch and internal field
         cosVelocityFvPatchVectorField
@@ -143,9 +143,9 @@ public:
         virtual tmp<fvPatchVectorField > clone() const
         {
             return tmp<fvPatchVectorField>
-            (
-                new cosVelocityFvPatchVectorField(*this)
-            );
+                   (
+                       new cosVelocityFvPatchVectorField(*this)
+                   );
         }
 
         //- Construct as copy setting internal field reference
@@ -162,13 +162,13 @@ public:
         ) const
         {
             return tmp<fvPatchVectorField>
-            (
-                new cosVelocityFvPatchVectorField(*this, iF)
-            );
+                   (
+                       new cosVelocityFvPatchVectorField(*this, iF)
+                   );
         }
 
 
-    // Member functions
+        // Member functions
 
         // Access
         void setPatchVelocities(vectorField& pV);
@@ -178,10 +178,10 @@ public:
 
         //- Write
         virtual void write(Ostream&) const;
-        
+
         //-
         virtual void autoMap (const fvPatchFieldMapper& );
-        
+
         //-
         virtual void rmap (const fvPatchVectorField& pf, const labelList& ll);
 };

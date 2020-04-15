@@ -23,7 +23,7 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 #include "fvc.H"
@@ -36,19 +36,19 @@ namespace Foam
 {
 namespace fvsc
 {
-    defineTypeNameAndDebug(GaussVolPoint,0);
-    addToRunTimeSelectionTable
-    (
-        fvscStencil,
-        GaussVolPoint,
-        components
-    );
+defineTypeNameAndDebug(GaussVolPoint, 0);
+addToRunTimeSelectionTable
+(
+    fvscStencil,
+    GaussVolPoint,
+    components
+);
 }
 }
 
 // constructors
 Foam::fvsc::GaussVolPoint::GaussVolPoint(const IOobject& io)
-:
+    :
     fvscStencil(io),
     GaussVolPointBase(refCast<const fvMesh>(io.db()))
 {
@@ -64,15 +64,14 @@ Foam::fvsc::GaussVolPoint::~GaussVolPoint()
 //                   Allowable values: constant reference to the volScalarField.
 //
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::GaussVolPoint::Grad(const volScalarField& vF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::GaussVolPoint::Grad(
+    const volScalarField& vF)
 {
     const_cast<volScalarField&>(vF).correctBoundaryConditions();
     tmp<surfaceVectorField> tgradIF(vector::zero * fvc::snGrad(vF));
     //tmp<surfaceVectorField> tgradIF(nf_ * fvc::snGrad(vF));
     surfaceVectorField& gradIf = tgradIF.ref();
-    
     this->faceGrad(vF, gradIf);
-    
     return tgradIF;
 };
 
@@ -82,27 +81,25 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::GaussVolPoint::Grad(const volSca
 //                 Allowable values: constant reference to the volVectorField.
 //
 // \return         Gradient of iVF (tensor field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::GaussVolPoint::Grad(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::GaussVolPoint::Grad(
+    const volVectorField& iVF)
 {
     const_cast<volVectorField&>(iVF).correctBoundaryConditions();
     tmp<surfaceTensorField> tgradIVF(tensor::zero * fvc::snGrad(iVF.component(0)));
     //tmp<surfaceTensorField> tgradIVF(nf_ * fvc::snGrad(iVF));
     surfaceTensorField& gradIVF = tgradIVF.ref();
-    
     this->faceGrad(iVF, gradIVF);
-    
     return tgradIVF;
 };
 
-Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::GaussVolPoint::Div(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::GaussVolPoint::Div(
+    const volVectorField& iVF)
 {
     const_cast<volVectorField&>(iVF).correctBoundaryConditions();
     tmp<surfaceScalarField> tdivIVF(0.0 * fvc::snGrad(iVF.component(0)));
     //tmp<surfaceScalarField> tdivIVF(nf_ & fvc::snGrad(iVF));
     surfaceScalarField& divIVF = tdivIVF.ref();
-    
     this->faceDiv(iVF, divIVF);
-    
     return tdivIVF;
 };
 
@@ -112,15 +109,14 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::GaussVolPoint::Div(const volVect
 //                   Allowable values: constant reference to the volTensorField.
 //
 // \return           Divergence of iTF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::GaussVolPoint::Div(const volTensorField& iTF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::GaussVolPoint::Div(
+    const volTensorField& iTF)
 {
     const_cast<volTensorField&>(iTF).correctBoundaryConditions();
-    tmp<surfaceVectorField> tdivITF(vector::zero*fvc::snGrad(iTF.component(0)));
+    tmp<surfaceVectorField> tdivITF(vector::zero * fvc::snGrad(iTF.component(0)));
     //tmp<surfaceVectorField> tdivITF(nf_*fvc::snGrad(iTF.component(0)));
     surfaceVectorField& divITF = tdivITF.ref();
-
     this->faceDiv(iTF, divITF);
-
     return tdivITF;
 }
 

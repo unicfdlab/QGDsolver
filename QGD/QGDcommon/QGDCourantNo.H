@@ -31,22 +31,19 @@ Description
 
 \*---------------------------------------------------------------------------*/
 
-if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
+if (runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
 {
     surfaceScalarField Unf
     (
         "Unf",
         Uf & mesh.Sf() / mesh.magSf()
     );
-
     surfaceScalarField Cof
     (
         "Cof",
         max(mag(Unf + cf), mag(Unf - cf)) * runTime.deltaT() / hQGDf
     );
-
     CoNum = max(Cof).value();
-
     Info << "Courant Number = " << CoNum << endl;
 }
 

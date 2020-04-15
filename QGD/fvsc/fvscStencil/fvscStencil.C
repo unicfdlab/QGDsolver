@@ -23,7 +23,7 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 #include "fvscStencil.H"
@@ -39,8 +39,8 @@ namespace Foam
 {
 namespace fvsc
 {
-    defineTypeNameAndDebug(fvscStencil, 0);
-    defineRunTimeSelectionTable(fvscStencil, components);
+defineTypeNameAndDebug(fvscStencil, 0);
+defineRunTimeSelectionTable(fvscStencil, components);
 }
 }
 
@@ -57,36 +57,36 @@ autoPtr<fvscStencil> fvscStencil::New
     const fvMesh& mesh
 )
 {
-    Info<< "Selecting finite volume surface calculus stencil type " << fvscType << endl;
-    
+    Info << "Selecting finite volume surface calculus stencil type " << fvscType <<
+         endl;
     componentsConstructorTable::iterator cstrIter =
         componentsConstructorTablePtr_->find(fvscType);
-    
+
     if (cstrIter == componentsConstructorTablePtr_->end())
     {
         FatalErrorIn
         (
             "fvscStencil::New(const word&, const fvMesh&)"
         )   << "Unknown Model type " << fvscType << nl << nl
-        << "Valid model types are:" << nl
-        << componentsConstructorTablePtr_->sortedToc()
-        << exit(FatalError);
+            << "Valid model types are:" << nl
+            << componentsConstructorTablePtr_->sortedToc()
+            << exit(FatalError);
     }
-    
+
     return autoPtr<fvscStencil>
-    (
-        cstrIter()
-        (
-            IOobject
-            (
-                fvscType,
-                mesh.time().timeName(),
-                mesh,
-                IOobject::NO_READ,
-                IOobject::NO_WRITE
-            )
-        )
-    );
+           (
+               cstrIter()
+               (
+                   IOobject
+                   (
+                       fvscType,
+                       mesh.time().timeName(),
+                       mesh,
+                       IOobject::NO_READ,
+                       IOobject::NO_WRITE
+                   )
+               )
+           );
 }
 
 //tmp<fvscStencil> fvscStencil::lookupOrNew
@@ -100,11 +100,11 @@ fvscStencil& fvscStencil::lookupOrNew
     {
         stencils_.append
         (
-            fvscStencil::New(name,mesh)
+            fvscStencil::New(name, mesh)
         );
         stencils_.last().checkIn();
     }
-    
+
     return
         const_cast<fvscStencil&>
         (
@@ -113,7 +113,7 @@ fvscStencil& fvscStencil::lookupOrNew
 }
 //
 fvscStencil::fvscStencil(const IOobject& io)
-:
+    :
     regIOobject(io, false),
     refCount(),
     mesh_(refCast<const fvMesh>(io.db())),

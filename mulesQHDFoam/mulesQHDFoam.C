@@ -57,6 +57,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
+#include "upwind.H"
 #include "CMULES.H"
 #include "EulerDdtScheme.H"
 #include "localEulerDdtScheme.H"
@@ -73,29 +74,24 @@ Description
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    #define NO_CONTROL
-    #include "postProcess.H"
-
-    #include "setRootCase.H"
-    #include "createTime.H"
-    #include "createMesh.H"
-    #include "createFields.H"
-    #include "createFaceFields.H"
-    #include "createFaceFluxes.H"
-    #include "createTimeControls.H"
-
+#define NO_CONTROL
+#include "postProcess.H"
+#include "setRootCase.H"
+#include "createTime.H"
+#include "createMesh.H"
+#include "createFields.H"
+#include "createFaceFields.H"
+#include "createFaceFluxes.H"
+#include "createTimeControls.H"
     pimpleControl pimple(mesh);
-
     turbulence->validate();
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
     // Courant numbers used to adjust the time-step
     scalar CoNum = 0.0;
     scalar meanCoNum = 0.0;
-
-    Info<< "\nStarting time loop\n" << endl;
+    Info << "\nStarting time loop\n" << endl;
 
     while (runTime.run())
     {
@@ -104,131 +100,55 @@ int main(int argc, char *argv[])
          * Update fields
          *
          */
-        #include "updateFields.H"
-
+#include "updateFields.H"
         /*
          *
          * Update fluxes
          *
          */
-       #include "updateFluxes.H"
-
+#include "updateFluxes.H"
         /*
          *
          * Update time step
          *
          */
-        #include "readTimeControls.H"
-        #include "QHDCourantNo.H"
-        #include "setDeltaT-QGDQHD.H"
-
+#include "readTimeControls.H"
+#include "QHDCourantNo.H"
+#include "setDeltaT-QGDQHD.H"
         runTime++;
-
-        Info<< "Time = " << runTime.timeName() << nl << endl;
-
+        Info << "Time = " << runTime.timeName() << nl << endl;
         // --- Store old time values
         U.oldTime();
         T.oldTime();
         turbulence->correct();
-        //Continuity equation
-	
-        while (pimple.correctNonOrthogonal())
-        {
-                // Pressure corrector
-
-            fvScalarMatrix pEqn
-            (
-                 fvc::div(phiu)
-	        -fvc::div(phiwo)
-                -fvm::laplacian(taubyrhof,p)
-            );
-	    
-            pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-            pEqn.solve();
-
-                if (pimple.finalNonOrthogonalIter())
-                {
-                    phi = phiu - phiwo + pEqn.flux();
-                }
-        }
-        
-        gradPf = fvsc::grad(p);
-        
-        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
-        
-        phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
-
-        // --- Solve U
-        if (implicitDiffusion)
-        {
-            solve
-            (
-                fvm::ddt(U)
-                +
-                fvc::div(phiUf)
-                -
-                fvm::laplacian(muf/rhof,U)
-                -
-                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-                ==
-                -
-                fvc::grad(p)/rho
-                +
-                BdFrc
-            );
-        }
-        else
-        {
-            solve
-            (
-                fvm::ddt(U)
-                +
-                fvc::div(phiUf)
-                -
-                fvc::laplacian(muf/rhof,U)
-                -
-                fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-                ==
-                -
-                fvc::grad(p)/rho
-                +
-                BdFrc
-            );
-        }
-
-	
-        phiTf = phi * Tf;
-
+#include "QHDpEqn.H"
+#include "QHDUEqn.H"
+        phiTf = qgdFlux(phi, T, Tf);
         // --- Solve T
-        #include "alphaControls.H"
-        #include "MULESTEqn.H"
-
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
-
-        if (runTime.outputTime())
         {
-            thermo.tauQGD().write();
+            volScalarField& alpha1 = T;
+#include "alphaControls.H"
+#include "MULESTEqn.H"
         }
-	
 
         if (p.needReference())
         {
             p += dimensionedScalar
-            (
-                "p",
-                p.dimensions(),
-                pRefValue - getRefCellValue(p, pRefCell)
-            );
-//            p_rgh = p - rho * (1-beta*T) * gh;
+                 (
+                     "p",
+                     p.dimensions(),
+                     pRefValue - getRefCellValue(p, pRefCell)
+                 );
+            //            p_rgh = p - rho * (1-beta*T) * gh;
         }
-    }
-    
-    Info<< "End\n" << endl;
-    
 
+        runTime.write();
+        Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+             << nl << endl;
+    }
+
+    Info << "End\n" << endl;
     return 0;
 }
 // ************************************************************************* //

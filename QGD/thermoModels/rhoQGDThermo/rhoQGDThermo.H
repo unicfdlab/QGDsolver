@@ -53,13 +53,13 @@ namespace Foam
 \*---------------------------------------------------------------------------*/
 
 class rhoQGDThermo
-:
+    :
     public rhoThermo, public QGDThermo
 {
 
-protected:
+    protected:
 
-    // Protected Member Functions
+        // Protected Member Functions
 
         //- Construct as copy (not implemented)
         rhoQGDThermo(const rhoQGDThermo&);
@@ -71,24 +71,24 @@ protected:
         volScalarField gamma_;
 
 
-public:
+    public:
 
-    //- Runtime type information
-    TypeName("rhoQGDThermo");
-
-
-    //- Declare run-time constructor selection table
-    declareRunTimeSelectionTable
-    (
-        autoPtr,
-        rhoQGDThermo,
-        fvMesh,
-        (const fvMesh& mesh, const word& phaseName),
-        (mesh, phaseName)
-    );
+        //- Runtime type information
+        TypeName("rhoQGDThermo");
 
 
-    // Constructors
+        //- Declare run-time constructor selection table
+        declareRunTimeSelectionTable
+        (
+            autoPtr,
+            rhoQGDThermo,
+            fvMesh,
+            (const fvMesh& mesh, const word& phaseName),
+            (mesh, phaseName)
+        );
+
+
+        // Constructors
 
         //- Construct from mesh and phase name
         rhoQGDThermo
@@ -105,45 +105,45 @@ public:
             const word& dictName
         );
 
-    //- Selector
-    static autoPtr<rhoQGDThermo> New
-    (
-        const fvMesh& mesh,
-        const word& phaseName=word::null
-    );
+        //- Selector
+        static autoPtr<rhoQGDThermo> New
+        (
+            const fvMesh& mesh,
+            const word& phaseName = word::null
+        );
 
-    //- Selector
-    static autoPtr<rhoQGDThermo> New
-    (
-        const fvMesh& mesh,
-        const word& phaseName,
-        const word& dictName
-    );
-
-
-    //- Destructor
-    virtual ~rhoQGDThermo();
+        //- Selector
+        static autoPtr<rhoQGDThermo> New
+        (
+            const fvMesh& mesh,
+            const word& phaseName,
+            const word& dictName
+        );
 
 
-    // Member functions
+        //- Destructor
+        virtual ~rhoQGDThermo();
 
-    //-
-    bool read();
 
-    //-
-    const volScalarField& c() const;
+        // Member functions
 
-    //-
-    virtual const volScalarField& p() const;
+        //-
+        bool read();
 
-    //-
-    volScalarField& p();
+        //-
+        const volScalarField& c() const;
 
-    //-
-    virtual tmp<volScalarField> rho() const;
+        //-
+        virtual const volScalarField& p() const;
 
-    //-
-    virtual tmp<volScalarField> mu() const;
+        //-
+        volScalarField& p();
+
+        //-
+        virtual tmp<volScalarField> rho() const;
+
+        //-
+        virtual tmp<volScalarField> mu() const;
 };
 
 

@@ -54,13 +54,13 @@ namespace Foam
 \*---------------------------------------------------------------------------*/
 
 class psiQGDThermo
-:
+    :
     public psiThermo, public QGDThermo
 {
 
-protected:
+    protected:
 
-    // Protected Member Functions
+        // Protected Member Functions
 
         //- Construct as copy (not implemented)
         psiQGDThermo(const psiQGDThermo&);
@@ -71,24 +71,24 @@ protected:
         //-
         volScalarField gamma_;
 
-public:
+    public:
 
-    //- Runtime type information
-    TypeName("psiQGDThermo");
-
-
-    //- Declare run-time constructor selection table
-    declareRunTimeSelectionTable
-    (
-        autoPtr,
-        psiQGDThermo,
-        fvMesh,
-        (const fvMesh& mesh, const word& phaseName),
-        (mesh, phaseName)
-    );
+        //- Runtime type information
+        TypeName("psiQGDThermo");
 
 
-    // Constructors
+        //- Declare run-time constructor selection table
+        declareRunTimeSelectionTable
+        (
+            autoPtr,
+            psiQGDThermo,
+            fvMesh,
+            (const fvMesh& mesh, const word& phaseName),
+            (mesh, phaseName)
+        );
+
+
+        // Constructors
 
         //- Construct from mesh and phase name
         psiQGDThermo
@@ -106,44 +106,44 @@ public:
         );
 
 
-    //- Selector
-    static autoPtr<psiQGDThermo> New
-    (
-        const fvMesh& mesh,
-        const word& phaseName=word::null
-    );
+        //- Selector
+        static autoPtr<psiQGDThermo> New
+        (
+            const fvMesh& mesh,
+            const word& phaseName = word::null
+        );
 
-    //- Selector
-    static autoPtr<psiQGDThermo> New
-    (
-        const fvMesh& mesh,
-        const word& phaseName,
-        const word& dictName
-    );
+        //- Selector
+        static autoPtr<psiQGDThermo> New
+        (
+            const fvMesh& mesh,
+            const word& phaseName,
+            const word& dictName
+        );
 
-    //- Destructor
-    virtual ~psiQGDThermo();
+        //- Destructor
+        virtual ~psiQGDThermo();
 
 
-    // Member functions
+        // Member functions
 
-    //-
-    bool read();
+        //-
+        bool read();
 
-    //-
-    const volScalarField& c() const;
+        //-
+        const volScalarField& c() const;
 
-    //-
-    virtual const volScalarField& p() const;
+        //-
+        virtual const volScalarField& p() const;
 
-    //-
-    volScalarField& p();
+        //-
+        volScalarField& p();
 
-    //-
-    virtual tmp<volScalarField> rho() const;
+        //-
+        virtual tmp<volScalarField> rho() const;
 
-    //-
-    virtual tmp<volScalarField> mu() const;
+        //-
+        virtual tmp<volScalarField> mu() const;
 };
 
 

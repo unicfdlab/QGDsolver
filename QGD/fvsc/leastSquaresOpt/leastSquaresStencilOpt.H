@@ -64,15 +64,17 @@ namespace fvsc
 \*---------------------------------------------------------------------------*/
 
 class leastSquaresOpt
-:
+    :
     public fvscStencil, public leastSquaresBase
 {
 
-protected:
+    protected:
 
-        void faceScalarDer(const Field<scalar>& iF,const Field<scalar>& sF,int com, surfaceScalarField& rField);
-        void faceScalarDer(const tmp<Field<scalar>>& tiF,const tmp<Field<scalar>>& tsF, int com, tmp<surfaceScalarField>& trField);
-        
+        void faceScalarDer(const Field<scalar>& iF, const Field<scalar>& sF, int com,
+                           surfaceScalarField& rField);
+        void faceScalarDer(const tmp<Field<scalar>>& tiF, const tmp<Field<scalar>>& tsF,
+                           int com, tmp<surfaceScalarField>& trField);
+
         void faceScalarDer
         (
             const List3<scalar>& procVfValues,
@@ -80,7 +82,7 @@ protected:
             int derComp,
             surfaceScalarField& rField
         );
-        
+
         void faceScalarDer
         (
             const tmp<List3<scalar>>& tprocVfValues,
@@ -89,31 +91,33 @@ protected:
             tmp<surfaceScalarField>& trField
         );
 
-        #include "extendedFaceStencilFormVfValues.H"
+#include "extendedFaceStencilFormVfValues.H"
 
-public:
+    public:
 
         TypeName ("leastSquaresOpt");
 
-// Constructors
+        // Constructors
 
         //- Construct from IOobject. Optional flag for if IOobject is the
         //  top level regIOobject.
         leastSquaresOpt(const IOobject&);
-        
+
         //- Destructor
         ~leastSquaresOpt();
 
         tmp<surfaceVectorField> Grad(const volScalarField& iF);
-        tmp<surfaceVectorField> Grad(const volScalarField& iF, const surfaceScalarField&);
+        tmp<surfaceVectorField> Grad(const volScalarField& iF,
+                                     const surfaceScalarField&);
 
         tmp<surfaceTensorField> Grad(const volVectorField& iVF);
-        tmp<surfaceTensorField> Grad(const volVectorField& iVF, const surfaceVectorField&);
+        tmp<surfaceTensorField> Grad(const volVectorField& iVF,
+                                     const surfaceVectorField&);
 
         tmp<surfaceScalarField> Div(const volVectorField& iVF);
 
         tmp<surfaceVectorField> Div(const volTensorField& iTF);
-        
+
 };
 
 } //fvsc

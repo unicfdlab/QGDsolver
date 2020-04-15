@@ -46,12 +46,12 @@ inline Foam::powerLawTransport<Thermo>::powerLawTransport
     const scalar kk,
     const scalar Pr
 )
-:
+    :
     Thermo(t),
     mu0_(mu0),
     T0_(T0),
     k_(kk),
-    rPr_(1.0/Pr)
+    rPr_(1.0 / Pr)
 {}
 
 
@@ -61,7 +61,7 @@ inline Foam::powerLawTransport<Thermo>::powerLawTransport
     const word& name,
     const powerLawTransport& ct
 )
-:
+    :
     Thermo(name, ct),
     mu0_(ct.mu0_),
     T0_(ct.T0_),
@@ -75,9 +75,9 @@ inline Foam::autoPtr<Foam::powerLawTransport<Thermo> >
 Foam::powerLawTransport<Thermo>::clone() const
 {
     return autoPtr<powerLawTransport<Thermo> >
-    (
-        new powerLawTransport<Thermo>(*this)
-    );
+           (
+               new powerLawTransport<Thermo>(*this)
+           );
 }
 
 
@@ -89,9 +89,9 @@ Foam::powerLawTransport<Thermo>::New
 )
 {
     return autoPtr<powerLawTransport<Thermo> >
-    (
-        new powerLawTransport<Thermo>(is)
-    );
+           (
+               new powerLawTransport<Thermo>(is)
+           );
 }
 
 
@@ -103,9 +103,9 @@ Foam::powerLawTransport<Thermo>::New
 )
 {
     return autoPtr<powerLawTransport<Thermo> >
-    (
-        new powerLawTransport<Thermo>(dict)
-    );
+           (
+               new powerLawTransport<Thermo>(dict)
+           );
 }
 
 
@@ -129,7 +129,7 @@ inline Foam::scalar Foam::powerLawTransport<Thermo>::kappa
     const scalar T
 ) const
 {
-    return this->Cp(p, T)*mu(p, T)*rPr_;
+    return this->Cp(p, T) * mu(p, T) * rPr_;
 }
 
 
@@ -140,25 +140,24 @@ inline Foam::scalar Foam::powerLawTransport<Thermo>::alphah
     const scalar T
 ) const
 {
-    return mu(p, T)*rPr_;
+    return mu(p, T) * rPr_;
 }
 
 
 // * * * * * * * * * * * * * * * Member Operators  * * * * * * * * * * * * * //
 
 template<class Thermo>
-inline Foam::powerLawTransport<Thermo>& Foam::powerLawTransport<Thermo>::operator=
+inline Foam::powerLawTransport<Thermo>&
+Foam::powerLawTransport<Thermo>::operator=
 (
     const powerLawTransport<Thermo>& ct
 )
 {
     Thermo::operator=(ct);
-
     mu0_ = ct.mu0_;
     T0_ = ct.T0_;
     k_ = ct.k_;
     rPr_ = ct.rPr_;
-
     return *this;
 }
 
@@ -170,15 +169,13 @@ inline void Foam::powerLawTransport<Thermo>::operator+=
 )
 {
     scalar molr1 = this->nMoles();
-
     Thermo::operator+=(st);
 
     if (mag(molr1) + mag(st.nMoles()) > SMALL)
     {
         molr1 /= this->nMoles();
-        scalar molr2 = st.nMoles()/this->nMoles();
-
-        rPr_ = 1.0/(molr1/rPr_ + molr2/st.rPr_);
+        scalar molr2 = st.nMoles() / this->nMoles();
+        rPr_ = 1.0 / (molr1 / rPr_ + molr2 / st.rPr_);
     }
 }
 
@@ -190,15 +187,13 @@ inline void Foam::powerLawTransport<Thermo>::operator-=
 )
 {
     scalar molr1 = this->nMoles();
-
     Thermo::operator-=(st);
 
     if (mag(molr1) + mag(st.nMoles()) > SMALL)
     {
         molr1 /= this->nMoles();
-        scalar molr2 = st.nMoles()/this->nMoles();
-
-        rPr_ = 1.0/(molr1/rPr_ - molr2/st.rPr_);
+        scalar molr2 = st.nMoles() / this->nMoles();
+        rPr_ = 1.0 / (molr1 / rPr_ - molr2 / st.rPr_);
     }
 }
 

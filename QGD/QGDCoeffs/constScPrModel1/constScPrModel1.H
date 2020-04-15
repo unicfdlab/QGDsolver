@@ -56,24 +56,24 @@ namespace qgd
 class constScPrModel1 : public QGDCoeffs
 {
 
-public:
+    public:
 
-    //-
-    TypeName ("constScPrModel1");
+        //-
+        TypeName ("constScPrModel1");
 
-    //-
-    constScPrModel1
-    (
-        const IOobject& io,
-        const fvMesh& mesh,
-        const dictionary& dict
-    );
+        //-
+        constScPrModel1
+        (
+            const IOobject& io,
+            const fvMesh& mesh,
+            const dictionary& dict
+        );
 
-    //-
-    ~constScPrModel1();
+        //-
+        ~constScPrModel1();
 
-    //-
-    void correct(const QGDThermo&);
+        //-
+        void correct(const QGDThermo&);
 
 };
 

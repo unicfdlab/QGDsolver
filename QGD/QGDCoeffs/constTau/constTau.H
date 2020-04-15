@@ -28,7 +28,7 @@ Class
     constTau
 
 Description
-    
+
     Class for case constant and uniform \tau distribution
 
 
@@ -54,31 +54,31 @@ namespace qgd
 class constTau : public QGDCoeffs
 {
 
-    //-
-    scalar tau_;
+        //-
+        scalar tau_;
 
-public:
+    public:
 
-    //-
-    TypeName ("constTau");
+        //-
+        TypeName ("constTau");
 
-    //-
-    constTau
-    (
-        const IOobject& io,
-        const fvMesh& mesh,
-        const dictionary& dict
-    );
+        //-
+        constTau
+        (
+            const IOobject& io,
+            const fvMesh& mesh,
+            const dictionary& dict
+        );
 
-    //-
-    ~constTau();
+        //-
+        ~constTau();
 
-    //-
-    void correct(const QGDThermo&);
+        //-
+        void correct(const QGDThermo&);
 
-private:
+    private:
 
-    //-
+        //-
 
 };
 

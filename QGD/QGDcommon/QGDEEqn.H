@@ -31,41 +31,45 @@ source file:
 
 \*----------------------------------------------------------------------------*/
 
-    fvScalarMatrix EEqn
-    (
-        fvm::ddt(rhoE)
-      + fvc::div(phiJmH)
-      + fvc::div(phiQ)
-      - fvc::div(phiPiU)
-      - fvc::div(phiSigmaDotU)
-      ==
-      fvOptions(rhoE)
+fvScalarMatrix EEqn
+(
+    fvm::ddt(rhoE)
+    + fvc::div(phiJmH)
+    + fvc::div(phiQ)
+    - fvc::div(phiPiU)
+    - fvc::div(phiSigmaDotU)
     );
-    
-    fvOptions.constrain(EEqn);
-    
-    EEqn.solve();
-    
-    // Correct energy
-    e = rhoE/rho - 0.5*magSqr(U);
-    e.correctBoundaryConditions();
-    
-    fvOptions.correct(e);
-    
-    // Solve diffusive QGD & NS part
-    if (implicitDiffusion)
-    {
-        solve
-        (
-            fvm::ddt(rho, e) - fvc::ddt(rho,e)
-          - fvm::laplacian(alphauf, e)
-        );
-        
-        rhoE = rho*(e + 0.5*magSqr(U));
-    }
-    
-    rhoE.boundaryFieldRef() == rho.boundaryField()*
-        (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
+
+EEqn.solve();
+
+// Correct energy
+e = rhoE / rho - 0.5 * magSqr(U);
+e.correctBoundaryConditions();
+
+// Solve diffusive QGD & NS part
+if (implicitDiffusion)
+{
+    solve
+    (
+        fvm::ddt(rho, e) - fvc::ddt(rho, e)
+        - fvm::laplacian(alphauf, e)
+        ==
+        rhoESu
+    );
+    rhoE = rho * (e + 0.5 * magSqr(U));
+}
+else
+{
+    solve
+    (
+        fvm::ddt(rho, e) - fvc::ddt(rhoE)
+        ==
+        rhoESu
+    );
+}
+
+rhoE.boundaryFieldRef() == rho.boundaryField()*
+(e.boundaryField() + 0.5 * magSqr(U.boundaryField()));
 //
 //END-OF-FILE
 //

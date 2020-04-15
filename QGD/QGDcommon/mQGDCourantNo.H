@@ -31,7 +31,7 @@ Description
     Calculates the maximum mass flux based Courant Number.
 
 \*---------------------------------------------------------------------------*/
-if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
+if (runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
 {
     if (mesh.nInternalFaces())
     {
@@ -40,10 +40,9 @@ if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
             fvc::surfaceSum(mag(phiJm))().primitiveField()
             / rho.primitiveField()
         );
-        
-         CoNum = 0.5*gMax(sumPhi/mesh.V().field())*runTime.deltaTValue();
+        CoNum = 0.5 * gMax(sumPhi / mesh.V().field()) * runTime.deltaTValue();
     }
-    
+
     Info << "Courant Number = " << CoNum << endl;
 }
 

@@ -23,7 +23,7 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-    
+
 \*---------------------------------------------------------------------------*/
 
 
@@ -36,19 +36,19 @@ namespace Foam
 {
 namespace fvsc
 {
-    defineTypeNameAndDebug(reduced,0);
-    addToRunTimeSelectionTable
-    (
-        fvscStencil,
-        reduced,
-        components
-    );
+defineTypeNameAndDebug(reduced, 0);
+addToRunTimeSelectionTable
+(
+    fvscStencil,
+    reduced,
+    components
+);
 }
 }
 
 // constructors
 Foam::fvsc::reduced::reduced(const IOobject& io)
-:
+    :
     fvscStencil(io)
 {
 }
@@ -63,10 +63,10 @@ Foam::fvsc::reduced::~reduced()
 //                   Allowable values: constant reference to the volScalarField.
 //
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarField& vF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(
+    const volScalarField& vF)
 {
     tmp<surfaceVectorField> tgradIF(nf_ * fvc::snGrad(vF));
-    
     return tgradIF;
 };
 
@@ -76,18 +76,17 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarFie
 //                 Allowable values: constant reference to the volVectorField.
 //
 // \return         Gradient of iVF (tensor field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::reduced::Grad(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::reduced::Grad(
+    const volVectorField& iVF)
 {
-
     tmp<surfaceTensorField> tgradIVF(nf_ * fvc::snGrad(iVF));
-
     return tgradIVF;
 };
 
-Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(const volVectorField& iVF)
+Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(
+    const volVectorField& iVF)
 {
     tmp<surfaceScalarField> tdivIVF(nf_ & fvc::snGrad(iVF));
-    
     return tdivIVF;
 };
 
@@ -97,10 +96,10 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(const volVectorFiel
 //                   Allowable values: constant reference to the volTensorField.
 //
 // \return           Divergence of iTF (vector field) which was computed on the faces of mesh.
-Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Div(const volTensorField& iTF)
+Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Div(
+    const volTensorField& iTF)
 {
     tmp<surfaceVectorField> tdivITF(nf_ & fvc::snGrad(iTF));
-    
     return tdivITF;
 }
 
