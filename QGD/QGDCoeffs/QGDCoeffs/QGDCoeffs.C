@@ -36,6 +36,8 @@ License
 #include "QGDThermo.H"
 #include "linear.H"
 #include "emptyFvPatch.H"
+#include "wedgeFvPatch.H"
+#include "zeroGradientFvPatchFields.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
@@ -61,10 +63,10 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
 )
 {
     Info<< "Selecting QGD coeffs evaluation approach type " << qgdCoeffsType << endl;
-
+    
     dictionaryConstructorTable::iterator cstrIter =
         dictionaryConstructorTablePtr_->find(qgdCoeffsType);
-
+    
     if (cstrIter == dictionaryConstructorTablePtr_->end())
     {
         FatalErrorIn
@@ -75,7 +77,27 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
         << dictionaryConstructorTablePtr_->sortedToc()
         << exit(FatalError);
     }
-
+    
+    if (dict.found(qgdCoeffsType + "Dict"))
+    {
+        return autoPtr<QGDCoeffs>
+        (
+            cstrIter()
+            (
+                IOobject
+                (
+                    qgdCoeffsType,
+                    mesh.time().timeName(),
+                    mesh,
+                    IOobject::NO_READ,
+                    IOobject::NO_WRITE
+                ),
+                mesh,
+                dict.subDict(qgdCoeffsType + "Dict")
+            )
+         );
+    }
+    
     return autoPtr<QGDCoeffs>
     (
         cstrIter()
@@ -89,9 +111,52 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
                 IOobject::NO_WRITE
             ),
             mesh,
-            dict.subDict(qgdCoeffsType + "Dict")
+            dict
         )
     );
+}
+
+tmp<volScalarField> QGDCoeffs::readOrCreateAlphaQGD(const fvMesh& mesh)
+{
+    IOobject aQGDHeader
+    (
+        "alphaQGD",
+        mesh.time().timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::NO_WRITE
+    );
+    
+    if (aQGDHeader.typeHeaderOk<volScalarField>())
+    {
+        aQGDHeader.writeOpt() = IOobject::AUTO_WRITE;
+        
+        return
+        tmp<volScalarField>
+        (
+            new volScalarField
+            (
+                aQGDHeader,
+                mesh
+            )
+        );
+    }
+    
+    tmp<volScalarField> newAlphaQGD
+    (
+        new volScalarField
+        (
+            aQGDHeader,
+            mesh,
+            dimensionSet(0, 0, 0, 0, 0),
+            zeroGradientFvPatchScalarField::typeName
+        )
+    );
+    
+    newAlphaQGD.ref().primitiveFieldRef() = 0.5;
+    newAlphaQGD.ref().correctBoundaryConditions();
+    
+    return newAlphaQGD;
 }
 
 //
@@ -145,23 +210,11 @@ QGDCoeffs::QGDCoeffs(const IOobject& io, const fvMesh& mesh, const dictionary& d
         mesh,
         hQGDf_.dimensions()
     ),
-    aQGD_
+    taQGD_
     (
-        IOobject
-        (
-            "alphaQGD",
-            mesh.time().timeName(),
-            mesh,
-            IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
-        ),
-        mesh
+        readOrCreateAlphaQGD(mesh)
     ),
-    aQGDf_
-    (
-        "aQGDf",
-        linearInterpolate(aQGD_)
-    ),
+    aQGD_(taQGD_.ref()),
     tauQGD_
     (
         IOobject
@@ -223,7 +276,6 @@ void Foam::qgd::QGDCoeffs::correct(const QGDThermo& qgdThermo)
         alphauQGD_.primitiveFieldRef()[celli] = 0.0;
         ScQGD_.primitiveFieldRef()[celli] = 1.0;
         PrQGD_.primitiveFieldRef()[celli] = 1.0;
-	aQGD_.primitiveFieldRef()[celli] = 0.0;
     }
     forAll(tauQGD_.boundaryField(), patchi)
     {
@@ -239,8 +291,6 @@ void Foam::qgd::QGDCoeffs::correct(const QGDThermo& qgdThermo)
                 1.0;
             ScQGD_.boundaryFieldRef()[patchi][facei] =
                 1.0;
-	    aQGD_.boundaryFieldRef()[patchi][facei] = 
-		0.0;
         }
     }
 }
@@ -291,7 +341,12 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
                 pid = mesh.boundaryMesh().whichPatch(fid);
                 if (pid >= 0)
                 {
-                    if (!isA<emptyFvPatch>(mesh.boundary()[pid]))
+                    if 
+                    (
+                        !isA<emptyFvPatch>(mesh.boundary()[pid])
+                        &&
+                        !isA<wedgeFvPatch>(mesh.boundary()[pid])
+                    )
                     {
                         pfid = mesh.boundaryMesh()[pid].whichFace(fid);
 
@@ -308,7 +363,12 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
 
     forAll(mesh.boundary(), patchi)
     {
-        if (!isA<emptyFvPatch>(mesh.boundary()[patchi]))
+        if 
+        (
+        !isA<emptyFvPatch>(mesh.boundary()[patchi])
+        //&&
+        //!isA<wedgeFvPatch>(mesh.boundary()[patchi])
+        )
         {
             hQGD_.boundaryFieldRef()[patchi] = hQGDf_.boundaryField()[patchi] * 1.0;
         }
@@ -344,17 +404,6 @@ const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::tauQGDf() const
 {
     return tauQGDf_;
 }
-
-const Foam::volScalarField& Foam::qgd::QGDCoeffs::aQGD() const
-{ 
-    return aQGD_;
-}
-
-const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::aQGDf() const
-{
-    return aQGDf_;
-}
-
 
 }; //namespace qgd
 

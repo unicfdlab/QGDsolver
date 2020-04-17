@@ -149,7 +149,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
         procWf2_.resize(nProcPatches_);
         neigProcs_.resize(nProcPatches_);
         
-        labelHashTable<HashSet<label> > locPointProcs;
+        labelHashTable<labelHashSet> locPointProcs;
         forAll(procPairs_, iProcPair)
         {
             const label iProcPatchId = procPairs_[iProcPair];
@@ -176,7 +176,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                 forAll(pp, facei)
                 {
                     labelList& faceCells = myProcPatchCells_[iProcPatch][facei];
-                    HashSet<label> vCells;
+                    labelHashSet vCells;
                     forAll(pp[facei], pointi)
                     {
                         pointId = pp[facei][pointi];
@@ -191,7 +191,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                         }
                         else
                         {
-                            locPointProcs.insert(gPointId, HashSet<label>());
+                            locPointProcs.insert(gPointId, labelHashSet());
                             locPointProcs[gPointId].insert(neigProcs_[iProcPatch]);
                         }
                     }
@@ -210,7 +210,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
         //Pout << "Addressing for patch neigbours created" << endl;
         
         {
-            PstreamBuffers pBuffers (Pstream::nonBlocking);
+            PstreamBuffers pBuffers (Pstream::commsTypes::nonBlocking);
             
             //Set and send
             forAll(myProcPatchCells_, iProcPatch)
@@ -228,16 +228,6 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                     
                     UOPstream oProcStr(neigProcs_[iProcPatch], pBuffers);
                     oProcStr << neiStart_[iProcPatch];
-                
-                    //OPstream::write
-                    //(
-                    //    Pstream::scheduled,
-                    //    neigProcs_[iProcPatch],
-                    //    reinterpret_cast<char*>(&(neiStart_[iProcPatch][0])),
-                    //    sizeof(label)*nFaces,
-                    //    UPstream::msgType(),
-                    //    UPstream::worldComm
-                    //);
                 }
             }
             
@@ -257,16 +247,6 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                     UIPstream iProcStr(neigProcs_[iProcPatch], pBuffers);
                     iProcStr >> neiLen;
                 
-                    //IPstream::read
-                    //(
-                    //    Pstream::scheduled,
-                    //    neigProcs_[iProcPatch],
-                    //    reinterpret_cast<char*>(&(neiLen[0])),
-                    //    sizeof(label)*nFaces,
-                    //    UPstream::msgType(),
-                    //    UPstream::worldComm
-                    //);
-                
                     neiEnd_[iProcPatch] = ownEnd_[iProcPatch] + neiLen;
                     corStart_[iProcPatch] = neiEnd_[iProcPatch] + 1;
                     corEnd_[iProcPatch] = corStart_[iProcPatch] - 1;
@@ -278,57 +258,13 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
         
         DynamicList<label> multipleProcsPoints;
         
-        forAllConstIter(labelHashTable<HashSet<label> >, locPointProcs, iter)
+        forAllConstIter(labelHashTable<labelHashSet>, locPointProcs, iter)
         {
             if (iter().size() > 1) //point at multiple processor's boundaries
             {
                 multipleProcsPoints.append(iter.key());
             }
         }
-        
-        //accumulate processors id's for each corner point
-        //at master process
-//        if (Pstream::master())
-//        {
-//            label gPointId = -1;
-//            forAll(multipleProcsPoints, iPoint)
-//            {
-//                gPointId = multipleProcsPoints[iPoint];
-//                if(pointProcs_.found(gPointId))
-//                {
-//                    pointProcs_[gPointId].append(Pstream::masterNo());
-//                }
-//                else
-//                {
-//                    pointProcs_.insert(gPointId, List<label>(1,Pstream::masterNo()));
-//                }
-//            }
-//            for (label proci = Pstream::firstSlave(); proci <= Pstream::lastSlave(); proci++)
-//            {
-//
-//                IPstream fromProci (Pstream::scheduled, proci);
-//                DynamicList<label> prociPoints;
-//                fromProci >> prociPoints;
-//                
-//                forAll(prociPoints, iPoint)
-//                {
-//                    gPointId = prociPoints[iPoint];
-//                    if(pointProcs_.found(gPointId))
-//                    {
-//                        pointProcs_[gPointId].append(proci);
-//                    }
-//                    else
-//                    {
-//                        pointProcs_.insert(gPointId, List<label>(1,proci));
-//                    }
-//                }
-//            }
-//        }
-//        else
-//        {
-//            OPstream toMaster (Pstream::scheduled, Pstream::masterNo());
-//            toMaster << multipleProcsPoints;
-//        }
         
         //accumulate cell id's for each corner point
         //at master process
@@ -370,7 +306,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                 
                 for (label proci = Pstream::firstSlave(); proci <= Pstream::lastSlave(); proci++)
                 {
-                    IPstream fromSlave(Pstream::scheduled, proci);
+                    IPstream fromSlave(Pstream::commsTypes::scheduled, proci);
                     labelHashTable<List<label> > slaveCells;
                     labelHashTable<label> slaveCellProc;
                     
@@ -410,7 +346,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             }
             else
             {
-                OPstream toMaster(Pstream::scheduled, Pstream::masterNo());
+                OPstream toMaster(Pstream::commsTypes::scheduled, Pstream::masterNo());
                 toMaster << pointCells_;
                 toMaster << cellProc_;
             }
@@ -422,7 +358,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
         {
             for(label proci = Pstream::firstSlave(); proci <= Pstream::lastSlave(); proci++)
             {
-                OPstream toSlave(Pstream::scheduled, proci);
+                OPstream toSlave(Pstream::commsTypes::scheduled, proci);
                 //toSlave << pointProcs_;
                 toSlave << pointCells_;
                 toSlave << cellProc_;
@@ -434,7 +370,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             pointCells_.clearStorage();
             cellProc_.clearStorage();
             
-            IPstream fromMaster(Pstream::scheduled, Pstream::masterNo());
+            IPstream fromMaster(Pstream::commsTypes::scheduled, Pstream::masterNo());
             //fromMaster >> pointProcs_;
             fromMaster >> pointCells_;
             fromMaster >> cellProc_;
@@ -447,7 +383,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
         labelHashTable<List<label> > faceIds;
         labelHashTable<label> faceProcPatch;
         labelHashTable<List<label> > faceNeigCells;
-        labelHashTable<HashSet<label> > neigProcFaces;
+        labelHashTable<labelHashSet> neigProcFaces;
         List<DynamicList<label> > globalCorCellIds;
         labelHashTable<label> globalCorProcIds;
         //labelHashTable<List<label> > globalCellIds;
@@ -517,7 +453,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             forAllConstIter(labelHashTable<List<label> >, faceIds, iter)
             {
                 List<label> pIds = iter();
-                HashSet<label> fCells;
+                labelHashSet fCells;
                 forAll (pIds, iPoint)
                 {
                     lPointId = pIds[iPoint];
@@ -550,7 +486,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                             }
                             else
                             {
-                                neigProcFaces.insert(procId, HashSet<label>());
+                                neigProcFaces.insert(procId, labelHashSet());
                                 neigProcFaces[procId].insert(iter.key());
                             }
                         }
@@ -587,7 +523,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                 );
             }
             
-            forAllConstIter(labelHashTable<HashSet<label> >, neigProcFaces, iter)
+            forAllConstIter(labelHashTable<labelHashSet>, neigProcFaces, iter)
             {
                 neigProcs_.append(iter.key());
                 procPairs_.append(-1); //corner pair
@@ -641,7 +577,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
                 label procId = neigProcs_[iProc];
                 label id = globalCorProcIds[procId];
                 
-                OPstream oStream (Pstream::scheduled, procId);
+                OPstream oStream (Pstream::commsTypes::scheduled, procId);
                 oStream << globalCorCellIds[id];
             }
         }
@@ -653,7 +589,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             if (procPairs_[iProc] < 0)
             {
                 label procId = neigProcs_[iProc];
-                IPstream iStream (Pstream::scheduled, procId);
+                IPstream iStream (Pstream::commsTypes::scheduled, procId);
                 List<label> neiGlobalCellIds (iStream);
 
                 corProcIds_.insert

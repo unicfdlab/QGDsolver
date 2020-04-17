@@ -5,63 +5,43 @@
  */
 
 // Density
-rhof = linearInterpolate(rho);
+rhof = qgdInterpolate(rho);
 
 // Velocity
-Uf = linearInterpolate(U);
+Uf = qgdInterpolate(U);
 
 // Momentum
-rhoUf = linearInterpolate(rhoU);
+rhoUf = qgdInterpolate(rhoU);
 rhofUf= rhof*Uf;
 
 // Nonlinear Tensor
-UrhoUf = linearInterpolate(U*rhoU);
+UrhoUf = qgdInterpolate(U*rhoU);
 
 // Pressure
-pf = linearInterpolate(p);
+pf = qgdInterpolate(p);
 
 //Speed of sound
-cf = linearInterpolate(thermo.c());
+cf = qgdInterpolate(thermo.c());
 
 // Heat capacities ratio
-gammaf = linearInterpolate(gamma);
+gammaf = qgdInterpolate(gamma);
 gammam1f = gammaf - 1;
 
 // Heat capacity at constant pressure
-Cpf = linearInterpolate(thermo.Cp());
+Cpf = qgdInterpolate(thermo.Cp());
     
 // Total specific enthalpy
-//Hf = (linearInterpolate(rhoE) + pf)/rhof;
-Hf = linearInterpolate((rhoE + p)/rho);
+H  = (rhoE + p)/rho;
+Hf = qgdInterpolate(H);
 
 /*
  *
  * QGD coefficients are now updated in the thermo library
  *
  */
-alphauf    = linearInterpolate(turbulence->alphaEff());
-muf        = linearInterpolate(turbulence->muEff());
+alphauf    = qgdInterpolate(turbulence->alphaEff());
+muf        = qgdInterpolate(turbulence->muEff());
 
-//surfaceScalarField tauGammaPf
-//(
-//    "tauGammaPf",
-//    linearInterpolate(tauQGD*gamma*p)
-//);
-//
-//surfaceVectorField tauUf
-//(
-//    "tauUf",
-//    linearInterpolate(tauQGD*U)
-//);
-//
-//surfaceTensorField tauUrhoUf
-//(
-//    "tauUrhoUf",
-//    linearInterpolate(tauQGD*U*rhoU)
-//);
 
-//tauQGDf    = 0.5* hQGDf / cf;
-//muf        = pf * tauQGDf;
-//alphauf    = muf*1.0;
 
 

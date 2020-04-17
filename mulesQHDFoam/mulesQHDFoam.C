@@ -57,6 +57,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
+#include "upwind.H"
 #include "CMULES.H"
 #include "EulerDdtScheme.H"
 #include "localEulerDdtScheme.H"
@@ -130,69 +131,20 @@ int main(int argc, char *argv[])
         U.oldTime();
         T.oldTime();
         turbulence->correct();
-        //Continuity equation
-	
-        while (pimple.correctNonOrthogonal())
-        {
-                // Pressure corrector
-
-            fvScalarMatrix pEqn
-            (
-                 fvc::div(phiu)
-	        -fvc::div(phiwo)
-                -fvm::laplacian(taubyrhof,p)
-            );
-	    
-            pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-            pEqn.solve();
-
-                if (pimple.finalNonOrthogonalIter())
-                {
-                    phi = phiu - phiwo + pEqn.flux();
-                }
-        }
         
-        gradPf = fvsc::grad(p);
+        #include "QHDpEqn.H"
         
-        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
+        #include "QHDUEqn.H"
         
-        phiUf = (phi * Uf) - (mesh.Sf() & (Uf * Wf));
-
-        // --- Solve U
-        solve
-        (
-            fvm::ddt(U)
-            +
-            fvc::div(phiUf)
-            -
-            fvc::laplacian(muf/rhof,U)
-            -
-            fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-            ==
-            -
-            fvc::grad(p)/rho
-            +
-            BdFrc
-        );
-        
-        phiTf = phi * Tf;
+        phiTf = qgdFlux(phi,T,Tf);
 
         // --- Solve T
-        #include "alphaControls.H"
-        #include "MULESTEqn.H"
-
-        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
-            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-            << nl << endl;
-
-        if (runTime.outputTime())
         {
-            thermo.tauQGD().write();
+            volScalarField& alpha1 = T;
+            #include "alphaControls.H"
+            #include "MULESTEqn.H"
         }
 
-//        p = p_rgh + rho *(1-beta*T) * gh;
-//        
         if (p.needReference())
         {
             p += dimensionedScalar
@@ -203,29 +155,17 @@ int main(int argc, char *argv[])
             );
 //            p_rgh = p - rho * (1-beta*T) * gh;
         }
-
-        Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
-        Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;
-        Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
-        Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
-        
-        if(runTime.write())
-        {
-            phi.write();
-            Wf.write();
-            BdFrc.write();
-            BdFrcf.write();
-            phiwo.write();
-            phiu.write();
-            phi.write();
-        }
-
+	    
+	runTime.write();
+	    
+        Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+            << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+            << nl << endl;
     }
-
-
+    
     Info<< "End\n" << endl;
+    
 
     return 0;
 }
-
 // ************************************************************************* //

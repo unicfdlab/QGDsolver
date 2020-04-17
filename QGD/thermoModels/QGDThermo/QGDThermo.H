@@ -85,6 +85,8 @@ protected:
 
 public:
 
+  TypeName ("QGDThermo");
+
   //- Construct from mesh and dictionary
   QGDThermo(const fvMesh& mesh, const dictionary& dict);
 
@@ -125,7 +127,6 @@ public:
 
   //-
   const surfaceScalarField& aQGDf() const;
-
 
   //-
   Switch implicitDiffusion() const;

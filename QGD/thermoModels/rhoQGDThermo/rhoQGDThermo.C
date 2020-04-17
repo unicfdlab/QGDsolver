@@ -57,6 +57,24 @@ Foam::rhoQGDThermo::rhoQGDThermo(const fvMesh& mesh, const word& phaseName)
     this->read();
 }
 
+Foam::rhoQGDThermo::rhoQGDThermo(const fvMesh& mesh, const word& phaseName, const word& dictName)
+:
+    rhoThermo(mesh, phaseName,dictName),
+    QGDThermo(mesh, *this),
+    c_
+    (
+        "thermo:c",
+        qgdCoeffs().hQGD()/mesh.time().deltaT()
+    ),
+    gamma_
+    (
+        "thermo:gamma",
+        c_ / c_
+    )
+{
+    this->read();
+}
+
 
 // * * * * * * * * * * * * * * * * Selectors * * * * * * * * * * * * * * * * //
 
@@ -69,6 +87,15 @@ Foam::autoPtr<Foam::rhoQGDThermo> Foam::rhoQGDThermo::New
     return basicThermo::New<rhoQGDThermo>(mesh, phaseName);
 }
 
+Foam::autoPtr<Foam::rhoQGDThermo> Foam::rhoQGDThermo::New
+(
+    const fvMesh& mesh,
+    const word& phaseName,
+    const word& dictName
+)
+{
+    return basicThermo::New<rhoQGDThermo>(mesh, phaseName);
+}
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 

@@ -72,9 +72,10 @@ constScPrModel1::constScPrModel1
         IOobject::NO_WRITE
     );
 
-    if (ScHeader.headerOk())
+    if (ScHeader.typeHeaderOk<volScalarField>())
     {
-        //do nothing
+        //do nothing, ScQGD field is present
+        ScQGD_.writeOpt() = IOobject::AUTO_WRITE;
     }
     else
     {
@@ -98,10 +99,10 @@ constScPrModel1::correct(const Foam::QGDThermo& qgdThermo)
 {
     const volScalarField& cSound = qgdThermo.c();
     const volScalarField& p      = qgdThermo.p();
-
+    
     this->tauQGDf_= linearInterpolate(this->aQGD_ / cSound) * hQGDf_;
     this->tauQGD_ = this->aQGD_ * this->hQGD_  / cSound;
-
+    
     forAll(p.primitiveField(), celli)
     {
         muQGD_.primitiveFieldRef()[celli] =
@@ -112,7 +113,7 @@ constScPrModel1::correct(const Foam::QGDThermo& qgdThermo)
         alphauQGD_.primitiveFieldRef()[celli] = muQGD_.primitiveField()[celli] /
             PrQGD_.primitiveField()[celli];
     }
-
+    
     forAll(p.boundaryField(), patchi)
     {
         forAll(p.boundaryField()[patchi], facei)
@@ -126,11 +127,6 @@ constScPrModel1::correct(const Foam::QGDThermo& qgdThermo)
                 muQGD_.boundaryFieldRef()[patchi][facei] /
                 PrQGD_.boundaryField()[patchi][facei];
         }
-    }
-
-    if (runTime_.outputTime())
-    {
-        ScQGD_.write();
     }
 }
 

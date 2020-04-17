@@ -2,6 +2,8 @@
 #include "readhRef.H"
 #include "gh.H"
 
+
+
 Info<< "Reading thermophysical properties\n" << endl;
 
 autoPtr<rhoQGDThermo> pThermo
@@ -21,7 +23,6 @@ const surfaceScalarField& tauQGDf = thermo.tauQGDf();
 Info << "Thermo corrected" << endl;
 
 autoPtr<compressible::turbulenceModel> turbulence;
-
 
 volVectorField U
 (
@@ -60,15 +61,13 @@ volVectorField W
     IOobject
     (
         "W",
-	runTime.timeName(),
-	mesh,
-	IOobject::NO_READ,
-	IOobject::NO_WRITE
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
     ),
     U
 );
-
-
 
 dimensionedScalar beta
 (
@@ -89,19 +88,6 @@ surfaceScalarField  phiwo
     "phiwStar",
     mesh.Sf() & linearInterpolate(W)
 );
-
-//volScalarField p_rgh
-//(
-//    IOobject
-//    (
-//        "p_rgh",
-//        runTime.timeName(),
-//        mesh,
-//        IOobject::MUST_READ,
-//        IOobject::AUTO_WRITE
-//    ),
-//    mesh
-//);
 
 surfaceScalarField phi
 (
@@ -125,7 +111,6 @@ volVectorField BdFrc
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
 Info<< "Creating turbulence model\n" << endl;
-
 turbulence.reset
 (
     compressible::turbulenceModel::New
@@ -136,19 +121,13 @@ turbulence.reset
         thermo
     ).ptr()
 );
-
-
 rho.oldTime();
 
 label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, mesh.solutionDict().subDict("PIMPLE"), pRefCell, pRefValue);
 
-volScalarField alpha1(T);
-
-// MULES Correction
-tmp<surfaceScalarField> talphaPhiCorr0;
-
+#include "createIcoZeroSources.H"
 
 //
 //END-OF-FILE

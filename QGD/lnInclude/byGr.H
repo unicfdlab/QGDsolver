@@ -1,1 +1,0 @@
-../QGDCoeffs/byGr/byGr.H

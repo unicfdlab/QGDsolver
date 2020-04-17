@@ -1,3 +1,0 @@
-mod2WQHDFoam.C
-
-EXE = $(FOAM_USER_APPBIN)/mod2WQHDFoam

@@ -58,7 +58,7 @@ void formVfValues (const volScalarField& iF,List3<scalar>& procVfValues)
     }
 
     //Step 1. Send field data to neighbouring processors (non-blocking mode)
-    PstreamBuffers pBuffers(Pstream::nonBlocking);
+    PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
     forAll(procPairs_, procI)
     {
         label procId = neigProcs_[procI];
@@ -188,7 +188,7 @@ void formVfValues (const GeometricField<FieldType, fvPatchField, volMesh>& iF,Li
  
     //Step 1. Send field data to neighbouring processors (non-blocking mode)
 
-    PstreamBuffers pBuffers(Pstream::nonBlocking);
+    PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
 
     forAll(procPairs_, procI)
     {

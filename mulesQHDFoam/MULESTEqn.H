@@ -1,20 +1,30 @@
 {
-    word alphaScheme("div(phiTf)");
-    word alpharScheme("laplacian(Hif,T)");
+    upwind<scalar> UD (mesh, phi);
+    surfaceScalarField phiT_upwind = 
+        fv::gaussConvectionScheme<scalar>(mesh,phi,UD).flux(phi,T);
+    
+    Field<scalar> maxT (T.size(), gMax(T));
+    Field<scalar> minT (T.size(), gMin(T));
 
-    tmp<fv::ddtScheme<scalar>> ddtAlpha
+    MULES::explicitSolve
     (
-        fv::ddtScheme<scalar>::New
-        (
-            mesh,
-            mesh.ddtScheme("ddt(T)")
-        )
+        geometricOneField(),
+        T,
+        phiT_upwind,
+        phiTf,
+        zeroField(),
+        zeroField(),
+        maxT,
+        minT
     );
 
-    MULES::explicitSolve(T, phi, phiTf, gMax(T), gMin(T));
-
-    solve(fvm::ddt(T)-fvc::ddt(T)-fvc::laplacian(Hif,T));
-
-    Info <<"exit mules" << endl;
+    if (implicitDiffusion)
+    {
+        solve(fvm::ddt(T)-fvc::ddt(T)-fvm::laplacian(Hif,T) == TSu);
+    }
+    else
+    {
+        solve(fvm::ddt(T)-fvc::ddt(T)-fvc::laplacian(Hif,T) == TSu);
+    }
 }
 

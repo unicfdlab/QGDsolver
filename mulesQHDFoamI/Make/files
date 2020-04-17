@@ -1,3 +1,0 @@
-mulesQHDFoamI.C
-
-EXE = $(FOAM_USER_APPBIN)/mulesQHDFoamI

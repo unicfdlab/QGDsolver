@@ -51,13 +51,14 @@ mixture
     }
 }
 
+
 QGD
 {
-    implicitDiffusion false
-    QGDCoeffs constScPrModel1QGDCoeffs;
-    constScPrModel1QGDCoeffsDict
+    implicitDiffusion true;
+    QGDCoeffs constScPrModel1;
+    constScPrModel1Dict
     {
-        ScQGD 0.1
+        ScQGD 1;
         PrQGD 1;
     }
 }

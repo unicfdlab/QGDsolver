@@ -1,0 +1,45 @@
+#!/bin/sh
+
+changeDist()
+{
+    local locDIR=$1
+    cd $locDIR
+    local locFILES=`ls .`
+    for locF in $locFILES
+    do
+        if [ -d $locF ]
+        then
+            if [ "$locF" = "Make" ]
+            then
+                #skip dir
+                :
+            elif [ "$locF" = "utils" ]
+            then
+                #skip dir
+                :
+            elif [ "$locF" = "zQGDFoam" ]
+            then
+                #skip dir
+                :
+            elif [ "$locF" = "Tutorials" ]
+            then
+                #skip dir
+                :
+            else
+                echo $PWD
+                changeDist $locF
+            fi
+        else
+            echo $PWD/$locF
+        fi
+    done
+    cd ../
+}
+
+changeDist $PWD
+
+#
+#END-OF-FILE
+#
+
+

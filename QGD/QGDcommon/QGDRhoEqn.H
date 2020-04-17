@@ -25,14 +25,17 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 discription:
-    solvation of continuity equation for QGD solver
+    Solution of continuity equation for QGD solver
 source file:
     QGDFoam.C
 \*---------------------------------------------------------------------------*/ 
+    
     solve
     (
         fvm::ddt(rho)
         +
         fvc::div(phiJm)
+        ==
+        rhoSu
     );
     

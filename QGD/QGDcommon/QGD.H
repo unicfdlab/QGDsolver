@@ -2,10 +2,10 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | Copyright (C) 2011-2020 OpenFOAM Foundation
+     \\/     M anipulation  | Copyright (C) 2016-2020 OpenCFD Ltd.
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+                QGDsolver   | Copyright (C) 2016-2020 ISP RAS (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -24,15 +24,8 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-description:
-    includation of state equations, and methods for calculate
-    differential operators.
-
-source file:
-    QGDFoam.C
-
 \*----------------------------------------------------------------------------*/
 #include "psiQGDThermo.H"
 #include "wallFvPatch.H"
 #include "fvsc.H"
-
+#include "QGDInterpolate.H"

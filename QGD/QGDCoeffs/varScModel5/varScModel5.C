@@ -66,7 +66,7 @@ varScModel5::varScModel5
     qgdAspectRatioThreshold_(1.5),
     constSc_(0.05),
     cqSc_(mesh.V().size(), 0.0),
-    constScCellSetPtr_(NULL)
+    constScCellSetPtr_(nullptr)
 {
     scalar ScQGD = 0.0, PrQGD = 1.0;
 
@@ -102,6 +102,11 @@ varScModel5::varScModel5
     if (dict.found("badQualitySc"))
     {
         dict.lookup("badQualitySc") >> badQualitySc_;
+    }
+    
+    if (dict.found("maxAspectRatio"))
+    {
+        dict.lookup("maxAspectRatio") >> qgdAspectRatioThreshold_;
     }
 
     scalarField openness(mesh.V().size(), 0);

@@ -1,0 +1,14 @@
+CombustionModels/CombustionQGDModels.C
+noCombustion/noCombustionsQGD.C
+EDC/EDCsQGD.C
+infinitelyFastChemistry/infinitelyFastChemistrysQGD.C
+PaSR/PaSRsQGD.C
+diffusion/diffusionsQGD.C
+eddyDissipationDiffusionModel/eddyDissipationDiffusionModelsQGD.C
+laminar/laminarsQGD.C
+FSD/FSDsQGD.C
+diffusionMulticomponent/diffusionMulticomponentsQGD.C
+zoneCombustion/zoneCombustionsQGD.C
+
+
+LIB = $(FOAM_USER_LIBBIN)/libcombustionQGDModels

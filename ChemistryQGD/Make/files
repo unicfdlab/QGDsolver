@@ -1,0 +1,6 @@
+chemistryModel/BasicChemistryModel/BasicChemistryModelsQGD.C
+chemistryModel/TDACChemistryModel/reduction/makeChemistryReductionMethodsQGD.C
+chemistryModel/TDACChemistryModel/tabulation/makeChemistryTabulationMethodsQGD.C
+
+
+LIB = $(FOAM_USER_LIBBIN)/libchemistryQGDModels

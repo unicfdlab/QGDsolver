@@ -32,6 +32,11 @@ License
 #include "fvMesh.H"
 #include "QGDCoeffs.H"
 
+namespace Foam
+{
+    defineTypeNameAndDebug (QGDThermo, 0);
+}
+
 Foam::QGDThermo::QGDThermo(const fvMesh& mesh, const dictionary& dict)
 :
 mesh_(mesh),
@@ -40,14 +45,13 @@ qgdCoeffsPtr_
 (
     Foam::qgd::QGDCoeffs::New
     (
-        dict_.subDict("QGD").lookup("QGDCoeffs"),
+        dict_.subDict("QGD").get<word>("QGDCoeffs"),
         mesh,
         dict_.subDict("QGD")
     )
 ),
-implicitDiffusion_(false)
+implicitDiffusion_(true)
 {
-
 }
 
 Foam::QGDThermo::~QGDThermo()
@@ -57,8 +61,15 @@ Foam::QGDThermo::~QGDThermo()
 
 bool Foam::QGDThermo::read()
 {
-  dict_.subDict("QGD").lookup("implicitDiffusion") >> implicitDiffusion_;
-
+    if (dict_.subDict("QGD").found("implicitDiffusion"))
+    {
+        dict_.subDict("QGD").lookup("implicitDiffusion") >> implicitDiffusion_;
+    }
+    else
+    {
+        implicitDiffusion_ = true;
+    }
+  
   return true;
 }
 
@@ -120,18 +131,6 @@ const Foam::volScalarField& Foam::QGDThermo::alphauQGD() const
 {
     return qgdCoeffsPtr_->alphauQGD();
 }
-
-const Foam::volScalarField& Foam::QGDThermo::aQGD() const
-{
-    return qgdCoeffsPtr_->aQGD();
-}
-
-const Foam::surfaceScalarField& Foam::QGDThermo::aQGDf() const
-{
-    return qgdCoeffsPtr_->aQGDf();
-}
-
-
 
 Foam::Switch Foam::QGDThermo::implicitDiffusion() const
 {

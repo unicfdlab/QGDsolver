@@ -203,7 +203,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
 
         // Step 2. Loop over all neighboring processors and send/receive cell centers
         {
-            PstreamBuffers pBuffers(Pstream::nonBlocking);
+            PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
         
             forAll(neigProcs_, iProcPair)
             {
@@ -232,7 +232,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
         
         // Step 3. Loop over all corner neigbouring processors and send/receive cell centers
         {
-            PstreamBuffers pBuffers(Pstream::nonBlocking);
+            PstreamBuffers pBuffers(Pstream::commsTypes::nonBlocking);
             
             // Send
             forAll(neigProcs_, iProcPair)

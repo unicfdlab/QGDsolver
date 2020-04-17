@@ -35,8 +35,11 @@ if (adjustTimeStep)
 {
     scalar maxDeltaTFact = maxCo/(CoNum + SMALL);
     scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
-    scalar maxDeltaT1 = min(thermo.tauQGDf()()).value();
+    scalar cTau = runTime.controlDict().lookupOrDefault<scalar>("cTau",0.75);
+    scalar maxDeltaT1 = cTau*min(thermo.tauQGDf()()).value();
+    
     maxDeltaT1 = min(maxDeltaT,maxDeltaT1);
+    Info << "maxDeltaT1 = " << maxDeltaT1 << endl;
 
     runTime.setDeltaT
     (
