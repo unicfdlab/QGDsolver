@@ -17,7 +17,7 @@ FoamFile
 
 solvers
 {
-    p
+    "(p|pFinal)"
     {
         solver          PCG;
         maxIter         300;
@@ -34,47 +34,22 @@ solvers
             agglomerator    faceAreaPair;
             mergeLevels     1;
         }
-        tolerance       1e-7;
+        tolerance       1e-8;
         relTol          0;
     }
 
-    pFinal
-    {
-        $p;
-        tolerance       1e-07;
-        relTol          0;
-    }
-
-    "(pcorr.*)"
+    "(rhoU|U|alpha.l)"
     {
         solver          PCG;
-        tolerance       1e-03;
-        relTol          1e-02;
-        maxIter         20;
-        preconditioner
-        {
-            preconditioner  GAMG;
-            tolerance       1e-5;
-            relTol          0.01;
-            smoother        GaussSeidel;
-            nPreSweeps      0;
-            nPostSweeps     2;
-            cacheAgglomeration no;
-            nCellsInCoarsestLevel 100;
-            agglomerator    faceAreaPair;
-            mergeLevels     1;
-        }
-    }
-
-    "(rhoU|U|alphal)"
-    {
-        solver          smoothSolver;
-        smoother        symGaussSeidel;
+        preconditioner  FDIC;
         tolerance       1e-08;
         relTol          0;
+        cAlpha          1e-7;  // enable MULES, but disable compressive flux
+                               // 0 -no MULES, no compressive flux
+                               // 1 - MULES, compressive flux with coeff 1
     }
 
-    "(rhoU|UFinal|alphalFinal)"
+    "(rhoU|UFinal|alpha.lFinal)"
     {
         $U;
         tolerance       1e-08;
@@ -84,7 +59,6 @@ solvers
 
 PIMPLE
 {
-    correctPhi          true;
     nOuterCorrectors    1;
     nCorrectors         1;
     nNonOrthogonalCorrectors 1;

@@ -88,7 +88,14 @@ int main(int argc, char *argv[])
 
     while (runTime.run())
     {
-
+        /*
+         *
+         * Update physical properties
+         *
+         */
+        thermo.correct(); 
+        //turbulence.correct();
+        
         /*
          *
          * Update fields
@@ -108,54 +115,16 @@ int main(int argc, char *argv[])
          *
          */
         #include "readTimeControls.H"
-        //#include "QHDCourantNo.H"
-        if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
-        {
-            surfaceScalarField Unf
-            (
-                "Unf",
-                Uf & mesh.Sf() / mesh.magSf()
-            );
-            
-            surfaceScalarField Cof
-            (
-                "Cof",
-                runTime.deltaT()*
-                (
-                    mag(Uf)/hQGDf
-                )
-            );
-            
-            CoNum = max(Cof).value();
-            
-            Info << "Courant Number = " << CoNum << endl;
-        }
-        //#include "setDeltaT-QGDQHD.H"
-        if (adjustTimeStep)
-        {
-            scalar maxDeltaTFact = maxCo/(CoNum + SMALL);
-            scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
-            scalar maxDeltaT1 = min(alpha1f*Tau1+alpha2f*Tau2).value();
-            maxDeltaT1 = min(maxDeltaT,maxDeltaT1)*0.75;
-            
-            runTime.setDeltaT
-            (
-                min
-                (
-                    deltaTFact*runTime.deltaTValue(),
-                    maxDeltaT1
-                )
-            );
-            
-            Info<< "deltaT = " <<  runTime.deltaTValue() << endl;
-        }
-
-        runTime++;
+        #include "QHDCourantNo.H"
+        #include "setDeltaT-QGDQHD.H"
         
+        runTime++;
         Info<< "Time = " << runTime.timeName() << nl << endl;
         
         // --- Store old time values
         U.oldTime();
+        alpha1.oldTime();
+        rho.oldTime();
         
         //Continuity equation
         phiwm = -phiwo1*alpha1f-phiwo2*alpha2f;
@@ -189,56 +158,79 @@ int main(int argc, char *argv[])
             phi1 = phiu - phiw1;
             phi2 = phiu - phiw2;
 
-            surfaceScalarField phiq1 = phiu*da1dtf*Tau1;
-            phiq1.setOriented(true);
-            surfaceScalarField phiq2 = phiu*da1dtf*Tau2;
-            phiq2.setOriented(true);
             phi = phiu+phiwm+pEqn.flux();
         }
         
         gradpf = fvsc::grad(p);
-        
         W1 = ((Uf & gradUf) + (1./rho1)*gradpf - g - cFrcf/rho1)*Tau1;
         W2 = ((Uf & gradUf) + (1./rho2)*gradpf - g - cFrcf/rho2)*Tau2;
+        
         phiWr =
-            fvc::flux(-phiw2+phiw1,(1.0 - alpha1),"div(phi,alpha1)");
-        
-        surfaceScalarField phic(thermo.cAlpha()*mag(phi/mesh.magSf()));
-        // Do not compress interface at non-coupled boundary faces
-        // (inlets, outlets etc.)
-        {
-            surfaceScalarField::Boundary& phicBf =
-                phic.boundaryFieldRef();
-            
-            forAll(phic.boundaryField(), patchi)
-            {
-                fvsPatchScalarField& phicp = phicBf[patchi];
-            
-                if (!phicp.coupled())
-                {
-                    phicp == 0;
-                }
-            }
-        }
-        surfaceScalarField phir(phic*thermo.nHatf());
-        
+            qgdFlux
+            (
+                -phiw2+phiw1,
+                alpha2,
+                alpha2f,
+                "div(phi,alpha1)"
+            );
         phiAlpha1f = 
-            fvc::flux
+            qgdFlux
             (
                 phi,
                 alpha1,
+                alpha1f,
                 "div(phi,alpha1)"
             )
             +
-            fvc::flux
+            //add qgd terms from Wr
+            qgdFlux
             (
-                -fvc::flux(-phir, alpha2, "div(phir,alphar)"),
+                -phiWr,
                 alpha1,
-                "div(phir,alphar)"
+                alpha1f,
+                "div(phi,alpha1)"
             );
         
-        // --- Solve for volume fraction
+        //add terms from da1dt
         {
+            surfaceScalarField DeltaTauFlux =
+                phiu*da1dtf*(Tau1 - alpha1f*(Tau1-Tau2));
+                //phiu*da1dtf*Tau1;
+            DeltaTauFlux.setOriented(true);
+            phiAlpha1f += DeltaTauFlux;
+        }
+        
+        //apply compressive fluxes and MULES limiter
+        if (thermo.cAlpha() > SMALL)
+        {
+            surfaceScalarField phic(thermo.cAlpha()*mag(phi/mesh.magSf()));
+        
+            // Do not compress interface at non-coupled boundary faces
+            // (inlets, outlets etc.)
+            {
+                surfaceScalarField::Boundary& phicBf =
+                    phic.boundaryFieldRef();
+            
+                forAll(phic.boundaryField(), patchi)
+                {
+                    fvsPatchScalarField& phicp = phicBf[patchi];
+                
+                    if (!phicp.coupled())
+                    {
+                        phicp == 0;
+                    }
+                }
+            }
+            surfaceScalarField phir(phic*thermo.nHatf());
+            
+            phiAlpha1f +=
+                fvc::flux
+                (
+                    -fvc::flux(-phir, alpha2, "div(phir,alphar)"),
+                    alpha1,
+                    "div(phir,alphar)"
+                );
+            
             //limit flux with MULES limiter
             MULES::limit
             (
@@ -253,24 +245,11 @@ int main(int argc, char *argv[])
                 zeroField(),
                 false //return total flux
             );
-            
-            //add qgd terms from Wr
-            phiAlpha1f+=
-                fvc::flux
-                (
-                    -phiWr,
-                    alpha1,
-                    "div(phi,alpha1)"
-                );
-                //+
-                //phiq1;
-                //-
-                //fvc::flux
-                //(
-                //    tphi,
-                //    alpha1,
-                //    "div(phi,alpha1)"
-                //);
+        }
+        
+        // --- Solve for volume fraction
+        {
+
             solve
             (
                 fvm::ddt(alpha1)
@@ -282,56 +261,69 @@ int main(int argc, char *argv[])
             alpha2 = 1.0 - alpha1;
         }
         
-        phiAlpha2f = phi - phiAlpha1f;
-        rhoPhi = phiAlpha1f*rho1 + phiAlpha2f*rho2;
+        // --- Update density field 
+        rho = thermo.rho();
         
-        phiRhofWf = phiu*(alpha1f*rho1*W1 + alpha2f*rho2*W2);
-        phiRhofWf.setOriented(true);
-        phiUfRhof = qgdFlux
-        (
-            rhoPhi,
-            U,
-            Uf
-        )
-        -
-        phiRhofWf;
+        // --- Update mass fluxes
+        {
+            phiAlpha2f = phi - phiAlpha1f;
+            rhoPhi = phiAlpha1f*rho1 + phiAlpha2f*rho2;
+        
+            phiRhofWf = phiu*(alpha1f*rho1*W1 + alpha2f*rho2*W2);
+            phiRhofWf.setOriented(true);
+            phiUfRhof = qgdFlux
+            (
+                rhoPhi,
+                U,
+                Uf
+            )
+            -
+            phiRhofWf;
+        }
         
         // --- Solve U
-        solve
-        (
-            fvm::ddt(rhoU)
-            +
-            fvc::div(phiUfRhof)
-            +
-            fvc::grad(p)
-            *(1.0 + da1dt*(Tau1-Tau2))
-            -
-            fvc::laplacian(muf,U)
-            -
-            fvc::div(muf*mesh.Sf() & qgdInterpolate(Foam::T(fvc::grad(U))))
-            -
-            BdFrc
-            -
-            cFrc*(1.0 + da1dt*(Tau1-Tau2))
-        );
-        
-        rho = thermo.rho();
-        U = rhoU / rho;
-        U.correctBoundaryConditions();
-        rhoU.boundaryFieldRef() = rho.boundaryField()*U.boundaryField();
-	
-        /*
-         *
-         * Update physical properties
-         *
-         */
-        thermo.correct(); //curvature, mechanics and so on
-        //turbulence.correct();
-
-        if(runTime.write())
+        if (implicitDiffusion)
         {
-            phi.write();
+            solve
+            (
+                fvm::ddt(rho,U)
+                +
+                fvc::div(phiUfRhof)
+                +
+                fvc::grad(p)
+                *(1.0 + da1dt*(Tau1-Tau2))
+                -
+                fvm::laplacian(muf,U)
+                -
+                fvc::div(muf*mesh.Sf() & qgdInterpolate(Foam::T(fvc::grad(U))))
+                -
+                BdFrc
+                -
+                cFrc*(1.0 + da1dt*(Tau1-Tau2))
+            );
         }
+        else
+        {
+            solve
+            (
+                fvm::ddt(rho,U)
+                +
+                fvc::div(phiUfRhof)
+                +
+                fvc::grad(p)
+                *(1.0 + da1dt*(Tau1-Tau2))
+                -
+                fvc::laplacian(muf,U)
+                -
+                fvc::div(muf*mesh.Sf() & qgdInterpolate(Foam::T(fvc::grad(U))))
+                -
+                BdFrc
+                -
+                cFrc*(1.0 + da1dt*(Tau1-Tau2))
+            );
+        }
+        
+        runTime.write();
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"

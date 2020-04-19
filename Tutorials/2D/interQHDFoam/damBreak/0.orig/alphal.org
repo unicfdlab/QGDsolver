@@ -9,47 +9,43 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      controlDict;
+    class       volScalarField;
+    object      alpha.water;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     interQHDFoam;
+dimensions      [0 0 0 0 0 0 0];
 
-startFrom       latestTime;
+internalField   uniform 0;
 
-startTime       0;
+boundaryField
+{
+    leftWall
+    {
+        type            zeroGradient;
+    }
 
-stopAt          endTime;
+    rightWall
+    {
+        type            zeroGradient;
+    }
 
-endTime         1;
+    lowerWall
+    {
+        type            zeroGradient;
+    }
 
-deltaT          0.001;
+    atmosphere
+    {
+        type            inletOutlet;
+        inletValue      uniform 0;
+        value           uniform 0;
+    }
 
-writeControl    adjustableRunTime;
-
-writeInterval   0.01;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable yes;
-
-adjustTimeStep  yes;
-
-maxCo           0.05;
-cTau            0.4;
-
-maxDeltaT       1;
+    defaultFaces
+    {
+        type            empty;
+    }
+}
 
 // ************************************************************************* //

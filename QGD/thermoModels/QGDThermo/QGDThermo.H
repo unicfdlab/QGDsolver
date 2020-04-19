@@ -85,6 +85,8 @@ protected:
 
 public:
 
+  TypeName ("QGDThermo");
+
   //- Construct from mesh and dictionary
   QGDThermo(const fvMesh& mesh, const dictionary& dict);
 

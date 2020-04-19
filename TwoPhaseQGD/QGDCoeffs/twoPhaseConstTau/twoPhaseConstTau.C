@@ -28,6 +28,7 @@ License
 
 #include "twoPhaseConstTau.H"
 #include "QGDThermo.H"
+#include "twoPhaseIcoQGDThermo.H"
 #include "addToRunTimeSelectionTable.H"
 #include "linear.H"
 
@@ -66,9 +67,6 @@ twoPhaseConstTau::twoPhaseConstTau
     PrQGD_.boundaryFieldRef() = PrQGD;
     muQGD_.boundaryFieldRef() = 0.0;
     alphauQGD_.boundaryFieldRef() = 0.0;
-    
-    dict.lookup("tau1") >> tau1_;
-    dict.lookup("tau2") >> tau2_;
 }
 
 Foam::qgd::
@@ -80,37 +78,25 @@ void Foam::qgd::
 twoPhaseConstTau::correct(const QGDThermo& qgdThermo)
 {
     const volScalarField  nu     = qgdThermo.mu()/qgdThermo.rho();
-                            //alphal
-    if (mesh_.thisDb().found("alphal"))
+    if (isA<twoPhaseIcoQGDThermo>(qgdThermo))
     {
-        const volScalarField& alpha1 = 
-            mesh_.thisDb().lookupObject<volScalarField>("alphal");
-        dimensionedScalar Tau1
-        (
-            "Tau1",
-            dimensionSet(0,0,1,0,0),
-            tau1_
-        );
-        dimensionedScalar Tau2
-        (
-            "Tau2",
-            dimensionSet(0,0,1,0,0),
-            tau2_
-        );
-        //this->tauQGD_ = alpha1*Tau1 + (1.0 - alpha1)*Tau2;
-        this->tauQGD_ = pow(alpha1/Tau1 + (1.0 - alpha1)/Tau2,-1.0);
+        const twoPhaseIcoQGDThermo& refThermo = 
+            refCast<const twoPhaseIcoQGDThermo>(qgdThermo);
+        
+        const dimensionedScalar& Tau1 = refThermo.Tau1();
+        const dimensionedScalar& Tau2 = refThermo.Tau2();
+        const volScalarField& alpha1  = refThermo.alpha1();
+        this->tauQGD_ = alpha1*Tau1 + (1.0 - alpha1)*Tau2;
+        Info << "max/min tauQGD: " << max(tauQGD_).value() << "/" << min(tauQGD_).value() << endl;
     }
     else
     {
-        dimensionedScalar Tau
-        (
-            "Tau",
-            dimensionSet(0,0,1,0,0),
-            max(tau1_, tau2_)
-        );
-        this->tauQGD_ = Tau;
+        FatalErrorInFunction
+        << "twoPhaseConstTau::correct(const QGDThermo& qgdThermo)"
+        << "MUST be only with two-phase solver interQHDFoam"
+        << exit(FatalError);
     }
-    
+
     this->tauQGDf_= linearInterpolate(this->tauQGD_);
 }
 
