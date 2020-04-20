@@ -7,3 +7,4 @@ Computers & Fluids 166, 163–175 (2018). https://doi.org/10.1016/j.compfluid.20
 OpenFOAM High Performance Computing Solver for Simulation of Internal Wave Attractors in Stratified
 Flows Using Regularized Hydrodynamic Equations // in 2018 Ivannikov Ispras Open Conference (ISPRAS) 
 Proceedings, 2018, https://doi.org/10.1109/ISPRAS.2018.00027 
+
