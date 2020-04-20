@@ -8,12 +8,13 @@ gradef = fvsc::grad(e);
 
 gradRhof = fvsc::grad(rho);
 
+gradPf = fvsc::grad(p);
+
 //---------End---------
 
 //Continuity equation fluxes
 //---------Start---------
-
-rhoW = tauQGDf *
+rhoW = tauQGDf*
         (
             ((Uf * gradRhof) & Uf)
             +
@@ -21,10 +22,6 @@ rhoW = tauQGDf *
             +
             (rhoUf & gradUf)
         );
-
-phiw = mesh.Sf() & rhoW;
-
-gradPf = fvsc::grad(p);
 
 rhoW += tauQGDf * gradPf;
 
@@ -99,14 +96,33 @@ if (!implicitDiffusion)
 phiQ = mesh.Sf() & qf;
 
 phiPiU = mesh.Sf() & (Pif & Uf);
+
+//clean diffusive flux for inert specie
+{
+    forAll(diffusiveFlux[inertIndex].internalField(), iFace)
+    {
+        diffusiveFlux[inertIndex].primitiveFieldRef()[iFace] = 0.0;
+    }
+    forAll(diffusiveFlux[inertIndex].boundaryFieldRef(), iPatch)
+    {
+        forAll(diffusiveFlux[inertIndex].boundaryFieldRef()[iPatch], iFace)
+        {
+            diffusiveFlux[inertIndex].boundaryFieldRef()[iPatch][iFace] = 0.0;
+        }
+    }
+}
 forAll(Y, i)
 {
+    
     if ( i != inertIndex )
     {
         gradYf = fvsc::grad(Y[i]);
         phiJmY[i] = qgdFlux(phiJm,Y[i],Yf[i]);
-        surfaceScalarField dydt = -(Uf & gradYf);
-        phiJmY[i] += (mesh.Sf() & (rhoUf*tauQGDf*dydt));
+        surfaceScalarField dydtflux = - phi * tauQGDf
+            * (Uf & gradYf);
+        phiJmY[i] += dydtflux;
+        diffusiveFlux[i] = dydtflux;
+        //inert specie flux will be updated in QGDYEqn.H
     }
 }
 
