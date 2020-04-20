@@ -28,6 +28,8 @@ cd SRFQHDFoam; ./Allwmake; cd ../
 
 cd reactingLagrangianQGDFoam; ./Allwmake; cd ../
 
+cd scalarTransportQHDFoam; ./Allwmake; cd ../
+
 cd utils/selectBadCells; wmake; cd ../../
 
 #
