@@ -2,9 +2,7 @@
 #include "readhRef.H"
 #include "gh.H"
 
-
-
-Info<< "Reading thermophysical properties\n" << endl;
+Info << "Reading thermophysical properties\n" << endl;
 
 autoPtr<rhoQGDThermo> pThermo
 (
@@ -72,7 +70,7 @@ volVectorField W
 dimensionedScalar beta
 (
     "beta",
-    dimless/dimTemperature,
+    dimless / dimTemperature,
     thermo.subDict("mixture").subDict("transport")
 );
 
@@ -105,12 +103,12 @@ surfaceScalarField phiRhof
 volVectorField BdFrc
 (
     "BdFrc",
-    T*g*beta
+    T* g* beta
 );
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 turbulence.reset
 (
     compressible::turbulenceModel::New
