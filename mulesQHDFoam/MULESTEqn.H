@@ -1,16 +1,12 @@
 {
-    upwind<scalar> UD (mesh, phi);
-    surfaceScalarField phiT_upwind =
-    fv::gaussConvectionScheme<scalar>(mesh, phi, UD).flux(phi, T);
-
     Field<scalar> maxT (T.size(), gMax(T));
     Field<scalar> minT (T.size(), gMin(T));
-
+    
     MULES::explicitSolve
     (
         geometricOneField(),
         T,
-        phiT_upwind,
+        phi,
         phiTf,
         zeroField(),
         zeroField(),

@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
         #include "QGDYEqn.H"
         
         // --- Solve momentum
-        //rhoUSu = parcels.SU(U);
+        rhoUSu = parcels.SU(U);
         #include "QGDUEqn.H"
         
         //--- Solve energy
@@ -139,10 +139,10 @@ int main(int argc, char *argv[])
         #include "addEnergyFluxes.H"
         #include "QGDEEqn.H"
         
-        if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
+        if ( (min(T).value() <= 0.0) || (min(rho).value() <= 0.0) )
         {
             U.write();
-            e.write();
+            T.write();
             rho.write();
             forAll(Y, i)
                 Y[i].write();
@@ -159,6 +159,10 @@ int main(int argc, char *argv[])
         rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
         
         runTime.write();
+        if (runTime.outputTime())
+        {
+            turbulence->alphaEff()().write();
+        }
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"

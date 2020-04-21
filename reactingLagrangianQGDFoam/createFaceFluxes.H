@@ -66,12 +66,6 @@ surfaceVectorField rhoW
     tauQGDf*gradPf
 );
 
-surfaceScalarField phiw
-(
-    "phiwStar",
-    mesh.Sf() & rhoW
-);
-
 surfaceVectorField jm
 (
     "jm",
