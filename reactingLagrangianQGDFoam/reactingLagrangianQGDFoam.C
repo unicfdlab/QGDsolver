@@ -1,14 +1,17 @@
+
 /*---------------------------------------------------------------------------*\
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -24,12 +27,12 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    QGDFoam
+    reactinLagrangianQGDFoam
 
 Description
     Solver for unsteady 3D turbulent flow of perfect gas governed by
     quasi-gas dynamic (QGD) equations at all Mach numbers (from 0 to
-    infinity) coupled with particles motion.
+    infinity) coupled with chemistry reactions.
 
     QGD system of equations has been developed by scientific group from
     Keldysh Institute of Applied Mathematics,
@@ -58,6 +61,7 @@ int main(int argc, char *argv[])
     #include "createTime.H"
     #include "createMesh.H"
     #include "createFields.H"
+    Info << "Basic fields are created" << endl;
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
@@ -70,7 +74,7 @@ int main(int argc, char *argv[])
     scalar meanCoNum = 0.0;
 
     Info<< "\nStarting time loop\n" << endl;
-
+    
     while (runTime.run())
     {
         /*
@@ -125,33 +129,41 @@ int main(int argc, char *argv[])
         
         // --- Solve for mass fractions
         #include "QGDYEqn.H"
-
+        
         // --- Solve momentum
         rhoUSu = parcels.SU(U);
         #include "QGDUEqn.H"
-
+        
         //--- Solve energy
         rhoESu = parcels.Sh(e) + Qdot;
+        #include "addEnergyFluxes.H"
         #include "QGDEEqn.H"
-
-        if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
+        
+        if ( (min(T).value() <= 0.0) || (min(rho).value() <= 0.0) )
         {
             U.write();
-            e.write();
+            T.write();
             rho.write();
+            forAll(Y, i)
+                Y[i].write();
+            p.write();
         }
-
+        
         thermo.correct();
-
+        
         // Correct pressure
         p.ref() =
             rho()
            /psi();
         p.correctBoundaryConditions();
         rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
-
+        
         runTime.write();
-
+        if (runTime.outputTime())
+        {
+            turbulence->alphaEff()().write();
+        }
+        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;

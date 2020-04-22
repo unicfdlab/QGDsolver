@@ -42,7 +42,7 @@ SourceFiles
 #include "IOdictionary.H"
 #include "twoPhaseMixture.H"
 #include "qInterfaceProperties.H"
-
+#include "constTwoPhaseProperties.H"
 #include "QGDThermo.H"
 
 
@@ -59,6 +59,7 @@ class twoPhaseIcoQGDThermo
 :
     public IOdictionary,
     public twoPhaseMixture,
+    public constTwoPhaseProperties,
     public qInterfaceProperties,
     public QGDThermo
 {
@@ -70,27 +71,11 @@ protected:
     //- mixture pressure field
     volScalarField p_;
     
-    //- density of phase 1
-    dimensionedScalar rho1_;
-    
-    //- density of phase 2
-    dimensionedScalar rho2_;
-    
-    //- kinematic viscosity of phase 1
-    dimensionedScalar nu1_;
-    
-    //- kinematic viscosity of phase 2
-    dimensionedScalar nu2_;
-
-    //- regularization time of phase 1
-    dimensionedScalar Tau1_;
-    
-    //- regularization time of phase 2
-    dimensionedScalar Tau2_;
-
-
     //- Construct as copy (not implemented)
     twoPhaseIcoQGDThermo(const twoPhaseIcoQGDThermo&);
+    
+    //-
+    void validateQGDCoeffs();
 
 
 public:
@@ -134,24 +119,6 @@ public:
     
     //-
     virtual void correct();
-    
-    //-
-    const dimensionedScalar& nu1() const;
-    
-    //-
-    const dimensionedScalar& nu2() const;
-
-    //-
-    const dimensionedScalar& rho1() const;
-    
-    //-
-    const dimensionedScalar& rho2() const;
-
-    //-
-    const dimensionedScalar& Tau1() const;
-    
-    //-
-    const dimensionedScalar& Tau2() const;
 };
 
 

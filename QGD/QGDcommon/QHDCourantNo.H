@@ -44,7 +44,7 @@ if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
         "Cof",
         runTime.deltaT()*
         (
-            (mag(Uf)+sqrt(g & mesh.Cf()))/hQGDf
+            mag(Unf)/hQGDf
         )
     );
     

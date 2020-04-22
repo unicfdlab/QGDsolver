@@ -17,7 +17,7 @@ FoamFile
 
 solvers
 {
-    p
+    "(p|pFinal)"
     {
         solver          PCG;
         maxIter         300;
@@ -38,41 +38,13 @@ solvers
         relTol          0;
     }
 
-    pFinal
-    {
-        $p;
-        tolerance       1e-07;
-        relTol          0;
-    }
-
-    "(pcorr.*)"
-    {
-        solver          PCG;
-        tolerance       1e-03;
-        relTol          1e-02;
-        maxIter         20;
-        preconditioner
-        {
-            preconditioner  GAMG;
-            tolerance       1e-5;
-            relTol          0.01;
-            smoother        GaussSeidel;
-            nPreSweeps      0;
-            nPostSweeps     2;
-            cacheAgglomeration no;
-            nCellsInCoarsestLevel 100;
-            agglomerator    faceAreaPair;
-            mergeLevels     1;
-        }
-    }
-
     "(rhoU|U|T|alpha.l)"
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-08;
         relTol          0;
-        cAlpha          1;
+        cAlpha          1e-8;
     }
 
     "(UFinal|TFinal|rhoUFinal)"

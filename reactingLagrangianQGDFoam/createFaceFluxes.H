@@ -66,12 +66,6 @@ surfaceVectorField rhoW
     tauQGDf*gradPf
 );
 
-surfaceScalarField phiw
-(
-    "phiwStar",
-    mesh.Sf() & rhoW
-);
-
 surfaceVectorField jm
 (
     "jm",
@@ -189,6 +183,7 @@ surfaceScalarField phiSigmaDotU
 //---------End---------
 
 PtrList<surfaceScalarField> phiJmY(Y.size());
+PtrList<surfaceScalarField> diffusiveFlux(Y.size());
 forAll(phiJmY, i)
 {
     if (i != inertIndex)
@@ -203,4 +198,14 @@ forAll(phiJmY, i)
             )
         );
     }
+    
+    diffusiveFlux.set
+    (
+        i,
+        new surfaceScalarField
+        (
+            "diffusiveFlux" + std::to_string(i),
+            phiJm*0.0
+        )
+    );
 }

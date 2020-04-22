@@ -27,6 +27,7 @@ License
 
 #include "twoPhaseIcoQGDThermo.H"
 #include "QGDCoeffs.H"
+#include "twoPhaseConstTau.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -52,6 +53,7 @@ Foam::twoPhaseIcoQGDThermo::twoPhaseIcoQGDThermo(const fvMesh& mesh, const volVe
         )
     ),
     twoPhaseMixture(mesh, *this),
+    constTwoPhaseProperties(*this, phase1Name(), phase2Name()),
     qInterfaceProperties(alpha1(),U,*this),
     QGDThermo(mesh, *this),
     p_
@@ -65,14 +67,9 @@ Foam::twoPhaseIcoQGDThermo::twoPhaseIcoQGDThermo(const fvMesh& mesh, const volVe
             IOobject::AUTO_WRITE
         ),
         mesh
-    ),
-    rho1_("rho"+this->phase1Name(),*this),
-    rho2_("rho"+this->phase2Name(),*this),
-    nu1_("nu"+this->phase1Name(), *this),
-    nu2_("nu"+this->phase2Name(),*this),
-    Tau1_("tau"+this->phase1Name(), *this),
-    Tau2_("tau"+this->phase2Name(),*this)
+    )
 {
+    validateQGDCoeffs();
     this->read();
 }
 
@@ -84,7 +81,15 @@ Foam::twoPhaseIcoQGDThermo::~twoPhaseIcoQGDThermo()
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-
+void Foam::twoPhaseIcoQGDThermo::validateQGDCoeffs()
+{
+    if (!isA<qgd::twoPhaseConstTau>(this->qgdCoeffs()))
+    {
+        FatalErrorInFunction
+        << "twoPhaseIcoQGDThermo works only with twoPhaseConstTau QGD Coeffs Model"
+        << exit(FatalError);
+    }
+}
 
 bool Foam::twoPhaseIcoQGDThermo::read()
 {
@@ -115,48 +120,20 @@ const Foam::volScalarField& Foam::twoPhaseIcoQGDThermo::c() const
 
 Foam::tmp<Foam::volScalarField> Foam::twoPhaseIcoQGDThermo::rho() const
 {
-  return (rho1_-rho2_)*this->alpha1() + rho2_;
+  return (rho1()-rho2())*this->alpha1() + rho2();
 }
 
 Foam::tmp<Foam::volScalarField> Foam::twoPhaseIcoQGDThermo::mu() const
 {
-  return (rho1_*nu1_-rho2_*nu2_)*this->alpha1() + rho2_*nu2_;
+  return (rho1()*nu1()-rho2()*nu2())*this->alpha1() + rho2()*nu2();
 }
 
 void Foam::twoPhaseIcoQGDThermo::correct()
 {
+    qgdCoeffs().correct(*this);
     qInterfaceProperties::correct();
 }
 
-const Foam::dimensionedScalar& Foam::twoPhaseIcoQGDThermo::nu1() const
-{
-    return nu1_;
-}
-
-const Foam::dimensionedScalar& Foam::twoPhaseIcoQGDThermo::nu2() const
-{
-    return nu2_;
-}
-
-const Foam::dimensionedScalar& Foam::twoPhaseIcoQGDThermo::rho1() const
-{
-    return rho1_;
-}
-
-const Foam::dimensionedScalar& Foam::twoPhaseIcoQGDThermo::rho2() const
-{
-    return rho2_;
-}
-
-const Foam::dimensionedScalar& Foam::twoPhaseIcoQGDThermo::Tau1() const
-{
-    return Tau1_;
-}
-
-const Foam::dimensionedScalar& Foam::twoPhaseIcoQGDThermo::Tau2() const
-{
-    return Tau2_;
-}
 
 
 // ************************************************************************* //

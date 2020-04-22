@@ -35,7 +35,6 @@ QGDCoeffs/H2bynuQHD/H2bynuQHD.C
 QGDCoeffs/HbyUQHD/HbyUQHD.C
 QGDCoeffs/T0byGr/T0byGr.C
 QGDCoeffs/constTau/constTau.C
-QGDCoeffs/twoPhaseConstTau/twoPhaseConstTau.C
 
 thermoModels/QGDThermo/QGDThermo.C
 thermoModels/psiQGDThermo/psiQGDThermo.C

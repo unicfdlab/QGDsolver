@@ -38,11 +38,6 @@ volScalarField rho
     ),
     thermo.rho()
 );
-volVectorField rhoU
-(
-    "rhoU",
-    rho*U
-);
 
 Info<< "\nReading gravitationalProperties" << endl;
   

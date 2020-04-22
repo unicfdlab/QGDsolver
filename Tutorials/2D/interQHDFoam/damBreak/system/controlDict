@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     vofQHDFoam;
+application     interQHDFoam;
 
 startFrom       latestTime;
 
@@ -49,8 +49,6 @@ adjustTimeStep  yes;
 
 maxCo           0.05;
 cTau            0.4;
-
-maxAlphaCo      1;
 
 maxDeltaT       1;
 
