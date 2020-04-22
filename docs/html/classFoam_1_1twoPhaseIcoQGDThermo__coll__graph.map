@@ -1,0 +1,5 @@
+<map id="twoPhaseIcoQGDThermo" name="twoPhaseIcoQGDThermo">
+<area shape="rect" id="node4" href="$classFoam_1_1constTwoPhaseProperties.html" title="constTwoPhaseProperties" alt="" coords="291,5,477,32"/>
+<area shape="rect" id="node5" href="$classFoam_1_1qInterfaceProperties.html" title="Contains the interface properties. " alt="" coords="501,5,656,32"/>
+<area shape="rect" id="node6" href="$classFoam_1_1QGDThermo.html" title="Abstract base class for classes implementing thermophysical properties of gases and fluids governed b..." alt="" coords="681,5,783,32"/>
+</map>
