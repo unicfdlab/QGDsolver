@@ -818,7 +818,7 @@ RECURSIVE              = YES
 # run.
 
 # Avoid duplicate entries that would arise from OSspecific/MSwindows
-EXCLUDE                = $DOX_DIR
+EXCLUDE                = $(DOX_DIR)
 #     $(WM_PROJECT_DIR)/src/OSspecific/MSwindows
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
@@ -890,8 +890,7 @@ IMAGE_PATH             =
 # code is scanned, but not when the output code is generated. If lines are added
 # or removed, the anchors will not be placed correctly.
 
-INPUT_FILTER           = 
-# $(WM_PROJECT_DIR)/bin/tools/doxyFilter
+INPUT_FILTER           = $(WM_PROJECT_DIR)/bin/tools/doxyFilter
 
 # The FILTER_PATTERNS tag can be used to specify filters on a per file pattern
 # basis. Doxygen will compare the file name with each pattern and apply the
