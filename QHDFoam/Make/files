@@ -1,3 +1,0 @@
-QHDFoam.C
-
-EXE = $(FOAM_APPBIN)/QHDFoam

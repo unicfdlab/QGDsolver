@@ -1,3 +1,0 @@
-QGDFoam.C
-
-EXE = $(FOAM_APPBIN)/QGDFoam
