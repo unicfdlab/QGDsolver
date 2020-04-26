@@ -31,12 +31,12 @@ EXE_LIBS = \
     -lturbulenceModels \
     -lreactionThermophysicalModels \
     -lSLGThermo \
-    -lchemistryModel \
     -lcompressibleTurbulenceModels \
     -lsurfaceFilmModels \
     -llagrangian \
     -llagrangianIntermediate \
     -llagrangianTurbulence \
+    -lchemistryModel \
     -lcombustionModels \
     -L$(FOAM_USER_LIBBIN) \
     -lQGD \

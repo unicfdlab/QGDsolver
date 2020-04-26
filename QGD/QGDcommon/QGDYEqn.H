@@ -3,18 +3,6 @@
     Qdot = combustion->Qdot();
     volScalarField Yt(0.0*Y[0]);
     
-    forAll(diffusiveFlux[inertIndex].internalField(), iFace)
-    {
-        diffusiveFlux[inertIndex].primitiveFieldRef()[iFace] = 0.0;
-    }
-    forAll(diffusiveFlux[inertIndex].boundaryFieldRef(), iPatch)
-    {
-        forAll(diffusiveFlux[inertIndex].boundaryFieldRef()[iPatch], iFace)
-        {
-            diffusiveFlux[inertIndex].boundaryFieldRef()[iPatch][iFace] = 0.0;
-        }
-    }
-    
     forAll(Y, i)
     {
         if (i != inertIndex && composition.active(i))
@@ -39,7 +27,7 @@
                 
                 YEqn.solve();
                 
-                diffusiveFlux[i] = YEqn.flux();
+                diffusiveFlux[i] += YEqn.flux();
                 diffusiveFlux[inertIndex] -= diffusiveFlux[i];
             }
             else
@@ -57,7 +45,7 @@
                     parcels.SYi(i, Yi)
                 );
                 
-                diffusiveFlux[i] = (muf / ScNumbers[i]) * fvc::snGrad(Yi.oldTime()) * mesh.magSf();
+                diffusiveFlux[i] += (muf / ScNumbers[i]) * fvc::snGrad(Yi.oldTime()) * mesh.magSf();
                 diffusiveFlux[inertIndex] -= diffusiveFlux[i];
             }
             
