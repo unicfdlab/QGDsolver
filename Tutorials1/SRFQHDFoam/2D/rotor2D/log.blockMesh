@@ -1,0 +1,239 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : v1912 OPENFOAM=1912
+Arch   : "LSB;label=32;scalar=64"
+Exec   : blockMesh
+Date   : Apr 27 2020
+Time   : 02:03:02
+Host   : bl022.unicluster.ru
+PID    : 2643
+I/O    : uncollated
+Case   : /lustre/unicluster/home/av.ivanov/QGDsolver/Tutorials1/SRFQHDFoam/2D/rotor2D
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Creating block mesh from "system/blockMeshDict"
+Creating block edges
+No non-planar block faces defined
+Creating topology blocks
+Creating topology patches
+
+Reading patches section
+
+Creating block mesh topology
+
+Reading physicalType from existing boundary file
+
+Default patch type set to empty
+
+Check topology
+
+	Basic statistics
+		Number of internal faces : 52
+		Number of boundary faces : 88
+		Number of defined boundary faces : 88
+		Number of undefined boundary faces : 0
+	Checking patch -> block consistency
+
+Creating block offsets
+Creating merge list....
+
+Creating polyMesh from blockMesh
+Creating patches
+Creating cells
+Creating points with scale 0.1
+    Block 0 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 1 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 2 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 3 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 4 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 5 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 6 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 7 cell size :
+        i : 0.000327191 .. 0.000327191
+        j : 0.0025 .. 0.0025
+        k : 0.01 .. 0.01
+
+    Block 8 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 9 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 10 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 11 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 12 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 13 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 14 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 15 cell size :
+        i : 0.00130876 .. 0.00130876
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 16 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 17 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 18 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 19 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 20 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 21 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 22 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 23 cell size :
+        i : 0.00294472 .. 0.00294472
+        j : 0.003125 .. 0.003125
+        k : 0.01 .. 0.01
+
+    Block 24 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+    Block 25 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+    Block 26 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+    Block 27 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+    Block 28 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+    Block 29 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+    Block 30 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+    Block 31 cell size :
+        i : 0.00458067 .. 0.00458067
+        j : 0.00375 .. 0.00375
+        k : 0.01 .. 0.01
+
+
+There are no merge patch pairs
+
+Adding cell zones
+    0	rotor
+
+Writing polyMesh with 1 cellZones
+----------------
+Mesh Information
+----------------
+  boundingBox: (-0.1 -0.1 0) (0.1 0.1 0.01)
+  nPoints: 6000
+  nCells: 2880
+  nFaces: 11640
+  nInternalFaces: 5640
+----------------
+Patches
+----------------
+  patch 0 (start: 5640 size: 144) name: rotor
+  patch 1 (start: 5784 size: 96) name: freestream
+  patch 2 (start: 5880 size: 2880) name: front
+  patch 3 (start: 8760 size: 2880) name: back
+
+End
+

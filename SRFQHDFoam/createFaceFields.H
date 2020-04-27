@@ -93,6 +93,7 @@ surfaceScalarField muf
  * QGD coefficients
  *
  */
+
 // OpenFOAM delta coeffs can be negative for coupled patches
 surfaceScalarField taubyrhof
 (
