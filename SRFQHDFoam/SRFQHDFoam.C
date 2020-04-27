@@ -2,13 +2,15 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -28,7 +30,8 @@ Application
 
 Description
     Solver for unsteady 3D turbulent flow of incompressible fluid governed by
-    quasi-hydrodynamic dynamic (QHD) equations.
+    quasi-hydrodynamic dynamic (QHD) equations with support for single rotating
+    frame (SRF) models. 
 
     QHD system of equations has been developed by scientific group from
     Keldysh Institute of Applied Mathematics,
@@ -52,7 +55,6 @@ Description
     \endverbatim
 
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
-
 
 \*---------------------------------------------------------------------------*/
 
@@ -150,5 +152,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
 
 // ************************************************************************* //
