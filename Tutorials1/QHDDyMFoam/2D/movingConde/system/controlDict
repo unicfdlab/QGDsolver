@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v1912                                 |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     SRFQHDFoam;
+application     QHDDyMFoam;
 
 startFrom       startTime;
 
@@ -23,17 +23,17 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         1;
+endTime         0.003;
 
-deltaT          2e-3;
+deltaT          5e-06;
 
-writeControl    runTime;
+writeControl    timeStep;
 
-writeInterval   0.1;
+writeInterval   40;
 
 purgeWrite      0;
 
-writeFormat     ascii;
+writeFormat     binary;
 
 writePrecision  6;
 
@@ -43,10 +43,15 @@ timeFormat      general;
 
 timePrecision   6;
 
-runTimeModifiable yes;
+runTimeModifiable true;
 
 adjustTimeStep  no;
 
-maxCo           0.5;
+maxCo           0.2;
+
+functions
+{
+    #include "cuttingPlane"
+}
 
 // ************************************************************************* //

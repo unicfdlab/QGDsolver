@@ -9,50 +9,38 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      fvSchemes;
+    class       volScalarField;
+    object      alphaQGD;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-ddtSchemes
-{
-    default         Euler;
-}
+dimensions      [0 0 0 0 0 0 0];
 
-gradSchemes
-{
-    default         Gauss linear;
-}
+internalField   uniform 1;
 
-divSchemes
+boundaryField
 {
-    default         none;
-    div(phi,Urel)   Gauss limitedLinearV 1;
-    div(phi,k)      Gauss limitedLinear 1;
-    div(phi,epsilon) Gauss limitedLinear 1;
-    div((nuEff*dev2(T(grad(Urel))))) Gauss linear;
-}
+    rotor
+    {
+        type            calculated;
+        value		$internalField;
+    }
 
-laplacianSchemes
-{
-    default         Gauss linear corrected;
-}
+    freestream
+    {
+        type            calculated;
+        value		$internalField;
+    }
 
-interpolationSchemes
-{
-    default         linear;
-}
+    front
+    {
+        type            empty;
+    }
 
-snGradSchemes
-{
-    default         corrected;
+    back
+    {
+        type            empty;
+    }
 }
-fvsc
-{
-    default    GaussVolPoint;
-}
-    
-
 
 // ************************************************************************* //

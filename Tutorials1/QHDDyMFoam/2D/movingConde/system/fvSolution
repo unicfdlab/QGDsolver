@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v1912                                 |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -20,45 +20,56 @@ solvers
     p
     {
         solver          GAMG;
-        tolerance       1e-08;
-        relTol          0.05;
+        tolerance       0;
+        relTol          0.01;
         smoother        GaussSeidel;
-        nCellsInCoarsestLevel 20;
+        cacheAgglomeration no;
     }
 
     pFinal
     {
         $p;
+        tolerance       1e-06;
         relTol          0;
     }
 
-    "Urel.*"
+    "pcorr.*"
+    {
+        $p
+        tolerance       0.02;
+        relTol          0;
+    }
+
+    U
     {
         solver          smoothSolver;
-        smoother        GaussSeidel;
-        nSweeps         2;
-        tolerance       1e-07;
+        smoother        symGaussSeidel;
+        tolerance       1e-05;
         relTol          0.1;
     }
 
-    "k.*"
+    UFinal
     {
-        solver          smoothSolver;
-        smoother        GaussSeidel;
-        nSweeps         2;
-        tolerance       1e-07;
-        relTol          0.1;
+        $U;
+        tolerance       1e-05;
+        relTol          0;
     }
 
-    "epsilon.*"
+    cellMotionUx
     {
-        solver          smoothSolver;
-        smoother        GaussSeidel;
-        nSweeps         2;
-        tolerance       1e-07;
-        relTol          0.1;
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-08;
+        relTol          0;
+    }
+    T
+    {
+	$p;
+	nAlphaCorr 1;
+	nAlphaSubCycles 1;
     }
 }
+
 
 PISO
 {
@@ -67,24 +78,28 @@ PISO
     pRefCell        0;
     pRefValue       100000;
 }
-                
 
 PIMPLE
 {
-    nOuterCorrectors 1;
-    nCorrectors     2;
-    nNonOrthogonalCorrectors 0;
-    pRefCell        0;
-    pRefValue       0;
+    $PISO;
 }
+
+                                    
+/*
+PIMPLE
+{
+    correctPhi          yes;
+    nOuterCorrectors    2;
+    nCorrectors         1;
+    nNonOrthogonalCorrectors 0;
+}
+*/
 
 relaxationFactors
 {
     equations
     {
-        "Urel.*"        1;
-        "k.*"           1;
-        "epsilon.*"     1;
+        "U.*"           1;
     }
 }
 

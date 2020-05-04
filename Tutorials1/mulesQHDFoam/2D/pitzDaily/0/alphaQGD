@@ -9,21 +9,45 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "constant";
-    object      SRFProperties;
+    class       volScalarField;
+    object      alphaQGD;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-SRFModel        rpm;
+dimensions      [0 0 0 0 0 0 0];
 
-origin          (0 0 0);
-axis            (0 0 1);
+internalField   uniform 1;
 
-rpmCoeffs
+boundaryField
 {
-    rpm             60;
-}
+    inlet
+    {
+        type		calculated;
+        value		$internalField;
+    }
 
+    outlet
+    {
+        type		calculated;
+        value		$internalField;
+    }
+
+    upperWall
+    {
+        type		calculated;
+        value		$internalField;
+    }
+
+    lowerWall
+    {
+        type		calculated;
+        value		$internalField;
+    }
+
+    frontAndBack
+    {
+        type            empty;
+    }
+}
 
 // ************************************************************************* //

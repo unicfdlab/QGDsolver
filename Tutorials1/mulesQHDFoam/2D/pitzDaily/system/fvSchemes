@@ -11,42 +11,52 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      controlDict;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     SRFQHDFoam;
+ddtSchemes
+{
+    default         Euler;
+}
 
-startFrom       startTime;
+gradSchemes
+{
+    default         Gauss linear;
+}
 
-startTime       0;
+divSchemes
+{
+    default         Gauss linearUpwind;
+//    div(phi,T)      Gauss linearUpwind;
+}
 
-stopAt          endTime;
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+    laplacian(DT,T) Gauss linear corrected;
+    laplacian(taubyrhof,p) Gauss linear corrected;
+}
 
-endTime         1;
+interpolationSchemes
+{
+    default         linear;
+}
 
-deltaT          2e-3;
+snGradSchemes
+{
+    default         corrected;
+}
 
-writeControl    runTime;
+fluxRequired
+{
+        default no;
+        pcorr;
+        p;
+}
 
-writeInterval   0.1;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable yes;
-
-adjustTimeStep  no;
-
-maxCo           0.5;
-
+fvsc
+{
+    default	    leastSquares;
+}
 // ************************************************************************* //

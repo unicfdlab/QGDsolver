@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v1912                                 |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -16,28 +16,44 @@ FoamFile
 
 dimensions      [1 -1 -2 0 0 0 0];
 
-internalField   uniform 1;
+internalField   uniform 100000;
 
 boundaryField
 {
-    rotor
+    movingWall
     {
         type            zeroGradient;
     }
 
-    freestream
+    farFieldMoving
     {
         type            zeroGradient;
     }
 
-    front
+    fixedWall
     {
-        type            empty;
+        type            zeroGradient;
+    }
+
+    left
+    {
+        type            totalPressure;
+        p0              $internalField;
+    }
+
+    farField
+    {
+        type            zeroGradient;
     }
 
     back
     {
-        type            empty;
+        type            wedge;
+    }
+
+    front
+    {
+        type            wedge;
     }
 }
 

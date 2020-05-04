@@ -9,40 +9,57 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volScalarField;
-    location    "0";
-    object      epsilon;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -3 0 0 0 0];
-
-internalField   uniform 3.75e-4;
-
-boundaryField
+solvers
 {
-    rotor
+    T
     {
-        type            epsilonWallFunction;
-        value           uniform 3.75e-4;
+        solver          PCG;
+        preconditioner
+	{  
+	    preconditioner GAMG;
+            smoother       GaussSeidel;
+            relTol         1e-2;
+            tolerance      1e-4;
+	}
+	tolerance	1e-10;
+	relTol		0;
     }
 
-    freestream
+    p
     {
-        type            inletOutlet;
-        inletValue      uniform 3.75e-4;
+        solver          PCG;
+        preconditioner
+	{  
+	    preconditioner GAMG;
+            smoother       GaussSeidel;
+            relTol         1e-2;
+            tolerance      1e-4;
+	}
+	tolerance	1e-10;
+	relTol		0;
     }
-
-    front
+    U
     {
-        type            empty;
-    }
-
-    back
-    {
-        type            empty;
+	$p;
     }
 }
 
+PISO
+{
+    nNonOrthogonalCorrectors 0;
+    pRefCell		     100;
+    pRefValue		     100000;
+}
+
+PIMPLE
+{
+    $PISO;
+}
 
 // ************************************************************************* //
