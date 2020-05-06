@@ -1,0 +1,179 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.0                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          basicThermoCloudProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution
+{
+    active          true;
+    coupled         false;
+    transient       yes;
+    cellValueSourceCorrection off;
+    maxCo           0.3;
+
+    sourceTerms
+    {
+        schemes
+        {
+            rho             explicit 1;
+            U               explicit 1;
+            Yi              explicit 1;
+            h               explicit 1;
+            radiation       explicit 1;
+        }
+    }
+
+    interpolationSchemes
+    {
+        rho             cell;
+        U               cellPoint;
+        thermo:mu       cell;
+        T               cell;
+        Cp              cell;
+        kappa           cell;
+        p               cell;
+    }
+
+    integrationSchemes
+    {
+        U               Euler;
+        T               Euler;
+    }
+}
+
+subModels
+{
+    particleForces
+    {
+        sphereDrag;
+        gravity;
+    }
+    
+    dispersionModel none;
+    
+    patchInteractionModel standardWallInteraction;
+    
+    standardWallInteractionCoeffs
+    {
+        type            rebound;
+    }
+    
+    stochasticCollisionModel none;
+    
+    surfaceFilmModel none;
+    
+    heatTransferModel RanzMarshall;
+    
+    RanzMarshallCoeffs
+    {
+        BirdCorrection  off;
+    }
+    
+    radiation       off;
+    
+    
+    injectionModels
+    {
+        model1
+        {
+            type            patchInjection;
+            massTotal       0.007;
+            SOI             0;
+            parcelBasisType mass;
+//            nParticle       1;
+            patch           outlet;
+            duration        0.4;
+            parcelsPerSecond 1e6;
+            U0              (0. 8. 0.);
+            flowRateProfile constant 1;
+            sizeDistribution
+            {
+                type        RosinRammler;
+                RosinRammlerDistribution
+                {
+                    minValue        0.001;
+                    maxValue        0.009;
+                    d               0.004;
+                    n               0.5;
+                }
+            }
+        }
+    }
+/*
+    compositionModel singleMixtureFraction;
+
+    phaseChangeModel none;//liquidEvaporation;
+
+    devolatilisationModel none;
+
+    surfaceReactionModel none;
+
+    singleMixtureFractionCoeffs
+    {
+        phases
+        (
+            gas
+            {
+            }
+            liquid
+            {
+            }
+            solid
+            {
+               C 1;
+            }
+        );
+        YGasTot0        0;
+        YLiquidTot0     0;
+        YSolidTot0      1;
+    }
+
+    liquidEvaporationCoeffs
+    {
+        enthalpyTransfer enthalpyDifference; // latentHeat;
+        activeLiquids   ( H2O );
+    }
+    */
+}
+
+/*
+density 	10.;
+drag 		1e0;
+subCycles	20;
+useMomentumSource 1;
+
+
+wall
+{
+	reflect 	1;
+	elasticity 	0.9;
+}
+
+injection 
+{
+	thres	0.2;
+	center  (0.05 0.05 0.05);
+	r0	0.02;
+	vel0	5;
+	vel1	(0. 8. 0.);
+	d0	0.001;
+	d1	0.009;
+	tStart  0.1;
+	tEnd	0.4;
+}
+*/
+
+// ************************************************************************* //

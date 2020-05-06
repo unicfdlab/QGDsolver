@@ -17,7 +17,7 @@ FoamFile
 
 solvers
 {
-    "(p|pFinal)"
+    p
     {
         solver          PCG;
         maxIter         300;
@@ -48,28 +48,13 @@ solvers
                                // 0 -no MULES, no compressive flux
                                // 1 - MULES, compressive flux with coeff 1
     }
-
-    "(rhoU|UFinal|alpha.lFinal)"
-    {
-        $U;
-        tolerance       1e-08;
-        relTol          0;
-    }
 }
 
-PIMPLE
+PISO
 {
     nOuterCorrectors    1;
     nCorrectors         1;
     nNonOrthogonalCorrectors 1;
-}
-PISO
-{
-    $PIMPLE;
-}
-
-relaxationFactors
-{
 }
 
 
