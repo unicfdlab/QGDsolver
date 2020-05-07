@@ -7,7 +7,7 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     4.1;
+    version     2.0;
     format      ascii;
     class       dictionary;
     location    "constant";
@@ -17,16 +17,14 @@ FoamFile
 
 thermoType
 {
-    type            heRhoQGDThermo;
+    type            hePsiQGDThermo;
     mixture         pureMixture;
-    transport       const;
-    thermo          eConst;
+    transport       sutherland;
+    thermo          hConst;
     equationOfState perfectGas;
     specie          specie;
     energy          sensibleInternalEnergy;
 }
-
-// Note: these are the properties for fuel
 
 mixture
 {
@@ -42,23 +40,46 @@ mixture
         Hf              0;
         Sf              0;
         Cp              1005;
-        Cv              1004;
     }
     
     transport
     {
-        mu   0.0116115;
+        mu   1.85e-05;
+        As   1.458e-06;
+        Ts   110.4;
         Pr   0.73;
-        beta 0.00177;
+    }
+}
+
+dpdt yes;
+
+chemistryReader foamChemistryReader;
+
+foamChemistryFile "$FOAM_CASE/constant/reactions";
+
+inertSpecie mixture;//air; //Ydefault
+
+liquids
+{
+}
+
+solids
+{
+    C
+    {
+        defaultCoeffs   yes;
     }
 }
 
 QGD
 {
-    implicitDiffusion true;
-    QGDCoeffs HbyUQHD;
-    HbyUQHDDict
+    implicitDiffusion false;
+    QGDCoeffs constScPrModel1;
+    constScPrModel1Dict
     {
-       UQHD 1;
+        ScQGD 0.0;
+        PrQGD 0.72;
     }
 }
+
+// ************************************************************************* //
