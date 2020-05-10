@@ -5,10 +5,12 @@
     \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
-    Copyright (C) 2011-2018 OpenFOAM Foundation
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -23,8 +25,8 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-InClass
-    Foam::psiChemistryModel
+Group
+    grpCheQGDModels
 
 Description
     Creates chemistry model instances templated on the type of thermodynamics
@@ -33,9 +35,7 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "makeChemistryModel.H"
-
 #include "psiQGDReactionThermo.H"
-
 #include "StandardChemistryModel.H"
 #include "TDACChemistryModel.H"
 #include "thermoPhysicsTypes.H"
@@ -46,7 +46,7 @@ namespace Foam
 {
     // Make base types
     makeChemistryModel(psiQGDReactionThermo);
-    
+
     // Chemistry moldels based on sensibleInternalEnergy
     makeChemistryModelType
     (
