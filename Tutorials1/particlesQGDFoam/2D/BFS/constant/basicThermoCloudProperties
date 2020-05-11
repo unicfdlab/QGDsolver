@@ -1,25 +1,24 @@
-/*---------------------------------------------------------------------------*\
+/*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.0                                   |
-|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
-
 FoamFile
 {
-    version         2.0;
-    format          ascii;
-    class           dictionary;
-    object          basicThermoCloudProperties;
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      reactingCloud1Properties;
 }
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 solution
 {
     active          true;
-    coupled         false;
+    coupled         true;
     transient       yes;
     cellValueSourceCorrection off;
     maxCo           0.3;
@@ -54,6 +53,17 @@ solution
     }
 }
 
+
+constantProperties
+{
+    rho0            8800;
+    T0              300;
+    Cp0             4100;
+
+    constantVolume  false;
+}
+
+
 subModels
 {
     particleForces
@@ -61,58 +71,40 @@ subModels
         sphereDrag;
         gravity;
     }
-    
-    dispersionModel none;
-    
-    patchInteractionModel standardWallInteraction;
-    
-    standardWallInteractionCoeffs
-    {
-        type            rebound;
-    }
-    
-    stochasticCollisionModel none;
-    
-    surfaceFilmModel none;
-    
-    heatTransferModel RanzMarshall;
-    
-    RanzMarshallCoeffs
-    {
-        BirdCorrection  off;
-    }
-    
-    radiation       off;
-    
-    
+
     injectionModels
     {
         model1
         {
             type            patchInjection;
-            massTotal       0.007;
+            massTotal       0; //0.007;
             SOI             0;
-            parcelBasisType mass;
-//            nParticle       1;
-            patch           outlet;
-            duration        0.4;
-            parcelsPerSecond 1e6;
-            U0              (0. 8. 0.);
+            parcelBasisType fixed; //mass;
+            nParticle       1;
+            patch           inlet;
+            duration        1;
+            parcelsPerSecond 33261;
+            U0              (9.39 0 0);
             flowRateProfile constant 1;
             sizeDistribution
             {
-                type        RosinRammler;
-                RosinRammlerDistribution
+                type        fixedValue;
+                fixedValueDistribution
                 {
-                    minValue        0.001;
-                    maxValue        0.009;
-                    d               0.004;
-                    n               0.5;
+            	    value    0.00007;
                 }
             }
         }
     }
-/*
+
+    dispersionModel none;
+
+    patchInteractionModel standardWallInteraction;
+
+    heatTransferModel none;//RanzMarshall;
+    
+    collisionModel none;
+
     compositionModel singleMixtureFraction;
 
     phaseChangeModel none;//liquidEvaporation;
@@ -120,6 +112,22 @@ subModels
     devolatilisationModel none;
 
     surfaceReactionModel none;
+
+    stochasticCollisionModel none;
+
+    surfaceFilmModel none;
+
+    radiation       off;
+
+    standardWallInteractionCoeffs
+    {
+        type            rebound;
+    }
+
+    RanzMarshallCoeffs
+    {
+        BirdCorrection  off;
+    }
 
     singleMixtureFractionCoeffs
     {
@@ -146,34 +154,11 @@ subModels
         enthalpyTransfer enthalpyDifference; // latentHeat;
         activeLiquids   ( H2O );
     }
-    */
 }
 
-/*
-density 	10.;
-drag 		1e0;
-subCycles	20;
-useMomentumSource 1;
 
+cloudFunctions
+{}
 
-wall
-{
-	reflect 	1;
-	elasticity 	0.9;
-}
-
-injection 
-{
-	thres	0.2;
-	center  (0.05 0.05 0.05);
-	r0	0.02;
-	vel0	5;
-	vel1	(0. 8. 0.);
-	d0	0.001;
-	d1	0.009;
-	tStart  0.1;
-	tEnd	0.4;
-}
-*/
 
 // ************************************************************************* //

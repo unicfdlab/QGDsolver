@@ -116,6 +116,8 @@ int main(int argc, char *argv[])
         runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
+        
+        parcels.evolve();
 
         // --- Store old time values
         U.oldTime();
