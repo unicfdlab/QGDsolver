@@ -24,10 +24,11 @@ License
 Global
     createFaceFields
 Description
-    Linear interpolation of fields from volumes to face centers
+    Create Face Fields for calculation
 SourceFile
     QHDFoam.C
 /*---------------------------------------------------------------------------*\    
+// Linear interpolation of fields from volumes to face centers
     // Density
     surfaceScalarField rhof
     (
