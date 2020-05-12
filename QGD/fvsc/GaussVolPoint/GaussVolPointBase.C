@@ -22,7 +22,7 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 Class
-    Foam::fvsc::GaussVolPoint
+    Foam::fvsc::GaussVolPoint::GaussVolPointBase
 Description
     This is a method for approximating derivatives of tangents to a surface. 
     They are further used in the calculation of the QGD terms.
