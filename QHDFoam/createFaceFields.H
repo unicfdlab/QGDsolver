@@ -28,7 +28,11 @@ Description
 SourceFile
     QHDFoam.C
 /*---------------------------------------------------------------------------*\    
-// Linear interpolation of fields from volumes to face centers
+     /*
+     *
+     * Linear interpolation of fields from volumes to face centers
+     *
+     */
     // Density
     surfaceScalarField rhof
     (
