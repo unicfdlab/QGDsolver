@@ -24,10 +24,11 @@ License
 Global
     createFaceFluxes
 Description
-    Field for debugging parallel execution and tau-terms evaluation
+    Create Face Fluxes for calculation
 SourceFile
     QHDFoam.C
 /*---------------------------------------------------------------------------*\
+// Field for debugging parallel execution and tau-terms evaluation
 /*
 volScalarField cellNo
 (
