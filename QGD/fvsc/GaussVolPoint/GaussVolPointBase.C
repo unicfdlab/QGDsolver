@@ -24,7 +24,7 @@ License
 Class
     Foam::fvsc::GaussVolPoint::GaussVolPointBase
 Description
-    This is a method for approximating derivatives of tangents to a surface. 
+    This is a method for approximating derivatives of tangents to a face. 
     They are further used in the calculation of the QGD terms.
 \*---------------------------------------------------------------------------*/
 #include "GaussVolPointBase.H"
