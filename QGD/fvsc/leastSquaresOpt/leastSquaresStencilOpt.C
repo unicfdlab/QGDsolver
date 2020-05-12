@@ -22,7 +22,7 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 Class
-    Foam::fvsc::leastSquares::leastSquaresOpt
+    Foam::fvsc::leastSquaresOpt::leastSquaresStencilOpt
 Description 
     Methods for optimal calculating of directional derivative. 
     With parallel realisation.
