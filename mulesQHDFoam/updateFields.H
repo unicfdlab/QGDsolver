@@ -26,7 +26,7 @@ Global
 Description
     Update fields during calculations
 SourceFile
-    QHDFoam.C
+    mulesQHDFoam.C
 /*---------------------------------------------------------------------------*\
 /*
  *
