@@ -2,11 +2,15 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -22,40 +26,28 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    Foam::buoyantFluxFvPatchScalarField
+    Foam::cosVelocityFvPatchVectorField
 
 Group
-    grpInletBoundaryConditions grpWallBoundaryConditions
+    grpQGDBCs grpWallBoundaryConditions
 
 Description
     This boundary condition sets the pressure gradient to the provided value
     such that the flux on the boundary is that specified by the velocity
     boundary condition.
 
+Usage
     Example of the boundary condition specification:
     \verbatim
     <patchName>
     {
-        type            buoyantFlux;
+        type            cosVelocity;
     }
     \endverbatim
 
-See also
-    Foam::fixedGradientFvPatchField
-
-SourceFiles
-    buoyantFluxFvPatchScalarField.C
-
-
-
-
-Class
-    Foam::cosVelocityFvPatchVectorField
-Description
-    
-    
 SourceFiles
     cosVelocityFvPatchVectorField.C
+
 \*---------------------------------------------------------------------------*/
 
 #ifndef cosVelocityFvPatchVectorField_H

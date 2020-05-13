@@ -56,7 +56,6 @@ Description
 
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
 
-
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
@@ -167,5 +166,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
 
 // ************************************************************************* //
