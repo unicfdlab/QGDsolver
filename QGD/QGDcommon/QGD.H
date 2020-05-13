@@ -27,12 +27,12 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
     
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-\defgroup grpQGD QGD solvers
-@{
-    \ingroup grpQGDcommon
-    This group contains common part of QGD solvers.
-@}
 
+Group 
+    grpQGDcommon
+   
+Description
+    
 
 \*----------------------------------------------------------------------------*/
 #include "psiQGDThermo.H"
