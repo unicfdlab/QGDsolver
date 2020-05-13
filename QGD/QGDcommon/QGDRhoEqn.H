@@ -26,10 +26,18 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-discription:
+\defgroup grpQGD QGD solvers
+@{
+    \ingroup grpQGDcommon
+    This group contains common part of QGD solvers.
+@}
+
+Description:
     Solution of continuity equation for QGD solver
-source file:
+    
+SourceFiles:
     QGDFoam.C
+    
 \*---------------------------------------------------------------------------*/ 
     
     solve
