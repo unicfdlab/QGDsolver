@@ -29,6 +29,9 @@ License
 Global
     mQGDCourantNo
 
+Group 
+    grpQGDcommon
+
 Description
     Calculates the maximum mass flux based Courant Number.
 
