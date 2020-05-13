@@ -32,9 +32,6 @@ Group
 Description
     Solution of momentum equation for QGD solver
 
-SourceFiles
-    QGDFoam.C
-
 \*----------------------------------------------------------------------------*/
     solve
     (
