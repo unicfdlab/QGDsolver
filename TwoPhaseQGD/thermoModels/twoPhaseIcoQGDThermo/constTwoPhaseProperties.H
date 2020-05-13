@@ -24,6 +24,13 @@ License
     
 Group
     grpTwoPhaseIcoQGDThermo
+    
+Description
+    Constant properties for two phase package.
+    Templated into a given thermodynamics package (needed for thermal
+    conductivity).
+SourceFiles
+    constTwoPhaseProperties.C
 
 \*---------------------------------------------------------------------------*/
 
