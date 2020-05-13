@@ -22,7 +22,7 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-\defgroup grpPowerLawQGD QGD models
+\defgroup grpPowerLawQGD QGD power law models
 @{
     \ingroup grpThermoModelsQGD
     This group contains thermo models for QGD solver.
