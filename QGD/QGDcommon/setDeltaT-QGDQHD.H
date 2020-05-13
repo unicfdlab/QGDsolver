@@ -28,6 +28,9 @@ License
 Global
     setDeltaT-QGDQHD
 
+Group 
+    grpQGDcommon
+
 Description
     Reset the timestep to maintain a constant maximum courant Number.
     Reduction of time-step is immediate, but increase is damped to avoid
