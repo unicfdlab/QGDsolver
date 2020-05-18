@@ -24,8 +24,9 @@ License
 Application
     QHDFoam
 Description
-    Solver for unsteady 3D turbulent flow of incompressible fluid governed by
-    quasi-hydrodynamic dynamic (QHD) equations.
+    Solver for unsteady 3D turbulent flow of incompressible viscous fluid 
+    governed by quasi-hydrodynamic dynamic (QHD) equations.
+
     QHD system of equations has been developed by scientific group from
     Keldysh Institute of Applied Mathematics,
     see http://elizarova.imamod.ru/selection-of-papers.html

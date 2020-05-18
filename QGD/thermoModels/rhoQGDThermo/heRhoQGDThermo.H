@@ -2,10 +2,12 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -28,6 +30,9 @@ License
 
 Class
     Foam::heRhoThermo
+
+Group
+    grpRhoQGDThermo
 
 Description
     Energy for a mixture based on density

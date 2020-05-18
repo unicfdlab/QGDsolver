@@ -2,13 +2,15 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -27,8 +29,8 @@ Application
     QGDFoam
 
 Description
-    Solver for unsteady 3D turbulent flow of perfect gas governed by
-    quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
+    Solver for unsteady 3D turbulent flow of viscous perfect gas governed by
+    quasi-gas dynamic (QGD) equations at all Mach numbers (from 0.01 to
     infinity).
 
     QGD system of equations has been developed by scientific group from
@@ -53,7 +55,6 @@ Description
     \endverbatim
 
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
-
 
 \*---------------------------------------------------------------------------*/
 
@@ -165,5 +166,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
 
 // ************************************************************************* //
