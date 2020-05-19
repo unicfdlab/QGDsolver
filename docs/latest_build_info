@@ -1,0 +1,1560 @@
+Started by user Kirill Vatutin
+Running as SYSTEM
+Building remotely on bl220-QGDsolver in workspace /unicluster/home/cfd/workspace/experQGDsolver-5UniTests
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] Done
+[experQGDsolver-5UniTests] $ /bin/bash /tmp/jenkins1049887884435526684.sh
+Cloning into 'QGDtests'...
+Checking out files:  14% (346/2451)   
+Checking out files:  15% (368/2451)   
+Checking out files:  16% (393/2451)   
+Checking out files:  17% (417/2451)   
+Checking out files:  18% (442/2451)   
+Checking out files:  19% (466/2451)   
+Checking out files:  20% (491/2451)   
+Checking out files:  21% (515/2451)   
+Checking out files:  22% (540/2451)   
+Checking out files:  23% (564/2451)   
+Checking out files:  24% (589/2451)   
+Checking out files:  25% (613/2451)   
+Checking out files:  26% (638/2451)   
+Checking out files:  27% (662/2451)   
+Checking out files:  28% (687/2451)   
+Checking out files:  28% (699/2451)   
+Checking out files:  29% (711/2451)   
+Checking out files:  30% (736/2451)   
+Checking out files:  31% (760/2451)   
+Checking out files:  32% (785/2451)   
+Checking out files:  33% (809/2451)   
+Checking out files:  34% (834/2451)   
+Checking out files:  35% (858/2451)   
+Checking out files:  36% (883/2451)   
+Checking out files:  37% (907/2451)   
+Checking out files:  38% (932/2451)   
+Checking out files:  39% (956/2451)   
+Checking out files:  40% (981/2451)   
+Checking out files:  41% (1005/2451)   
+Checking out files:  42% (1030/2451)   
+Checking out files:  43% (1054/2451)   
+Checking out files:  43% (1060/2451)   
+Checking out files:  44% (1079/2451)   
+Checking out files:  45% (1103/2451)   
+Checking out files:  46% (1128/2451)   
+Checking out files:  47% (1152/2451)   
+Checking out files:  48% (1177/2451)   
+Checking out files:  49% (1201/2451)   
+Checking out files:  50% (1226/2451)   
+Checking out files:  51% (1251/2451)   
+Checking out files:  52% (1275/2451)   
+Checking out files:  53% (1300/2451)   
+Checking out files:  54% (1324/2451)   
+Checking out files:  55% (1349/2451)   
+Checking out files:  56% (1373/2451)   
+Checking out files:  57% (1398/2451)   
+Checking out files:  58% (1422/2451)   
+Checking out files:  58% (1426/2451)   
+Checking out files:  59% (1447/2451)   
+Checking out files:  60% (1471/2451)   
+Checking out files:  61% (1496/2451)   
+Checking out files:  62% (1520/2451)   
+Checking out files:  63% (1545/2451)   
+Checking out files:  64% (1569/2451)   
+Checking out files:  65% (1594/2451)   
+Checking out files:  66% (1618/2451)   
+Checking out files:  67% (1643/2451)   
+Checking out files:  68% (1667/2451)   
+Checking out files:  69% (1692/2451)   
+Checking out files:  70% (1716/2451)   
+Checking out files:  71% (1741/2451)   
+Checking out files:  72% (1765/2451)   
+Checking out files:  73% (1790/2451)   
+Checking out files:  73% (1791/2451)   
+Checking out files:  74% (1814/2451)   
+Checking out files:  75% (1839/2451)   
+Checking out files:  76% (1863/2451)   
+Checking out files:  77% (1888/2451)   
+Checking out files:  78% (1912/2451)   
+Checking out files:  79% (1937/2451)   
+Checking out files:  80% (1961/2451)   
+Checking out files:  81% (1986/2451)   
+Checking out files:  82% (2010/2451)   
+Checking out files:  83% (2035/2451)   
+Checking out files:  84% (2059/2451)   
+Checking out files:  85% (2084/2451)   
+Checking out files:  86% (2108/2451)   
+Checking out files:  87% (2133/2451)   
+Checking out files:  87% (2144/2451)   
+Checking out files:  88% (2157/2451)   
+Checking out files:  89% (2182/2451)   
+Checking out files:  90% (2206/2451)   
+Checking out files:  91% (2231/2451)   
+Checking out files:  92% (2255/2451)   
+Checking out files:  93% (2280/2451)   
+Checking out files:  94% (2304/2451)   
+Checking out files:  95% (2329/2451)   
+Checking out files:  96% (2353/2451)   
+Checking out files:  97% (2378/2451)   
+Checking out files:  98% (2402/2451)   
+Checking out files:  99% (2427/2451)   
+Checking out files: 100% (2451/2451)   
+Checking out files: 100% (2451/2451), done.
+total 35
+drwxr-xr-x 8 cfd unihubusers   4096 May 19 12:02 .
+drwxr-xr-x 6 cfd unihubusers   4096 May 19 12:02 ..
+drwxr-xr-x 2 cfd unihubusers   4096 May 19 12:02 branches
+-rw-r--r-- 1 cfd unihubusers    298 May 19 12:02 config
+-rw-r--r-- 1 cfd unihubusers     73 May 19 12:02 description
+-rw-r--r-- 1 cfd unihubusers     41 May 19 12:02 HEAD
+drwxr-xr-x 2 cfd unihubusers   4096 May 19 12:02 hooks
+-rw-r--r-- 1 cfd unihubusers 311829 May 19 12:02 index
+drwxr-xr-x 2 cfd unihubusers   4096 May 19 12:02 info
+drwxr-xr-x 3 cfd unihubusers   4096 May 19 12:02 logs
+drwxr-xr-x 4 cfd unihubusers   4096 May 19 12:02 objects
+-rw-r--r-- 1 cfd unihubusers    193 May 19 12:02 packed-refs
+drwxr-xr-x 5 cfd unihubusers   4096 May 19 12:02 refs
+/unicluster/home/cfd
+2 part
+There are no installation tests
+Preparing cases for cluster:
+Begining of creation unitest list
+...
+Unitest list is ready
+Begining of creation cluster Allrun script for cases:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/interQHDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/mulesQHDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQGDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/particlesQHDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QGDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDDyMFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/QHDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/reactingLagrangianQGDFoam/fvsc/LeastSquares
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/reactingLagrangianQGDFoam/LeastSquares
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/scalarTransportQHDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/SRFQHDFoam/fvsc/reduced/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/GaussVolPoint/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/GaussVolPoint/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/GaussVolPoint/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/leastSquares/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/leastSquares/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/leastSquares/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/leastSquaresOpt/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/leastSquaresOpt/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/leastSquaresOpt/3D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/reduced/1D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/reduced/2D
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests/Unit/zQGDFoam/fvsc/reduced/3D
+End of test cases
+There are no quick system tests
+errors?
+results
+runTest.py unitest        OK
+Namespace(command='unitest', names=['test-unitest-list'], script=['Allrun'])
+./Unit/interQHDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/interQHDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/interQHDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/mulesQHDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/mulesQHDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQGDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQGDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/particlesQHDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/particlesQHDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QGDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QGDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDDyMFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDDyMFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/QHDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/QHDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/reactingLagrangianQGDFoam/fvsc/LeastSquares/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/reactingLagrangianQGDFoam/fvsc/LeastSquares/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/reactingLagrangianQGDFoam/LeastSquares/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/reactingLagrangianQGDFoam/LeastSquares/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/scalarTransportQHDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/scalarTransportQHDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/SRFQHDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/SRFQHDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/GaussVolPoint/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/GaussVolPoint/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/GaussVolPoint/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/GaussVolPoint/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/GaussVolPoint/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/GaussVolPoint/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/leastSquares/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/leastSquares/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/leastSquares/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/leastSquares/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/leastSquares/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/leastSquares/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/leastSquaresOpt/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/leastSquaresOpt/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/leastSquaresOpt/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/leastSquaresOpt/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/leastSquaresOpt/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/leastSquaresOpt/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/reduced/1D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/reduced/1D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/reduced/2D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/reduced/2D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+./Unit/zQGDFoam/fvsc/reduced/3D/
+
+  current directory:
+/unicluster/home/cfd/workspace/experQGDsolver-5UniTests/QGDtests
+  case path:
+./Unit/zQGDFoam/fvsc/reduced/3D/
+  script name:
+Allrun
+  status of previous job:
+0
+
+0
+Triggering a new build of experQGDsolver-6systemTests
+Finished: SUCCESS
