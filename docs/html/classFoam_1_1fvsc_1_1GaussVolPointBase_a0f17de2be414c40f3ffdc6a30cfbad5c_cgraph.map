@@ -1,5 +1,0 @@
-<map id="faceDiv" name="faceDiv">
-<area shape="rect" id="node2" href="$classFoam_1_1fvsc_1_1GaussVolPointBase1D.html#a7a3353c4a22dadd452574bb639191858" title="Foam::fvsc::GaussVolPoint\lBase1D::faceDiv" alt="" coords="125,5,320,46"/>
-<area shape="rect" id="node3" href="$classFoam_1_1fvsc_1_1GaussVolPointBase2D.html#a7a3353c4a22dadd452574bb639191858" title="Foam::fvsc::GaussVolPoint\lBase2D::faceDiv" alt="" coords="125,70,320,111"/>
-<area shape="rect" id="node4" href="$classFoam_1_1fvsc_1_1GaussVolPointBase3D.html#a7a3353c4a22dadd452574bb639191858" title="Foam::fvsc::GaussVolPoint\lBase3D::faceDiv" alt="" coords="125,135,320,177"/>
-</map>

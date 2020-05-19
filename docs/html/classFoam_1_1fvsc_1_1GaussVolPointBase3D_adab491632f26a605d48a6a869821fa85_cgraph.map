@@ -1,5 +1,0 @@
-<map id="GaussVolPointBase3D" name="GaussVolPointBase3D">
-<area shape="rect" id="node2" href="$QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6" title="forAll" alt="" coords="395,22,453,49"/>
-<area shape="rect" id="node3" href="$classFoam_1_1fvsc_1_1GaussVolPointBase3D.html#ab55dc02c30b0c5f13de84644e023ea9d" title="Calcualte weights for quads. " alt="" coords="219,22,346,49"/>
-<area shape="rect" id="node4" href="$classFoam_1_1fvsc_1_1GaussVolPointBase3D.html#adbf7a04d3962e6ace4f0401ed654dceb" title="Calculate weights for triangles. " alt="" coords="225,73,341,99"/>
-</map>
