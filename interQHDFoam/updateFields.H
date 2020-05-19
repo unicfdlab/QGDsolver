@@ -30,7 +30,8 @@ surfaceScalarField da1dtf = -(Uf & gradAlpha1f);
 volScalarField da1dt = -(U & fvc::grad(alpha1));
 
 cFrc   = fvc::reconstruct(thermo.surfaceTensionForce()*mesh.magSf());
-cFrcf  = qgdInterpolate(cFrc);
+cFrcf  = thermo.surfaceTensionForce()*mesh.Sf() / mesh.magSf();
+
 BdFrc  = g * (rho + da1dt*(Tau1*rho1 - Tau2*rho2));
 
 
