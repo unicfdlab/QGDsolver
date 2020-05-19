@@ -1,5 +1,0 @@
-<map id="faceGrad" name="faceGrad">
-<area shape="rect" id="node2" href="$classFoam_1_1fvsc_1_1GaussVolPointBase1D.html#af8f5e36b61887f2e334e0eff5955c78c" title="Foam::fvsc::GaussVolPoint\lBase1D::faceGrad" alt="" coords="136,5,331,46"/>
-<area shape="rect" id="node3" href="$classFoam_1_1fvsc_1_1GaussVolPointBase2D.html#af8f5e36b61887f2e334e0eff5955c78c" title="Foam::fvsc::GaussVolPoint\lBase2D::faceGrad" alt="" coords="136,70,331,111"/>
-<area shape="rect" id="node4" href="$classFoam_1_1fvsc_1_1GaussVolPointBase3D.html#af8f5e36b61887f2e334e0eff5955c78c" title="Foam::fvsc::GaussVolPoint\lBase3D::faceGrad" alt="" coords="136,135,331,177"/>
-</map>
