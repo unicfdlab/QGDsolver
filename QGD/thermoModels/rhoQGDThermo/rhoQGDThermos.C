@@ -2,8 +2,12 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2014 OpenFOAM Foundation
+    \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -24,8 +28,11 @@ License
 Class
     Foam::qgd::psiQGDThermo
 
+Group
+    grpRhoQGDThermo
+
 Description
-    Possible properties
+    Possible thermo properties for thermo model.
 
 \*---------------------------------------------------------------------------*/
 
