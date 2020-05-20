@@ -1,0 +1,11 @@
+<map id="TwoPhaseQGD/QGDCoeffs" name="TwoPhaseQGD/QGDCoeffs">
+<area shape="rect" id="node2" href="dir_2e558db977456002c3c9a650cb73d1df.html" title="twoPhaseConstTau" alt="" coords="37,89,181,137"/>
+<area shape="rect" id="node3" href="dir_06d2e396ba61d78477b17edb7539161a.html" title="QGD" alt="" coords="212,185,284,233"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000067_000031.html" title="2" alt="" coords="199,160,208,175"/>
+<area shape="rect" id="node4" href="dir_ced237a9c71cf2d75dc622a11ec9f6a0.html" title="thermoModels" alt="" coords="331,89,445,137"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000067_000057.html" title="1" alt="" coords="367,61,376,76"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000057_000031.html" title="2" alt="" coords="297,174,307,189"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000057_000067.html" title="1" alt="" coords="138,72,148,86"/>
+<area shape="rect" id="clust2" href="dir_86cd121b5ad7b0c5106002711f1359cc.html" alt="" coords="27,78,309,147"/>
+<area shape="rect" id="clust1" href="dir_136dcc9c160f1ab2268ff3c40bef7b33.html" title="TwoPhaseQGD" alt="" coords="16,42,320,158"/>
+</map>

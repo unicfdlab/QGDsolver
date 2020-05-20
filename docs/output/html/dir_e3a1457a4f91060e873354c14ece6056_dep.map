@@ -1,0 +1,21 @@
+<map id="QGD/thermoModels" name="QGD/thermoModels">
+<area shape="rect" id="node2" href="dir_bec6afe781235af6b79118c2e36fa09d.html" title="doc" alt="" coords="240,63,312,111"/>
+<area shape="rect" id="node3" href="dir_d1a1f0cca2dd7f71d4379a369d800583.html" title="powerLaw" alt="" coords="345,255,433,303"/>
+<area shape="rect" id="node4" href="dir_758d20cc2f19003b1c95d015b8a94a06.html" title="psiQGDReactionThermo" alt="" coords="38,63,215,111"/>
+<area shape="rect" id="node5" href="dir_bee53f9bbc9c91dcb77ca9ac73d3d4c9.html" title="psiQGDThermo" alt="" coords="329,159,449,207"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000060_000061.html" title="2" alt="" coords="310,138,319,153"/>
+<area shape="rect" id="node8" href="dir_0c83486c797b486112106cc32e8e0ba8.html" title="QGDCoeffs" alt="" coords="483,255,576,303"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000061_000042.html" title="1" alt="" coords="472,230,481,245"/>
+<area shape="rect" id="node6" href="dir_f886e6efaa6f6954ec9aea1663e1e362.html" title="QGDThermo" alt="" coords="218,255,320,303"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000061_000062.html" title="1" alt="" coords="313,243,323,257"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000061_000059.html" title="1" alt="" coords="393,229,402,244"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000062_000042.html" title="1" alt="" coords="485,230,495,245"/>
+<area shape="rect" id="node7" href="dir_2ca91243ae92b767f804574c50be01a7.html" title="rhoQGDThermo" alt="" coords="181,159,304,207"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000063_000042.html" title="1" alt="" coords="464,239,473,254"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000063_000062.html" title="1" alt="" coords="261,227,271,242"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000063_000059.html" title="1" alt="" coords="338,230,347,245"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000042_000061.html" title="2" alt="" coords="438,216,447,231"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000042_000062.html" title="8" alt="" coords="314,244,323,259"/>
+<area shape="rect" id="clust2" href="dir_e3a1457a4f91060e873354c14ece6056.html" alt="" coords="27,52,461,313"/>
+<area shape="rect" id="clust1" href="dir_06d2e396ba61d78477b17edb7539161a.html" title="QGD" alt="" coords="16,16,472,324"/>
+</map>
