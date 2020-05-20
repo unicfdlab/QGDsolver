@@ -38,7 +38,7 @@ PROJECT_NAME           = QGDsolver
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = $(WM_PROJECT_VERSION)
+PROJECT_NUMBER         = $(DOX_VERSION)
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -58,7 +58,7 @@ PROJECT_LOGO           = unicfdlogo_lined.png
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = output
+OUTPUT_DIRECTORY       = 
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -769,9 +769,9 @@ WARN_LOGFILE           =
 INPUT                  = $(DOX_DIR)
 #INPUT                  = $(WM_PROJECT_DIR)/src/OpenFOAM/global
 #INPUT                  = $(WM_PROJECT_DIR)/src \
-                         $(WM_PROJECT_DIR)/applications/utilities \
-                         $(WM_PROJECT_DIR)/applications/solvers \
-                         $(WM_PROJECT_DIR)/modules/doc
+#                         $(WM_PROJECT_DIR)/applications/utilities \
+#                         $(WM_PROJECT_DIR)/applications/solvers \
+#                         $(WM_PROJECT_DIR)/modules/doc
 
 #For testing only
 #INPUT                  = $(WM_PROJECT_DIR)/src/OpenFOAM/global \
@@ -818,7 +818,7 @@ RECURSIVE              = YES
 # run.
 
 # Avoid duplicate entries that would arise from OSspecific/MSwindows
-EXCLUDE                = $(DOX_DIR)
+#EXCLUDE                = $(DOX_DIR)
 #     $(WM_PROJECT_DIR)/src/OSspecific/MSwindows
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
@@ -1453,7 +1453,7 @@ FORMULA_TRANSPARENT    = YES
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-USE_MATHJAX            = NO
+USE_MATHJAX            = YES
 
 # When MathJax is enabled you can set the default output format to be used for
 # the MathJax output. See the MathJax site (see:
