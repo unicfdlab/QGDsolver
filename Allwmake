@@ -22,7 +22,7 @@ cd ../
 
 cd CombustionQGD; wmake libso
 rc=$?
-if [ "$rc" = '0' ]; then
+if [ $rc -eq 0 ]; then
     echo "CombustionQGD compiled"
 else
     echo "CombustionQGD compiled with errors"
@@ -72,7 +72,7 @@ cd ../
 
 cd zQGDFoam; ./Allwmake
 rc=$?
-if [ "$rc" = '0' ]; then
+if [ $rc" -eq 0 ]; then
     echo "zQGDFoam compiled"
 else
     echo "zQGDFoam compiled with errors"
