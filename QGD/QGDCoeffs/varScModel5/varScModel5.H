@@ -25,8 +25,9 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
+
 Class
-    Foam::qgd::constScPrModel2
+    Foam::qgd::varScModel5
 
 Group
     grpQGDCoeffs
@@ -44,7 +45,7 @@ Description
     \lambda^{QGD} = \mu^{QGD} Cp / Pr^{QGD}
 
 SourceFiles
-    constScPrModel2.C
+    varScModel5.C
 
 \*---------------------------------------------------------------------------*/
 #include "QGDCoeffs.H"
