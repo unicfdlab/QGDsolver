@@ -1,0 +1,7 @@
+<map id="Thermo models for QGD solver." name="Thermo models for QGD solver.">
+<area shape="rect" id="node1" href="$group__grpRhoQGDThermo.html" title="rhoQGD thermo models" alt="" coords="235,224,411,251"/>
+<area shape="rect" id="node2" href="$group__grpPowerLawQGD.html" title="QGD power law models" alt="" coords="235,5,410,32"/>
+<area shape="rect" id="node5" href="$group__grpPsiQGDReactionThermo.html" title="QGD thermo reactions\l models" alt="" coords="239,57,406,98"/>
+<area shape="rect" id="node6" href="$group__grpPsiQGDThermo.html" title="QGD thermo models" alt="" coords="245,123,400,149"/>
+<area shape="rect" id="node4" href="$group__grpQGDThermo.html" title="GrpQGDThermo" alt="" coords="260,173,385,200"/>
+</map>

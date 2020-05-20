@@ -1,0 +1,6 @@
+<map id="QGD/QGDcommon/QHDTEqn.H" name="QGD/QGDcommon/QHDTEqn.H">
+<area shape="rect" id="node2" href="$particlesQHDFoam_8C.html" title="Solver for unsteady 3D turbulent flow of incompressible fluid governed by quasi&#45;hydrodynamic dynamic ..." alt="" coords="5,81,208,122"/>
+<area shape="rect" id="node3" href="$QHDDyMFoam_8C.html" title="Solver for unsteady 3D turbulent flow of incompressible fluid governed by quasi&#45;hydrodynamic dynamic ..." alt="" coords="233,88,463,115"/>
+<area shape="rect" id="node4" href="$QHDFoam_8C.html" title="QHDFoam/QHDFoam.C" alt="" coords="487,88,657,115"/>
+<area shape="rect" id="node5" href="$scalarTransportQHDFoam_8C.html" title="Evolves a passive scalar transport equation with regularized terms. " alt="" coords="682,81,885,122"/>
+</map>

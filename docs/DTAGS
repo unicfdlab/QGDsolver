@@ -3809,6 +3809,25 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>smoothSolution.H</name>
+    <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/interQHDFoam/</path>
+    <filename>smoothSolution_8H</filename>
+    <member kind="function">
+      <type></type>
+      <name>for</name>
+      <anchorfile>smoothSolution_8H.html</anchorfile>
+      <anchor>a7fadbb7d2017eca71e27ee11ba937948</anchor>
+      <arglist>(label nSmoothIter=0;nSmoothIter&lt; nSmoothIters;nSmoothIter++)</arglist>
+    </member>
+    <member kind="variable">
+      <type>const scalar</type>
+      <name>smoothCoeff</name>
+      <anchorfile>smoothSolution_8H.html</anchorfile>
+      <anchor>a6273229c5720772ebcddbae29dfce5fc</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>updateFields.H</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/interQHDFoam/</path>
     <filename>interQHDFoam_2updateFields_8H</filename>
@@ -12257,6 +12276,7 @@
     <file>createFaceFluxes.H</file>
     <file>createFields.H</file>
     <file>interQHDFoam.C</file>
+    <file>smoothSolution.H</file>
     <file>updateFields.H</file>
     <file>updateFluxes.H</file>
   </compound>

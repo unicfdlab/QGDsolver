@@ -1,0 +1,12 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classFoam_1_1fvsc_1_1fvscStencil.html" title="This is a method for calculation the differential operators without tangential derivatives. They are further used in the calculation of the QGD terms. " alt="" coords="228,119,356,145"/>
+<area shape="rect" id="node2" href="$classFoam_1_1fvsc_1_1GaussVolPoint.html" title="GaussVolPoint" alt="" coords="421,56,536,83"/>
+<area shape="rect" id="node3" href="$classFoam_1_1fvsc_1_1leastSquares.html" title="leastSquares" alt="" coords="425,157,532,184"/>
+<area shape="rect" id="node4" href="$classFoam_1_1fvsc_1_1leastSquaresOpt.html" title="leastSquaresOpt" alt="" coords="414,208,543,235"/>
+<area shape="rect" id="node5" href="$classFoam_1_1fvsc_1_1reduced.html" title="reduced" alt="" coords="441,107,516,133"/>
+<area shape="rect" id="node6" href="$classFoam_1_1fvsc_1_1GaussVolPointBase1D.html" title="GaussVolPointBase1D" alt="" coords="5,5,171,32"/>
+<area shape="rect" id="node7" href="$classFoam_1_1fvsc_1_1GaussVolPointBase.html" title="GaussVolPointBase" alt="" coords="219,56,365,83"/>
+<area shape="rect" id="node8" href="$classFoam_1_1fvsc_1_1GaussVolPointBase2D.html" title="GaussVolPointBase2D" alt="" coords="5,56,171,83"/>
+<area shape="rect" id="node9" href="$classFoam_1_1fvsc_1_1GaussVolPointBase3D.html" title="GaussVolPointBase3D" alt="" coords="5,107,171,133"/>
+<area shape="rect" id="node10" href="$classFoam_1_1fvsc_1_1leastSquaresBase.html" title="leastSquaresBase" alt="" coords="223,195,361,221"/>
+</map>

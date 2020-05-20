@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classFoam_1_1constTwoPhaseProperties.html" title="constTwoPhaseProperties" alt="" coords="5,56,192,83"/>
+<area shape="rect" id="node2" href="$classFoam_1_1twoPhaseIcoQGDThermo.html" title="Thermodynamics and mechanics class for incompressible two&#45;phase mixture of immiscible components..." alt="" coords="240,107,424,133"/>
+<area shape="rect" id="node5" href="$classFoam_1_1psiQGDThermo.html" title="Class describing thermophysical properties of perfect gas with motion governed by Quasi&#45; Gas dynamics..." alt="" coords="271,221,393,248"/>
+<area shape="rect" id="node6" href="$classFoam_1_1psiQGDReactionThermo.html" title="Foam::psiQGDReactionThermo. " alt="" coords="473,221,650,248"/>
+<area shape="rect" id="node7" href="$classFoam_1_1QGDThermo.html" title="Abstract base class for classes implementing thermophysical properties of gases and fluids governed b..." alt="" coords="47,259,150,285"/>
+<area shape="rect" id="node8" href="$classFoam_1_1rhoQGDThermo.html" title="Basic thermodynamic properties based on density. " alt="" coords="271,297,393,324"/>
+<area shape="rect" id="node9" href="$classFoam_1_1qInterfaceProperties.html" title="Contains the interface properties. " alt="" coords="21,157,176,184"/>
+</map>
