@@ -145,7 +145,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a880c30ceedc732980e0cbed48c6480ff">defineTypeNameAndDebug</a>(leastSquares,0);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a3cceb2c9e8b46aa44ed29c97800292af">addToRunTimeSelectionTable</a></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    (</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        fvscStencil,</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        leastSquares,</div>
 <div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquares.html#aca230cd0fae6285b74ccdc3a331ca6d9">   49</a></span>&#160;        components</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    );</div>
@@ -156,13 +156,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// constructors</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<a class="code" href="classFoam_1_1fvsc_1_1leastSquares.html#aca230cd0fae6285b74ccdc3a331ca6d9">Foam::fvsc::leastSquares::leastSquares</a>(<span class="keyword">const</span> IOobject&amp; io)</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>(io),</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    leastSquaresBase(<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    fvscStencil(io),</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    leastSquaresBase(mesh_)</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    faceSet degenerateFacesSet</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    (</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">//faceSetHeader</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>,</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="stringliteral">&quot;degenerateStencilFaces&quot;</span>,</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        IOobject::READ_IF_PRESENT,</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        IOobject::NO_WRITE</div>
@@ -184,13 +184,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            label faceId = degenerateFaces[iDegFace];</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.isInternalFace(faceId))</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.isInternalFace(faceId))</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            {</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                intDegFaces.insert(faceId);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            }</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                label patchId = <a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundaryMesh().whichPatch(faceId);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                label patchId = <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundaryMesh().whichPatch(faceId);</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                label iPatch = -1;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a2f25944568a50f301ddee8182cdc19a7">procPairs_</a>, iPP)</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                {</div>
@@ -207,7 +207,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    (</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                        faceId</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                        -</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                        <a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundaryMesh()[patchId].start()</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                        <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundaryMesh()[patchId].start()</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    );</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                }</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            }</div>
@@ -243,11 +243,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment">// \return         Gradient of iVF (tensor field) which was computed on the faces of mesh.</span></div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;Foam::tmp&lt;Foam::surfaceTensorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1leastSquares.html#aadbd76752f47d36b9a31044e48a0f799">Foam::fvsc::leastSquares::Grad</a>(<span class="keyword">const</span> volVectorField&amp; iVF)</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;{</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    surfaceVectorField gradComp0col = <a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iVF.component(0));</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    surfaceVectorField gradComp1col = <a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iVF.component(1));</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    surfaceVectorField gradComp2col = <a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iVF.component(2));</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    surfaceVectorField gradComp0col = Grad(iVF.component(0));</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    surfaceVectorField gradComp1col = Grad(iVF.component(1));</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    surfaceVectorField gradComp2col = Grad(iVF.component(2));</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    tmp&lt;surfaceTensorField&gt; tgradIVF(0* <a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a>* fvc::snGrad(iVF));</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    tmp&lt;surfaceTensorField&gt; tgradIVF(0* nf_* fvc::snGrad(iVF));</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    surfaceTensorField&amp; gradIVF = tgradIVF.ref();</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    </div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">//set internal field</span></div>
@@ -264,9 +264,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    gradIVF.primitiveFieldRef().replace(8, gradComp2col.primitiveField().component(2));</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    </div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">//set external fields</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundaryMesh(), patchi)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(mesh_.boundaryMesh(), patchi)</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundary()[patchi], facei)</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(mesh_.boundary()[patchi], facei)</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        {</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            gradIVF.boundaryFieldRef()[patchi][facei].component(0) = </div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                gradComp0col.boundaryField()[patchi][facei].component(0);</div>
@@ -302,18 +302,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquares.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">  201</a></span>&#160;<span class="comment">// \return           Divergence of iVF (scalar field) which was computed on the faces of mesh.</span></div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;Foam::tmp&lt;Foam::surfaceScalarField&gt; <a class="code" href="classFoam_1_1fvsc_1_1leastSquares.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">Foam::fvsc::leastSquares::Div</a>(<span class="keyword">const</span> volVectorField&amp; iVF)</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;{</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    surfaceVectorField gradComp0 = <a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iVF.component(0));</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    surfaceVectorField gradComp1 = <a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iVF.component(1));</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    surfaceVectorField gradComp2 = <a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iVF.component(2));</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    surfaceVectorField gradComp0 = Grad(iVF.component(0));</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    surfaceVectorField gradComp1 = Grad(iVF.component(1));</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    surfaceVectorField gradComp2 = Grad(iVF.component(2));</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    tmp&lt;surfaceScalarField&gt; tdivIVF(0 * (<a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a> &amp; fvc::snGrad(iVF)));</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    tmp&lt;surfaceScalarField&gt; tdivIVF(0 * (nf_ &amp; fvc::snGrad(iVF)));</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    surfaceScalarField&amp; divIVF = tdivIVF.ref();</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    </div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    divIVF.primitiveFieldRef() = gradComp0.primitiveField().component(0)</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                               + gradComp1.primitiveField().component(1)</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                               + gradComp2.primitiveField().component(2);</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    </div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundary(), patchi)</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(mesh_.boundary(), patchi)</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    {</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        divIVF.boundaryFieldRef()[patchi] = </div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            gradComp0.boundaryField()[patchi].component(0)</div>
@@ -334,32 +334,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="comment">// \return           Divergence of iTF (vector field) which was computed on the faces of mesh.</span></div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;Foam::tmp&lt;Foam::surfaceVectorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1leastSquares.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">Foam::fvsc::leastSquares::Div</a>(<span class="keyword">const</span> volTensorField&amp; iTF)</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;{</div>
-<div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquares.html#ae8e8feac2728757cae3e146e09c39933">  236</a></span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp0 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(0)));</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp1 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(1)));</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp2 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(2)));</div>
+<div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquares.html#ae8e8feac2728757cae3e146e09c39933">  236</a></span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp0 (Grad(iTF.component(0)));</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp1 (Grad(iTF.component(1)));</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp2 (Grad(iTF.component(2)));</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp3 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(3)));</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp4 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(4)));</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp5 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(5)));</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp3 (Grad(iTF.component(3)));</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp4 (Grad(iTF.component(4)));</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp5 (Grad(iTF.component(5)));</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp6 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(6)));</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp7 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(7)));</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp8 (<a class="code" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(iTF.component(8)));</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp6 (Grad(iTF.component(6)));</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp7 (Grad(iTF.component(7)));</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    tmp&lt;surfaceVectorField&gt; gradComp8 (Grad(iTF.component(8)));</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    tmp&lt;surfaceScalarField&gt; divComp0 (gradComp0().component(0) + gradComp3().component(1) + gradComp6().component(2));</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    tmp&lt;surfaceScalarField&gt; divComp1 (gradComp1().component(0) + gradComp4().component(1) + gradComp7().component(2));</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    tmp&lt;surfaceScalarField&gt; divComp2 (gradComp2().component(0) + gradComp5().component(1) + gradComp8().component(2));</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    tmp&lt;surfaceVectorField&gt; tdivITF(0*<a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a>*fvc::snGrad(iTF.component(0)));</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    tmp&lt;surfaceVectorField&gt; tdivITF(0*nf_*fvc::snGrad(iTF.component(0)));</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    surfaceVectorField&amp; divITF = tdivITF.ref();</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    </div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    divITF.primitiveFieldRef().replace(0, divComp0().primitiveField());</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    divITF.primitiveFieldRef().replace(1, divComp1().primitiveField());</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    divITF.primitiveFieldRef().replace(2, divComp2().primitiveField());</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    </div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundary(), patchi)</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(mesh_.boundary(), patchi)</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    {</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.boundary()[patchi], facei)</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(mesh_.boundary()[patchi], facei)</div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        {</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            divITF.boundaryFieldRef()[patchi][facei].component(0) = </div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                divComp0().boundaryField()[patchi][facei];</div>
@@ -383,13 +383,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classFoam_1_1fvsc_1_1leastSquares_html_aadbd76752f47d36b9a31044e48a0f799"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquares.html#aadbd76752f47d36b9a31044e48a0f799">Foam::fvsc::leastSquares::Grad</a></div><div class="ttdeci">tmp&lt; surfaceVectorField &gt; Grad(const volScalarField &amp;iF)</div><div class="ttdoc">Calculate gradient of volume scalar function on the faces. </div><div class="ttdef"><b>Definition:</b> <a href="extendedFaceStencilScalarGrad_8C_source.html#l00043">extendedFaceStencilScalarGrad.C:43</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1leastSquares_html_a144b1fce9e080ab9d0ae97fa3c0a2f24"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquares.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">Foam::fvsc::leastSquares::Div</a></div><div class="ttdeci">tmp&lt; surfaceScalarField &gt; Div(const volVectorField &amp;iVF)</div><div class="ttdoc">Calculate divergence of volume vector field on the faces. </div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresStencil_8C_source.html#l00201">leastSquaresStencil.C:201</a></div></div>
 <div class="ttc" id="namespaceFoam_1_1fvsc_html_a3cceb2c9e8b46aa44ed29c97800292af"><div class="ttname"><a href="namespaceFoam_1_1fvsc.html#a3cceb2c9e8b46aa44ed29c97800292af">Foam::fvsc::addToRunTimeSelectionTable</a></div><div class="ttdeci">addToRunTimeSelectionTable(fvscStencil, GaussVolPoint, components)</div></div>
-<div class="ttc" id="fvscStencil_8H_html_a068e1c874df615d8f872b53e6800c929"><div class="ttname"><a href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a></div><div class="ttdeci">surfaceVectorField nf_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00054">fvscStencil.H:54</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a23edeeeecebcef11921a33dd5d990570"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">Foam::fvsc::fvscStencil::mesh_</a></div><div class="ttdeci">const fvMesh &amp; mesh_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00044">fvscStencil.H:44</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_a83fc2a79e6d8530e5729c874f753f183"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a83fc2a79e6d8530e5729c874f753f183">Foam::fvsc::leastSquaresBase::labelHashSet</a></div><div class="ttdeci">HashSet&lt; label, Hash&lt; label &gt; &gt; labelHashSet</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00059">leastSquaresBase.H:59</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_a23edeeeecebcef11921a33dd5d990570"><div class="ttname"><a href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a></div><div class="ttdeci">const fvMesh &amp; mesh_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00044">fvscStencil.H:44</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1leastSquares_html_aca230cd0fae6285b74ccdc3a331ca6d9"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquares.html#aca230cd0fae6285b74ccdc3a331ca6d9">Foam::fvsc::leastSquares::leastSquares</a></div><div class="ttdeci">leastSquares(const IOobject &amp;)</div><div class="ttdoc">Construct from IOobject. Optional flag for if IOobject is the. </div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresStencil_8C_source.html#l00049">leastSquaresStencil.C:49</a></div></div>
 <div class="ttc" id="QGDYEqn_8H_html_a10c29c5a8ec21260e2867f83e0bbd2b6"><div class="ttname"><a href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a></div><div class="ttdeci">forAll(Y, i)</div><div class="ttdef"><b>Definition:</b> <a href="QGDYEqn_8H_source.html#l00036">QGDYEqn.H:36</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_a06c75f9759dd65cd09cd212fe025ab8f"><div class="ttname"><a href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a></div><div class="ttdeci">fvscStencil(const IOobject &amp;io)</div><div class="ttdoc">Construct from components. </div></div>
-<div class="ttc" id="fvscStencil_8H_html_a3255fdeec8ad505da8063d14bf28c4ee"><div class="ttname"><a href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a></div><div class="ttdeci">virtual tmp&lt; surfaceVectorField &gt; Grad(const volScalarField &amp;vF)</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00118">fvscStencil.H:118</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_a2f25944568a50f301ddee8182cdc19a7"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a2f25944568a50f301ddee8182cdc19a7">Foam::fvsc::leastSquaresBase::procPairs_</a></div><div class="ttdeci">List&lt; label &gt; procPairs_</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00080">leastSquaresBase.H:80</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1leastSquares_html_a252b36995774be7525ac7987797f3b86"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquares.html#a252b36995774be7525ac7987797f3b86">Foam::fvsc::leastSquares::~leastSquares</a></div><div class="ttdeci">~leastSquares()</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresStencil_8C_source.html#l00126">leastSquaresStencil.C:126</a></div></div>
 <div class="ttc" id="namespaceFoam_1_1fvsc_html_a880c30ceedc732980e0cbed48c6480ff"><div class="ttname"><a href="namespaceFoam_1_1fvsc.html#a880c30ceedc732980e0cbed48c6480ff">Foam::fvsc::defineTypeNameAndDebug</a></div><div class="ttdeci">defineTypeNameAndDebug(fvscStencil, 0)</div></div>

@@ -140,18 +140,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d">solve</a></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    (</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        fvm::ddt(<a class="code" href="particlesQGDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a>)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        fvm::ddt(<a class="code" href="mulesQHDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a>)</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        +</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37">fvc::div</a>(<a class="code" href="particlesQGDFoam_2updateFluxes_8H.html#a25bdbd0ff60dc5a609c0a37dfaf35045">phiJm</a>)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        ==</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="createZeroSources_8H.html#a3316b9f0aeadfad020de5cda97f7949c">rhoSu</a></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    );</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
-<div class="ttc" id="particlesQGDFoam_2createFields_8H_html_ad55ed9af0dc75fc0f09a2f197435bbf9"><div class="ttname"><a href="particlesQGDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a></div><div class="ttdeci">volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</div></div>
 <div class="ttc" id="QGDEEqn_8H_html_ac123867940006fb14e8346d9bdc38f8d"><div class="ttname"><a href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d">solve</a></div><div class="ttdeci">EEqn solve()</div></div>
 <div class="ttc" id="createZeroSources_8H_html_a3316b9f0aeadfad020de5cda97f7949c"><div class="ttname"><a href="createZeroSources_8H.html#a3316b9f0aeadfad020de5cda97f7949c">rhoSu</a></div><div class="ttdeci">fvScalarMatrix rhoSu(rho, rho.dimensions()*dimVolume/dimTime)</div></div>
 <div class="ttc" id="particlesQGDFoam_2updateFluxes_8H_html_a25bdbd0ff60dc5a609c0a37dfaf35045"><div class="ttname"><a href="particlesQGDFoam_2updateFluxes_8H.html#a25bdbd0ff60dc5a609c0a37dfaf35045">phiJm</a></div><div class="ttdeci">phiJm</div><div class="ttdef"><b>Definition:</b> <a href="particlesQGDFoam_2updateFluxes_8H_source.html#l00039">updateFluxes.H:39</a></div></div>
 <div class="ttc" id="namespaceFoam_1_1fvsc_html_ab3e593b89fb1837f191c78c26ed47a37"><div class="ttname"><a href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37">Foam::fvsc::div</a></div><div class="ttdeci">tmp&lt; surfaceScalarField &gt; div(const volVectorField &amp;vF)</div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_ad55ed9af0dc75fc0f09a2f197435bbf9"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a></div><div class="ttdeci">volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->

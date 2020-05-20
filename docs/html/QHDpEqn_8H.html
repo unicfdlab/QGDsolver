@@ -117,7 +117,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a99d5077133d60976cfc4be3f2d84914e"><td class="memItemLeft" align="right" valign="top">fvScalarMatrix&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="QHDpEqn_8H.html#a99d5077133d60976cfc4be3f2d84914e">pEqn</a> (fvc::div(<a class="el" href="interQHDFoam_2createFaceFluxes_8H.html#aabf3afb6bf8f7e0c1909ed075e46650a">phiu</a>)-fvc::div(<a class="el" href="SRFQHDFoam_2updateFluxes_8H.html#a06fd124299b02790031d0f0be3bf59ea">phiwo</a>)-fvm::laplacian(<a class="el" href="SRFQHDFoam_2createFaceFields_8H.html#a69c26ffe93da3d34caec7ff3b71a8a2f">taubyrhof</a>, <a class="el" href="zQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>))</td></tr>
+<tr class="memitem:a99d5077133d60976cfc4be3f2d84914e"><td class="memItemLeft" align="right" valign="top">fvScalarMatrix&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="QHDpEqn_8H.html#a99d5077133d60976cfc4be3f2d84914e">pEqn</a> (fvc::div(<a class="el" href="mulesQHDFoam_2createFields_8H.html#aabf3afb6bf8f7e0c1909ed075e46650a">phiu</a>)-fvc::div(<a class="el" href="mulesQHDFoam_2createFields_8H.html#ab70256e2737acd06d7152e0361059d25">phiwo</a>)-fvm::laplacian(<a class="el" href="SRFQHDFoam_2createFaceFields_8H.html#a69c26ffe93da3d34caec7ff3b71a8a2f">taubyrhof</a>, <a class="el" href="zQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>))</td></tr>
 <tr class="separator:a99d5077133d60976cfc4be3f2d84914e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a829fced00206f9a75bd1f8dca28e1db4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="QHDpEqn_8H.html#a99d5077133d60976cfc4be3f2d84914e">pEqn</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="QHDpEqn_8H.html#a829fced00206f9a75bd1f8dca28e1db4">setReference</a> (pRefCell, getRefCellValue(<a class="el" href="zQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>, pRefCell))</td></tr>
 <tr class="separator:a829fced00206f9a75bd1f8dca28e1db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +126,7 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:aaf40c223796354fb6b79c9ed047c513a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="QHDpEqn_8H.html#aaf40c223796354fb6b79c9ed047c513a">phi</a> = <a class="el" href="interQHDFoam_2createFaceFluxes_8H.html#aabf3afb6bf8f7e0c1909ed075e46650a">phiu</a> - <a class="el" href="SRFQHDFoam_2updateFluxes_8H.html#a06fd124299b02790031d0f0be3bf59ea">phiwo</a> + pEqn.flux()</td></tr>
+<tr class="memitem:aaf40c223796354fb6b79c9ed047c513a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="QHDpEqn_8H.html#aaf40c223796354fb6b79c9ed047c513a">phi</a> = <a class="el" href="mulesQHDFoam_2createFields_8H.html#aabf3afb6bf8f7e0c1909ed075e46650a">phiu</a> - <a class="el" href="mulesQHDFoam_2createFields_8H.html#ab70256e2737acd06d7152e0361059d25">phiwo</a> + pEqn.flux()</td></tr>
 <tr class="separator:aaf40c223796354fb6b79c9ed047c513a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -199,7 +199,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">phi = <a class="el" href="interQHDFoam_2createFaceFluxes_8H.html#aabf3afb6bf8f7e0c1909ed075e46650a">phiu</a> - <a class="el" href="SRFQHDFoam_2updateFluxes_8H.html#a06fd124299b02790031d0f0be3bf59ea">phiwo</a> + pEqn.flux()</td>
+          <td class="memname">phi = <a class="el" href="mulesQHDFoam_2createFields_8H.html#aabf3afb6bf8f7e0c1909ed075e46650a">phiu</a> - <a class="el" href="mulesQHDFoam_2createFields_8H.html#ab70256e2737acd06d7152e0361059d25">phiwo</a> + pEqn.flux()</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -141,7 +141,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a880c30ceedc732980e0cbed48c6480ff">defineTypeNameAndDebug</a>(reduced,0);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a3cceb2c9e8b46aa44ed29c97800292af">addToRunTimeSelectionTable</a></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    (</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        fvscStencil,</div>
 <div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1reduced.html#a0265a06c52201f8c82509536390f6508">   44</a></span>&#160;        <a class="code" href="classFoam_1_1fvsc_1_1reduced.html">reduced</a>,</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        components</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    );</div>
@@ -151,7 +151,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1reduced.html#a1f1e085702eaee71a278a32f3b908c73">   50</a></span>&#160;<span class="comment">// constructors</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<a class="code" href="classFoam_1_1fvsc_1_1reduced.html#a0265a06c52201f8c82509536390f6508">Foam::fvsc::reduced::reduced</a>(<span class="keyword">const</span> IOobject&amp; io)</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>(io)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a>(io)</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
@@ -167,7 +167,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">// \return           Gradient of iF (vector field) which was computed on the faces of mesh.</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;Foam::tmp&lt;Foam::surfaceVectorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1reduced.html#aadbd76752f47d36b9a31044e48a0f799">Foam::fvsc::reduced::Grad</a>(<span class="keyword">const</span> volScalarField&amp; vF)</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;{</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    tmp&lt;surfaceVectorField&gt; tgradIF(<a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a> * fvc::snGrad(vF));</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    tmp&lt;surfaceVectorField&gt; tgradIF(nf_ * fvc::snGrad(vF));</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> tgradIF;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;};</div>
@@ -181,14 +181,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;Foam::tmp&lt;Foam::surfaceTensorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1reduced.html#aadbd76752f47d36b9a31044e48a0f799">Foam::fvsc::reduced::Grad</a>(<span class="keyword">const</span> volVectorField&amp; iVF)</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    tmp&lt;surfaceTensorField&gt; tgradIVF(<a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a> * fvc::snGrad(iVF));</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    tmp&lt;surfaceTensorField&gt; tgradIVF(nf_ * fvc::snGrad(iVF));</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> tgradIVF;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
 <div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1reduced.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">   87</a></span>&#160;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;Foam::tmp&lt;Foam::surfaceScalarField&gt; <a class="code" href="classFoam_1_1fvsc_1_1reduced.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">Foam::fvsc::reduced::Div</a>(<span class="keyword">const</span> volVectorField&amp; iVF)</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tmp&lt;surfaceScalarField&gt; tdivIVF(<a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a> &amp; fvc::snGrad(iVF));</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tmp&lt;surfaceScalarField&gt; tdivIVF(nf_ &amp; fvc::snGrad(iVF));</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    </div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> tdivIVF;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
@@ -201,7 +201,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">// \return           Divergence of iTF (vector field) which was computed on the faces of mesh.</span></div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;Foam::tmp&lt;Foam::surfaceVectorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1reduced.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">Foam::fvsc::reduced::Div</a>(<span class="keyword">const</span> volTensorField&amp; iTF)</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;{</div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1reduced.html#ae8e8feac2728757cae3e146e09c39933">  103</a></span>&#160;    tmp&lt;surfaceVectorField&gt; tdivITF(<a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a> &amp; fvc::snGrad(iTF));</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1reduced.html#ae8e8feac2728757cae3e146e09c39933">  103</a></span>&#160;    tmp&lt;surfaceVectorField&gt; tdivITF(nf_ &amp; fvc::snGrad(iTF));</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    </div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">return</span> tdivITF;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
@@ -212,12 +212,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html">Foam::fvsc::fvscStencil</a></div><div class="ttdoc">This is a method for calculation the differential operators without tangential derivatives. They are further used in the calculation of the QGD terms. </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00036">fvscStencil.H:36</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1reduced_html_a144b1fce9e080ab9d0ae97fa3c0a2f24"><div class="ttname"><a href="classFoam_1_1fvsc_1_1reduced.html#a144b1fce9e080ab9d0ae97fa3c0a2f24">Foam::fvsc::reduced::Div</a></div><div class="ttdeci">tmp&lt; surfaceScalarField &gt; Div(const volVectorField &amp;iVF)</div><div class="ttdef"><b>Definition:</b> <a href="reducedFaceNormalStencil_8C_source.html#l00087">reducedFaceNormalStencil.C:87</a></div></div>
 <div class="ttc" id="namespaceFoam_1_1fvsc_html_a3cceb2c9e8b46aa44ed29c97800292af"><div class="ttname"><a href="namespaceFoam_1_1fvsc.html#a3cceb2c9e8b46aa44ed29c97800292af">Foam::fvsc::addToRunTimeSelectionTable</a></div><div class="ttdeci">addToRunTimeSelectionTable(fvscStencil, GaussVolPoint, components)</div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1reduced_html_a0265a06c52201f8c82509536390f6508"><div class="ttname"><a href="classFoam_1_1fvsc_1_1reduced.html#a0265a06c52201f8c82509536390f6508">Foam::fvsc::reduced::reduced</a></div><div class="ttdeci">reduced(const IOobject &amp;)</div><div class="ttdoc">Construct from IOobject. </div><div class="ttdef"><b>Definition:</b> <a href="reducedFaceNormalStencil_8C_source.html#l00044">reducedFaceNormalStencil.C:44</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_a068e1c874df615d8f872b53e6800c929"><div class="ttname"><a href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a></div><div class="ttdeci">surfaceVectorField nf_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00054">fvscStencil.H:54</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1reduced_html_a1f1e085702eaee71a278a32f3b908c73"><div class="ttname"><a href="classFoam_1_1fvsc_1_1reduced.html#a1f1e085702eaee71a278a32f3b908c73">Foam::fvsc::reduced::~reduced</a></div><div class="ttdeci">~reduced()</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="reducedFaceNormalStencil_8C_source.html#l00050">reducedFaceNormalStencil.C:50</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_a06c75f9759dd65cd09cd212fe025ab8f"><div class="ttname"><a href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a></div><div class="ttdeci">fvscStencil(const IOobject &amp;io)</div><div class="ttdoc">Construct from components. </div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1reduced_html_aadbd76752f47d36b9a31044e48a0f799"><div class="ttname"><a href="classFoam_1_1fvsc_1_1reduced.html#aadbd76752f47d36b9a31044e48a0f799">Foam::fvsc::reduced::Grad</a></div><div class="ttdeci">tmp&lt; surfaceVectorField &gt; Grad(const volScalarField &amp;iF)</div><div class="ttdoc">Calculate gradient of volume scalar function on the faces. </div><div class="ttdef"><b>Definition:</b> <a href="reducedFaceNormalStencil_8C_source.html#l00063">reducedFaceNormalStencil.C:63</a></div></div>
 <div class="ttc" id="reducedFaceNormalStencil_8H_html"><div class="ttname"><a href="reducedFaceNormalStencil_8H.html">reducedFaceNormalStencil.H</a></div></div>
 <div class="ttc" id="classFoam_1_1fvsc_1_1reduced_html"><div class="ttname"><a href="classFoam_1_1fvsc_1_1reduced.html">Foam::fvsc::reduced</a></div><div class="ttdef"><b>Definition:</b> <a href="reducedFaceNormalStencil_8H_source.html#l00041">reducedFaceNormalStencil.H:41</a></div></div>

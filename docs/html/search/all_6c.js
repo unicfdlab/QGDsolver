@@ -22,5 +22,5 @@ var searchData=
   ['list3',['List3',['../classFoam_1_1fvsc_1_1leastSquaresBase.html#a7b6a7700e485a478c5c0a10d09d37202',1,'Foam::fvsc::leastSquaresBase']]],
   ['logmean',['logMean',['../zQGDFoam_8C.html#a3f9cbfeddce302453570d883284d384d',1,'zQGDFoam.C']]],
   ['lookup',['lookup',['../readScNumbers_8H.html#ad6a637987505ff015d0ac14ee800cfee',1,'readScNumbers.H']]],
-  ['lookupornew',['lookupOrNew',['../fvscStencil_8H.html#a777dfec51ca6a09682f5f51f48154a6a',1,'fvscStencil.H']]]
+  ['lookupornew',['lookupOrNew',['../classFoam_1_1fvsc_1_1fvscStencil.html#af7d348c0999f87a72ce573a9feb49968',1,'Foam::fvsc::fvscStencil']]]
 ];

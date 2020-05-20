@@ -233,16 +233,16 @@ Variables</h2></td></tr>
 <div class="line">        </div>
 <div class="line">        <a class="code" href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d">solve</a></div>
 <div class="line">        (</div>
-<div class="line">            fvm::ddt(<a class="code" href="particlesQGDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a>,<a class="code" href="interQHDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a>)</div>
+<div class="line">            fvm::ddt(<a class="code" href="mulesQHDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a>,<a class="code" href="interQHDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a>)</div>
 <div class="line">            -</div>
 <div class="line">            fvc::ddt(<a class="code" href="particlesQGDFoam_2createFields_8H.html#a5c577365adae073850853006529f9fc8">rhoU</a>)</div>
 <div class="line">            ==</div>
 <div class="line">            <a class="code" href="createZeroSources_8H.html#a580b353eb424a24b20b86e51a09e94e6">rhoUSu</a></div>
 <div class="line">        )</div>
-<div class="ttc" id="particlesQGDFoam_2createFields_8H_html_ad55ed9af0dc75fc0f09a2f197435bbf9"><div class="ttname"><a href="particlesQGDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a></div><div class="ttdeci">volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</div></div>
 <div class="ttc" id="interQHDFoam_2createFields_8H_html_a0e248714255cbecdd857baebd3be04ac"><div class="ttname"><a href="interQHDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a></div><div class="ttdeci">volVectorField U(IOobject(&quot;U&quot;, runTime.timeName(), mesh, IOobject::MUST_READ, IOobject::AUTO_WRITE), mesh)</div></div>
 <div class="ttc" id="QGDEEqn_8H_html_ac123867940006fb14e8346d9bdc38f8d"><div class="ttname"><a href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d">solve</a></div><div class="ttdeci">EEqn solve()</div></div>
 <div class="ttc" id="createZeroSources_8H_html_a580b353eb424a24b20b86e51a09e94e6"><div class="ttname"><a href="createZeroSources_8H.html#a580b353eb424a24b20b86e51a09e94e6">rhoUSu</a></div><div class="ttdeci">fvVectorMatrix rhoUSu(U, rho.dimensions()*U.dimensions()*dimVolume/dimTime)</div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_ad55ed9af0dc75fc0f09a2f197435bbf9"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a></div><div class="ttdeci">volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</div></div>
 <div class="ttc" id="particlesQGDFoam_2createFields_8H_html_a5c577365adae073850853006529f9fc8"><div class="ttname"><a href="particlesQGDFoam_2createFields_8H.html#a5c577365adae073850853006529f9fc8">rhoU</a></div><div class="ttdeci">volVectorField rhoU(IOobject(&quot;rhoU&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE), rho *U)</div></div>
 </div><!-- fragment -->
 <p>Definition at line <a class="el" href="QGDUEqn_8H_source.html#l00071">71</a> of file <a class="el" href="QGDUEqn_8H_source.html">QGDUEqn.H</a>.</p>

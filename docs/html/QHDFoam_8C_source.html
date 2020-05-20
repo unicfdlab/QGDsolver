@@ -167,11 +167,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">    #include &quot;createTime.H&quot;</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">    #include &quot;createMesh.H&quot;</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">    #include &quot;<a class="code" href="QHDFoam_2createFields_8H.html">createFields.H</a>&quot;</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">    #include &quot;createFaceFields.H&quot;</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">    #include &quot;createFaceFluxes.H&quot;</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">    #include &quot;<a class="code" href="QHDFoam_2createFaceFields_8H.html">createFaceFields.H</a>&quot;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">    #include &quot;<a class="code" href="QHDFoam_2createFaceFluxes_8H.html">createFaceFluxes.H</a>&quot;</span></div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">    #include &quot;createTimeControls.H&quot;</span></div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="particlesQGDFoam_2createFields_8H.html#ab61fedf221aa12a7c0a6e1eed0baddd0">turbulence</a>-&gt;validate();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="mulesQHDFoam_2createFields_8H.html#ab61fedf221aa12a7c0a6e1eed0baddd0">turbulence</a>-&gt;validate();</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
@@ -212,8 +212,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="comment">// --- Store old time values</span></div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <a class="code" href="interQHDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a>.oldTime();</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <a class="code" href="particlesQGDFoam_2createFields_8H.html#abb80dfe0d55ec4a3a97b2dc1353d66dc">T</a>.oldTime();</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <a class="code" href="particlesQGDFoam_2createFields_8H.html#ab61fedf221aa12a7c0a6e1eed0baddd0">turbulence</a>-&gt;correct();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>.oldTime();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <a class="code" href="mulesQHDFoam_2createFields_8H.html#ab61fedf221aa12a7c0a6e1eed0baddd0">turbulence</a>-&gt;correct();</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        </div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">        #include &quot;<a class="code" href="QHDpEqn_8H.html">QHDpEqn.H</a>&quot;</span></div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        </div>
@@ -221,13 +221,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        </div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor">        #include &quot;<a class="code" href="QHDTEqn_8H.html">QHDTEqn.H</a>&quot;</span></div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="particlesQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>.needReference())</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="mulesQHDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>.needReference())</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <a class="code" href="particlesQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a> += dimensionedScalar</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <a class="code" href="mulesQHDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a> += dimensionedScalar</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            (</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                <span class="stringliteral">&quot;p&quot;</span>,</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                <a class="code" href="particlesQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>.dimensions(),</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                pRefValue - getRefCellValue(<a class="code" href="particlesQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>, pRefCell)</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                <a class="code" href="mulesQHDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>.dimensions(),</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                pRefValue - getRefCellValue(<a class="code" href="mulesQHDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a>, pRefCell)</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            );</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        </div>
@@ -247,20 +247,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;}</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment">// ************************************************************************* //</span></div>
+<div class="ttc" id="QHDFoam_2createFaceFields_8H_html"><div class="ttname"><a href="QHDFoam_2createFaceFields_8H.html">createFaceFields.H</a></div></div>
 <div class="ttc" id="QHDCourantNo_8H_html"><div class="ttname"><a href="QHDCourantNo_8H.html">QHDCourantNo.H</a></div><div class="ttdoc">Calculates the mean and maximum wave speed based Courant Numbers. </div></div>
 <div class="ttc" id="particlesQGDFoam_8C_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="particlesQGDFoam_8C.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="particlesQGDFoam_8C_source.html#l00045">particlesQGDFoam.C:45</a></div></div>
 <div class="ttc" id="interQHDFoam_2createFields_8H_html_a0e248714255cbecdd857baebd3be04ac"><div class="ttname"><a href="interQHDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a></div><div class="ttdeci">volVectorField U(IOobject(&quot;U&quot;, runTime.timeName(), mesh, IOobject::MUST_READ, IOobject::AUTO_WRITE), mesh)</div></div>
+<div class="ttc" id="QHDFoam_2createFaceFluxes_8H_html"><div class="ttname"><a href="QHDFoam_2createFaceFluxes_8H.html">createFaceFluxes.H</a></div></div>
 <div class="ttc" id="setDeltaT-QGDQHD_8H_html"><div class="ttname"><a href="setDeltaT-QGDQHD_8H.html">setDeltaT-QGDQHD.H</a></div><div class="ttdoc">Reset the timestep to maintain a constant maximum courant Number. Reduction of time-step is immediate...</div></div>
-<div class="ttc" id="particlesQGDFoam_2createFields_8H_html_ab61fedf221aa12a7c0a6e1eed0baddd0"><div class="ttname"><a href="particlesQGDFoam_2createFields_8H.html#ab61fedf221aa12a7c0a6e1eed0baddd0">turbulence</a></div><div class="ttdeci">Info&lt;&lt; &quot;Thermo corrected&quot;&lt;&lt; endl;autoPtr&lt; compressible::turbulenceModel &gt; turbulence</div><div class="ttdef"><b>Definition:</b> <a href="particlesQGDFoam_2createFields_8H_source.html#l00024">createFields.H:24</a></div></div>
 <div class="ttc" id="QHDFoam_2createFields_8H_html"><div class="ttname"><a href="QHDFoam_2createFields_8H.html">createFields.H</a></div></div>
-<div class="ttc" id="particlesQGDFoam_2createFields_8H_html_a334650304cdcdff41898bee9eaf2e3db"><div class="ttname"><a href="particlesQGDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a></div><div class="ttdeci">volScalarField &amp; p</div><div class="ttdef"><b>Definition:</b> <a href="particlesQGDFoam_2createFields_8H_source.html#l00014">createFields.H:14</a></div></div>
 <div class="ttc" id="QHDTEqn_8H_html"><div class="ttname"><a href="QHDTEqn_8H.html">QHDTEqn.H</a></div><div class="ttdoc">Solver for unsteady 3D turbulent flow of incompressible fluid governed by quasi-hydrodynamic dynamic ...</div></div>
-<div class="ttc" id="QHDFoam_2updateFluxes_8H_html"><div class="ttname"><a href="QHDFoam_2updateFluxes_8H.html">updateFluxes.H</a></div><div class="ttdoc">——–Start——— </div></div>
+<div class="ttc" id="QHDFoam_2updateFluxes_8H_html"><div class="ttname"><a href="QHDFoam_2updateFluxes_8H.html">updateFluxes.H</a></div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_ab61fedf221aa12a7c0a6e1eed0baddd0"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#ab61fedf221aa12a7c0a6e1eed0baddd0">turbulence</a></div><div class="ttdeci">Info&lt;&lt; &quot;Thermo corrected&quot;&lt;&lt; endl;autoPtr&lt; compressible::turbulenceModel &gt; turbulence</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2createFields_8H_source.html#l00044">createFields.H:44</a></div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_ab35c96e5601691f7270cfadc745a12d3"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a></div><div class="ttdeci">volScalarField &amp; T</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2createFields_8H_source.html#l00038">createFields.H:38</a></div></div>
 <div class="ttc" id="QHD_8H_html"><div class="ttname"><a href="QHD_8H.html">QHD.H</a></div><div class="ttdoc">Includation for QHD solver. Equations of state for QHD based on density. Class for fvsc namespace...</div></div>
 <div class="ttc" id="QHDUEqn_8H_html"><div class="ttname"><a href="QHDUEqn_8H.html">QHDUEqn.H</a></div><div class="ttdoc">Solution of momentum equation for QHD solver. </div></div>
 <div class="ttc" id="QHDpEqn_8H_html"><div class="ttname"><a href="QHDpEqn_8H.html">QHDpEqn.H</a></div><div class="ttdoc">Solution of continuity equation for QGD solver. </div></div>
-<div class="ttc" id="particlesQGDFoam_2createFields_8H_html_abb80dfe0d55ec4a3a97b2dc1353d66dc"><div class="ttname"><a href="particlesQGDFoam_2createFields_8H.html#abb80dfe0d55ec4a3a97b2dc1353d66dc">T</a></div><div class="ttdeci">const volScalarField &amp; T</div><div class="ttdef"><b>Definition:</b> <a href="particlesQGDFoam_2createFields_8H_source.html#l00015">createFields.H:15</a></div></div>
 <div class="ttc" id="QHDFoam_2updateFields_8H_html"><div class="ttname"><a href="QHDFoam_2updateFields_8H.html">updateFields.H</a></div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_a334650304cdcdff41898bee9eaf2e3db"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#a334650304cdcdff41898bee9eaf2e3db">p</a></div><div class="ttdeci">volScalarField &amp; p</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2createFields_8H_source.html#l00037">createFields.H:37</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->

@@ -143,19 +143,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">namespace </span>fvsc</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a880c30ceedc732980e0cbed48c6480ff">defineTypeNameAndDebug</a>(<a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>, 0);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a9afb97532ba337e9a27714e23f2ac53e">defineRunTimeSelectionTable</a>(<a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>, components);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a880c30ceedc732980e0cbed48c6480ff">defineTypeNameAndDebug</a>(fvscStencil, 0);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="namespaceFoam_1_1fvsc.html#a9afb97532ba337e9a27714e23f2ac53e">defineRunTimeSelectionTable</a>(fvscStencil, components);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">namespace </span>Foam</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">namespace </span>fvsc</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#aab511ee0285dc19d8fe8a18af7658d83">   51</a></span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">namespace </span><a class="code" href="classFoam_1_1fvsc.html">fvsc</a></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;PtrList&lt;fvscStencil&gt; <a class="code" href="fvscStencil_8H.html#ad23095ea0c0f64c5bb63e05dd7986314">fvscStencil::stencils_</a>(0);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;PtrList&lt;fvscStencil&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629">fvscStencil::stencils_</a>(0);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;autoPtr&lt;fvscStencil&gt; <a class="code" href="fvscStencil_8H.html#af11e990952ba4ea95c59c59cec8723c7">fvscStencil::New</a></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;autoPtr&lt;fvscStencil&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#aab511ee0285dc19d8fe8a18af7658d83">fvscStencil::New</a></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;(</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> word&amp; fvscType,</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">const</span> fvMesh&amp; mesh</div>
@@ -188,49 +188,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                mesh,</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                IOobject::NO_READ,</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                IOobject::NO_WRITE</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            )</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#af7d348c0999f87a72ce573a9feb49968">   90</a></span>&#160;            )</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        )</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    );</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">//tmp&lt;fvscStencil&gt; fvscStencil::lookupOrNew</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>&amp; <a class="code" href="fvscStencil_8H.html#a777dfec51ca6a09682f5f51f48154a6a">fvscStencil::lookupOrNew</a></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a>&amp; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#af7d348c0999f87a72ce573a9feb49968">fvscStencil::lookupOrNew</a></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;(</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">const</span> word&amp; name,</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">const</span> fvMesh&amp; mesh</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;)</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (!mesh.thisDb().foundObject&lt;<a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>&gt;(name))</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (!mesh.thisDb().foundObject&lt;<a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a>&gt;(name))</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <a class="code" href="fvscStencil_8H.html#ad23095ea0c0f64c5bb63e05dd7986314">stencils_</a>.append</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629">stencils_</a>.append</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        (</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <a class="code" href="fvscStencil_8H.html#af11e990952ba4ea95c59c59cec8723c7">fvscStencil::New</a>(name,mesh)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#aab511ee0285dc19d8fe8a18af7658d83">fvscStencil::New</a>(name,mesh)</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        );</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <a class="code" href="fvscStencil_8H.html#ad23095ea0c0f64c5bb63e05dd7986314">stencils_</a>.last().checkIn();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629">stencils_</a>.last().checkIn();</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">const_cast&lt;</span><a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>&amp;<span class="keyword">&gt;</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a06c75f9759dd65cd09cd212fe025ab8f">  111</a></span>&#160;    <span class="keywordflow">return</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">const_cast&lt;</span><a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a>&amp;<span class="keyword">&gt;</span></div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        (</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            mesh.thisDb().lookupObject&lt;<a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a>&gt;(name)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            mesh.thisDb().lookupObject&lt;<a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a>&gt;(name)</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        );</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<a class="code" href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil::fvscStencil</a>(<span class="keyword">const</span> IOobject&amp; io)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil::fvscStencil</a>(<span class="keyword">const</span> IOobject&amp; io)</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;:</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    regIOobject(io, false),</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    refCount(),</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>(refCast&lt;const fvMesh&gt;(io.db())),</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="fvscStencil_8H.html#a8e84834799e62c4db747387a5ac21c78">runTime_</a>(<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.time()),</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    (</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.Sf() / <a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>.magSf()</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    mesh_(refCast&lt;const fvMesh&gt;(io.db())),</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    runTime_(mesh_.time()),</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    nf_</div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a89ae578d10181f86727b7b651b9e1e17">  125</a></span>&#160;    (</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        mesh_.Sf() / mesh_.magSf()</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    )</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;{</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a>.rename(<span class="stringliteral">&quot;nf&quot;</span>);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    nf_.rename(<span class="stringliteral">&quot;nf&quot;</span>);</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<a class="code" href="fvscStencil_8H.html#adb678e1fe3ae50a6f9c863ecd21098e1">fvscStencil::~fvscStencil</a>()</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a89ae578d10181f86727b7b651b9e1e17">fvscStencil::~fvscStencil</a>()</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;{</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
@@ -241,16 +241,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment">//END-OF-FILE</span></div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="ttc" id="fvscStencil_8H_html_ad23095ea0c0f64c5bb63e05dd7986314"><div class="ttname"><a href="fvscStencil_8H.html#ad23095ea0c0f64c5bb63e05dd7986314">stencils_</a></div><div class="ttdeci">static PtrList&lt; fvscStencil &gt; stencils_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00059">fvscStencil.H:59</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html">Foam::fvsc::fvscStencil</a></div><div class="ttdoc">This is a method for calculation the differential operators without tangential derivatives. They are further used in the calculation of the QGD terms. </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00036">fvscStencil.H:36</a></div></div>
 <div class="ttc" id="namespaceFoam_1_1fvsc_html_a9afb97532ba337e9a27714e23f2ac53e"><div class="ttname"><a href="namespaceFoam_1_1fvsc.html#a9afb97532ba337e9a27714e23f2ac53e">Foam::fvsc::defineRunTimeSelectionTable</a></div><div class="ttdeci">defineRunTimeSelectionTable(fvscStencil, components)</div></div>
-<div class="ttc" id="fvscStencil_8H_html_a068e1c874df615d8f872b53e6800c929"><div class="ttname"><a href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">nf_</a></div><div class="ttdeci">surfaceVectorField nf_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00054">fvscStencil.H:54</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_af11e990952ba4ea95c59c59cec8723c7"><div class="ttname"><a href="fvscStencil_8H.html#af11e990952ba4ea95c59c59cec8723c7">New</a></div><div class="ttdeci">static autoPtr&lt; fvscStencil &gt; New(const word &amp;name, const fvMesh &amp;mesh)</div><div class="ttdoc">Return a reference to the selected fvscStencil model. </div></div>
-<div class="ttc" id="fvscStencil_8H_html_a23edeeeecebcef11921a33dd5d990570"><div class="ttname"><a href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a></div><div class="ttdeci">const fvMesh &amp; mesh_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00044">fvscStencil.H:44</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_a777dfec51ca6a09682f5f51f48154a6a"><div class="ttname"><a href="fvscStencil_8H.html#a777dfec51ca6a09682f5f51f48154a6a">lookupOrNew</a></div><div class="ttdeci">static fvscStencil &amp; lookupOrNew(const word &amp;nname, const fvMesh &amp;mesh)</div><div class="ttdoc">static tmp&amp;lt;fvscStencil&amp;gt; lookupOrNew </div></div>
-<div class="ttc" id="fvscStencil_8H_html_a06c75f9759dd65cd09cd212fe025ab8f"><div class="ttname"><a href="fvscStencil_8H.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a></div><div class="ttdeci">fvscStencil(const IOobject &amp;io)</div><div class="ttdoc">Construct from components. </div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a89ae578d10181f86727b7b651b9e1e17"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a89ae578d10181f86727b7b651b9e1e17">Foam::fvsc::fvscStencil::~fvscStencil</a></div><div class="ttdeci">virtual ~fvscStencil()</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00125">fvscStencil.C:125</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_html"><div class="ttname"><a href="classFoam_1_1fvsc.html">Foam::fvsc</a></div><div class="ttdoc">Methods calculating of differential operators. </div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_af7d348c0999f87a72ce573a9feb49968"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#af7d348c0999f87a72ce573a9feb49968">Foam::fvsc::fvscStencil::lookupOrNew</a></div><div class="ttdeci">static fvscStencil &amp; lookupOrNew(const word &amp;nname, const fvMesh &amp;mesh)</div><div class="ttdoc">static tmp&amp;lt;fvscStencil&amp;gt; lookupOrNew </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00090">fvscStencil.C:90</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a06c75f9759dd65cd09cd212fe025ab8f"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a06c75f9759dd65cd09cd212fe025ab8f">Foam::fvsc::fvscStencil::fvscStencil</a></div><div class="ttdeci">fvscStencil(const IOobject &amp;io)</div><div class="ttdoc">Construct from components. </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00111">fvscStencil.C:111</a></div></div>
 <div class="ttc" id="fvscStencil_8H_html"><div class="ttname"><a href="fvscStencil_8H.html">fvscStencil.H</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_adb678e1fe3ae50a6f9c863ecd21098e1"><div class="ttname"><a href="fvscStencil_8H.html#adb678e1fe3ae50a6f9c863ecd21098e1">~fvscStencil</a></div><div class="ttdeci">virtual ~fvscStencil()</div></div>
-<div class="ttc" id="fvscStencil_8H_html_a8e84834799e62c4db747387a5ac21c78"><div class="ttname"><a href="fvscStencil_8H.html#a8e84834799e62c4db747387a5ac21c78">runTime_</a></div><div class="ttdeci">const Time &amp; runTime_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00049">fvscStencil.H:49</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_aab511ee0285dc19d8fe8a18af7658d83"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#aab511ee0285dc19d8fe8a18af7658d83">Foam::fvsc::fvscStencil::New</a></div><div class="ttdeci">static autoPtr&lt; fvscStencil &gt; New(const word &amp;name, const fvMesh &amp;mesh)</div><div class="ttdoc">Return a reference to the selected fvscStencil model. </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00051">fvscStencil.C:51</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a4d4724c3762cbd5ccc3734cc52c90629"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629">Foam::fvsc::fvscStencil::stencils_</a></div><div class="ttdeci">static PtrList&lt; fvscStencil &gt; stencils_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00059">fvscStencil.H:59</a></div></div>
 <div class="ttc" id="namespaceFoam_1_1fvsc_html_a880c30ceedc732980e0cbed48c6480ff"><div class="ttname"><a href="namespaceFoam_1_1fvsc.html#a880c30ceedc732980e0cbed48c6480ff">Foam::fvsc::defineTypeNameAndDebug</a></div><div class="ttdeci">defineTypeNameAndDebug(fvscStencil, 0)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->

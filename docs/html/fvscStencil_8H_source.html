@@ -126,123 +126,138 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">    Foam::fvsc::fvscStencil</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">Source file</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">    fvscStencil.C</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">/*---------------------------------------------------------------------------*\</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">#include &quot;fvMesh.H&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">#include &quot;regIOobject.H&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">#include &quot;runTimeSelectionTables.H&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">#include &quot;surfaceFields.H&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">#ifndef fvscStencil_H</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">#define fvscStencil_H</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">namespace Foam</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">{</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">namespace fvsc</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">{</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">   44</a></span>&#160;<span class="comment">class fvscStencil : public regIOobject, public refCount</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">{</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">protected:</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="fvscStencil_8H.html#a8e84834799e62c4db747387a5ac21c78">   49</a></span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">    const fvMesh&amp; mesh_;</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">    const Time&amp; runTime_;</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="fvscStencil_8H.html#a068e1c874df615d8f872b53e6800c929">   54</a></span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">    surfaceVectorField nf_;</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="fvscStencil_8H.html#ad23095ea0c0f64c5bb63e05dd7986314">   59</a></span>&#160;<span class="comment">    static PtrList&lt;fvscStencil&gt; stencils_;</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">public:</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> </span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">    TypeName(&quot;fvscStencil&quot;);</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">    declareRunTimeSelectionTable</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">    (</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">        autoPtr,</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">        fvscStencil,</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">        components,</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">        (</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">            const IOobject&amp; io</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">        ),</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">        (io)</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">    );</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">    //- Construct from components</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">    fvscStencil</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">    (</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">        const IOobject&amp; io</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">    );</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">    //- Return a reference to the selected fvscStencil model</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">    static autoPtr&lt;fvscStencil&gt; New</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">    (</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">        const word&amp; name,</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">        const fvMesh&amp; mesh</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">    );</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">    //static tmp&lt;fvscStencil&gt; lookupOrNew</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">    static fvscStencil&amp; lookupOrNew</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">    (</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">        const word&amp; nname,</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">        const fvMesh&amp; mesh</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">    );</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">    virtual ~fvscStencil();</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">    </span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">    virtual tmp&lt;surfaceVectorField&gt; Grad(const volScalarField&amp; vF)</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">    {</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">        notImplemented(&quot;tmp&lt;surfaceVectorField&gt; Grad(const volScalarField&amp; vF)&quot;);</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">        return tmp&lt;surfaceVectorField&gt;(nullptr);</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">    }</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">    virtual tmp&lt;surfaceTensorField&gt; Grad(const volVectorField&amp; iVF)</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">    {</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">        notImplemented(&quot;tmp&lt;surfaceTensorField&gt; Grad(const volVectorField&amp; vF)&quot;);</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">        return tmp&lt;surfaceTensorField&gt;(nullptr);</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">    }</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">    virtual tmp&lt;surfaceScalarField&gt; Div(const volVectorField&amp; iVF)</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="fvscStencil_8H.html#a3255fdeec8ad505da8063d14bf28c4ee">  118</a></span>&#160;<span class="comment">    {</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">        notImplemented(&quot;tmp&lt;surfaceScalarField&gt; Grad(const volVectorField&amp; vF)&quot;);</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">        return tmp&lt;surfaceScalarField&gt;(nullptr);</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">    }</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">    //-</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">    virtual tmp&lt;surfaceVectorField&gt; Div(const volTensorField&amp; iTF)</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">    {</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">        notImplemented(&quot;tmp&lt;surfaceVectorField&gt; Grad(const volTensorField&amp; vF)&quot;);</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="fvscStencil_8H.html#af594d2ca053c68043acbdd473e004438">  127</a></span>&#160;<span class="comment">        return tmp&lt;surfaceVectorField&gt;(nullptr);</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">    }</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment">    virtual bool writeData(Ostream&amp;) const</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">    {</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">        return true;</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment">    }</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">};</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="fvscStencil_8H.html#a4737bf457c288b8863a1db786f6a1f40">  136</a></span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">}</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment">}</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment">#endif</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">\*---------------------------------------------------------------------------*/</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;fvMesh.H&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;regIOobject.H&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;runTimeSelectionTables.H&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;surfaceFields.H&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifndef fvscStencil_H</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html">   36</a></span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define fvscStencil_H</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">namespace </span>Foam</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">namespace </span><a class="code" href="classFoam_1_1fvsc.html">fvsc</a></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a> : <span class="keyword">public</span> regIOobject, <span class="keyword">public</span> refCount</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a8e84834799e62c4db747387a5ac21c78">   49</a></span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">const</span> fvMesh&amp; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">const</span> Time&amp; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a8e84834799e62c4db747387a5ac21c78">runTime_</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a068e1c874df615d8f872b53e6800c929">   54</a></span>&#160;    </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    surfaceVectorField <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a068e1c874df615d8f872b53e6800c929">nf_</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629">   59</a></span>&#160;    <span class="keyword">static</span> PtrList&lt;fvscStencil&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629">stencils_</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a2cd9cfa700e5c1cfffb99ac19bd5c2ae">TypeName</a>(<span class="stringliteral">&quot;fvscStencil&quot;</span>);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a39bf71e6f6e939db027850b23c3bd9dc">declareRunTimeSelectionTable</a></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    (</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        autoPtr,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a>,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        components,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        (</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keyword">const</span> IOobject&amp; io</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        ),</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        (io)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    );</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">//- Construct from components</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a06c75f9759dd65cd09cd212fe025ab8f">fvscStencil</a></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    (</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keyword">const</span> IOobject&amp; io</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    );</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//- Return a reference to the selected fvscStencil model</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">static</span> autoPtr&lt;fvscStencil&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#aab511ee0285dc19d8fe8a18af7658d83">New</a></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    (</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">const</span> word&amp; name,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keyword">const</span> fvMesh&amp; mesh</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    );</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">//static tmp&lt;fvscStencil&gt; lookupOrNew</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">static</span> <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html">fvscStencil</a>&amp; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#af7d348c0999f87a72ce573a9feb49968">lookupOrNew</a></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    (</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keyword">const</span> word&amp; nname,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">const</span> fvMesh&amp; mesh</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    );</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a89ae578d10181f86727b7b651b9e1e17">~fvscStencil</a>();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">virtual</span> tmp&lt;surfaceVectorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(<span class="keyword">const</span> volScalarField&amp; vF)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        notImplemented(<span class="stringliteral">&quot;tmp&lt;surfaceVectorField&gt; Grad(const volScalarField&amp; vF)&quot;</span>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">return</span> tmp&lt;surfaceVectorField&gt;(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">virtual</span> tmp&lt;surfaceTensorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a3255fdeec8ad505da8063d14bf28c4ee">Grad</a>(<span class="keyword">const</span> volVectorField&amp; iVF)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        notImplemented(<span class="stringliteral">&quot;tmp&lt;surfaceTensorField&gt; Grad(const volVectorField&amp; vF)&quot;</span>);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">return</span> tmp&lt;surfaceTensorField&gt;(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">virtual</span> tmp&lt;surfaceScalarField&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4737bf457c288b8863a1db786f6a1f40">Div</a>(<span class="keyword">const</span> volVectorField&amp; iVF)</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a3255fdeec8ad505da8063d14bf28c4ee">  118</a></span>&#160;    {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        notImplemented(<span class="stringliteral">&quot;tmp&lt;surfaceScalarField&gt; Grad(const volVectorField&amp; vF)&quot;</span>);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordflow">return</span> tmp&lt;surfaceScalarField&gt;(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">//-</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">virtual</span> tmp&lt;surfaceVectorField&gt; <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4737bf457c288b8863a1db786f6a1f40">Div</a>(<span class="keyword">const</span> volTensorField&amp; iTF)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        notImplemented(<span class="stringliteral">&quot;tmp&lt;surfaceVectorField&gt; Grad(const volTensorField&amp; vF)&quot;</span>);</div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#af594d2ca053c68043acbdd473e004438">  127</a></span>&#160;        <span class="keywordflow">return</span> tmp&lt;surfaceVectorField&gt;(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classFoam_1_1fvsc_1_1fvscStencil.html#aa74af9a4655fe13f98a2100271ac06c8">writeData</a>(Ostream&amp;)<span class="keyword"> const</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="keyword">    </span>{</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;};</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1fvscStencil.html#a4737bf457c288b8863a1db786f6a1f40">  136</a></span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment">//END-OF-FILE</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html">Foam::fvsc::fvscStencil</a></div><div class="ttdoc">This is a method for calculation the differential operators without tangential derivatives. They are further used in the calculation of the QGD terms. </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00036">fvscStencil.H:36</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a89ae578d10181f86727b7b651b9e1e17"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a89ae578d10181f86727b7b651b9e1e17">Foam::fvsc::fvscStencil::~fvscStencil</a></div><div class="ttdeci">virtual ~fvscStencil()</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00125">fvscStencil.C:125</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a2cd9cfa700e5c1cfffb99ac19bd5c2ae"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a2cd9cfa700e5c1cfffb99ac19bd5c2ae">Foam::fvsc::fvscStencil::TypeName</a></div><div class="ttdeci">TypeName(&quot;fvscStencil&quot;)</div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_aa74af9a4655fe13f98a2100271ac06c8"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#aa74af9a4655fe13f98a2100271ac06c8">Foam::fvsc::fvscStencil::writeData</a></div><div class="ttdeci">virtual bool writeData(Ostream &amp;) const </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00152">fvscStencil.H:152</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a3255fdeec8ad505da8063d14bf28c4ee"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a3255fdeec8ad505da8063d14bf28c4ee">Foam::fvsc::fvscStencil::Grad</a></div><div class="ttdeci">virtual tmp&lt; surfaceVectorField &gt; Grad(const volScalarField &amp;vF)</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00118">fvscStencil.H:118</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a8e84834799e62c4db747387a5ac21c78"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a8e84834799e62c4db747387a5ac21c78">Foam::fvsc::fvscStencil::runTime_</a></div><div class="ttdeci">const Time &amp; runTime_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00049">fvscStencil.H:49</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a4737bf457c288b8863a1db786f6a1f40"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a4737bf457c288b8863a1db786f6a1f40">Foam::fvsc::fvscStencil::Div</a></div><div class="ttdeci">virtual tmp&lt; surfaceScalarField &gt; Div(const volVectorField &amp;iVF)</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00136">fvscStencil.H:136</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a23edeeeecebcef11921a33dd5d990570"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a23edeeeecebcef11921a33dd5d990570">Foam::fvsc::fvscStencil::mesh_</a></div><div class="ttdeci">const fvMesh &amp; mesh_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00044">fvscStencil.H:44</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a068e1c874df615d8f872b53e6800c929"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a068e1c874df615d8f872b53e6800c929">Foam::fvsc::fvscStencil::nf_</a></div><div class="ttdeci">surfaceVectorField nf_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00054">fvscStencil.H:54</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_html"><div class="ttname"><a href="classFoam_1_1fvsc.html">Foam::fvsc</a></div><div class="ttdoc">Methods calculating of differential operators. </div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_af7d348c0999f87a72ce573a9feb49968"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#af7d348c0999f87a72ce573a9feb49968">Foam::fvsc::fvscStencil::lookupOrNew</a></div><div class="ttdeci">static fvscStencil &amp; lookupOrNew(const word &amp;nname, const fvMesh &amp;mesh)</div><div class="ttdoc">static tmp&amp;lt;fvscStencil&amp;gt; lookupOrNew </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00090">fvscStencil.C:90</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a06c75f9759dd65cd09cd212fe025ab8f"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a06c75f9759dd65cd09cd212fe025ab8f">Foam::fvsc::fvscStencil::fvscStencil</a></div><div class="ttdeci">fvscStencil(const IOobject &amp;io)</div><div class="ttdoc">Construct from components. </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00111">fvscStencil.C:111</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_aab511ee0285dc19d8fe8a18af7658d83"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#aab511ee0285dc19d8fe8a18af7658d83">Foam::fvsc::fvscStencil::New</a></div><div class="ttdeci">static autoPtr&lt; fvscStencil &gt; New(const word &amp;name, const fvMesh &amp;mesh)</div><div class="ttdoc">Return a reference to the selected fvscStencil model. </div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8C_source.html#l00051">fvscStencil.C:51</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a4d4724c3762cbd5ccc3734cc52c90629"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629">Foam::fvsc::fvscStencil::stencils_</a></div><div class="ttdeci">static PtrList&lt; fvscStencil &gt; stencils_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00059">fvscStencil.H:59</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1fvscStencil_html_a39bf71e6f6e939db027850b23c3bd9dc"><div class="ttname"><a href="classFoam_1_1fvsc_1_1fvscStencil.html#a39bf71e6f6e939db027850b23c3bd9dc">Foam::fvsc::fvscStencil::declareRunTimeSelectionTable</a></div><div class="ttdeci">declareRunTimeSelectionTable(autoPtr, fvscStencil, components,(const IOobject &amp;io),(io))</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->

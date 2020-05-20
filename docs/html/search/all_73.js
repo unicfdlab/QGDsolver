@@ -18,6 +18,6 @@ var searchData=
   ['solve',['solve',['../QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d',1,'solve():&#160;QGDEEqn.H'],['../QGDRhoEqn_8H.html#a2d84860447ac93b75cbd985cb7b58de7',1,'solve(fvm::ddt(rho)+fvc::div(phiJm)==rhoSu):&#160;QGDRhoEqn.H'],['../QGDUEqn_8H.html#a8f35e80982c8f7b0e688da9c2f501c47',1,'solve(fvm::ddt(rhoU)+fvc::div(phiJmU)+fvc::div(phiP)-fvc::div(phiPi)):&#160;QGDUEqn.H'],['../QHDpEqn_8H.html#ac8637767a116869f3c536e2893cf0f92',1,'solve():&#160;QHDpEqn.H']]],
   ['srf',['SRF',['../SRFQHDFoam_2createFields_8H.html#ab694e9cddb3f42c322ad6d82d5fa1ff2',1,'createFields.H']]],
   ['srfqhdfoam_2ec',['SRFQHDFoam.C',['../SRFQHDFoam_8C.html',1,'']]],
-  ['stencils_5f',['stencils_',['../fvscStencil_8H.html#ad23095ea0c0f64c5bb63e05dd7986314',1,'fvscStencil.H']]],
+  ['stencils_5f',['stencils_',['../classFoam_1_1fvsc_1_1fvscStencil.html#a4d4724c3762cbd5ccc3734cc52c90629',1,'Foam::fvsc::fvscStencil']]],
   ['surfacetensionforce',['surfaceTensionForce',['../classFoam_1_1qInterfaceProperties.html#a7ae577e8df4ce90fee54d5867ade6bf8',1,'Foam::qInterfaceProperties']]]
 ];

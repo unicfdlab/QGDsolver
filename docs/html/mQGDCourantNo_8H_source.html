@@ -144,7 +144,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        scalarField sumPhi</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        (</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            fvc::surfaceSum(mag(<a class="code" href="particlesQGDFoam_2updateFluxes_8H.html#a25bdbd0ff60dc5a609c0a37dfaf35045">phiJm</a>))().primitiveField()</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            / <a class="code" href="particlesQGDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a>.primitiveField()</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            / <a class="code" href="mulesQHDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a>.primitiveField()</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        );</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        </div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;         CoNum = 0.5*gMax(sumPhi/mesh.V().field())*runTime.deltaTValue();</div>
@@ -154,8 +154,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// ************************************************************************* //</span></div>
-<div class="ttc" id="particlesQGDFoam_2createFields_8H_html_ad55ed9af0dc75fc0f09a2f197435bbf9"><div class="ttname"><a href="particlesQGDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a></div><div class="ttdeci">volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</div></div>
 <div class="ttc" id="particlesQGDFoam_2updateFluxes_8H_html_a25bdbd0ff60dc5a609c0a37dfaf35045"><div class="ttname"><a href="particlesQGDFoam_2updateFluxes_8H.html#a25bdbd0ff60dc5a609c0a37dfaf35045">phiJm</a></div><div class="ttdeci">phiJm</div><div class="ttdef"><b>Definition:</b> <a href="particlesQGDFoam_2updateFluxes_8H_source.html#l00039">updateFluxes.H:39</a></div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_ad55ed9af0dc75fc0f09a2f197435bbf9"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#ad55ed9af0dc75fc0f09a2f197435bbf9">rho</a></div><div class="ttdeci">volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->

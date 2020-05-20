@@ -148,11 +148,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;Foam::QGDThermo::QGDThermo(<span class="keyword">const</span> fvMesh&amp; mesh, <span class="keyword">const</span> dictionary&amp; dict)</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a>(mesh),</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;mesh_(mesh),</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;dict_(dict),</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;qgdCoeffsPtr_</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;(</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    Foam::qgd::QGDCoeffs::<a class="code" href="fvscStencil_8H.html#af11e990952ba4ea95c59c59cec8723c7">New</a></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    Foam::qgd::QGDCoeffs::New</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    (</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        dict_.subDict(<span class="stringliteral">&quot;QGD&quot;</span>).get&lt;word&gt;(<span class="stringliteral">&quot;QGDCoeffs&quot;</span>),</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        mesh,</div>
@@ -262,8 +262,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classFoam_1_1QGDThermo_html_aec952d8e20152a46e41f41292b5aeea7"><div class="ttname"><a href="classFoam_1_1QGDThermo.html#aec952d8e20152a46e41f41292b5aeea7">Foam::QGDThermo::implicitDiffusion</a></div><div class="ttdeci">Switch implicitDiffusion() const </div><div class="ttdef"><b>Definition:</b> <a href="QGDThermo_8C_source.html#l00138">QGDThermo.C:138</a></div></div>
 <div class="ttc" id="classFoam_1_1QGDThermo_html_a7ca3a6ac74fc41189867f18cf761ff43"><div class="ttname"><a href="classFoam_1_1QGDThermo.html#a7ca3a6ac74fc41189867f18cf761ff43">Foam::QGDThermo::muQGD</a></div><div class="ttdeci">const volScalarField &amp; muQGD() const </div><div class="ttdef"><b>Definition:</b> <a href="QGDThermo_8C_source.html#l00128">QGDThermo.C:128</a></div></div>
 <div class="ttc" id="classFoam_1_1QGDThermo_html_a7553e4c6a8eb1c30e3de0a5bd18a26d0"><div class="ttname"><a href="classFoam_1_1QGDThermo.html#a7553e4c6a8eb1c30e3de0a5bd18a26d0">Foam::QGDThermo::alphauQGD</a></div><div class="ttdeci">const volScalarField &amp; alphauQGD() const </div><div class="ttdef"><b>Definition:</b> <a href="QGDThermo_8C_source.html#l00133">QGDThermo.C:133</a></div></div>
-<div class="ttc" id="fvscStencil_8H_html_af11e990952ba4ea95c59c59cec8723c7"><div class="ttname"><a href="fvscStencil_8H.html#af11e990952ba4ea95c59c59cec8723c7">New</a></div><div class="ttdeci">static autoPtr&lt; fvscStencil &gt; New(const word &amp;name, const fvMesh &amp;mesh)</div><div class="ttdoc">Return a reference to the selected fvscStencil model. </div></div>
-<div class="ttc" id="fvscStencil_8H_html_a23edeeeecebcef11921a33dd5d990570"><div class="ttname"><a href="fvscStencil_8H.html#a23edeeeecebcef11921a33dd5d990570">mesh_</a></div><div class="ttdeci">const fvMesh &amp; mesh_</div><div class="ttdef"><b>Definition:</b> <a href="fvscStencil_8H_source.html#l00044">fvscStencil.H:44</a></div></div>
 <div class="ttc" id="QGDYEqn_8H_html_a10c29c5a8ec21260e2867f83e0bbd2b6"><div class="ttname"><a href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a></div><div class="ttdeci">forAll(Y, i)</div><div class="ttdef"><b>Definition:</b> <a href="QGDYEqn_8H_source.html#l00036">QGDYEqn.H:36</a></div></div>
 <div class="ttc" id="classFoam_1_1QGDThermo_html_ac6beccaaa8ce618ae9a8ee672f4287de"><div class="ttname"><a href="classFoam_1_1QGDThermo.html#ac6beccaaa8ce618ae9a8ee672f4287de">Foam::QGDThermo::qgdCoeffs</a></div><div class="ttdeci">qgd::QGDCoeffs &amp; qgdCoeffs()</div><div class="ttdef"><b>Definition:</b> <a href="QGDThermo_8C_source.html#l00143">QGDThermo.C:143</a></div></div>
 <div class="ttc" id="QGDThermo_8H_html"><div class="ttname"><a href="QGDThermo_8H.html">QGDThermo.H</a></div></div>

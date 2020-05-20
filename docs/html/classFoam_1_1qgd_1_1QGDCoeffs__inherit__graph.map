@@ -7,6 +7,6 @@
 <area shape="rect" id="node9" href="$classFoam_1_1qgd_1_1HbyUQHD.html" title="Class for one of possible ways of $$ calculating. in this case $$ parameter is calculating by..." alt="" coords="321,259,409,285"/>
 <area shape="rect" id="node10" href="$classFoam_1_1qgd_1_1T0byGr.html" title="Class for to calculate $$ as inverse proportional of Grashoff number. in this case $$ parameter is ca..." alt="" coords="331,309,400,336"/>
 <area shape="rect" id="node11" href="$classFoam_1_1qgd_1_1twoPhaseConstTau.html" title="twoPhaseConstTau" alt="" coords="293,360,437,387"/>
-<area shape="rect" id="node12" href="$classFoam_1_1qgd_1_1varScModel5.html" title="varScModel5" alt="" coords="313,411,418,437"/>
-<area shape="rect" id="node13" href="$classFoam_1_1qgd_1_1varScModel6.html" title="varScModel6" alt="" coords="313,461,418,488"/>
+<area shape="rect" id="node12" href="$classFoam_1_1qgd_1_1varScModel5.html" title="Class describing QGD model coefficients using dynamic values for Sc^{QGD}, Pr^{QGD} and specified &#160;fi..." alt="" coords="313,411,418,437"/>
+<area shape="rect" id="node13" href="$classFoam_1_1qgd_1_1varScModel6.html" title="Class describing QGD model coefficients using dynamic values for Sc^{QGD}, Pr^{QGD} and specified &#160;fi..." alt="" coords="313,461,418,488"/>
 </map>

@@ -2903,6 +2903,146 @@
     <name>createFields.H</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/mulesQHDFoam/</path>
     <filename>mulesQHDFoam_2createFields_8H</filename>
+    <member kind="function">
+      <type>Info&lt;&lt; &quot;Reading thermophysical properties\n&quot;&lt;&lt; endl;autoPtr&lt; rhoQGDThermo &gt;</type>
+      <name>pThermo</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a33ecc24a2a57c5ed55f9ee579c7e2e18</anchor>
+      <arglist>(rhoQGDThermo::New(mesh))</arglist>
+    </member>
+    <member kind="function">
+      <type>thermo</type>
+      <name>correct</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a3a2458f7f54158be848527a3fdedd5dd</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>volVectorField</type>
+      <name>U</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a0e248714255cbecdd857baebd3be04ac</anchor>
+      <arglist>(IOobject(&quot;U&quot;, runTime.timeName(), mesh, IOobject::MUST_READ, IOobject::AUTO_WRITE), mesh)</arglist>
+    </member>
+    <member kind="function">
+      <type>volScalarField</type>
+      <name>T0</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>aa10513f9e8afa0554725d58ea3d50f23</anchor>
+      <arglist>(&quot;T0&quot;, T)</arglist>
+    </member>
+    <member kind="function">
+      <type>volScalarField</type>
+      <name>rho</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ad55ed9af0dc75fc0f09a2f197435bbf9</anchor>
+      <arglist>(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</arglist>
+    </member>
+    <member kind="function">
+      <type>volVectorField</type>
+      <name>W</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a8fc00c568a39acea86f0f446eb2b319b</anchor>
+      <arglist>(IOobject(&quot;W&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE), U)</arglist>
+    </member>
+    <member kind="function">
+      <type>dimensionedScalar</type>
+      <name>beta</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a70b0c4fbf77c53397096aa7dac658b02</anchor>
+      <arglist>(&quot;beta&quot;, dimless/dimTemperature, thermo.subDict(&quot;mixture&quot;).subDict(&quot;transport&quot;))</arglist>
+    </member>
+    <member kind="function">
+      <type>surfaceScalarField</type>
+      <name>phiu</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>aabf3afb6bf8f7e0c1909ed075e46650a</anchor>
+      <arglist>(&quot;phiu&quot;, mesh.Sf()&amp;linearInterpolate(U))</arglist>
+    </member>
+    <member kind="function">
+      <type>surfaceScalarField</type>
+      <name>phiwo</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ab70256e2737acd06d7152e0361059d25</anchor>
+      <arglist>(&quot;phiwStar&quot;, mesh.Sf()&amp;linearInterpolate(W))</arglist>
+    </member>
+    <member kind="function">
+      <type>surfaceScalarField</type>
+      <name>phi</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>abea6b503179eeac6d1653b824ba32ea2</anchor>
+      <arglist>(&quot;phi&quot;, mesh.Sf()&amp;(linearInterpolate(U)-linearInterpolate(W)))</arglist>
+    </member>
+    <member kind="function">
+      <type>surfaceScalarField</type>
+      <name>phiRhof</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>abb1554e2d88edb071bba678bfaf3ccd7</anchor>
+      <arglist>(&quot;phiRhof&quot;, linearInterpolate(rho)*phi)</arglist>
+    </member>
+    <member kind="function">
+      <type>volVectorField</type>
+      <name>BdFrc</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ae2a08ac7f3fe95d7ce61c8824d62f2a5</anchor>
+      <arglist>(&quot;BdFrc&quot;, T *g *beta)</arglist>
+    </member>
+    <member kind="function">
+      <type>Switch</type>
+      <name>implicitDiffusion</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>aa079f3588e74cfd1f48cbb8a76846445</anchor>
+      <arglist>(thermo.implicitDiffusion())</arglist>
+    </member>
+    <member kind="variable">
+      <type>rhoQGDThermo &amp;</type>
+      <name>thermo</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a108992fcaf095352b8fc52331b0c6f34</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>volScalarField &amp;</type>
+      <name>e</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>aa934fb3bf71f5ad93ab79e1c260f7d4c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>volScalarField &amp;</type>
+      <name>p</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a334650304cdcdff41898bee9eaf2e3db</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>volScalarField &amp;</type>
+      <name>T</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ab35c96e5601691f7270cfadc745a12d3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const surfaceScalarField &amp;</type>
+      <name>hQGDf</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a6275f78717dff3e02a1088e870f6a9e9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const surfaceScalarField &amp;</type>
+      <name>tauQGDf</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ad42cb579f90bf94043baad3c94f89201</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>Info&lt;&lt; &quot;Thermo corrected&quot;&lt;&lt; endl;autoPtr&lt; compressible::turbulenceModel &gt;</type>
+      <name>turbulence</name>
+      <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ab61fedf221aa12a7c0a6e1eed0baddd0</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>createFields.H</name>
@@ -3362,6 +3502,90 @@
     <name>createFields.H</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QHDFoam/</path>
     <filename>QHDFoam_2createFields_8H</filename>
+    <member kind="function">
+      <type>Info&lt;&lt; &quot;Reading thermophysical properties\n&quot;&lt;&lt; endl;autoPtr&lt; rhoQGDThermo &gt;</type>
+      <name>pThermo</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a33ecc24a2a57c5ed55f9ee579c7e2e18</anchor>
+      <arglist>(rhoQGDThermo::New(mesh))</arglist>
+    </member>
+    <member kind="function">
+      <type>thermo</type>
+      <name>correct</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a3a2458f7f54158be848527a3fdedd5dd</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>volVectorField</type>
+      <name>U</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a0e248714255cbecdd857baebd3be04ac</anchor>
+      <arglist>(IOobject(&quot;U&quot;, runTime.timeName(), mesh, IOobject::MUST_READ, IOobject::AUTO_WRITE), mesh)</arglist>
+    </member>
+    <member kind="function">
+      <type>volScalarField</type>
+      <name>rho</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ad55ed9af0dc75fc0f09a2f197435bbf9</anchor>
+      <arglist>(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho())</arglist>
+    </member>
+    <member kind="function">
+      <type>volVectorField</type>
+      <name>W</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a8fc00c568a39acea86f0f446eb2b319b</anchor>
+      <arglist>(IOobject(&quot;W&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE), U)</arglist>
+    </member>
+    <member kind="variable">
+      <type>rhoQGDThermo &amp;</type>
+      <name>thermo</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a108992fcaf095352b8fc52331b0c6f34</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>volScalarField &amp;</type>
+      <name>e</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>aa934fb3bf71f5ad93ab79e1c260f7d4c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>volScalarField &amp;</type>
+      <name>p</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a334650304cdcdff41898bee9eaf2e3db</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const volScalarField &amp;</type>
+      <name>T</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>abb80dfe0d55ec4a3a97b2dc1353d66dc</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const surfaceScalarField &amp;</type>
+      <name>hQGDf</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>a6275f78717dff3e02a1088e870f6a9e9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const surfaceScalarField &amp;</type>
+      <name>tauQGDf</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ad42cb579f90bf94043baad3c94f89201</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>Info&lt;&lt; &quot;Thermo corrected&quot;&lt;&lt; endl;autoPtr&lt; compressible::turbulenceModel &gt;</type>
+      <name>turbulence</name>
+      <anchorfile>QHDFoam_2createFields_8H.html</anchorfile>
+      <anchor>ab61fedf221aa12a7c0a6e1eed0baddd0</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>createFields.H</name>
@@ -5847,111 +6071,9 @@
     <name>fvscStencil.H</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/fvscStencil/</path>
     <filename>fvscStencil_8H</filename>
-    <member kind="function">
-      <type></type>
-      <name>TypeName</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a2cd9cfa700e5c1cfffb99ac19bd5c2ae</anchor>
-      <arglist>(&quot;fvscStencil&quot;)</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>declareRunTimeSelectionTable</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a39bf71e6f6e939db027850b23c3bd9dc</anchor>
-      <arglist>(autoPtr, fvscStencil, components,(const IOobject &amp;io),(io))</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>fvscStencil</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a06c75f9759dd65cd09cd212fe025ab8f</anchor>
-      <arglist>(const IOobject &amp;io)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static autoPtr&lt; fvscStencil &gt;</type>
-      <name>New</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>af11e990952ba4ea95c59c59cec8723c7</anchor>
-      <arglist>(const word &amp;name, const fvMesh &amp;mesh)</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static fvscStencil &amp;</type>
-      <name>lookupOrNew</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a777dfec51ca6a09682f5f51f48154a6a</anchor>
-      <arglist>(const word &amp;nname, const fvMesh &amp;mesh)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~fvscStencil</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>adb678e1fe3ae50a6f9c863ecd21098e1</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual tmp&lt; surfaceVectorField &gt;</type>
-      <name>Grad</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a3255fdeec8ad505da8063d14bf28c4ee</anchor>
-      <arglist>(const volScalarField &amp;vF)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual tmp&lt; surfaceTensorField &gt;</type>
-      <name>Grad</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>af594d2ca053c68043acbdd473e004438</anchor>
-      <arglist>(const volVectorField &amp;iVF)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual tmp&lt; surfaceScalarField &gt;</type>
-      <name>Div</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a4737bf457c288b8863a1db786f6a1f40</anchor>
-      <arglist>(const volVectorField &amp;iVF)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual tmp&lt; surfaceVectorField &gt;</type>
-      <name>Div</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a85da50c170f638f762a7da9aa50e6b61</anchor>
-      <arglist>(const volTensorField &amp;iTF)</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual bool</type>
-      <name>writeData</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>aa74af9a4655fe13f98a2100271ac06c8</anchor>
-      <arglist>(Ostream &amp;) const </arglist>
-    </member>
-    <member kind="variable">
-      <type>const fvMesh &amp;</type>
-      <name>mesh_</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a23edeeeecebcef11921a33dd5d990570</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>const Time &amp;</type>
-      <name>runTime_</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a8e84834799e62c4db747387a5ac21c78</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>surfaceVectorField</type>
-      <name>nf_</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>a068e1c874df615d8f872b53e6800c929</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static PtrList&lt; fvscStencil &gt;</type>
-      <name>stencils_</name>
-      <anchorfile>fvscStencil_8H.html</anchorfile>
-      <anchor>ad23095ea0c0f64c5bb63e05dd7986314</anchor>
-      <arglist></arglist>
-    </member>
+    <class kind="class">Foam::fvsc::fvscStencil</class>
+    <namespace>Foam</namespace>
+    <namespace>Foam::fvsc</namespace>
   </compound>
   <compound kind="file">
     <name>GaussVolPointBase.C</name>
@@ -7733,6 +7855,8 @@
     <class kind="class">Foam::qgd::HbyUQHD</class>
     <class kind="class">Foam::qgd::QGDCoeffs</class>
     <class kind="class">Foam::qgd::T0byGr</class>
+    <class kind="class">Foam::qgd::varScModel5</class>
+    <class kind="class">Foam::qgd::varScModel6</class>
   </compound>
   <compound kind="group">
     <name>grpQGDcommon</name>
@@ -10063,11 +10187,6 @@
   <compound kind="class">
     <name>Foam::fvsc</name>
     <filename>classFoam_1_1fvsc.html</filename>
-    <class kind="class">Foam::fvsc::fvscStencil</class>
-  </compound>
-  <compound kind="class">
-    <name>Foam::fvsc::fvscStencil</name>
-    <filename>classFoam_1_1fvsc_1_1fvscStencil.html</filename>
   </compound>
   <compound kind="class">
     <name>Foam::heRhoThermo</name>
@@ -10080,6 +10199,7 @@
   <compound kind="namespace">
     <name>Foam::fvsc</name>
     <filename>namespaceFoam_1_1fvsc.html</filename>
+    <class kind="class">Foam::fvsc::fvscStencil</class>
     <class kind="class">Foam::fvsc::GaussVolPointBase</class>
     <class kind="class">Foam::fvsc::GaussVolPointBase1D</class>
     <class kind="class">Foam::fvsc::GaussVolPointBase2D</class>
@@ -10221,6 +10341,115 @@
       <anchorfile>namespaceFoam_1_1fvsc.html</anchorfile>
       <anchor>af3d3c8977622a9fbd16fa3bf8dc620cc</anchor>
       <arglist>(fvscStencil, reduced, components)</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>Foam::fvsc::fvscStencil</name>
+    <filename>classFoam_1_1fvsc_1_1fvscStencil.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>TypeName</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a2cd9cfa700e5c1cfffb99ac19bd5c2ae</anchor>
+      <arglist>(&quot;fvscStencil&quot;)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>declareRunTimeSelectionTable</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a39bf71e6f6e939db027850b23c3bd9dc</anchor>
+      <arglist>(autoPtr, fvscStencil, components,(const IOobject &amp;io),(io))</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>fvscStencil</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a06c75f9759dd65cd09cd212fe025ab8f</anchor>
+      <arglist>(const IOobject &amp;io)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~fvscStencil</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a89ae578d10181f86727b7b651b9e1e17</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual tmp&lt; surfaceVectorField &gt;</type>
+      <name>Grad</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a3255fdeec8ad505da8063d14bf28c4ee</anchor>
+      <arglist>(const volScalarField &amp;vF)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual tmp&lt; surfaceTensorField &gt;</type>
+      <name>Grad</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>af594d2ca053c68043acbdd473e004438</anchor>
+      <arglist>(const volVectorField &amp;iVF)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual tmp&lt; surfaceScalarField &gt;</type>
+      <name>Div</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a4737bf457c288b8863a1db786f6a1f40</anchor>
+      <arglist>(const volVectorField &amp;iVF)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual tmp&lt; surfaceVectorField &gt;</type>
+      <name>Div</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a85da50c170f638f762a7da9aa50e6b61</anchor>
+      <arglist>(const volTensorField &amp;iTF)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual bool</type>
+      <name>writeData</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>aa74af9a4655fe13f98a2100271ac06c8</anchor>
+      <arglist>(Ostream &amp;) const </arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static autoPtr&lt; fvscStencil &gt;</type>
+      <name>New</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>aab511ee0285dc19d8fe8a18af7658d83</anchor>
+      <arglist>(const word &amp;name, const fvMesh &amp;mesh)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static fvscStencil &amp;</type>
+      <name>lookupOrNew</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>af7d348c0999f87a72ce573a9feb49968</anchor>
+      <arglist>(const word &amp;nname, const fvMesh &amp;mesh)</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>const fvMesh &amp;</type>
+      <name>mesh_</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a23edeeeecebcef11921a33dd5d990570</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>const Time &amp;</type>
+      <name>runTime_</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a8e84834799e62c4db747387a5ac21c78</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>surfaceVectorField</type>
+      <name>nf_</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a068e1c874df615d8f872b53e6800c929</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected" static="yes">
+      <type>static PtrList&lt; fvscStencil &gt;</type>
+      <name>stencils_</name>
+      <anchorfile>classFoam_1_1fvsc_1_1fvscStencil.html</anchorfile>
+      <anchor>a4d4724c3762cbd5ccc3734cc52c90629</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">

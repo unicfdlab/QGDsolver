@@ -5,7 +5,7 @@ var searchData=
   ['_7econstscprmodel2',['~constScPrModel2',['../classFoam_1_1qgd_1_1constScPrModel2.html#a82ebcee530a28272e1aa0f92c12436ff',1,'Foam::qgd::constScPrModel2']]],
   ['_7econsttau',['~constTau',['../classFoam_1_1qgd_1_1constTau.html#a6c8c0ac2b8832b90878287a161395055',1,'Foam::qgd::constTau']]],
   ['_7econsttwophaseproperties',['~constTwoPhaseProperties',['../classFoam_1_1constTwoPhaseProperties.html#afb629b125935be9e7f781c5aed100d3d',1,'Foam::constTwoPhaseProperties']]],
-  ['_7efvscstencil',['~fvscStencil',['../fvscStencil_8H.html#adb678e1fe3ae50a6f9c863ecd21098e1',1,'fvscStencil.H']]],
+  ['_7efvscstencil',['~fvscStencil',['../classFoam_1_1fvsc_1_1fvscStencil.html#a89ae578d10181f86727b7b651b9e1e17',1,'Foam::fvsc::fvscStencil']]],
   ['_7egaussvolpoint',['~GaussVolPoint',['../classFoam_1_1fvsc_1_1GaussVolPoint.html#aec65813aa6d5816a5d80ca6bc0195714',1,'Foam::fvsc::GaussVolPoint']]],
   ['_7egaussvolpointbase',['~GaussVolPointBase',['../classFoam_1_1fvsc_1_1GaussVolPointBase.html#a48dee511259c802f4e8d8ac5fa867601',1,'Foam::fvsc::GaussVolPointBase']]],
   ['_7egaussvolpointbase1d',['~GaussVolPointBase1D',['../classFoam_1_1fvsc_1_1GaussVolPointBase1D.html#ad374424819b3afe7e869d62aee8fc18d',1,'Foam::fvsc::GaussVolPointBase1D']]],

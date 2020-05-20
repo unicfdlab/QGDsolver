@@ -101,7 +101,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">createFaceFluxes.H File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="QHDFoam_2createFaceFluxes_8H__dep__incl.png" border="0" usemap="#QHDFoam_2createFaceFluxes_8Hdep" alt=""/></div>
+<map name="QHDFoam_2createFaceFluxes_8Hdep" id="QHDFoam_2createFaceFluxes_8Hdep">
+<area shape="rect" id="node2" href="QHDFoam_8C.html" title="QHDFoam/QHDFoam.C" alt="" coords="29,80,200,107"/></map>
+</div>
+</div>
 <p><a href="QHDFoam_2createFaceFluxes_8H_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -136,9 +143,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><b>Original source file</b> <a href="/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QHDFoam/createFaceFluxes.H">createFaceFluxes.H</a></p>
-<p>Create Face Fluxes for calculation SourceFile <a class="el" href="QHDFoam_8C.html">QHDFoam.C</a> /*&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;*\ Field for debugging parallel execution and tau-terms evaluation /* volScalarField cellNo ( IOobject ( "cellNo", runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE ), rho*0.0 );</p>
-<p>forAll(cellNo, celli) { cellNo[celli] = mesh.C()[celli].z(); } forAll(cellNo.boundaryField(), patchi) { forAll(cellNo.boundaryField()[patchi], facei) { cellNo.boundaryFieldRef()[patchi][facei] = mesh.Cf().boundaryField()[patchi][facei].z(); } } surfaceVectorField cellNoGradf ( "cellNoGradf", fvsc::grad(cellNo) );</p>
-<p>cellNo.write(); cellNoGradf.write(); return 0; </p>
+<p>Create Face Fluxes for calculation SourceFile <a class="el" href="QHDFoam_8C.html">QHDFoam.C</a></p>
 
 <p>Definition in file <a class="el" href="QHDFoam_2createFaceFluxes_8H_source.html">createFaceFluxes.H</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
