@@ -27,7 +27,7 @@ Description
     Creating fields for calculations
 SourceFile
     mulesQHDFoam.C
-/*---------------------------------------------------------------------------*\
+\*---------------------------------------------------------------------------*/
 
 #include "readGravitationalAcceleration.H"
 #include "readhRef.H"
@@ -161,3 +161,4 @@ setRefCell(p, mesh.solutionDict().subDict("PIMPLE"), pRefCell, pRefValue);
 //
 //END-OF-FILE
 //
+
