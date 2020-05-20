@@ -2,8 +2,12 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
+    \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -36,15 +40,15 @@ if(runTime.controlDict().lookupOrDefault<bool>("adjustTimeStep", false))
         "Unf",
         Uf & mesh.Sf() / mesh.magSf()
     );
-    
+
     surfaceScalarField Cof
     (
         "Cof",
         max(mag(Unf + cf), mag(Unf - cf)) * runTime.deltaT() / hQGDf
     );
-    
+
     CoNum = max(Cof).value();
-    
+
     Info << "Courant Number = " << CoNum << endl;
 }
 

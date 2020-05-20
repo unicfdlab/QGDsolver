@@ -2,11 +2,15 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
+    \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
+-------------------------------------------------------------------------------
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -25,21 +29,22 @@ Application
     QGDFoam
 
 Description
-    Solver for unsteady 2D (3D is under development) turbulent flow of perfect gas governed by
-    quasi-gas dynamic (QGD) equations at high Mach numbers (from 2 to
+    Solver for unsteady 3D turbulent flow of viscous perfect gas governed by
+    quasi-gas dynamic (QGD) equations at all Mach numbers (from 0.01 to
     infinity).
-    
+
     QGD system of equations has been developed by scientific group from
-    Keldysh Institute of Applied Mathematics, 
+    Keldysh Institute of Applied Mathematics,
     see http://elizarova.imamod.ru/selection-of-papers.html
-    
-    A comprehensive description of QGD equations and their applications can be found here:
+
+    A comprehensive description of QGD equations and their applications
+    can be found here:
     \verbatim
     Elizarova, T.G.
     "Quasi-Gas Dynamic equations"
     Springer, 2009
     \endverbatim
-    
+
     A brief of theory on QGD and QHD system of equations:
     \verbatim
     Elizarova, T.G. and Sheretov, Y.V.
@@ -48,14 +53,14 @@ Description
     J. Computational Mathematics and Mathematical Physics, vol. 41, no. 2, pp 219-234,
     2001
     \endverbatim
-    
-    Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
 
+    Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
 
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
 #include "QGD.H"
+#include "fvOptions.H"
 #include "turbulentFluidThermoModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -72,6 +77,7 @@ int main(int argc, char *argv[])
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
+    #include "createFvOptions.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -85,18 +91,25 @@ int main(int argc, char *argv[])
     {
         /*
          *
+         * Update QGD viscosity
+         *
+         */
+        turbulence->correct();
+
+        /*
+         *
          * Update fields
          *
          */
         #include "updateFields.H"
-        
+
         /*
          *
          * Update fluxes
          *
          */
         #include "updateFluxes.H"
-        
+
         /*
          *
          * Update time step
@@ -104,126 +117,55 @@ int main(int argc, char *argv[])
          */
         #include "readTimeControls.H"
         #include "QGDCourantNo.H"
-        #include "setDeltaT.H"
-        
+        #include "setDeltaT-QGDQHD.H"
+
         runTime++;
-        
+
         Info<< "Time = " << runTime.timeName() << nl << endl;
-        
+
         // --- Store old time values
         rho.oldTime();
         rhoU.oldTime();
         U.oldTime();
         rhoE.oldTime();
         e.oldTime();
-        
+
         // --- Solve density
-        solve
-        (
-            fvm::ddt(rho)
-            +
-            fvc::div(phiJm)
-        );
-        
+        #include "QGDRhoEqn.H"
+
         // --- Solve momentum
-        solve
-        (
-            fvm::ddt(rhoU)
-            + 
-            fvc::div(phiJmU)
-            +
-            fvc::div(phiP)
-            -
-            fvc::div(phiPi)
-        );
-        
-        // Correct velocity
-        U.ref() =
-            rhoU()
-           /rho();
-        U.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
-        {
-            fvVectorMatrix UEqn
-            (
-                fvm::ddt(rho, U) - fvc::ddt(rho,U)
-              - fvm::laplacian(muf, U)
-              - fvc::div(phiTauMC)
-            );
-            
-            solve
-            (
-                UEqn
-            );
-            
-            rhoU = rho*U;
-            
-            sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
-            
-            phiSigmaDotU = sigmaDotUPtr() & mesh.Sf(); //or eqn.flux()?
-        }
-        rhoU.boundaryFieldRef() == rho.boundaryField()*
-            U.boundaryField();
-        
+        #include "QGDUEqn.H"
+
         //--- Solve energy
-        solve
-        (
-            fvm::ddt(rhoE)
-          + fvc::div(phiJmH)
-          + fvc::div(phiQ)
-          - fvc::div(phiPiU)
-          - fvc::div(phiSigmaDotU)
-        );
-        
-        // Correct energy
-        e = rhoE/rho - 0.5*magSqr(U);
-        e.correctBoundaryConditions();
-        
-        // Solve diffusive QGD & NS part
-        if (implicitDiffusion)
+        #include "QGDEEqn.H"
+
+        if ( (min(e).value() <= 0.0) || (min(rho).value() <= 0.0) )
         {
-            solve
-            (
-                fvm::ddt(rho, e) - fvc::ddt(rho,e)
-              - fvm::laplacian(alphauf, e)
-            );
-            
-            rhoE = rho*(e + 0.5*magSqr(U));
+            U.write();
+            e.write();
+            rho.write();
         }
-        rhoE.boundaryFieldRef() == rho.boundaryField()*
-            (e.boundaryField() + 0.5*magSqr(U.boundaryField()));
-        
+
         thermo.correct();
-        
+
         // Correct pressure
         p.ref() =
             rho()
            /psi();
         p.correctBoundaryConditions();
         rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
-        
+
         runTime.write();
-        
+
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
-        
-        if (runTime.outputTime())
-        {
-            tauQGD.write();
-        }
-        
-        Info<< "max/min T:    "<< max(T).value()  << "/" << min(T).value()   << endl;
-        Info<< "max/min p:    "<< max(p).value()  << "/" << min(p).value()   << endl;
-        Info<< "max/min rho:  "<< max(rho).value()<< "/" << min(rho).value() << endl;
-        Info<< "max/min U:    "<< max(U).value()  << "/" << min(U).value()   << endl;
     }
-    
+
     Info<< "End\n" << endl;
 
     return 0;
 }
+
 
 // ************************************************************************* //

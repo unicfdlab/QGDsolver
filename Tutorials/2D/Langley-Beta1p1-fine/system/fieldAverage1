@@ -19,24 +19,30 @@
             {
                 mean        on;
                 prime2Mean  off;
-                base        iteration;
-                window      2000; // optional averaging window
+                base        time;
+                windowType  exact;
+                allowRestart true;
+                window      2e-3; // optional averaging window
             }
 
             p
             {
                 mean        on;
                 prime2Mean  off;
-                base        iteration;
-                window      2000; // optional averaging window
+                base        time;
+                windowType  exact;
+                allowRestart true;
+                window      2e-3; // optional averaging window
             }
             
             T
             {
                 mean        on;
                 prime2Mean  off;
-                base        iteration;
-                window      2000;
+                base        time;
+                windowType  exact;
+                allowRestart true;
+                window      2e-3;
             }
         );
     }

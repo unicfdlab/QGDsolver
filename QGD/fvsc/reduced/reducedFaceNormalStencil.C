@@ -1,3 +1,34 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
+-------------------------------------------------------------------------------
+License
+    This file is part of QGDsolver library, based on OpenFOAM+.
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+Class
+    Foam::fvsc::reduced::reducedFaceNormalStencil
+Description 
+    Methods calculating of differential operators without tangential direvatives  
+\*---------------------------------------------------------------------------*/
+
+
+
 #include "fvc.H"
 #include "reducedFaceNormalStencil.H"
 #include "addToRunTimeSelectionTable.H"
@@ -35,8 +66,6 @@ Foam::fvsc::reduced::~reduced()
 // \return           Gradient of iF (vector field) which was computed on the faces of mesh.
 Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarField& vF)
 {
-    surfaceScalarField sF = linearInterpolate(vF);
-    
     tmp<surfaceVectorField> tgradIF(nf_ * fvc::snGrad(vF));
     
     return tgradIF;
@@ -51,14 +80,14 @@ Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Grad(const volScalarFie
 Foam::tmp<Foam::surfaceTensorField> Foam::fvsc::reduced::Grad(const volVectorField& iVF)
 {
 
-    tmp<surfaceTensorField> tgradIVF(nf_* fvc::snGrad(iVF));
+    tmp<surfaceTensorField> tgradIVF(nf_ * fvc::snGrad(iVF));
 
     return tgradIVF;
 };
 
 Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(const volVectorField& iVF)
 {
-    tmp<surfaceScalarField> tdivIVF(fvc::snGrad(iVF) & nf_);
+    tmp<surfaceScalarField> tdivIVF(nf_ & fvc::snGrad(iVF));
     
     return tdivIVF;
 };
@@ -71,7 +100,7 @@ Foam::tmp<Foam::surfaceScalarField> Foam::fvsc::reduced::Div(const volVectorFiel
 // \return           Divergence of iTF (vector field) which was computed on the faces of mesh.
 Foam::tmp<Foam::surfaceVectorField> Foam::fvsc::reduced::Div(const volTensorField& iTF)
 {
-    tmp<surfaceVectorField> tdivITF(Foam::T(fvc::snGrad(iTF)) & nf_);
+    tmp<surfaceVectorField> tdivITF(nf_ & fvc::snGrad(iTF));
     
     return tdivITF;
 }

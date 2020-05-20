@@ -2,11 +2,16 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2016 OpenFOAM Foundation
+    \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
 -------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
+-------------------------------------------------------------------------------
+
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver, based on OpenFOAM library.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -21,6 +26,8 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
+Group
+    grpPsiQGDThermo
 \*---------------------------------------------------------------------------*/
 
 #include "hePsiQGDThermo.H"
@@ -112,8 +119,10 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             }
         }
     }
-    
-    this->correctQGD();
+
+    this->gamma_ == (this->Cp() / this->Cv());
+    this->c_ = sqrt(this->gamma_ / this->psi());
+    this->correctQGD(this->mu_, this->alpha_);
 }
 
 
@@ -127,6 +136,23 @@ Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
 )
 :
     heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName)
+{
+    calculate();
+
+    // Switch on saving old time
+    this->psi_.oldTime();
+}
+
+
+template<class BasicPsiThermo, class MixtureType>
+Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::hePsiQGDThermo
+(
+    const fvMesh& mesh,
+    const word& phaseName,
+    const word& dictionaryName
+)
+:
+    heThermo<BasicPsiThermo, MixtureType>(mesh, phaseName, dictionaryName)
 {
     calculate();
 
@@ -156,7 +182,7 @@ void Foam::hePsiQGDThermo<BasicPsiThermo, MixtureType>::correct()
     this->psi_.oldTime();
 
     calculate();
-    
+
     if (debug)
     {
         Info<< "    Finished" << endl;

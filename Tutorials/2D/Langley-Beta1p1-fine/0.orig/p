@@ -29,8 +29,7 @@ boundaryField
     
     "(outlet).*"
     {
-//        type            subsonicSupersonicPressureOutlet;
-        type            fixedValue;
+        type            subsonicSupersonicPressureOutlet;
         value           $internalField;
         p0              $internalField;
         U               U;

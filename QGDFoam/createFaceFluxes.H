@@ -1,11 +1,39 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
+-------------------------------------------------------------------------------
+License
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
-/*Field for debugging parallel execution*/
-//surfaceVectorField cellNoGradf
-//(
-//    "cellNoGradf", faceStencil.faceScalarGrad(cellNo)
-//);
-//
-//cellNoGradf.write();
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+Global
+    createFaceFluxes
+
+Description
+    Creates the face-flux fields.
+
+\*---------------------------------------------------------------------------*/
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 //Gradients and divergence
 //---------Start---------
@@ -43,33 +71,48 @@ surfaceVectorField gradRhof
 //Continuity equation fluxes
 //---------Start---------
 
+surfaceVectorField rhoUf
+(
+    "rhoUf",
+    linearInterpolate(rho*U)
+);
+
 surfaceVectorField rhofUf
 (
     "rhofUf",
     rhof*Uf
 );
 
-phi = rhofUf & mesh.Sf();
+surfaceTensorField UrhoUf
+(
+    "UrhoUf",
+    linearInterpolate(U*rhoU)
+);
+
+phi = rhoUf & mesh.Sf();
 
 surfaceVectorField rhoW
 (
     "rhoW",
-    tauQGDf * 
-    (
-        gradPf
-    )
+    tauQGDf*gradPf
+);
+
+surfaceScalarField phiw
+(
+    "phiwStar",
+    mesh.Sf() & rhoW
 );
 
 surfaceVectorField jm
 (
     "jm",
-    rhofUf - rhoW
+    rhoUf - rhoW
 );
 
 surfaceScalarField phiJm
 (
     "phiJm",
-    (Uf*rhof - rhoW) & mesh.Sf()
+    mesh.Sf() & jm
 );
 
 //---------End---------
@@ -79,7 +122,7 @@ surfaceScalarField phiJm
 surfaceVectorField phiJmU
 (
     "phiJmU",
-    (jm * Uf) & mesh.Sf()
+    mesh.Sf() & (jm * Uf)
 );
 
 surfaceVectorField phiP
@@ -92,18 +135,15 @@ surfaceTensorField Pif
 (
     "Pif",
     //QGD diffusive fluxes
-    tauQGDf * 
-    (
-        Uf * (rhof * (Uf & gradUf) + gradPf)
-        +
-        I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
-    )
+    tauQGDf * ((UrhoUf & gradUf) + Uf * gradPf)
+    +
+    tauQGDf * I * ( (Uf & gradPf) + (gammaf * pf * divUf) )
 );
 
 surfaceVectorField phiPi
 (
     "phiPi",
-    Pif & mesh.Sf()
+    mesh.Sf() & Pif
 );
 
 autoPtr<surfaceTensorField> tauMCPtr;
@@ -178,3 +218,6 @@ surfaceScalarField phiSigmaDotU
 );
 
 //---------End---------
+
+
+// ************************************************************************* //
