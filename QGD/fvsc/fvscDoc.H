@@ -24,6 +24,6 @@ License
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 \defgroup grpfvsc common part of QGD solver
 @{
-
+    This group contains solvers for calculation of differential operators.
 @}
 \*---------------------------------------------------------------------------*/
