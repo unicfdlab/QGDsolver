@@ -72,7 +72,7 @@ cd ../
 
 cd zQGDFoam; ./Allwmake
 rc=$?
-if [ $rc" -eq 0 ]; then
+if [ $rc -eq 0 ]; then
     echo "zQGDFoam compiled"
 else
     echo "zQGDFoam compiled with errors"
