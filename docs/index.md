@@ -1,2 +1,2 @@
-[Documentation](./html/output/index.html)
+[Documentation](./output/html/index.html)
 
