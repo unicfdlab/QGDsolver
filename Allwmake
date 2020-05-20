@@ -11,6 +11,7 @@ fi
 cd ../
 
 cd TwoPhaseQGD; wmake libso
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "twoPhaseQGD compiled"
 else
@@ -20,6 +21,7 @@ fi
 cd ../
 
 cd CombustionQGD; wmake libso
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "CombustionQGD compiled"
 else
@@ -29,6 +31,7 @@ fi
 cd ../
 
 cd ChemistryQGD; wmake libso
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "ChemistryQGD compiled"
 else
@@ -38,6 +41,7 @@ fi
 cd ../
 
 cd QGDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "QGDFoam compiled"
 else
@@ -47,6 +51,7 @@ fi
 cd ../
 
 cd QHDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "QHDFoam compiled"
 else
@@ -56,6 +61,7 @@ fi
 cd ../
 
 cd mulesQHDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "mulesQHDFoam compiled"
 else
@@ -65,6 +71,7 @@ fi
 cd ../
 
 cd zQGDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "zQGDFoam compiled"
 else
@@ -74,6 +81,7 @@ fi
 cd ../
 
 cd interQHDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "interQHDFoam compiled"
 else
@@ -83,6 +91,7 @@ fi
 cd ../
 
 cd particlesQGDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "particlesQGDFoam compiled"
 else
@@ -92,6 +101,7 @@ fi
 cd ../
 
 cd particlesQHDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "particlesQHDFoam compiled"
 else
@@ -101,6 +111,7 @@ fi
 cd ../
 
 cd QHDDyMFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "QHDDyMFoam compiled"
 else
@@ -110,6 +121,7 @@ fi
 cd ../
 
 cd SRFQHDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "SRFQHDFoam compiled"
 else
@@ -119,6 +131,7 @@ fi
 cd ../
 
 cd reactingLagrangianQGDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "reactingLagrangianQGDFoam compiled"
 else
@@ -128,6 +141,7 @@ fi
 cd ../
 
 cd scalarTransportQHDFoam; ./Allwmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "scalarTransportQHDFoam compiled"
 else
@@ -137,6 +151,7 @@ fi
 cd ../
 
 cd utils/selectBadCells; wmake
+rc=$?
 if [ "$rc" = '0' ]; then
     echo "util selectBadCells compiled"
 else
