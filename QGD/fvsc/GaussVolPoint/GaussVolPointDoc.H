@@ -24,7 +24,7 @@ License
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 \defgroup grpGaussVolPoint common part of QGD solver
 @{
-    \ingroup grpQGD
-    This group contains QGD solver.
+    \ingroup grpfvsc
+    This group contains solvers for calculation of differential operators.
 @}
 \*---------------------------------------------------------------------------*/
