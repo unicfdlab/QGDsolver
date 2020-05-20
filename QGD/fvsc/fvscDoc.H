@@ -25,6 +25,5 @@ License
 \defgroup grpfvsc common part of QGD solver
 @{
     \ingroup grpfvsc
-    This group contains QGD solver.
 @}
 \*---------------------------------------------------------------------------*/
