@@ -53,6 +53,11 @@ Foam::fvsc::fvscOpName(const Foam::fvMesh& mesh, Foam::word termName)
     {
         mesh.schemesDict().subDict("fvsc").lookup("default") >> opname;
     }
+     
+    if (((opname == "leastSquares") or (opname == "leastSquaresOpt")) and (mesh.nGeometricD() == 3))
+    {
+	FatalErrorIn("Foam::fvsc::fvscOpName") << "Can't use leastSquares or leastSquaresOpt in 3D case." << nl << exit(FatalError);
+    }
     
     return opname;
 }
