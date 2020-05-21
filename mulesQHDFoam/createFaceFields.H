@@ -27,7 +27,7 @@ Description
     Create Face Fields for calculation
 SourceFile
     mulesQHDFoam.C
-/*---------------------------------------------------------------------------*\     
+\*---------------------------------------------------------------------------*/
      /*
      *
      * Linear interpolation of fields from volumes to face centers
