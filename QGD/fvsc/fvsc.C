@@ -34,6 +34,7 @@ Description
 #include "fvscStencil.H"
 #include "volFields.H"
 #include "surfaceFields.H"
+#include "prismMatcher.H"
 
 namespace Foam
 {
@@ -55,7 +56,31 @@ Foam::fvsc::fvscOpName(const Foam::fvMesh& mesh, Foam::word termName)
     {
         mesh.schemesDict().subDict("fvsc").lookup("default") >> opname;
     }
+     
+    if (((opname == "leastSquares") or (opname == "leastSquaresOpt")) and (mesh.nGeometricD() == 3))
+    {
+	FatalErrorIn("Foam::fvsc::fvscOpName") << "Can't use leastSquares or leastSquaresOpt in 3D case." << nl << exit(FatalError);
+    }
     
+    if (opname == "GaussVolPoint")
+    {
+        const labelList wedgeBC = mesh.boundaryMesh().findIndices("wedge", true);
+        if (wedgeBC.size() > 0)
+        {
+            prismMatcher prism;
+            forAll (mesh.cells(), cellI)
+            {
+                if (prism.isA(mesh, cellI))
+                {
+                    FatalErrorInFunction
+                        << "GaussVolPoint scheme does not support solving axisymmetric cases with wedge BC and prism cells." << endl
+                        << "Try to set leastSquares scheme."
+                        << exit(FatalError);
+                }
+            }
+        }
+    }
+
     return opname;
 }
 

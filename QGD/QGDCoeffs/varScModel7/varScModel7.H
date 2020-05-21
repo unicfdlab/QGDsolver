@@ -25,51 +25,89 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-Global
-    updateFields
+Class
+    Foam::qgd::varScModel7
+
+Group
+    grpQGDCoeffs
 
 Description
-    Updates fields.
+    Class describing QGD model coefficients using dynamic values for
+    Sc^{QGD}, Pr^{QGD} and specified \alpha field:
+
+    Sc^{QGD} = cSc1 * min(\h^QGD abs(\nabla \rho)/\rho, 1)
+
+    \tau^{QGD} = \alpha h / c + \mu / (p Sc)
+
+    \mu^{QGD} = (\alpha h / c) p Sc^{QGD}
+
+    \lambda^{QGD} = \mu^{QGD} Cp / Pr^{QGD}
+
+SourceFiles
+    varScModel7.C
 
 \*---------------------------------------------------------------------------*/
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include "QGDCoeffs.H"
 
-/*
- *
- * Gradients at faces
- *
- */
-gradUf = fvsc::grad(U);
+#ifndef varScModel7_H
+#define varScModel7_H
 
-gradAlpha1f = fvsc::grad(alpha1);
+namespace Foam
+{
 
-muf = qgdInterpolate
-(
-    alpha1*(rho1*nu1-rho2*nu2) + rho2*nu2
-);
+class cellSet;
 
-Info << "max/min muf:" << max(muf).value() << "/" << min(muf).value() << endl;
+namespace qgd
+{
 
-/*
- *
- * Linear interpolation of fields from volumes to face centers
- *
- */
-// Velocity
-Uf = qgdInterpolate(U);
-    
-// alphal
-alpha1f = qgdInterpolate(alpha1);
-alpha2f = 1.0 - alpha1f;
+class varScModel7 : public QGDCoeffs
+{
 
-surfaceScalarField da1dtf = -(Uf & gradAlpha1f);
-volScalarField da1dt = -(U & fvc::grad(alpha1));
+protected:
 
-cFrc   = fvc::reconstruct(thermo.surfaceTensionForce()*mesh.magSf());
-cFrcf  = thermo.surfaceTensionForce()*mesh.Sf() / mesh.magSf();
+    scalar smoothCoeff_;
+    scalar rC_;
+    scalar minSc_;
+    scalar maxSc_;
+    scalar badQualitySc_;
+    scalar qgdAspectRatioThreshold_;
+    scalar constSc_;
+    scalar cSc1_;
 
-BdFrc  = g * (rho + da1dt*(Tau1*rho1 - Tau2*rho2));
+    scalarField cqSc_;
+
+    autoPtr<cellSet> constScCellSetPtr_;
 
 
-// ************************************************************************* //
+public:
+
+    //-
+    TypeName ("varScModel7");
+
+    //-
+    varScModel7
+    (
+        const IOobject& io,
+        const fvMesh& mesh,
+        const dictionary& dict
+    );
+
+    //-
+    ~varScModel7();
+
+    //-
+    void correct(const QGDThermo&);
+
+};
+
+
+}//namespace qgd
+
+}//namespace Foam
+
+#endif
+
+//
+//END-OF-FILe
+//

@@ -64,21 +64,28 @@ Description
 #include "twoPhaseIcoQGDThermo.H"
 #include "QGDInterpolate.H"
 #include "MULES.H"
+#include "fvcSmooth.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 int main(int argc, char *argv[])
 {
+    argList::addOption("smoothAlpha");
+    argList::addOption("nSmoothIters");
+    argList::addOption("smoothCoeff");
     #define NO_CONTROL
     #include "postProcess.H"
 
     #include "setRootCase.H"
+    
     #include "createTime.H"
     #include "createMesh.H"
     #include "createFields.H"
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
+    
+    #include "smoothSolution.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -164,8 +171,10 @@ int main(int argc, char *argv[])
         }
         
         gradpf = fvsc::grad(p);
-        W1 = ((Uf & gradUf) + (1./rho1)*gradpf - g - cFrcf/rho1)*Tau1;
-        W2 = ((Uf & gradUf) + (1./rho2)*gradpf - g - cFrcf/rho2)*Tau2;
+        //W1 = ((Uf & gradUf) + (1./rho1)*gradpf - g)*Tau1;
+        //W2 = ((Uf & gradUf) + (1./rho2)*gradpf - g)*Tau2;
+        W1 = ((Uf & gradUf) + (1./rho1)*gradpf - g - linearInterpolate(cFrc)/rho1/*cFrcf/rho1*/)*Tau1;
+        W2 = ((Uf & gradUf) + (1./rho2)*gradpf - g - linearInterpolate(cFrc)/rho2/*cFrcf/rho2*/)*Tau2;
         
         phiWr =
             qgdFlux
@@ -291,17 +300,27 @@ int main(int argc, char *argv[])
                 fvm::ddt(rho,U)
                 +
                 fvc::div(phiUfRhof)
-                +
-                fvc::grad(p)
-                *(1.0 + da1dt*(Tau1-Tau2))
                 -
                 fvm::laplacian(muf,U)
                 -
                 fvc::div(muf*mesh.Sf() & qgdInterpolate(Foam::T(fvc::grad(U))))
                 -
                 BdFrc
-                -
-                cFrc*(1.0 + da1dt*(Tau1-Tau2))
+                //+
+                //(
+                //    fvc::grad(p)
+                //    -
+                //    cFrc
+                //)*(1.0 + da1dt*(Tau1-Tau2))
+                +
+                (
+                    fvc::reconstruct
+                    (
+                        fvc::snGrad(p)*mesh.magSf()
+                    )
+                    -
+                    cFrc
+                )*(1.0 + da1dt*(Tau1-Tau2))
             );
         }
         else
