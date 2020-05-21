@@ -121,7 +121,22 @@ turbulence.reset
     ).ptr()
 );
 
-#include "readGravitationalAcceleration.H"
+Info<< "\nReading gravitationalProperties" << endl;
+
+IOdictionary gravitationalProperties
+(
+    IOobject
+    (
+        "gravitationalProperties",
+        runTime.constant(),
+        mesh,
+        IOobject::MUST_READ_IF_MODIFIED,
+        IOobject::NO_WRITE
+    )
+);
+
+const dimensionedVector g(gravitationalProperties.lookup("g"));
+
 #include "createClouds.H"
 
 Info<< "Creating combustion model\n" << endl;
