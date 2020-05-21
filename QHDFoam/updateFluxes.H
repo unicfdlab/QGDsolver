@@ -27,7 +27,7 @@ Description
     Update fluxes during calculations
 SourceFile
     QHDFoam.C
-/*---------------------------------------------------------------------------*\
+\*---------------------------------------------------------------------------*/
 //Continuity equation fluxes
 //---------Start---------
 phiu  = mesh.Sf() & Uf;
