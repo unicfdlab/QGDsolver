@@ -28,5 +28,6 @@ var searchData=
   ['_7etwophaseconsttau',['~twoPhaseConstTau',['../classFoam_1_1qgd_1_1twoPhaseConstTau.html#acfd976df0b86e69e25104220751790ab',1,'Foam::qgd::twoPhaseConstTau']]],
   ['_7etwophaseicoqgdthermo',['~twoPhaseIcoQGDThermo',['../classFoam_1_1twoPhaseIcoQGDThermo.html#a457523f9590c0e753d657b1c0e5ff1aa',1,'Foam::twoPhaseIcoQGDThermo']]],
   ['_7evarscmodel5',['~varScModel5',['../classFoam_1_1qgd_1_1varScModel5.html#a2652d40a7824c9cd9f5dcb6c8deae907',1,'Foam::qgd::varScModel5']]],
-  ['_7evarscmodel6',['~varScModel6',['../classFoam_1_1qgd_1_1varScModel6.html#a7c9fdb1c3fdc55971365d526c851773a',1,'Foam::qgd::varScModel6']]]
+  ['_7evarscmodel6',['~varScModel6',['../classFoam_1_1qgd_1_1varScModel6.html#a7c9fdb1c3fdc55971365d526c851773a',1,'Foam::qgd::varScModel6']]],
+  ['_7evarscmodel7',['~varScModel7',['../classFoam_1_1qgd_1_1varScModel7.html#ad1a84f9dc0f32e3b4ac1098245652e32',1,'Foam::qgd::varScModel7']]]
 ];

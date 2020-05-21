@@ -1,7 +1,7 @@
 var searchData=
 [
   ['rhoqgd_20thermo_20models',['rhoQGD thermo models',['../group__grpRhoQGDThermo.html',1,'']]],
-  ['rc_5f',['rC_',['../classFoam_1_1qgd_1_1varScModel5.html#aad7b554702542581698e64bc62325c5e',1,'Foam::qgd::varScModel5::rC_()'],['../classFoam_1_1qgd_1_1varScModel6.html#aad7b554702542581698e64bc62325c5e',1,'Foam::qgd::varScModel6::rC_()']]],
+  ['rc_5f',['rC_',['../classFoam_1_1qgd_1_1varScModel5.html#aad7b554702542581698e64bc62325c5e',1,'Foam::qgd::varScModel5::rC_()'],['../classFoam_1_1qgd_1_1varScModel6.html#aad7b554702542581698e64bc62325c5e',1,'Foam::qgd::varScModel6::rC_()'],['../classFoam_1_1qgd_1_1varScModel7.html#aad7b554702542581698e64bc62325c5e',1,'Foam::qgd::varScModel7::rC_()']]],
   ['reactinglagrangianqgdfoam_2ec',['reactingLagrangianQGDFoam.C',['../reactingLagrangianQGDFoam_8C.html',1,'']]],
   ['read',['read',['../classFoam_1_1psiQGDThermo.html#af816873151ddb0126e98bb2f914d8ed5',1,'Foam::psiQGDThermo::read()'],['../classFoam_1_1QGDThermo.html#af816873151ddb0126e98bb2f914d8ed5',1,'Foam::QGDThermo::read()'],['../classFoam_1_1rhoQGDThermo.html#af816873151ddb0126e98bb2f914d8ed5',1,'Foam::rhoQGDThermo::read()'],['../classFoam_1_1qInterfaceProperties.html#af816873151ddb0126e98bb2f914d8ed5',1,'Foam::qInterfaceProperties::read()'],['../classFoam_1_1twoPhaseIcoQGDThermo.html#af816873151ddb0126e98bb2f914d8ed5',1,'Foam::twoPhaseIcoQGDThermo::read()']]],
   ['readorcreatealphaqgd',['readOrCreateAlphaQGD',['../classFoam_1_1qgd_1_1QGDCoeffs.html#a57b5661455c6f6bb03fef55573dd3592',1,'Foam::qgd::QGDCoeffs']]],
