@@ -27,7 +27,8 @@ Description
     Creating fields for calculations
 SourceFile
     mulesQHDFoam.C
-/*---------------------------------------------------------------------------*\
+\*---------------------------------------------------------------------------*/
+
 #include "readGravitationalAcceleration.H"
 #include "readhRef.H"
 #include "gh.H"

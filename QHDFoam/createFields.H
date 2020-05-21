@@ -27,7 +27,8 @@ Description
     Creating fields for calculations
 SourceFile
     QHDFoam.C
-/*---------------------------------------------------------------------------*\
+\*---------------------------------------------------------------------------*/
+
 Info<< "Reading thermophysical properties\n" << endl;
 
 autoPtr<rhoQGDThermo> pThermo

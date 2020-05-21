@@ -27,7 +27,7 @@ Description
     Create Face Fluxes for calculation
 SourceFile
     mulesQHDFoam.C
-/*---------------------------------------------------------------------------*\
+\*---------------------------------------------------------------------------*/
 //Gradients and divergence
 //---------Start---------
 
