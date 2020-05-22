@@ -13,10 +13,12 @@ var searchData=
   ['fvsc',['fvsc',['../classFoam_1_1fvsc.html',1,'fvsc'],['../namespaceFoam_1_1fvsc.html',1,'Foam::fvsc']]],
   ['fvsc_2ec',['fvsc.C',['../fvsc_8C.html',1,'']]],
   ['fvsc_2eh',['fvsc.H',['../fvsc_8H.html',1,'']]],
+  ['fvscdoc_2eh',['fvscDoc.H',['../fvscDoc_8H.html',1,'']]],
   ['fvscopname',['fvscOpName',['../namespaceFoam_1_1fvsc.html#af6bb0dae92f07ff2b3ac71aa49012582',1,'Foam::fvsc']]],
-  ['fvscstencil',['fvscStencil',['../classFoam_1_1fvsc_1_1fvscStencil.html#a06c75f9759dd65cd09cd212fe025ab8f',1,'Foam::fvsc::fvscStencil']]],
   ['fvscstencil',['fvscStencil',['../classFoam_1_1fvsc_1_1fvscStencil.html',1,'Foam::fvsc']]],
+  ['fvscstencil',['fvscStencil',['../classFoam_1_1fvsc_1_1fvscStencil.html#a06c75f9759dd65cd09cd212fe025ab8f',1,'Foam::fvsc::fvscStencil']]],
   ['fvscstencil_2ec',['fvscStencil.C',['../fvscStencil_8C.html',1,'']]],
   ['fvscstencil_2eh',['fvscStencil.H',['../fvscStencil_8H.html',1,'']]],
+  ['fvscstencildoc_2eh',['fvscStencilDoc.H',['../fvscStencilDoc_8H.html',1,'']]],
   ['qgd',['qgd',['../namespaceFoam_1_1qgd.html',1,'Foam']]]
 ];

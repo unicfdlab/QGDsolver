@@ -122,76 +122,78 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">    for more details.</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">    You should have received a copy of the GNU General Public License</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">    along with OpenFOAM.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">Class</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">    Foam::fvsc::leastSquaresOpt::extendedFaceStencilScalarDer</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">Description </span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">    Methods for optimal calculating of directional derivative. </span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">    With parallel realisation.</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">\*---------------------------------------------------------------------------*/</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="leastSquaresStencilOpt_8H.html">leastSquaresStencilOpt.H</a>&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">   32</a></span>&#160;<span class="preprocessor">#include &quot;polyMesh.H&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;fvMesh.H&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;word.H&quot;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;IOstream.H&quot;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &quot;Ostream.H&quot;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;HashTable.H&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> Field&lt;scalar&gt;&amp; iF,<span class="keyword">const</span> Field&lt;scalar&gt;&amp; sF,<span class="keywordtype">int</span> com, surfaceScalarField&amp; rField)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(sF, facei)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        rField[facei] = 0.0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a02baa873251f7eea71747ed0bc8197d0">GdfAll_</a>[facei], i)</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a7e2600b215be3814820217692eae178c">   45</a></span>&#160;        {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            rField[facei] += <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a83976c56a7c987c47de994873066c425">wf2All_</a>[facei][i]*<a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a02baa873251f7eea71747ed0bc8197d0">GdfAll_</a>[facei][i].component(com)*(iF[<a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#ac4b1f56a2aef45ed714a6475cf2ab6ad">neighbourCells_</a>[facei][i]] - sF[facei]);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#afd35c3a49637d02cec2c4684055ec59a">   50</a></span>&#160;};</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">Group grpleastSquaresOpt</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">    This group contains common part of QGD solvers.</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">Class</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">    Foam::fvsc::leastSquaresOpt::extendedFaceStencilScalarDer</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">Description </span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">    Methods for optimal calculating of directional derivative. </span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">    With parallel realisation.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">\*---------------------------------------------------------------------------*/</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="leastSquaresStencilOpt_8H.html">leastSquaresStencilOpt.H</a>&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">   34</a></span>&#160;<span class="preprocessor">#include &quot;polyMesh.H&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;fvMesh.H&quot;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &quot;word.H&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;IOstream.H&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &quot;Ostream.H&quot;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;HashTable.H&gt;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> Field&lt;scalar&gt;&amp; iF,<span class="keyword">const</span> Field&lt;scalar&gt;&amp; sF,<span class="keywordtype">int</span> com, surfaceScalarField&amp; rField)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(sF, facei)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        rField[facei] = 0.0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(<a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a02baa873251f7eea71747ed0bc8197d0">GdfAll_</a>[facei], i)</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a7e2600b215be3814820217692eae178c">   47</a></span>&#160;        {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            rField[facei] += <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a83976c56a7c987c47de994873066c425">wf2All_</a>[facei][i]*<a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a02baa873251f7eea71747ed0bc8197d0">GdfAll_</a>[facei][i].component(com)*(iF[<a class="code" href="classFoam_1_1fvsc_1_1leastSquaresBase.html#ac4b1f56a2aef45ed714a6475cf2ab6ad">neighbourCells_</a>[facei][i]] - sF[facei]);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> tmp&lt;Field&lt;scalar&gt;&gt;&amp; tiF,<span class="keyword">const</span> tmp&lt;Field&lt;scalar&gt;&gt;&amp; tsF, <span class="keywordtype">int</span> com, tmp&lt;surfaceScalarField&gt;&amp; trField )</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> List3&lt;scalar&gt;&amp; procVfValues,<span class="keyword">const</span> surfaceScalarField&amp; sF,<span class="keywordtype">int</span> derComp, surfaceScalarField&amp; rField)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{   </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    scalar gf = 0.0;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(procPairs_, patchI)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        label procPatchId = procPairs_[patchI];</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> (procPatchId &gt; -1)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            fvsPatchScalarField&amp; pgradf = rField.boundaryFieldRef()[procPatchId];</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keyword">const</span> List2&lt;scalar&gt; &amp; pvf = procVfValues[patchI];</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">const</span> List2&lt;scalar&gt; &amp; pwf2= procWf2_[patchI];</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keyword">const</span> List2&lt;vector&gt; &amp; pgdf= procGdf_[patchI];</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(pgradf, iFace)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                gf = 0.0;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(procGdf_[patchI][iFace], i)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    gf += pwf2[iFace][i]*pgdf[iFace][i].component(derComp)*</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                       (pvf[iFace][i] - sF.boundaryField()[procPatchId][iFace]);</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#afdc8d385f3e1596d4b96ed60253403e7">   77</a></span>&#160;                }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                rField[iFace] = gf;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> tmp&lt;List3&lt;scalar&gt;&gt;&amp; tprocVfValues,<span class="keyword">const</span> tmp&lt;surfaceScalarField&gt;&amp;, <span class="keywordtype">int</span> derComp, tmp&lt;surfaceScalarField&gt;&amp; trField )</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_a83976c56a7c987c47de994873066c425"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a83976c56a7c987c47de994873066c425">Foam::fvsc::leastSquaresBase::wf2All_</a></div><div class="ttdeci">List2&lt; scalar &gt; wf2All_</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00073">leastSquaresBase.H:73</a></div></div>
-<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresOpt_html_a8682675af22d295ef3733cfd3447d0c0"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a></div><div class="ttdeci">void faceScalarDer(const Field&lt; scalar &gt; &amp;iF, const Field&lt; scalar &gt; &amp;sF, int com, surfaceScalarField &amp;rField)</div><div class="ttdef"><b>Definition:</b> <a href="extendedFaceStencilScalarDer_8C_source.html#l00032">extendedFaceStencilScalarDer.C:32</a></div></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#afd35c3a49637d02cec2c4684055ec59a">   52</a></span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> tmp&lt;Field&lt;scalar&gt;&gt;&amp; tiF,<span class="keyword">const</span> tmp&lt;Field&lt;scalar&gt;&gt;&amp; tsF, <span class="keywordtype">int</span> com, tmp&lt;surfaceScalarField&gt;&amp; trField )</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> List3&lt;scalar&gt;&amp; procVfValues,<span class="keyword">const</span> surfaceScalarField&amp; sF,<span class="keywordtype">int</span> derComp, surfaceScalarField&amp; rField)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{   </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    scalar gf = 0.0;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(procPairs_, patchI)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        label procPatchId = procPairs_[patchI];</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (procPatchId &gt; -1)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            fvsPatchScalarField&amp; pgradf = rField.boundaryFieldRef()[procPatchId];</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keyword">const</span> List2&lt;scalar&gt; &amp; pvf = procVfValues[patchI];</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keyword">const</span> List2&lt;scalar&gt; &amp; pwf2= procWf2_[patchI];</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keyword">const</span> List2&lt;vector&gt; &amp; pgdf= procGdf_[patchI];</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(pgradf, iFace)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                gf = 0.0;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <a class="code" href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a>(procGdf_[patchI][iFace], i)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    gf += pwf2[iFace][i]*pgdf[iFace][i].component(derComp)*</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                       (pvf[iFace][i] - sF.boundaryField()[procPatchId][iFace]);</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#afdc8d385f3e1596d4b96ed60253403e7">   79</a></span>&#160;                }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                rField[iFace] = gf;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a>(<span class="keyword">const</span> tmp&lt;List3&lt;scalar&gt;&gt;&amp; tprocVfValues,<span class="keyword">const</span> tmp&lt;surfaceScalarField&gt;&amp;, <span class="keywordtype">int</span> derComp, tmp&lt;surfaceScalarField&gt;&amp; trField )</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_a83976c56a7c987c47de994873066c425"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a83976c56a7c987c47de994873066c425">Foam::fvsc::leastSquaresBase::wf2All_</a></div><div class="ttdeci">List2&lt; scalar &gt; wf2All_</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00075">leastSquaresBase.H:75</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresOpt_html_a8682675af22d295ef3733cfd3447d0c0"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresOpt.html#a8682675af22d295ef3733cfd3447d0c0">Foam::fvsc::leastSquaresOpt::faceScalarDer</a></div><div class="ttdeci">void faceScalarDer(const Field&lt; scalar &gt; &amp;iF, const Field&lt; scalar &gt; &amp;sF, int com, surfaceScalarField &amp;rField)</div><div class="ttdef"><b>Definition:</b> <a href="extendedFaceStencilScalarDer_8C_source.html#l00034">extendedFaceStencilScalarDer.C:34</a></div></div>
 <div class="ttc" id="leastSquaresStencilOpt_8H_html"><div class="ttname"><a href="leastSquaresStencilOpt_8H.html">leastSquaresStencilOpt.H</a></div></div>
 <div class="ttc" id="QGDYEqn_8H_html_a10c29c5a8ec21260e2867f83e0bbd2b6"><div class="ttname"><a href="QGDYEqn_8H.html#a10c29c5a8ec21260e2867f83e0bbd2b6">forAll</a></div><div class="ttdeci">forAll(Y, i)</div><div class="ttdef"><b>Definition:</b> <a href="QGDYEqn_8H_source.html#l00036">QGDYEqn.H:36</a></div></div>
-<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_a02baa873251f7eea71747ed0bc8197d0"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a02baa873251f7eea71747ed0bc8197d0">Foam::fvsc::leastSquaresBase::GdfAll_</a></div><div class="ttdeci">List2&lt; vector &gt; GdfAll_</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00072">leastSquaresBase.H:72</a></div></div>
-<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_ac4b1f56a2aef45ed714a6475cf2ab6ad"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#ac4b1f56a2aef45ed714a6475cf2ab6ad">Foam::fvsc::leastSquaresBase::neighbourCells_</a></div><div class="ttdeci">labelListList neighbourCells_</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00069">leastSquaresBase.H:69</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_a02baa873251f7eea71747ed0bc8197d0"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#a02baa873251f7eea71747ed0bc8197d0">Foam::fvsc::leastSquaresBase::GdfAll_</a></div><div class="ttdeci">List2&lt; vector &gt; GdfAll_</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00074">leastSquaresBase.H:74</a></div></div>
+<div class="ttc" id="classFoam_1_1fvsc_1_1leastSquaresBase_html_ac4b1f56a2aef45ed714a6475cf2ab6ad"><div class="ttname"><a href="classFoam_1_1fvsc_1_1leastSquaresBase.html#ac4b1f56a2aef45ed714a6475cf2ab6ad">Foam::fvsc::leastSquaresBase::neighbourCells_</a></div><div class="ttdeci">labelListList neighbourCells_</div><div class="ttdef"><b>Definition:</b> <a href="leastSquaresBase_8H_source.html#l00071">leastSquaresBase.H:71</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->
 <!-- start footer part -->

@@ -2,6 +2,7 @@ var searchData=
 [
   ['reactinglagrangianqgdfoam_2ec',['reactingLagrangianQGDFoam.C',['../reactingLagrangianQGDFoam_8C.html',1,'']]],
   ['readscnumbers_2eh',['readScNumbers.H',['../readScNumbers_8H.html',1,'']]],
+  ['reduceddoc_2eh',['reducedDoc.H',['../reducedDoc_8H.html',1,'']]],
   ['reducedfacenormalstencil_2ec',['reducedFaceNormalStencil.C',['../reducedFaceNormalStencil_8C.html',1,'']]],
   ['reducedfacenormalstencil_2eh',['reducedFaceNormalStencil.H',['../reducedFaceNormalStencil_8H.html',1,'']]],
   ['rhoqgdthermo_2ec',['rhoQGDThermo.C',['../rhoQGDThermo_8C.html',1,'']]],

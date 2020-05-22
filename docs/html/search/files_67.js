@@ -8,6 +8,7 @@ var searchData=
   ['gaussvolpointbase2d_2eh',['GaussVolPointBase2D.H',['../GaussVolPointBase2D_8H.html',1,'']]],
   ['gaussvolpointbase3d_2ec',['GaussVolPointBase3D.C',['../GaussVolPointBase3D_8C.html',1,'']]],
   ['gaussvolpointbase3d_2eh',['GaussVolPointBase3D.H',['../GaussVolPointBase3D_8H.html',1,'']]],
+  ['gaussvolpointdoc_2eh',['GaussVolPointDoc.H',['../GaussVolPointDoc_8H.html',1,'']]],
   ['gaussvolpointstencil_2ec',['GaussVolPointStencil.C',['../GaussVolPointStencil_8C.html',1,'']]],
   ['gaussvolpointstencil_2eh',['GaussVolPointStencil.H',['../GaussVolPointStencil_8H.html',1,'']]]
 ];

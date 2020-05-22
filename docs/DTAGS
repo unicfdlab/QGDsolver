@@ -2904,10 +2904,10 @@
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/mulesQHDFoam/</path>
     <filename>mulesQHDFoam_2createFields_8H</filename>
     <member kind="function">
-      <type>Info&lt;&lt; &quot;Reading thermophysical properties\n&quot;&lt;&lt; endl;autoPtr&lt; rhoQGDThermo &gt;</type>
+      <type>Info&lt;&lt; &quot;\nReading gravitationalProperties&quot;&lt;&lt; endl;IOdictionary gravitationalProperties(IOobject(&quot;gravitationalProperties&quot;, runTime.constant(), mesh, IOobject::MUST_READ_IF_MODIFIED, IOobject::NO_WRITE));const dimensionedVector g(gravitationalProperties.lookup(&quot;g&quot;));Info&lt;&lt; &quot;Reading thermophysical properties\n&quot;&lt;&lt; endl;autoPtr&lt; rhoQGDThermo &gt;</type>
       <name>pThermo</name>
       <anchorfile>mulesQHDFoam_2createFields_8H.html</anchorfile>
-      <anchor>a33ecc24a2a57c5ed55f9ee579c7e2e18</anchor>
+      <anchor>abe007008bb6efbf6a9ffd75bf5b5fe13</anchor>
       <arglist>(rhoQGDThermo::New(mesh))</arglist>
     </member>
     <member kind="function">
@@ -3648,10 +3648,10 @@
       <arglist>(composition.species()[inertSpecie])</arglist>
     </member>
     <member kind="function">
-      <type>Info&lt;&lt; &quot;Creating density field&quot;&lt;&lt; endl;volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho());volVectorField rhoU(IOobject(&quot;rhoU&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE), rho *U);volScalarField rhoE(IOobject(&quot;rhoE&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE), rho *e+rho *0.5 *magSqr(U));volScalarField H(IOobject(&quot;Ht&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE),(rhoE+p)/rho);Switch implicitDiffusion(thermo.implicitDiffusion());Info&lt;&lt; &quot;Creating turbulence model\n&quot;&lt;&lt; endl;turbulence.reset(compressible::turbulenceModel::New(rho, U, phi, thermo).ptr());#125&quot;/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/reactingLagrangianQGDFoam/createFields.H&quot;2Info&lt;&lt; &quot;Creating combustion model\n&quot;&lt;&lt; endl;autoPtr&lt; CombustionModel&lt; psiQGDReactionThermo &gt; &gt;</type>
+      <type>Info&lt;&lt; &quot;Creating density field&quot;&lt;&lt; endl;volScalarField rho(IOobject(&quot;rho&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::AUTO_WRITE), thermo.rho());volVectorField rhoU(IOobject(&quot;rhoU&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE), rho *U);volScalarField rhoE(IOobject(&quot;rhoE&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE), rho *e+rho *0.5 *magSqr(U));volScalarField H(IOobject(&quot;Ht&quot;, runTime.timeName(), mesh, IOobject::NO_READ, IOobject::NO_WRITE),(rhoE+p)/rho);Switch implicitDiffusion(thermo.implicitDiffusion());Info&lt;&lt; &quot;Creating turbulence model\n&quot;&lt;&lt; endl;turbulence.reset(compressible::turbulenceModel::New(rho, U, phi, thermo).ptr());Info&lt;&lt; &quot;\nReading gravitationalProperties&quot;&lt;&lt; endl;IOdictionary gravitationalProperties(IOobject(&quot;gravitationalProperties&quot;, runTime.constant(), mesh, IOobject::MUST_READ_IF_MODIFIED, IOobject::NO_WRITE));const dimensionedVector g(gravitationalProperties.lookup(&quot;g&quot;));#140&quot;/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/reactingLagrangianQGDFoam/createFields.H&quot;2Info&lt;&lt; &quot;Creating combustion model\n&quot;&lt;&lt; endl;autoPtr&lt; CombustionModel&lt; psiQGDReactionThermo &gt; &gt;</type>
       <name>combustion</name>
       <anchorfile>reactingLagrangianQGDFoam_2createFields_8H.html</anchorfile>
-      <anchor>a5de027c3b4207f7a493d9b3f811cc696</anchor>
+      <anchor>a15fc6b77496a338890618f06a72ca9de</anchor>
       <arglist>(CombustionModel&lt; psiQGDReactionThermo &gt;::New(thermo, turbulence()))</arglist>
     </member>
     <member kind="function">
@@ -6047,6 +6047,11 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>fvscDoc.H</name>
+    <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/</path>
+    <filename>fvscDoc_8H</filename>
+  </compound>
+  <compound kind="file">
     <name>fvscStencil.C</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/fvscStencil/</path>
     <filename>fvscStencil_8C</filename>
@@ -6074,6 +6079,11 @@
     <class kind="class">Foam::fvsc::fvscStencil</class>
     <namespace>Foam</namespace>
     <namespace>Foam::fvsc</namespace>
+  </compound>
+  <compound kind="file">
+    <name>fvscStencilDoc.H</name>
+    <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/fvscStencil/</path>
+    <filename>fvscStencilDoc_8H</filename>
   </compound>
   <compound kind="file">
     <name>GaussVolPointBase.C</name>
@@ -6163,6 +6173,11 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>GaussVolPointDoc.H</name>
+    <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/GaussVolPoint/</path>
+    <filename>GaussVolPointDoc_8H</filename>
+  </compound>
+  <compound kind="file">
     <name>GaussVolPointStencil.C</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/GaussVolPoint/</path>
     <filename>GaussVolPointStencil_8C</filename>
@@ -6218,6 +6233,11 @@
     <class kind="class">Foam::fvsc::leastSquaresBase</class>
     <namespace>Foam</namespace>
     <namespace>Foam::fvsc</namespace>
+  </compound>
+  <compound kind="file">
+    <name>leastSquaresDoc.H</name>
+    <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/leastSquares/</path>
+    <filename>leastSquaresDoc_8H</filename>
   </compound>
   <compound kind="file">
     <name>leastSquaresStencil.C</name>
@@ -6278,6 +6298,11 @@
     <filename>extendedFaceStencilScalarGradOpt_8C</filename>
   </compound>
   <compound kind="file">
+    <name>leastSquaresOptDoc.H</name>
+    <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/leastSquaresOpt/</path>
+    <filename>leastSquaresOptDoc_8H</filename>
+  </compound>
+  <compound kind="file">
     <name>leastSquaresStencilOpt.C</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/leastSquaresOpt/</path>
     <filename>leastSquaresStencilOpt_8C</filename>
@@ -6305,6 +6330,11 @@
     <class kind="class">Foam::fvsc::leastSquaresOpt</class>
     <namespace>Foam</namespace>
     <namespace>Foam::fvsc</namespace>
+  </compound>
+  <compound kind="file">
+    <name>reducedDoc.H</name>
+    <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/reduced/</path>
+    <filename>reducedDoc_8H</filename>
   </compound>
   <compound kind="file">
     <name>reducedFaceNormalStencil.C</name>
@@ -7871,6 +7901,56 @@
     <class kind="class">Foam::cosVelocityFvPatchVectorField</class>
     <class kind="class">Foam::qgdFluxFvPatchScalarField</class>
     <class kind="class">Foam::qhdFluxFvPatchScalarField</class>
+  </compound>
+  <compound kind="group">
+    <name>grpfvsc</name>
+    <title>common part of QGD solver</title>
+    <filename>group__grpfvsc.html</filename>
+    <subgroup>grpfvscStencil</subgroup>
+  </compound>
+  <compound kind="group">
+    <name>grpfvscStencil</name>
+    <title>common part of QGD solver</title>
+    <filename>group__grpfvscStencil.html</filename>
+    <file>fvscStencil.C</file>
+    <file>fvscStencil.H</file>
+  </compound>
+  <compound kind="group">
+    <name>grpGaussVolPoint</name>
+    <title>common part of QGD solver</title>
+    <filename>group__grpGaussVolPoint.html</filename>
+    <file>GaussVolPointBase.C</file>
+    <file>GaussVolPointBase.H</file>
+    <file>GaussVolPointBase1D.C</file>
+    <file>GaussVolPointBase1D.H</file>
+    <file>GaussVolPointBase2D.C</file>
+    <file>GaussVolPointBase2D.H</file>
+    <file>GaussVolPointBase3D.C</file>
+    <file>GaussVolPointBase3D.H</file>
+    <file>GaussVolPointStencil.C</file>
+    <file>GaussVolPointStencil.H</file>
+  </compound>
+  <compound kind="group">
+    <name>grpleastSquares</name>
+    <title>common part of QGD solver</title>
+    <filename>group__grpleastSquares.html</filename>
+    <file>extendedFaceStencilCalculateWeights.C</file>
+    <file>extendedFaceStencilFindNeighbours.C</file>
+    <file>extendedFaceStencilScalarGrad.C</file>
+    <file>leastSquaresBase.C</file>
+    <file>leastSquaresBase.H</file>
+    <file>leastSquaresStencil.C</file>
+    <file>leastSquaresStencil.H</file>
+  </compound>
+  <compound kind="group">
+    <name>grpleastSquaresOpt</name>
+    <title>common part of QGD solver</title>
+    <filename>group__grpleastSquaresOpt.html</filename>
+  </compound>
+  <compound kind="group">
+    <name>grpreduced</name>
+    <title>common part of QGD solver</title>
+    <filename>group__grpreduced.html</filename>
   </compound>
   <compound kind="group">
     <name>grpQGDCoeffs</name>
@@ -12602,6 +12682,7 @@
     <dir>QGD/fvsc/reduced</dir>
     <file>fvsc.C</file>
     <file>fvsc.H</file>
+    <file>fvscDoc.H</file>
   </compound>
   <compound kind="dir">
     <name>QGD/fvsc/fvscStencil</name>
@@ -12609,6 +12690,7 @@
     <filename>dir_7211b28686bacbec6ff578656b3cd424.html</filename>
     <file>fvscStencil.C</file>
     <file>fvscStencil.H</file>
+    <file>fvscStencilDoc.H</file>
   </compound>
   <compound kind="dir">
     <name>QGD/fvsc/GaussVolPoint</name>
@@ -12622,6 +12704,7 @@
     <file>GaussVolPointBase2D.H</file>
     <file>GaussVolPointBase3D.C</file>
     <file>GaussVolPointBase3D.H</file>
+    <file>GaussVolPointDoc.H</file>
     <file>GaussVolPointStencil.C</file>
     <file>GaussVolPointStencil.H</file>
   </compound>
@@ -12672,6 +12755,7 @@
     <file>extendedFaceStencilScalarGrad.C</file>
     <file>leastSquaresBase.C</file>
     <file>leastSquaresBase.H</file>
+    <file>leastSquaresDoc.H</file>
     <file>leastSquaresStencil.C</file>
     <file>leastSquaresStencil.H</file>
   </compound>
@@ -12682,6 +12766,7 @@
     <file>extendedFaceStencilFormVfValues.H</file>
     <file>extendedFaceStencilScalarDer.C</file>
     <file>extendedFaceStencilScalarGradOpt.C</file>
+    <file>leastSquaresOptDoc.H</file>
     <file>leastSquaresStencilOpt.C</file>
     <file>leastSquaresStencilOpt.H</file>
   </compound>
@@ -12913,6 +12998,7 @@
     <name>QGD/fvsc/reduced</name>
     <path>/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/QGD/fvsc/reduced/</path>
     <filename>dir_b4576622cd9a9b1a6b77feac1cde306a.html</filename>
+    <file>reducedDoc.H</file>
     <file>reducedFaceNormalStencil.C</file>
     <file>reducedFaceNormalStencil.H</file>
   </compound>

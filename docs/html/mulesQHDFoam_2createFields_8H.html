@@ -107,7 +107,7 @@ Include dependency graph for createFields.H:</div>
 <div class="dyncontent">
 <div class="center"><img src="mulesQHDFoam_2createFields_8H__incl.png" border="0" usemap="#mulesQHDFoam_2createFields_8H" alt=""/></div>
 <map name="mulesQHDFoam_2createFields_8H" id="mulesQHDFoam_2createFields_8H">
-<area shape="rect" id="node5" href="createIcoZeroSources_8H.html" title="createIcoZeroSources.H" alt="" coords="454,80,631,107"/></map>
+<area shape="rect" id="node4" href="createIcoZeroSources_8H.html" title="createIcoZeroSources.H" alt="" coords="199,80,376,107"/></map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -121,10 +121,18 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a33ecc24a2a57c5ed55f9ee579c7e2e18"><td class="memItemLeft" align="right" valign="top">Info&lt;&lt; &quot;Reading thermophysical <br class="typebreak"/>
+<tr class="memitem:abe007008bb6efbf6a9ffd75bf5b5fe13"><td class="memItemLeft" align="right" valign="top">Info&lt;&lt; &quot;\nReading <br class="typebreak"/>
+gravitationalProperties&quot;<br class="typebreak"/>
+&lt;&lt; endl;IOdictionary <br class="typebreak"/>
+gravitationalProperties(IOobject(&quot;gravitationalProperties&quot;, <br class="typebreak"/>
+runTime.constant(), mesh, <br class="typebreak"/>
+IOobject::MUST_READ_IF_MODIFIED, <br class="typebreak"/>
+IOobject::NO_WRITE));const <br class="typebreak"/>
+dimensionedVector g(<a class="el" href="readScNumbers_8H.html#ad6a637987505ff015d0ac14ee800cfee">gravitationalProperties.lookup</a>(&quot;g&quot;));Info<br class="typebreak"/>
+&lt;&lt; &quot;Reading thermophysical <br class="typebreak"/>
 properties\n&quot;&lt;&lt; endl;autoPtr<br class="typebreak"/>
-&lt; rhoQGDThermo &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mulesQHDFoam_2createFields_8H.html#a33ecc24a2a57c5ed55f9ee579c7e2e18">pThermo</a> (rhoQGDThermo::New(mesh))</td></tr>
-<tr class="separator:a33ecc24a2a57c5ed55f9ee579c7e2e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+&lt; rhoQGDThermo &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mulesQHDFoam_2createFields_8H.html#abe007008bb6efbf6a9ffd75bf5b5fe13">pThermo</a> (rhoQGDThermo::New(mesh))</td></tr>
+<tr class="separator:abe007008bb6efbf6a9ffd75bf5b5fe13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a2458f7f54158be848527a3fdedd5dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="zQGDFoam_2createFields_8H.html#a7147e3fc11085040d52f282b918cfa30">thermo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mulesQHDFoam_2createFields_8H.html#a3a2458f7f54158be848527a3fdedd5dd">correct</a> ()</td></tr>
 <tr class="separator:a3a2458f7f54158be848527a3fdedd5dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e248714255cbecdd857baebd3be04ac"><td class="memItemLeft" align="right" valign="top">volVectorField&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mulesQHDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a> (IOobject(&quot;U&quot;, runTime.timeName(), mesh, IOobject::MUST_READ, IOobject::AUTO_WRITE), mesh)</td></tr>
@@ -175,12 +183,12 @@ Variables</h2></td></tr>
 
 <p>Definition in file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a33ecc24a2a57c5ed55f9ee579c7e2e18"></a>
+<a class="anchor" id="abe007008bb6efbf6a9ffd75bf5b5fe13"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Info&lt;&lt; &quot;Reading thermophysical properties\n&quot; &lt;&lt; endl;autoPtr&lt;rhoQGDThermo&gt; pThermo </td>
+          <td class="memname">Info&lt;&lt; &quot;\nReading gravitationalProperties&quot; &lt;&lt; endl;IOdictionary gravitationalProperties( IOobject ( &quot;gravitationalProperties&quot;, runTime.constant(), mesh, IOobject::MUST_READ_IF_MODIFIED, IOobject::NO_WRITE ));const dimensionedVector g(<a class="el" href="readScNumbers_8H.html#ad6a637987505ff015d0ac14ee800cfee">gravitationalProperties.lookup</a>(&quot;g&quot;));Info &lt;&lt; &quot;Reading thermophysical properties\n&quot; &lt;&lt; endl;autoPtr&lt;rhoQGDThermo&gt; pThermo </td>
           <td>(</td>
           <td class="paramtype">rhoQGDThermo::&#160;</td>
           <td class="paramname"><em>New</em>mesh</td><td>)</td>
@@ -521,7 +529,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00032">32</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
+<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00047">47</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 
 <p>Referenced by <a class="el" href="addEnergyFluxes_8H_source.html#l00042">forAll()</a>, <a class="el" href="reactingLagrangianQGDFoam_2createFields_8H_source.html#l00032">if()</a>, and <a class="el" href="particlesQGDFoam_8C_source.html#l00045">main()</a>.</p>
 
@@ -537,7 +545,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00035">35</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
+<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00050">50</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 
 <p>Referenced by <a class="el" href="particlesQGDFoam_8C_source.html#l00045">main()</a>.</p>
 
@@ -553,7 +561,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00037">37</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
+<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00052">52</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 
 <p>Referenced by <a class="el" href="addEnergyFluxes_8H_source.html#l00042">forAll()</a>, and <a class="el" href="particlesQGDFoam_8C_source.html#l00045">main()</a>.</p>
 
@@ -569,7 +577,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00038">38</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
+<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00053">53</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 
 <p>Referenced by <a class="el" href="powerLawTransportI_8H_source.html#l00136">powerLawTransport&lt; Thermo &gt;::alphah()</a>, <a class="el" href="addEnergyFluxes_8H_source.html#l00042">forAll()</a>, <a class="el" href="QGDFoam_2updateFluxes_8H_source.html#l00096">if()</a>, <a class="el" href="powerLawTransportI_8H_source.html#l00125">powerLawTransport&lt; Thermo &gt;::kappa()</a>, and <a class="el" href="particlesQHDFoam_8C_source.html#l00059">main()</a>.</p>
 
@@ -585,7 +593,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00039">39</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
+<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00054">54</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 
 <p>Referenced by <a class="el" href="QGDCourantNo_8H_source.html#l00027">if()</a>, and <a class="el" href="scalarTransportQHDFoam_8C_source.html#l00037">main()</a>.</p>
 
@@ -601,7 +609,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00040">40</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
+<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00055">55</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 
 <p>Referenced by <a class="el" href="QHDTEqn_8H_source.html#l00060">if()</a>, <a class="el" href="qgdFluxFvPatchScalarField_8C_source.html#l00152">qgdFluxFvPatchScalarField::updateCoeffs()</a>, and <a class="el" href="qhdFluxFvPatchScalarField_8C_source.html#l00152">qhdFluxFvPatchScalarField::updateCoeffs()</a>.</p>
 
@@ -617,7 +625,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00044">44</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
+<p>Definition at line <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00059">59</a> of file <a class="el" href="mulesQHDFoam_2createFields_8H_source.html">createFields.H</a>.</p>
 
 <p>Referenced by <a class="el" href="addEnergyFluxes_8H_source.html#l00042">forAll()</a>, and <a class="el" href="particlesQGDFoam_8C_source.html#l00045">main()</a>.</p>
 
