@@ -29,7 +29,22 @@ SourceFile
     mulesQHDFoam.C
 \*---------------------------------------------------------------------------*/
 
-#include "readGravitationalAcceleration.H"
+Info<< "\nReading gravitationalProperties" << endl;
+
+IOdictionary gravitationalProperties
+(
+    IOobject
+    (
+        "gravitationalProperties",
+        runTime.constant(),
+        mesh,
+        IOobject::MUST_READ_IF_MODIFIED,
+        IOobject::NO_WRITE
+    )
+);
+
+const dimensionedVector g(gravitationalProperties.lookup("g"));
+
 #include "readhRef.H"
 #include "gh.H"
 
@@ -154,7 +169,7 @@ rho.oldTime();
 
 label pRefCell = 0;
 scalar pRefValue = 0.0;
-setRefCell(p, mesh.solutionDict().subDict("PIMPLE"), pRefCell, pRefValue);
+setRefCell(p, thermo.subDict("QGD"), pRefCell, pRefValue);
 
 #include "createIcoZeroSources.H"
 
