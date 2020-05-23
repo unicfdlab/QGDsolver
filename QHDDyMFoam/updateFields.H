@@ -70,7 +70,7 @@ Uf = qgdInterpolate(U);
 Tf = qgdInterpolate(T);
 
 
-BdFrc  = -beta*T*g;
+BdFrc  = beta*T*g;
 BdFrcf = qgdInterpolate(BdFrc);
 
 //Hi
