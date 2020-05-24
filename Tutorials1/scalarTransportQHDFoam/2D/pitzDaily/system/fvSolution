@@ -46,12 +46,4 @@ solvers
     }
 }
 
-PISO
-{
-    nNonOrthogonalCorrectors 0;
-    pRefCell		     100;
-    pRefValue		     100000;
-}
-
-
 // ************************************************************************* //

@@ -16,28 +16,28 @@ FoamFile
 
 dimensions      [1 -1 -2 0 0 0 0];
 
-internalField   uniform 100000;
+internalField   uniform 0;
 
 boundaryField
 {
     inlet
     {
-        type		zeroGradient;
+        type		qhdFlux;
     }
 
     outlet
     {
-        type            zeroGradient;
+        type            qhdFlux;//zeroGradient;
     }
 
     upperWall
     {
-        type            zeroGradient;
+        type            qhdFlux;//zeroGradient;
     }
 
     lowerWall
     {
-        type            zeroGradient;
+        type            qhdFlux;//zeroGradient;
     }
 
     frontAndBack

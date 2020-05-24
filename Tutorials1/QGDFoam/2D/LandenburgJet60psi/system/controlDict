@@ -27,7 +27,7 @@ endTime         2e-05;
 
 deltaT          1e-10;
 
-writeControl    adjustable;
+writeControl    adjustableRunTime;
 
 writeInterval   1e-06;
 

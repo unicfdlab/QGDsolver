@@ -27,6 +27,8 @@ sigma sigma [1 0 -2 0 0]          0.0;
 
 QGD
 {
+    pRefCell		0;
+    pRefValue		0;
     implicitDiffusion true;
     QGDCoeffs twoPhaseConstTau;
 

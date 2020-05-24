@@ -55,6 +55,8 @@ mixture
 
 QGD
 {
+    pRefCell		0;
+    pRefValue		0;
     implicitDiffusion true;
     QGDCoeffs HbyUQHD;
     HbyUQHDDict

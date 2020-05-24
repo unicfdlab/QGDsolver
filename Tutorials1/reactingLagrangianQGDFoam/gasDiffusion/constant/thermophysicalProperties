@@ -36,6 +36,8 @@ foamChemistryThermoFile "<constant>/thermo.compressibleGas";
 
 QGD
 {
+    pRefCell		0;
+    pRefValue		1e5;
     implicitDiffusion true;
     QGDCoeffs constScPrModel1;
     constScPrModel1Dict
