@@ -27,9 +27,14 @@ boundaryField
 
     freestream
     {
-        type            SRFFreestreamVelocity;
-        UInf            (1 0 0);
-        value           uniform (0 0 0);
+        //type            SRFFreestreamVelocity;
+        //UInf            (1 0 0);
+        //type            fixedValue;
+        //value           uniform (1 0 0);
+        type        SRFVelocity;
+        relative    false;
+        inletValue  (1 0 0);
+        value       uniform (0 0 0);
     }
 
     front

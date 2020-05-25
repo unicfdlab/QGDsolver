@@ -50,12 +50,5 @@ solvers
     }
 }
 
-PISO
-{
-    nOuterCorrectors    1;
-    nCorrectors         1;
-    nNonOrthogonalCorrectors 1;
-}
-
 
 // ************************************************************************* //

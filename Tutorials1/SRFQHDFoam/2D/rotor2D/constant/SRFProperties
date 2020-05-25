@@ -23,6 +23,7 @@ axis            (0 0 1);
 rpmCoeffs
 {
     rpm             60;
+//    rpm             0;
 }
 
 

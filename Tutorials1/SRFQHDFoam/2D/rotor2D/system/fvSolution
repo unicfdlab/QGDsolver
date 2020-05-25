@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.3.0                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -17,40 +17,15 @@ FoamFile
 
 solvers
 {
-    p
+    "(p|Urel|T)"
     {
-        solver          PCG;
-        preconditioner
-        {
-            preconditioner GAMG;
-            smoother       GaussSeidel;
-            relTol         1e-2;
-            tolerance      1e-4;
-        }
-        tolerance       1e-10;
+        solver          GAMG;
+        tolerance       1e-08;
         relTol          0;
+        smoother        GaussSeidel;
+        nCellsInCoarsestLevel 20;
     }
-
-    Urel
-    {
-	$p;
-    }
-
-    T
-    {
-        $p;
-        nAlphaCorr 1;
-        nAlphaSubCycles 1;
-    }
- 
 }
 
-PISO
-{
-    nCorrectors     2;
-    nNonOrthogonalCorrectors 0;
-    pRefCell        0;
-    pRefValue       100000;
-}
 
 // ************************************************************************* //

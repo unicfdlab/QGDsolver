@@ -20,41 +20,42 @@ thermoType
     type            heRhoQGDThermo;
     mixture         pureMixture;
     transport       const;
-    thermo          eConst;
-    equationOfState perfectGas;
+    thermo          hConst;
+    equationOfState rhoConst;
     specie          specie;
     energy          sensibleInternalEnergy;
 }
-
-// Note: these are the properties for fuel
 
 mixture
 {
     specie
     {
         nMoles          1;
-        molWeight       28.96;
+        molWeight       8314; //this could be any value
     }
-
     
+    equationOfState
+    {
+	rho		1;
+    }
     thermodynamics
     {
         Hf              0;
-        Sf              0;
-        Cp              1005;
-        Cv              1004;
+        Cp              1.4;
     }
     
     transport
     {
-        mu   0.0116115;
-        Pr   0.73;
-        beta 0.00177;
+        mu   0.01;
+        Pr   1;
+        beta 0.0;
     }
 }
 
 QGD
 {
+    pRefCell		0;
+    pRefValue		0;
     implicitDiffusion true;
     QGDCoeffs HbyUQHD;
     HbyUQHDDict

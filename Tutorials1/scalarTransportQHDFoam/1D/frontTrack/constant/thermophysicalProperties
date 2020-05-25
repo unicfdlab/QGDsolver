@@ -55,6 +55,8 @@ mixture
 
 QGD
 {
+    pRefCell		0;
+    pRefValue		1;
     implicitDiffusion true;
     QGDCoeffs constTau;
     constTauDict

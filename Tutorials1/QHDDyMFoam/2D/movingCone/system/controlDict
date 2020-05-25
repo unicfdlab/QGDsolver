@@ -27,9 +27,9 @@ endTime         0.003;
 
 deltaT          5e-06;
 
-writeControl    timeStep;
+writeControl    adjustableRunTime;
 
-writeInterval   40;
+writeInterval   0.0002;
 
 purgeWrite      0;
 

@@ -16,23 +16,23 @@ FoamFile
 
 dimensions      [1 -1 -2 0 0 0 0];
 
-internalField   uniform 100000;
+internalField   uniform 0.0;
 
 boundaryField
 {
     movingWall
     {
-        type            zeroGradient;
+        type            qhdFlux;
     }
 
     farFieldMoving
     {
-        type            zeroGradient;
+        type            qhdFlux;
     }
 
     fixedWall
     {
-        type            zeroGradient;
+        type            qhdFlux;
     }
 
     left
@@ -43,7 +43,7 @@ boundaryField
 
     farField
     {
-        type            zeroGradient;
+        type            qhdFlux;
     }
 
     back
