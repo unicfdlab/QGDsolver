@@ -110,7 +110,7 @@ Include dependency graph for scalarTransportQHDFoam.C:</div>
 <div class="dyncontent">
 <div class="center"><img src="scalarTransportQHDFoam_8C__incl.png" border="0" usemap="#scalarTransportQHDFoam_2scalarTransportQHDFoam_8C" alt=""/></div>
 <map name="scalarTransportQHDFoam_2scalarTransportQHDFoam_8C" id="scalarTransportQHDFoam_2scalarTransportQHDFoam_8C">
-<area shape="rect" id="node3" href="QHD_8H.html" title="Includation for QHD solver. Equations of state for QHD based on density. Class for fvsc namespace..." alt="" coords="104,96,171,123"/><area shape="rect" id="node8" href="scalarTransportQHDFoam_2createFields_8H.html" title="createFields.H" alt="" coords="745,96,860,123"/><area shape="rect" id="node9" href="scalarTransportQHDFoam_2createFaceFields_8H.html" title="createFaceFields.H" alt="" coords="885,96,1027,123"/><area shape="rect" id="node10" href="scalarTransportQHDFoam_2createFaceFluxes_8H.html" title="createFaceFluxes.H" alt="" coords="1051,96,1199,123"/><area shape="rect" id="node11" href="scalarTransportQHDFoam_2updateFields_8H.html" title="updateFields.H" alt="" coords="1223,96,1341,123"/><area shape="rect" id="node13" href="setDeltaT-QGDQHD_8H.html" title="Reset the timestep to maintain a constant maximum courant Number. Reduction of time&#45;step is immediate..." alt="" coords="1543,96,1705,123"/><area shape="rect" id="node14" href="QHDTEqn_8H.html" title="Solver for unsteady 3D turbulent flow of incompressible fluid governed by quasi&#45;hydrodynamic dynamic ..." alt="" coords="1729,96,1828,123"/></map>
+<area shape="rect" id="node3" href="QHD_8H.html" title="Includation for QHD solver. Equations of state for QHD based on density. Class for fvsc namespace..." alt="" coords="104,96,171,123"/><area shape="rect" id="node8" href="scalarTransportQHDFoam_2createFields_8H.html" title="createFields.H" alt="" coords="745,96,860,123"/><area shape="rect" id="node9" href="scalarTransportQHDFoam_2createFaceFields_8H.html" title="createFaceFields.H" alt="" coords="885,96,1027,123"/><area shape="rect" id="node10" href="scalarTransportQHDFoam_2createFaceFluxes_8H.html" title="createFaceFluxes.H" alt="" coords="1051,96,1199,123"/><area shape="rect" id="node11" href="scalarTransportQHDFoam_2updateFields_8H.html" title="updateFields.H" alt="" coords="1223,96,1341,123"/><area shape="rect" id="node13" href="setDeltaT-QGDQHD_8H.html" title="Reset the timestep to maintain a constant maximum courant Number. Reduction of time&#45;step is immediate..." alt="" coords="1543,96,1705,123"/></map>
 </div>
 </div>
 <p><a href="scalarTransportQHDFoam_8C_source.html">Go to the source code of this file.</a></p>
@@ -171,14 +171,23 @@ Functions</h2></td></tr>
 <p>&mdash;&mdash;&ndash;End&mdash;&mdash;&mdash; # 47 "/home/jenkins/workspace/experQGDsolver-8doxigen/QGDsolver/scalarTransportQHDFoam/scalarTransportQHDFoam.C" 2 #include "createTimeControls.H"</p>
 <p>* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</p>
 <p>Courant numbers used to adjust the time-step scalar CoNum = 0.0; scalar meanCoNum = 0.0;</p>
-<p>solve for pressure to get zero divergence flux field #include "updateFluxes.H" #include "QHDpEqn.H"</p>
+<p>solve for pressure to get zero divergence flux field #include "updateFluxes.H"</p>
 <p>Info&lt;&lt; "\nStarting time loop\n" &lt;&lt; endl;</p>
 <p>while (runTime.run()) { /*</p>
 <p>Update fields</p>
 
 <p>Definition at line <a class="el" href="scalarTransportQHDFoam_8C_source.html#l00037">37</a> of file <a class="el" href="scalarTransportQHDFoam_8C_source.html">scalarTransportQHDFoam.C</a>.</p>
 
-<p>References <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00054">hQGDf</a>, <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00053">T</a>, and <a class="el" href="mulesQHDFoam_2updateFields_8H_source.html#l00030">Uf</a>.</p>
+<p>References <a class="el" href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37">Foam::fvsc::div()</a>, <a class="el" href="mulesQHDFoam_2updateFields_8H_source.html#l00010">gradTf</a>, <a class="el" href="mulesQHDFoam_2updateFields_8H_source.html#l00039">Hif</a>, <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00054">hQGDf</a>, <a class="el" href="mulesQHDFoam_2createFields_8H.html#aa079f3588e74cfd1f48cbb8a76846445">implicitDiffusion()</a>, <a class="el" href="QHDTEqn_8H_source.html#l00057">phiTauTReg</a>, <a class="el" href="mulesQHDFoam_2createFaceFluxes_8H.html#a7fd59c4e70b0a6c591768cc3dd7450e9">phiTf()</a>, <a class="el" href="interQHDFoam_2updateFluxes_8H_source.html#l00033">phiu</a>, <a class="el" href="QGDInterpolate_8H_source.html#l00075">Foam::qgdFlux()</a>, <a class="el" href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d">solve()</a>, <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00053">T</a>, <a class="el" href="mulesQHDFoam_2createFields_8H_source.html#l00055">tauQGDf</a>, <a class="el" href="mulesQHDFoam_2updateFields_8H_source.html#l00033">Tf</a>, <a class="el" href="createIcoZeroSources_8H.html#aa0d9114393ce29183acb7d9315e95e41">TSu()</a>, and <a class="el" href="mulesQHDFoam_2updateFields_8H_source.html#l00030">Uf</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="scalarTransportQHDFoam_8C_a0ddf1224851353fc92bfbff6f499fa97_cgraph.png" border="0" usemap="#scalarTransportQHDFoam_8C_a0ddf1224851353fc92bfbff6f499fa97_cgraph" alt=""/></div>
+<map name="scalarTransportQHDFoam_8C_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="scalarTransportQHDFoam_8C_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
+<area shape="rect" id="node2" href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37" title="Foam::fvsc::div" alt="" coords="114,5,235,32"/><area shape="rect" id="node3" href="mulesQHDFoam_2createFields_8H.html#aa079f3588e74cfd1f48cbb8a76846445" title="implicitDiffusion" alt="" coords="110,56,239,83"/><area shape="rect" id="node4" href="mulesQHDFoam_2createFaceFluxes_8H.html#a7fd59c4e70b0a6c591768cc3dd7450e9" title="phiTf" alt="" coords="147,107,202,133"/><area shape="rect" id="node5" href="namespaceFoam.html#aa7cd738048f468ecf21a0c04cded458f" title="Foam::qgdFlux" alt="" coords="116,157,233,184"/><area shape="rect" id="node6" href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d" title="solve" alt="" coords="146,208,203,235"/><area shape="rect" id="node7" href="createIcoZeroSources_8H.html#aa0d9114393ce29183acb7d9315e95e41" title="TSu" alt="" coords="151,259,198,285"/></map>
+</div>
+</p>
 
 </div>
 </div>

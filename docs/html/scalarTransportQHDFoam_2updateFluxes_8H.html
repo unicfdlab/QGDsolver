@@ -115,12 +115,8 @@ Variables</h2></td></tr>
 <tr class="memitem:acf2841420ce2df607e2f2609550ea620"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H.html#acf2841420ce2df607e2f2609550ea620">Uf</a> = qgdInterpolate(<a class="el" href="zQGDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a>)</td></tr>
 <tr class="memdesc:acf2841420ce2df607e2f2609550ea620"><td class="mdescLeft">&#160;</td><td class="mdescRight">&mdash;&mdash;&ndash;Start&mdash;&mdash;&mdash;  <a href="#acf2841420ce2df607e2f2609550ea620">More...</a><br/></td></tr>
 <tr class="separator:acf2841420ce2df607e2f2609550ea620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcc5a66f70616b68ac2908d38532a6f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H.html#afcc5a66f70616b68ac2908d38532a6f3">gradUf</a> = fvsc::grad(<a class="el" href="zQGDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a>)</td></tr>
-<tr class="separator:afcc5a66f70616b68ac2908d38532a6f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d8ffda963db0d9a1f25a2aa3a08f424"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H.html#a5d8ffda963db0d9a1f25a2aa3a08f424">phiu</a> = mesh.Sf() &amp; <a class="el" href="zQGDFoam_2createFaceFields_8H.html#aea90b7c70daef62e10e7f9e225644500">Uf</a></td></tr>
 <tr class="separator:a5d8ffda963db0d9a1f25a2aa3a08f424"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06fd124299b02790031d0f0be3bf59ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H.html#a06fd124299b02790031d0f0be3bf59ea">phiwo</a> = mesh.Sf() &amp; (<a class="el" href="zQGDFoam_2createFields_8H.html#ad42cb579f90bf94043baad3c94f89201">tauQGDf</a>*(<a class="el" href="zQGDFoam_2createFaceFields_8H.html#aea90b7c70daef62e10e7f9e225644500">Uf</a> &amp; <a class="el" href="zQGDFoam_2createFaceFluxes_8H.html#a47c9662ac67c229ecb77a4918c2ac1f8">gradUf</a>))</td></tr>
-<tr class="separator:a06fd124299b02790031d0f0be3bf59ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a007beb54715347310211ecc33861e783"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H.html#a007beb54715347310211ecc33861e783">taubyrhof</a> = <a class="el" href="zQGDFoam_2createFields_8H.html#ad42cb579f90bf94043baad3c94f89201">tauQGDf</a>/<a class="el" href="zQGDFoam_2createFaceFields_8H.html#aa7fc86105ebf9147ff39389779a8b2ea">rhof</a></td></tr>
 <tr class="separator:a007beb54715347310211ecc33861e783"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -158,20 +154,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afcc5a66f70616b68ac2908d38532a6f3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">gradUf = fvsc::grad(<a class="el" href="zQGDFoam_2createFields_8H.html#a0e248714255cbecdd857baebd3be04ac">U</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html#l00006">6</a> of file <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html">updateFluxes.H</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a5d8ffda963db0d9a1f25a2aa3a08f424"></a>
 <div class="memitem">
 <div class="memproto">
@@ -182,21 +164,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html#l00007">7</a> of file <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html">updateFluxes.H</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a06fd124299b02790031d0f0be3bf59ea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">phiwo = mesh.Sf() &amp; (<a class="el" href="zQGDFoam_2createFields_8H.html#ad42cb579f90bf94043baad3c94f89201">tauQGDf</a>*(<a class="el" href="zQGDFoam_2createFaceFields_8H.html#aea90b7c70daef62e10e7f9e225644500">Uf</a> &amp; <a class="el" href="zQGDFoam_2createFaceFluxes_8H.html#a47c9662ac67c229ecb77a4918c2ac1f8">gradUf</a>))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html#l00009">9</a> of file <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html">updateFluxes.H</a>.</p>
+<p>Definition at line <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html#l00006">6</a> of file <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html">updateFluxes.H</a>.</p>
 
 </div>
 </div>
@@ -210,7 +178,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html#l00012">12</a> of file <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html">updateFluxes.H</a>.</p>
+<p>Definition at line <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html#l00009">9</a> of file <a class="el" href="scalarTransportQHDFoam_2updateFluxes_8H_source.html">updateFluxes.H</a>.</p>
 
 </div>
 </div>

@@ -165,77 +165,105 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">//solve for pressure to get zero divergence flux field</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">    #include &quot;updateFluxes.H&quot;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">    #include &quot;<a class="code" href="QHDpEqn_8H.html">QHDpEqn.H</a>&quot;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    Info&lt;&lt; <span class="stringliteral">&quot;\nStarting time loop\n&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">while</span> (runTime.run())</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="comment">/*</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">         *</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">         * Update fields</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">         *</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">         */</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">        #include &quot;<a class="code" href="scalarTransportQHDFoam_2updateFields_8H.html">updateFields.H</a>&quot;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    Info&lt;&lt; <span class="stringliteral">&quot;\nStarting time loop\n&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">while</span> (runTime.run())</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="comment">/*</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">         *</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">         * Update fields</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">         *</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">         */</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">        #include &quot;<a class="code" href="scalarTransportQHDFoam_2updateFields_8H.html">updateFields.H</a>&quot;</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment">/*</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">         *</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">         * Update time step</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">         *</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">         */</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">        #include &quot;readTimeControls.H&quot;</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span>(runTime.controlDict().lookupOrDefault&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;adjustTimeStep&quot;</span>, <span class="keyword">false</span>))</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            surfaceScalarField Cof</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            (</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="stringliteral">&quot;Cof&quot;</span>,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                runTime.deltaT()*</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                (</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    mag(<a class="code" href="mulesQHDFoam_2updateFields_8H.html#acf2841420ce2df607e2f2609550ea620">Uf</a>)/<a class="code" href="mulesQHDFoam_2createFields_8H.html#a6275f78717dff3e02a1088e870f6a9e9">hQGDf</a></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                )</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            );</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            CoNum = max(Cof).value();</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            Info &lt;&lt; <span class="stringliteral">&quot;Courant Number = &quot;</span> &lt;&lt; CoNum &lt;&lt; endl;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">        #include &quot;<a class="code" href="setDeltaT-QGDQHD_8H.html">setDeltaT-QGDQHD.H</a>&quot;</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        runTime++;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        Info&lt;&lt; <span class="stringliteral">&quot;Time = &quot;</span> &lt;&lt; runTime.timeName() &lt;&lt; nl &lt;&lt; endl;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="comment">// --- Store old time values</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>.oldTime();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">        #include &quot;<a class="code" href="QHDTEqn_8H.html">QHDTEqn.H</a>&quot;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        runTime.write();</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        Info&lt;&lt; <span class="stringliteral">&quot;ExecutionTime = &quot;</span> &lt;&lt; runTime.elapsedCpuTime() &lt;&lt; <span class="stringliteral">&quot; s&quot;</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;  ClockTime = &quot;</span> &lt;&lt; runTime.elapsedClockTime() &lt;&lt; <span class="stringliteral">&quot; s&quot;</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            &lt;&lt; nl &lt;&lt; endl;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    Info&lt;&lt; <span class="stringliteral">&quot;End\n&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">// ************************************************************************* //</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="comment">/*</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">         *</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">         * Update time step</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">         *</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">         */</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">        #include &quot;readTimeControls.H&quot;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">if</span>(runTime.controlDict().lookupOrDefault&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;adjustTimeStep&quot;</span>, <span class="keyword">false</span>))</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            surfaceScalarField Cof</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            (</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="stringliteral">&quot;Cof&quot;</span>,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                runTime.deltaT()*</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                (</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    mag(<a class="code" href="mulesQHDFoam_2updateFields_8H.html#acf2841420ce2df607e2f2609550ea620">Uf</a>)/<a class="code" href="mulesQHDFoam_2createFields_8H.html#a6275f78717dff3e02a1088e870f6a9e9">hQGDf</a></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                )</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            );</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            CoNum = max(Cof).value();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            Info &lt;&lt; <span class="stringliteral">&quot;Courant Number = &quot;</span> &lt;&lt; CoNum &lt;&lt; endl;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">        #include &quot;<a class="code" href="setDeltaT-QGDQHD_8H.html">setDeltaT-QGDQHD.H</a>&quot;</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        runTime++;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        Info&lt;&lt; <span class="stringliteral">&quot;Time = &quot;</span> &lt;&lt; runTime.timeName() &lt;&lt; nl &lt;&lt; endl;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="comment">// --- Store old time values</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>.oldTime();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <a class="code" href="mulesQHDFoam_2createFaceFluxes_8H.html#a7fd59c4e70b0a6c591768cc3dd7450e9">phiTf</a> = <a class="code" href="namespaceFoam.html#aa7cd738048f468ecf21a0c04cded458f">qgdFlux</a>(<a class="code" href="interQHDFoam_2updateFluxes_8H.html#a5d8ffda963db0d9a1f25a2aa3a08f424">phiu</a>,<a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>,<a class="code" href="mulesQHDFoam_2updateFields_8H.html#a86cc15e420b6c4958c3e82f0838eb812">Tf</a>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            surfaceScalarField <a class="code" href="QHDTEqn_8H.html#a1d3d497e1bd40e4a7edfd9d96ae53de6">phiTauTReg</a> = <a class="code" href="mulesQHDFoam_2createFields_8H.html#ad42cb579f90bf94043baad3c94f89201">tauQGDf</a>*<a class="code" href="interQHDFoam_2updateFluxes_8H.html#a5d8ffda963db0d9a1f25a2aa3a08f424">phiu</a>*(<a class="code" href="mulesQHDFoam_2updateFields_8H.html#acf2841420ce2df607e2f2609550ea620">Uf</a> &amp; <a class="code" href="mulesQHDFoam_2updateFields_8H.html#abb35e8c799ea879740a552abc9e5d5a0">gradTf</a>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="comment">// --- Solve T</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="mulesQHDFoam_2createFields_8H.html#aa079f3588e74cfd1f48cbb8a76846445">implicitDiffusion</a>)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <a class="code" href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d">solve</a></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                (</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    fvm::ddt(<a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                    + <a class="code" href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37">fvc::div</a>(<a class="code" href="mulesQHDFoam_2createFaceFluxes_8H.html#a7fd59c4e70b0a6c591768cc3dd7450e9">phiTf</a>) - fvc::Sp(<a class="code" href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37">fvc::div</a>(<a class="code" href="interQHDFoam_2updateFluxes_8H.html#a5d8ffda963db0d9a1f25a2aa3a08f424">phiu</a>),<a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    - fvm::laplacian(<a class="code" href="mulesQHDFoam_2updateFields_8H.html#a95c4ce1851bbbff32549e6592fd124fd">Hif</a>,<a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    - <a class="code" href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37">fvc::div</a>(phiTauTReg)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    ==</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                    <a class="code" href="createIcoZeroSources_8H.html#aa0d9114393ce29183acb7d9315e95e41">TSu</a></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                );</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            Info &lt;&lt; <span class="stringliteral">&quot;max/min of T: &quot;</span> &lt;&lt; max(<a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>).value() &lt;&lt; <span class="stringliteral">&quot;/&quot;</span> &lt;&lt; min(<a class="code" href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a>).value() &lt;&lt; endl;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        runTime.write();</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        Info&lt;&lt; <span class="stringliteral">&quot;ExecutionTime = &quot;</span> &lt;&lt; runTime.elapsedCpuTime() &lt;&lt; <span class="stringliteral">&quot; s&quot;</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            &lt;&lt; <span class="stringliteral">&quot;  ClockTime = &quot;</span> &lt;&lt; runTime.elapsedClockTime() &lt;&lt; <span class="stringliteral">&quot; s&quot;</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            &lt;&lt; nl &lt;&lt; endl;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    }</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    Info&lt;&lt; <span class="stringliteral">&quot;End\n&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">// ************************************************************************* //</span></div>
+<div class="ttc" id="namespaceFoam_html_aa7cd738048f468ecf21a0c04cded458f"><div class="ttname"><a href="namespaceFoam.html#aa7cd738048f468ecf21a0c04cded458f">Foam::qgdFlux</a></div><div class="ttdeci">tmp&lt; GeometricField&lt; T, Foam::fvsPatchField, Foam::surfaceMesh &gt; &gt; qgdFlux(const GeometricField&lt; scalar, Foam::fvsPatchField, Foam::surfaceMesh &gt; &amp;flux, const GeometricField&lt; T, Foam::fvPatchField, Foam::volMesh &gt; &amp;psi, const GeometricField&lt; T, Foam::fvsPatchField, Foam::surfaceMesh &gt; &amp;psif, const word fluxName)</div><div class="ttdef"><b>Definition:</b> <a href="QGDInterpolate_8H_source.html#l00075">QGDInterpolate.H:75</a></div></div>
 <div class="ttc" id="scalarTransportQHDFoam_2createFields_8H_html"><div class="ttname"><a href="scalarTransportQHDFoam_2createFields_8H.html">createFields.H</a></div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_ad42cb579f90bf94043baad3c94f89201"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#ad42cb579f90bf94043baad3c94f89201">tauQGDf</a></div><div class="ttdeci">const surfaceScalarField &amp; tauQGDf</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2createFields_8H_source.html#l00055">createFields.H:55</a></div></div>
 <div class="ttc" id="mulesQHDFoam_2createFields_8H_html_a6275f78717dff3e02a1088e870f6a9e9"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#a6275f78717dff3e02a1088e870f6a9e9">hQGDf</a></div><div class="ttdeci">const surfaceScalarField &amp; hQGDf</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2createFields_8H_source.html#l00054">createFields.H:54</a></div></div>
+<div class="ttc" id="QHDTEqn_8H_html_a1d3d497e1bd40e4a7edfd9d96ae53de6"><div class="ttname"><a href="QHDTEqn_8H.html#a1d3d497e1bd40e4a7edfd9d96ae53de6">phiTauTReg</a></div><div class="ttdeci">surfaceScalarField phiTauTReg</div><div class="ttdef"><b>Definition:</b> <a href="QHDTEqn_8H_source.html#l00057">QHDTEqn.H:57</a></div></div>
 <div class="ttc" id="scalarTransportQHDFoam_2createFaceFields_8H_html"><div class="ttname"><a href="scalarTransportQHDFoam_2createFaceFields_8H.html">createFaceFields.H</a></div></div>
 <div class="ttc" id="particlesQGDFoam_8C_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="particlesQGDFoam_8C.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="particlesQGDFoam_8C_source.html#l00045">particlesQGDFoam.C:45</a></div></div>
+<div class="ttc" id="mulesQHDFoam_2createFields_8H_html_aa079f3588e74cfd1f48cbb8a76846445"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#aa079f3588e74cfd1f48cbb8a76846445">implicitDiffusion</a></div><div class="ttdeci">Switch implicitDiffusion(thermo.implicitDiffusion())</div></div>
+<div class="ttc" id="QGDEEqn_8H_html_ac123867940006fb14e8346d9bdc38f8d"><div class="ttname"><a href="QGDEEqn_8H.html#ac123867940006fb14e8346d9bdc38f8d">solve</a></div><div class="ttdeci">EEqn solve()</div></div>
+<div class="ttc" id="mulesQHDFoam_2createFaceFluxes_8H_html_a7fd59c4e70b0a6c591768cc3dd7450e9"><div class="ttname"><a href="mulesQHDFoam_2createFaceFluxes_8H.html#a7fd59c4e70b0a6c591768cc3dd7450e9">phiTf</a></div><div class="ttdeci">surfaceScalarField phiTf(&quot;phiTf&quot;, phi *Tf)</div></div>
+<div class="ttc" id="mulesQHDFoam_2updateFields_8H_html_abb35e8c799ea879740a552abc9e5d5a0"><div class="ttname"><a href="mulesQHDFoam_2updateFields_8H.html#abb35e8c799ea879740a552abc9e5d5a0">gradTf</a></div><div class="ttdeci">gradTf</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2updateFields_8H_source.html#l00010">updateFields.H:10</a></div></div>
 <div class="ttc" id="setDeltaT-QGDQHD_8H_html"><div class="ttname"><a href="setDeltaT-QGDQHD_8H.html">setDeltaT-QGDQHD.H</a></div><div class="ttdoc">Reset the timestep to maintain a constant maximum courant Number. Reduction of time-step is immediate...</div></div>
+<div class="ttc" id="mulesQHDFoam_2updateFields_8H_html_a86cc15e420b6c4958c3e82f0838eb812"><div class="ttname"><a href="mulesQHDFoam_2updateFields_8H.html#a86cc15e420b6c4958c3e82f0838eb812">Tf</a></div><div class="ttdeci">Tf</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2updateFields_8H_source.html#l00033">updateFields.H:33</a></div></div>
 <div class="ttc" id="scalarTransportQHDFoam_2createFaceFluxes_8H_html"><div class="ttname"><a href="scalarTransportQHDFoam_2createFaceFluxes_8H.html">createFaceFluxes.H</a></div></div>
-<div class="ttc" id="QHDTEqn_8H_html"><div class="ttname"><a href="QHDTEqn_8H.html">QHDTEqn.H</a></div><div class="ttdoc">Solver for unsteady 3D turbulent flow of incompressible fluid governed by quasi-hydrodynamic dynamic ...</div></div>
+<div class="ttc" id="namespaceFoam_1_1fvsc_html_ab3e593b89fb1837f191c78c26ed47a37"><div class="ttname"><a href="namespaceFoam_1_1fvsc.html#ab3e593b89fb1837f191c78c26ed47a37">Foam::fvsc::div</a></div><div class="ttdeci">tmp&lt; surfaceScalarField &gt; div(const volVectorField &amp;vF)</div></div>
+<div class="ttc" id="mulesQHDFoam_2updateFields_8H_html_a95c4ce1851bbbff32549e6592fd124fd"><div class="ttname"><a href="mulesQHDFoam_2updateFields_8H.html#a95c4ce1851bbbff32549e6592fd124fd">Hif</a></div><div class="ttdeci">Hif</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2updateFields_8H_source.html#l00039">updateFields.H:39</a></div></div>
 <div class="ttc" id="mulesQHDFoam_2updateFields_8H_html_acf2841420ce2df607e2f2609550ea620"><div class="ttname"><a href="mulesQHDFoam_2updateFields_8H.html#acf2841420ce2df607e2f2609550ea620">Uf</a></div><div class="ttdeci">Uf</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2updateFields_8H_source.html#l00030">updateFields.H:30</a></div></div>
+<div class="ttc" id="interQHDFoam_2updateFluxes_8H_html_a5d8ffda963db0d9a1f25a2aa3a08f424"><div class="ttname"><a href="interQHDFoam_2updateFluxes_8H.html#a5d8ffda963db0d9a1f25a2aa3a08f424">phiu</a></div><div class="ttdeci">phiu</div><div class="ttdoc">——–Start——— </div><div class="ttdef"><b>Definition:</b> <a href="interQHDFoam_2updateFluxes_8H_source.html#l00033">updateFluxes.H:33</a></div></div>
 <div class="ttc" id="mulesQHDFoam_2createFields_8H_html_ab35c96e5601691f7270cfadc745a12d3"><div class="ttname"><a href="mulesQHDFoam_2createFields_8H.html#ab35c96e5601691f7270cfadc745a12d3">T</a></div><div class="ttdeci">volScalarField &amp; T</div><div class="ttdef"><b>Definition:</b> <a href="mulesQHDFoam_2createFields_8H_source.html#l00053">createFields.H:53</a></div></div>
 <div class="ttc" id="QHD_8H_html"><div class="ttname"><a href="QHD_8H.html">QHD.H</a></div><div class="ttdoc">Includation for QHD solver. Equations of state for QHD based on density. Class for fvsc namespace...</div></div>
-<div class="ttc" id="QHDpEqn_8H_html"><div class="ttname"><a href="QHDpEqn_8H.html">QHDpEqn.H</a></div><div class="ttdoc">Solution of continuity equation for QGD solver. </div></div>
+<div class="ttc" id="createIcoZeroSources_8H_html_aa0d9114393ce29183acb7d9315e95e41"><div class="ttname"><a href="createIcoZeroSources_8H.html#aa0d9114393ce29183acb7d9315e95e41">TSu</a></div><div class="ttdeci">fvScalarMatrix TSu(T, T.dimensions()*dimVolume/dimTime)</div></div>
 <div class="ttc" id="scalarTransportQHDFoam_2updateFields_8H_html"><div class="ttname"><a href="scalarTransportQHDFoam_2updateFields_8H.html">updateFields.H</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->

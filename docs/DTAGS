@@ -2597,18 +2597,11 @@
       <arglist>(&quot;gradTf&quot;, fvsc::grad(T))</arglist>
     </member>
     <member kind="function">
-      <type>surfaceTensorField</type>
-      <name>gradUf</name>
-      <anchorfile>scalarTransportQHDFoam_2createFaceFluxes_8H.html</anchorfile>
-      <anchor>a47c9662ac67c229ecb77a4918c2ac1f8</anchor>
-      <arglist>(&quot;gradUf&quot;, fvsc::grad(U))</arglist>
-    </member>
-    <member kind="function">
       <type>surfaceScalarField</type>
       <name>phiTf</name>
       <anchorfile>scalarTransportQHDFoam_2createFaceFluxes_8H.html</anchorfile>
-      <anchor>a7fd59c4e70b0a6c591768cc3dd7450e9</anchor>
-      <arglist>(&quot;phiTf&quot;, phi *Tf)</arglist>
+      <anchor>a51c78e1c115cff371e6e99f9a68f11cc</anchor>
+      <arglist>(&quot;phiTf&quot;, phiu *Tf)</arglist>
     </member>
     <member kind="function">
       <type>surfaceScalarField</type>
@@ -5657,23 +5650,9 @@
     </member>
     <member kind="variable">
       <type></type>
-      <name>gradUf</name>
-      <anchorfile>scalarTransportQHDFoam_2updateFluxes_8H.html</anchorfile>
-      <anchor>afcc5a66f70616b68ac2908d38532a6f3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type></type>
       <name>phiu</name>
       <anchorfile>scalarTransportQHDFoam_2updateFluxes_8H.html</anchorfile>
       <anchor>a5d8ffda963db0d9a1f25a2aa3a08f424</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type></type>
-      <name>phiwo</name>
-      <anchorfile>scalarTransportQHDFoam_2updateFluxes_8H.html</anchorfile>
-      <anchor>a06fd124299b02790031d0f0be3bf59ea</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
