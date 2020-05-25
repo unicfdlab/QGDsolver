@@ -27,17 +27,17 @@ boundaryField
 
     outlet
     {
-        type            qhdFlux;//zeroGradient;
+        type            qhdFlux;
     }
 
     upperWall
     {
-        type            qhdFlux;//zeroGradient;
+        type            qhdFlux;
     }
 
     lowerWall
     {
-        type            qhdFlux;//zeroGradient;
+        type            qhdFlux;
     }
 
     frontAndBack

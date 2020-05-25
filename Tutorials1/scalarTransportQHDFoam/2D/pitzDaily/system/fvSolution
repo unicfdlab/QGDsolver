@@ -19,30 +19,11 @@ solvers
 {
     T
     {
-        solver          PCG;
-        preconditioner
-	{  
-	    preconditioner GAMG;
-            smoother       GaussSeidel;
-            relTol         1e-2;
-            tolerance      1e-4;
-	}
-	tolerance	1e-10;
-	relTol		0;
-    }
-
-    p
-    {
-        solver          PCG;
-        preconditioner
-	{  
-	    preconditioner GAMG;
-            smoother       GaussSeidel;
-            relTol         1e-2;
-            tolerance      1e-4;
-	}
-	tolerance	1e-10;
-	relTol		0;
+        solver smoothSolver;
+        smoother FDIC;
+        tolerance	1e-12;
+        relTol		0;
+        maxIter         2000;
     }
 }
 

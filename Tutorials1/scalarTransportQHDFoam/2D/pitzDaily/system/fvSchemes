@@ -27,15 +27,12 @@ gradSchemes
 
 divSchemes
 {
-    default         Gauss linearUpwind;
-//    div(phi,T)      Gauss linearUpwind;
+    default         Gauss upwind; //Gauss linear;
 }
 
 laplacianSchemes
 {
     default         Gauss linear corrected;
-    laplacian(DT,T) Gauss linear corrected;
-    laplacian(taubyrhof,p) Gauss linear corrected;
 }
 
 interpolationSchemes
@@ -57,6 +54,6 @@ fluxRequired
 
 fvsc
 {
-    default	    leastSquares;
+    default	    GaussVolPoint;
 }
 // ************************************************************************* //

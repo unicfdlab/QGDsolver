@@ -9,38 +9,45 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volScalarField;
-    object      alphaQGD;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 0 0 0 0 0 0];
+application     SRFQHDFoam;
 
-internalField   uniform 1;
+startFrom       latestTime;
 
-boundaryField
-{
-    rotor
-    {
-        type            calculated;
-        value		$internalField;
-    }
+startTime       0;
 
-    freestream
-    {
-        type            calculated;
-        value		$internalField;
-    }
+stopAt          endTime;
 
-    front
-    {
-        type            empty;
-    }
+endTime         1e-2;
 
-    back
-    {
-        type            empty;
-    }
-}
+deltaT          1e-6;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-2;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+adjustTimeStep  true;
+
+cTau            0.5;
+maxCo           0.1;
 
 // ************************************************************************* //

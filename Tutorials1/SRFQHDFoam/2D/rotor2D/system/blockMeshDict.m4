@@ -55,14 +55,14 @@ define(Zb, 0)
 define(Zt, calc(Zb + z))
 
 // Number of cells radially between hub and impeller tip
-define(Nr, 6)
+define(Nr, 18)
 
 // Number of cells radially in each of the two regions between
 // impeller and baffle tips
-define(Ni, 8)
+define(Ni, 24)
 
 // Number of cells radially between baffle tip and tank
-define(NR, 8)
+define(NR, 24)
 
 // Number of cells azimuthally in each of the 8 blocks
 define(Na, 12)

@@ -9,43 +9,45 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volVectorField;
-    object      Urel;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 1 -1 0 0 0 0];
+application     SRFQHDFoam;
 
-internalField   uniform (0 0 0);
+startFrom       latestTime;
 
-boundaryField
-{
-    rotor
-    {
-        type            noSlip;
-    }
+startTime       0;
 
-    freestream
-    {
-        //type            SRFFreestreamVelocity;
-        //UInf            (1 0 0);
-        //type            fixedValue;
-        //value           uniform (1 0 0);
-        type        SRFVelocity;
-        relative    false;
-        inletValue  (1 0 0);
-        value       uniform (0 0 0);
-    }
+stopAt          endTime;
 
-    front
-    {
-        type            empty;
-    }
+endTime         5e-2;
 
-    back
-    {
-        type            empty;
-    }
-}
+deltaT          1e-6;
+
+writeControl    adjustableRunTime;
+
+writeInterval   4.5e-2;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+adjustTimeStep  true;
+
+cTau            0.5;
+maxCo           0.1;
 
 // ************************************************************************* //
