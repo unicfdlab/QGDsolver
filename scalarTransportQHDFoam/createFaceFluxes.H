@@ -4,16 +4,10 @@ surfaceVectorField gradTf
     "gradTf", fvsc::grad(T)
 );
 
-surfaceTensorField gradUf
-(
-    "gradUf",
-    fvsc::grad(U)
-);
-
 surfaceScalarField phiTf
 (
     "phiTf",
-    phi*Tf
+    phiu*Tf
 );
 
 surfaceScalarField Hif

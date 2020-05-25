@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
 
     //solve for pressure to get zero divergence flux field
     #include "updateFluxes.H"
-    #include "QHDpEqn.H"
     
     Info<< "\nStarting time loop\n" << endl;
 
@@ -107,7 +106,26 @@ int main(int argc, char *argv[])
         // --- Store old time values
         T.oldTime();
         
-        #include "QHDTEqn.H"
+        {
+            phiTf = qgdFlux(phiu,T,Tf);
+            surfaceScalarField phiTauTReg = tauQGDf*phiu*(Uf & gradTf);
+            
+            // --- Solve T
+            if (implicitDiffusion)
+            {
+                solve
+                (
+                    fvm::ddt(T)
+                    + fvc::div(phiTf) - fvc::Sp(fvc::div(phiu),T)
+                    - fvm::laplacian(Hif,T)
+                    - fvc::div(phiTauTReg)
+                    ==
+                    TSu
+                );
+            }
+            
+            Info << "max/min of T: " << max(T).value() << "/" << min(T).value() << endl;
+        }
         
         runTime.write();
         
