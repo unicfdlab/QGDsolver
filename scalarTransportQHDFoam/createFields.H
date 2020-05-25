@@ -52,12 +52,6 @@ surfaceScalarField  phiwo
     mesh.Sf() & linearInterpolate(U)
 );
 
-surfaceScalarField phi
-(
-    "phi",
-    mesh.Sf() & (linearInterpolate(U))
-);
-
 Switch implicitDiffusion (thermo.implicitDiffusion());
 
 label pRefCell = 0;
