@@ -1,6 +1,6 @@
 #!/bin/sh
 
-changeDist()
+listFiles()
 {
     local locDIR=$1
     cd $locDIR
@@ -27,7 +27,7 @@ changeDist()
                 :
             else
                 echo $PWD
-                changeDist $locF
+                listFiles $locF
             fi
         else
             echo $PWD/$locF
@@ -36,7 +36,7 @@ changeDist()
     cd ../
 }
 
-changeDist $PWD
+listFiles $PWD
 
 #
 #END-OF-FILE
