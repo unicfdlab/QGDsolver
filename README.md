@@ -1,7 +1,7 @@
 QGDsolver is OpenFOAM framework for simulation of fluid flows using regularized equations approach. It contains library for approximation of partial derivatives at face centers of unstructured grids and a set of OpenFOAM solvers for:
 
-# 1 QGDFoam - solver
-# 2 QHDFoam - 
+* 1 QGDFoam - solver
+* 2 QHDFoam - 
 
 If you found these solver/solvers to be useful or you want to read about implemented numerical algorithms, please cite or refer to
 
