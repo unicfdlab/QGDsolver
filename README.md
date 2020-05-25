@@ -26,7 +26,7 @@ To change libraries and binaries destination, run: a) *SwitchDest USER* - this w
 In case of questions, please, write to:
 
 * the corresponding www.cfd-online.com Forum threads 
-* Issues of this repository
+* Issues of this repository: https://github.com/unicfdlab/QGDsolver/issues
 
 
 If you found these solver/solvers to be useful or you want to read about implemented numerical algorithms, please cite or refer to
