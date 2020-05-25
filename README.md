@@ -1,7 +1,16 @@
 QGDsolver is OpenFOAM framework for simulation of fluid flows using regularized equations approach. It contains library for approximation of partial derivatives at face centers of unstructured grids and a set of OpenFOAM solvers for:
 
-* 1 QGDFoam - solver
-* 2 QHDFoam - 
+1. QGDFoam - solver for compressible viscous perfect gas flows in a wide Mach number range - from 0 to infinity
+2. QHDFoam - solver for incompressible viscous fluid flows with buoyancy force
+3. particlesQGDFOam - solver for compressible viscous perfect gas flows in a wide Mach number range with particles - from 0 to infinity
+4. particlesQHDFoam - solver for incompressible viscous fluid flows with buoyancy force with particles
+5. SRFQHDFoam - solver for incompressible viscous fluid flows in rotating frame of reference  with buoyancy force
+6. QHDDyMFoam -  solver for incompressible viscous fluid flows in domains with deforming boundary and with buoyancy force
+7. interQHDFoam - solver for incompressible 2-phase viscous fluid flows with buoyancy force and surface tension
+8. reactingLagrangianQGDFoam - solver for reacting multicomponent compressible viscous perfect gas flows in a wide Mach number range with particles - from 0 to infinity
+9. scalarTransportQHDFoam - solver for scalar transport equation to demonstrate **the very basics** of QGD/QHD equations principles
+
+
 
 If you found these solver/solvers to be useful or you want to read about implemented numerical algorithms, please cite or refer to
 
