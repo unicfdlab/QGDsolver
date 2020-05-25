@@ -10,6 +10,8 @@ QGDsolver is OpenFOAM framework for simulation of fluid flows using regularized 
 8. reactingLagrangianQGDFoam - solver for reacting multicomponent compressible viscous perfect gas flows in a wide Mach number range with particles - from 0 to infinity
 9. scalarTransportQHDFoam - solver for scalar transport equation to demonstrate **the very basics** of QGD/QHD equations principles
 
+Brief description of the framework is presented HERE: https://github.com/unicfdlab/QGDsolver/blob/master/qgd-framework-2020-final.pdf
+
 The repository is organized as follows:
 * *master* branch is used for the Doxygen-generated documents (not finished yet) and last test report
 * *digitef-dev-ABCD* - latest working version of the framework for OpenFOAM+ version *ABCD*
