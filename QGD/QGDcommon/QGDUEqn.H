@@ -2,10 +2,12 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -23,10 +25,12 @@ License
 
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.   
-description:
-    solvation of momentum equation for QGD solver
-source file:
-    QGDFoam.C
+
+Group 
+    grpQGDcommon
+
+Description
+    Solution of momentum equation for QGD solver
 
 \*----------------------------------------------------------------------------*/
     solve
@@ -54,6 +58,8 @@ source file:
             fvm::ddt(rho, U) - fvc::ddt(rho,U)
             - fvm::laplacian(muf, U)
             - fvc::div(phiTauMC)
+            ==
+            rhoUSu
         );
         
         solve
@@ -66,6 +72,18 @@ source file:
         sigmaDotUPtr() = (muf*linearInterpolate(fvc::grad(U)) + tauMCPtr()) & Uf;
         
         phiSigmaDotU = mesh.Sf() & sigmaDotUPtr(); //or eqn.flux()?
+    }
+    else
+    {
+        // Correct velocity with distributed sources
+        solve
+        (
+            fvm::ddt(rho,U)
+            -
+            fvc::ddt(rhoU)
+            ==
+            rhoUSu
+        );
     }
     rhoU.boundaryFieldRef() == rho.boundaryField()*
     U.boundaryField();

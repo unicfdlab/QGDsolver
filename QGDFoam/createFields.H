@@ -47,26 +47,6 @@ volScalarField rho
     thermo.rho()
 );
 
-//volScalarField cellNo
-//(
-//    IOobject
-//    (
-//        "cellNo",
-//        runTime.timeName(),
-//        mesh,
-//        IOobject::MUST_READ,
-//        IOobject::AUTO_WRITE
-//    ),
-//    mesh
-//);
-
-//forAll(cellNo, iCell)
-//{
-//    cellNo.primitiveFieldRef()[iCell] = scalar(iCell);
-//}
-//
-//cellNo.write();
-
 volVectorField rhoU
 (
     IOobject
@@ -93,16 +73,23 @@ volScalarField rhoE
     rho*e + rho*0.5*magSqr(U)
 );
 
+volScalarField H
+(
+    IOobject
+    (
+        "Ht",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    (rhoE + p)/rho
+);
+
 surfaceScalarField phi
 (
     "phi",
     linearInterpolate(rho*U) & mesh.Sf()
-);
-
-surfaceScalarField phiRhof
-(
-    "phiRhof",
-    linearInterpolate(rho)*phi
 );
 
 Switch implicitDiffusion (thermo.implicitDiffusion());
@@ -114,10 +101,12 @@ turbulence.reset
     (
         rho,
         U,
-        phiRhof,
+        phi,
         thermo
     ).ptr()
 );
+
+#include "createZeroSources.H"
 
 //
 //END-OF-FILE

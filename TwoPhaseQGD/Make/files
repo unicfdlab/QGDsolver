@@ -1,0 +1,10 @@
+/*   Boundary Conditions     */
+BCs/mQhdFlux/mQhdFluxFvPatchScalarField.C
+
+/* QGD Thermo models & coeffs */
+thermoModels/qInterfaceProperties/qInterfaceProperties.C
+thermoModels/twoPhaseIcoQGDThermo/twoPhaseIcoQGDThermo.C
+thermoModels/twoPhaseIcoQGDThermo/constTwoPhaseProperties.C
+QGDCoeffs/twoPhaseConstTau/twoPhaseConstTau.C
+
+LIB = $(FOAM_USER_LIBBIN)/libTwoPhaseQGD

@@ -1,3 +1,40 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
+-------------------------------------------------------------------------------
+License
+    This file is part of QGDsolver library, based on OpenFOAM+.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+Global
+    updateFields
+
+Description
+    Updates fields.
+
+\*---------------------------------------------------------------------------*/
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
 /*
  *
  * Linear interpolation of fields from volumes to face centers
@@ -5,63 +42,42 @@
  */
 
 // Density
-rhof = linearInterpolate(rho);
+rhof = qgdInterpolate(rho);
 
 // Velocity
-Uf = linearInterpolate(U);
+Uf = qgdInterpolate(U);
 
 // Momentum
-rhoUf = linearInterpolate(rhoU);
+rhoUf = qgdInterpolate(rhoU);
 rhofUf= rhof*Uf;
 
 // Nonlinear Tensor
-UrhoUf = linearInterpolate(U*rhoU);
+UrhoUf = qgdInterpolate(U*rhoU);
 
 // Pressure
-pf = linearInterpolate(p);
+pf = qgdInterpolate(p);
 
 //Speed of sound
-cf = linearInterpolate(thermo.c());
+cf = qgdInterpolate(thermo.c());
 
 // Heat capacities ratio
-gammaf = linearInterpolate(gamma);
+gammaf = qgdInterpolate(gamma);
 gammam1f = gammaf - 1;
 
 // Heat capacity at constant pressure
-Cpf = linearInterpolate(thermo.Cp());
+Cpf = qgdInterpolate(thermo.Cp());
     
 // Total specific enthalpy
-//Hf = (linearInterpolate(rhoE) + pf)/rhof;
-Hf = linearInterpolate((rhoE + p)/rho);
+H  = (rhoE + p)/rho;
+Hf = qgdInterpolate(H);
 
 /*
  *
  * QGD coefficients are now updated in the thermo library
  *
  */
-alphauf    = linearInterpolate(turbulence->alphaEff());
-muf        = linearInterpolate(turbulence->muEff());
-
-//surfaceScalarField tauGammaPf
-//(
-//    "tauGammaPf",
-//    linearInterpolate(tauQGD*gamma*p)
-//);
-//
-//surfaceVectorField tauUf
-//(
-//    "tauUf",
-//    linearInterpolate(tauQGD*U)
-//);
-//
-//surfaceTensorField tauUrhoUf
-//(
-//    "tauUrhoUf",
-//    linearInterpolate(tauQGD*U*rhoU)
-//);
-
-//tauQGDf    = 0.5* hQGDf / cf;
-//muf        = pf * tauQGDf;
-//alphauf    = muf*1.0;
+alphauf    = qgdInterpolate(turbulence->alphaEff());
+muf        = qgdInterpolate(turbulence->muEff());
 
 
+// ************************************************************************* //

@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver          PCG;
+        maxIter         300;
+        preconditioner
+        {
+            preconditioner  GAMG;
+            tolerance       1e-5;
+            relTol          1e-2;
+            smoother        FDIC; //GaussSeidel;
+            nPreSweeps      0;
+            nPostSweeps     1;
+            cacheAgglomeration true;
+            nCellsInCoarsestLevel 500;
+            agglomerator    faceAreaPair;
+            mergeLevels     1;
+        }
+        tolerance       1e-8;
+        relTol          0;
+    }
+
+    "(rhoU|U|alpha.l)"
+    {
+        solver          PCG;
+        preconditioner  FDIC;
+        tolerance       1e-08;
+        relTol          0;
+        cAlpha          1e-7;  // enable MULES, but disable compressive flux
+                               // 0 -no MULES, no compressive flux
+                               // 1 - MULES, compressive flux with coeff 1
+    }
+}
+
+
+// ************************************************************************* //

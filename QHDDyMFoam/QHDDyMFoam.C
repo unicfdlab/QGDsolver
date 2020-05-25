@@ -2,13 +2,15 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
-    This file is part of OpenFOAM.
+    This file is part of QGDsolver library, based on OpenFOAM+.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -36,7 +38,6 @@ Description
     see http://elizarova.imamod.ru/selection-of-papers.html
 
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
-
 
 \*---------------------------------------------------------------------------*/
 
@@ -121,21 +122,9 @@ int main(int argc, char *argv[])
          *
          */
         #include "updateFluxes.H"
-
-        //Continuity equation
-        fvScalarMatrix pEqn
-        (
-             fvc::div(phiu)
-            -fvc::div(phiwo)
-            -fvm::laplacian(taubyrhof,p)
-        );
-
-        pEqn.setReference(pRefCell, getRefCellValue(p, pRefCell));
-
-        pEqn.solve();
-
-        phi = phiu - phiwo + pEqn.flux();
-
+        
+        #include "QHDpEqn.H"
+        
         if (mesh.changing())
         {
             fvc::makeRelative(phi, U);
@@ -145,54 +134,12 @@ int main(int argc, char *argv[])
                 #include "meshCourantNo.H"
             }
         }
-
-        turbulence->correct();
-
-        gradPf = fvsc::grad(p);
-
-        Wf = tauQGDf*((Uf & gradUf) + gradPf/rhof - BdFrcf);
-
-        surfaceVectorField phiUfWf = mesh.Sf() & (Uf * Wf);
-        phiUfWf.setOriented(true);
-        phiUf = phi * Uf;
-        phiUf.setOriented(true);
-        phiUf -= phiUfWf;
-
-        // --- Solve U
-        solve
-        (
-            fvm::ddt(U)
-            +
-            fvc::div(phiUf)
-            +
-            fvc::grad(p)/rho
-            -
-            fvm::laplacian(muf/rhof,U)
-            -
-            fvc::div(muf/rhof * mesh.Sf() & linearInterpolate(Foam::T(fvc::grad(U))))
-            -
-            BdFrc
-        );
-
-        //phiTf = phi * Tf;
-        phiTf = fvc::flux
-        (
-            phi,
-            T,
-            "div(phi,T)"
-        );
-        //surfaceScalarField phiTauUdotGradT = 
-        //    tauQGDf* phiu * (Uf & gradTf);
         
-        // --- Solve T
-        solve
-        (
-            fvm::ddt(T)
-          + fvc::div(phiTf)
-          //- fvc::div(phiTauUdotGradT)
-          - fvm::laplacian(Hif,T)
-        );
-        Info << "max/min of T: " << max(T).value() << "/" << min(T).value() << endl;
+        turbulence->correct();
+        
+        #include "QHDUEqn.H"
+        
+        #include "QHDTEqn.H"
         
         if (p.needReference())
         {
@@ -202,10 +149,10 @@ int main(int argc, char *argv[])
                 p.dimensions(),
                 pRefValue - getRefCellValue(p, pRefCell)
             );
-	}
-
-	runTime.write();
-
+        }
+        
+        runTime.write();
+        
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
@@ -218,5 +165,6 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
 
 // ************************************************************************* //

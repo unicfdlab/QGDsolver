@@ -1,4 +1,4 @@
 selectBadCells.C
 
-EXE = $(FOAM_APPBIN)/selectBadCells
+EXE = $(FOAM_USER_APPBIN)/selectBadCells
 

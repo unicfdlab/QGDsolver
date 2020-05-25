@@ -2,11 +2,33 @@
 
 cd QGD; wclean; wcleanLnIncludeAll; cd ../
 
+cd TwoPhaseQGD; wclean; wcleanLnIncludeAll; cd ../
+
+cd CombustionQGD; wclean; wcleanLnIncludeAll; cd ../
+
+cd ChemistryQGD; wclean; wcleanLnIncludeAll; cd ../
+
 cd QGDFoam; ./Allwclean; cd ../
 
 cd QHDFoam; ./Allwclean; cd ../
 
 cd mulesQHDFoam; ./Allwclean; cd ../
+
+cd zQGDFoam; ./Allwclean; cd ../
+
+cd interQHDFoam; ./Allwclean; cd ../
+
+cd particlesQGDFoam; ./Allwclean; cd ../
+
+cd particlesQHDFoam; ./Allwclean; cd ../
+
+cd QHDDyMFoam; ./Allwclean; cd ../
+
+cd SRFQHDFoam; ./Allwclean; cd ../
+
+cd reactingLagrangianQGDFoam; ./Allwclean; cd ../
+
+cd scalarTransportQHDFoam; ./Allwclean; cd ../
 
 cd utils/selectBadCells; wclean; cd ../../
 

@@ -1,11 +1,13 @@
- /*---------------------------------------------------------------------------*\
+/*---------------------------------------------------------------------------*\
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -24,15 +26,23 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-discription:
-    solvation of continuity equation for QGD solver
-source file:
+Group
+    grpQGDcommon
+
+Description:
+    Solution of continuity equation for QGD solver
+    
+SourceFiles:
     QGDFoam.C
+    
 \*---------------------------------------------------------------------------*/ 
+    
     solve
     (
         fvm::ddt(rho)
         +
         fvc::div(phiJm)
+        ==
+        rhoSu
     );
     

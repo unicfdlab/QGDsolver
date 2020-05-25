@@ -31,16 +31,18 @@ QGDCoeffs/constScPrModel1n/constScPrModel1n.C
 QGDCoeffs/constScPrModel2/constScPrModel2.C
 QGDCoeffs/varScModel5/varScModel5.C
 QGDCoeffs/varScModel6/varScModel6.C
+QGDCoeffs/varScModel7/varScModel7.C
 QGDCoeffs/H2bynuQHD/H2bynuQHD.C
 QGDCoeffs/HbyUQHD/HbyUQHD.C
 QGDCoeffs/T0byGr/T0byGr.C
 QGDCoeffs/constTau/constTau.C
-
 
 thermoModels/QGDThermo/QGDThermo.C
 thermoModels/psiQGDThermo/psiQGDThermo.C
 thermoModels/psiQGDThermo/psiQGDThermos.C
 thermoModels/rhoQGDThermo/rhoQGDThermo.C
 thermoModels/rhoQGDThermo/rhoQGDThermos.C
+thermoModels/psiQGDReactionThermo/psiQGDReactionThermo.C
+thermoModels/psiQGDReactionThermo/psiQGDReactionThermos.C
 
-LIB = $(FOAM_LIBBIN)/libQGD
+LIB = $(FOAM_USER_LIBBIN)/libQGD

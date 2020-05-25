@@ -2,8 +2,12 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011 OpenFOAM Foundation
+    \\  /    A nd           | www.openfoam.com
      \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 License
     This file is part of OpenFOAM.
@@ -24,6 +28,9 @@ License
 Global
     setDeltaT-QGDQHD
 
+Group 
+    grpQGDcommon
+
 Description
     Reset the timestep to maintain a constant maximum courant Number.
     Reduction of time-step is immediate, but increase is damped to avoid
@@ -35,8 +42,11 @@ if (adjustTimeStep)
 {
     scalar maxDeltaTFact = maxCo/(CoNum + SMALL);
     scalar deltaTFact = min(min(maxDeltaTFact, 1.0 + 0.1*maxDeltaTFact), 1.2);
-    scalar maxDeltaT1 = min(thermo.tauQGDf()()).value();
-    maxDeltaT1 = min(maxDeltaT,maxDeltaT1)*0.75;
+    scalar cTau = runTime.controlDict().lookupOrDefault<scalar>("cTau",0.75);
+    scalar maxDeltaT1 = cTau*min(thermo.tauQGDf()()).value();
+    
+    maxDeltaT1 = min(maxDeltaT,maxDeltaT1);
+    Info << "maxDeltaT1 = " << maxDeltaT1 << endl;
 
     runTime.setDeltaT
     (

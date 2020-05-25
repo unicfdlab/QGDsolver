@@ -1,19 +1,166 @@
 #!/bin/sh
 
-cd QGD; wmake libso; cd ../
+cd QGD; wmake libso
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "QGD compiled"
+else
+    echo "QGD compiled with errors"
+    exit -1
+fi
+cd ../
 
-cd QGDFoam; ./Allwmake; cd ../
+cd TwoPhaseQGD; wmake libso
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "twoPhaseQGD compiled"
+else
+    echo "twoPhaseQGD compiled with errors"
+    exit -1
+fi
+cd ../
 
-cd QHDFoam; ./Allwmake; cd ../
+cd CombustionQGD; wmake libso
+rc=$?
+if [ $rc -eq 0 ]; then
+    echo "CombustionQGD compiled"
+else
+    echo "CombustionQGD compiled with errors"
+    exit -1
+fi
+cd ../
 
-cd QHDDyMFoam; ./Allwmake; cd ../
+cd ChemistryQGD; wmake libso
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "ChemistryQGD compiled"
+else
+    echo "ChemistryQGD compiled with errors"
+    exit -1
+fi
+cd ../
 
-cd mulesQHDFoam; ./Allwmake; cd ../
+cd QGDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "QGDFoam compiled"
+else
+    echo "QGDFoam compiled with errors"
+    exit -1
+fi
+cd ../
 
-cd utils/selectBadCells; wmake; cd ../../
+cd QHDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "QHDFoam compiled"
+else
+    echo "QHDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd mulesQHDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "mulesQHDFoam compiled"
+else
+    echo "mulesQHDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd zQGDFoam; ./Allwmake
+rc=$?
+if [ $rc -eq 0 ]; then
+    echo "zQGDFoam compiled"
+else
+    echo "zQGDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd interQHDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "interQHDFoam compiled"
+else
+    echo "interQHDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd particlesQGDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "particlesQGDFoam compiled"
+else
+    echo "particlesQGDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd particlesQHDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "particlesQHDFoam compiled"
+else
+    echo "particlesQHDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd QHDDyMFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "QHDDyMFoam compiled"
+else
+    echo "QHDDyMFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd SRFQHDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "SRFQHDFoam compiled"
+else
+    echo "SRFQHDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd reactingLagrangianQGDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "reactingLagrangianQGDFoam compiled"
+else
+    echo "reactingLagrangianQGDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd scalarTransportQHDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "scalarTransportQHDFoam compiled"
+else
+    echo "scalarTransportQHDFoam compiled with errors "
+    exit -1
+fi
+cd ../
+
+cd utils/selectBadCells; wmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "util selectBadCells compiled"
+else
+    echo "util selectBadCells compiled with errors"
+    exit -1
+fi
+cd ../../
 
 #
 #END-OF-FILE
 #
-
 

@@ -2,10 +2,12 @@
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
    \\    /   O peration     |
-    \\  /    A nd           | Copyright (C) 2011-2018 OpenFOAM Foundation
-     \\/     M anipulation  | Copyright (C) 2016-2018 OpenCFD Ltd.
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
-                QGDsolver   | Copyright (C) 2016-2018 ISP RAS (www.unicfd.ru)
+    Copyright (C) 2011-2016 OpenFOAM Foundation
+    Copyright (C) 2019 OpenCFD Ltd.
+    Copyright (C) 2016-2019 ISP RAS (www.ispras.ru) UniCFD Group (www.unicfd.ru)
 -------------------------------------------------------------------------------
 
 License
@@ -24,9 +26,10 @@ License
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
-description:
+Description
     Equation of energy for QGD solver
-source file:
+
+SourceFiles
     QGDFoam.C
 
 \*----------------------------------------------------------------------------*/
@@ -38,19 +41,13 @@ source file:
       + fvc::div(phiQ)
       - fvc::div(phiPiU)
       - fvc::div(phiSigmaDotU)
-      ==
-      fvOptions(rhoE)
     );
-    
-    fvOptions.constrain(EEqn);
     
     EEqn.solve();
     
     // Correct energy
     e = rhoE/rho - 0.5*magSqr(U);
     e.correctBoundaryConditions();
-    
-    fvOptions.correct(e);
     
     // Solve diffusive QGD & NS part
     if (implicitDiffusion)
@@ -59,9 +56,20 @@ source file:
         (
             fvm::ddt(rho, e) - fvc::ddt(rho,e)
           - fvm::laplacian(alphauf, e)
+          ==
+          rhoESu
         );
         
         rhoE = rho*(e + 0.5*magSqr(U));
+    }
+    else
+    {
+        solve
+        (
+            fvm::ddt(rho,e) - fvc::ddt(rhoE)
+            ==
+            rhoESu
+        );
     }
     
     rhoE.boundaryFieldRef() == rho.boundaryField()*
