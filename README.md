@@ -19,11 +19,11 @@ The repository is organized as follows:
 
 Source code of releases for OpenFOAM+ are stored in *releases* section, the naming conventions are the same as for repository's branches
 
-To compile sources, run *Allwmake*
+To compile sources, run *./Allwmake*
 
-To clean sources, run *Allwclean*
+To clean sources, run *./Allwclean*
 
-To change libraries and binaries destination, run: a) *SwitchDest USER* - this will set installation paths to $FOAM_USER_LIBBIN and $FOAM_USER_APPBIN; b) run *SwitchDest* - this will set installation paths to $FOAM_LIBBIN and $FOAM_APPBIN
+To change libraries and binaries destination, run: a) *./SwitchDest USER* - this will set installation paths to $FOAM_USER_LIBBIN and $FOAM_USER_APPBIN; b) run *./SwitchDest* - this will set installation paths to $FOAM_LIBBIN and $FOAM_APPBIN
 
 In case of questions, please, write to:
 
