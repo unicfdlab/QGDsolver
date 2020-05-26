@@ -25,6 +25,8 @@ To clean sources, run *./Allwclean*
 
 To change libraries and binaries destination, run: a) *./SwitchDest USER* - this will set installation paths to $FOAM_USER_LIBBIN and $FOAM_USER_APPBIN; b) run *./SwitchDest* - this will set installation paths to $FOAM_LIBBIN and $FOAM_APPBIN
 
+Unfinished, but refining Doxygen documentation: https://unicfdlab.github.io/QGDsolver/html/index.html
+
 In case of questions, please, write to:
 
 * the corresponding www.cfd-online.com Forum threads: https://www.cfd-online.com/Forums/openfoam-news-announcements-other/227336-qgdsolver-openfoam-computational-framework-fluid-flows-based-regularized-equ.html
