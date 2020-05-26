@@ -27,7 +27,7 @@ To change libraries and binaries destination, run: a) *./SwitchDest USER* - this
 
 In case of questions, please, write to:
 
-* the corresponding www.cfd-online.com Forum threads 
+* the corresponding www.cfd-online.com Forum threads: https://www.cfd-online.com/Forums/openfoam-news-announcements-other/227336-qgdsolver-openfoam-computational-framework-fluid-flows-based-regularized-equ.html
 * Issues of this repository: https://github.com/unicfdlab/QGDsolver/issues
 
 
