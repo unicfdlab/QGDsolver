@@ -33,13 +33,6 @@ In case of questions, please, write to:
 * Issues of this repository: https://github.com/unicfdlab/QGDsolver/issues
 
 
-Simulation of filament contraction with surface tension
--------------------------------------------------------
-
-<iframe width="420" height="315"
-src="https://www.youtube.com/embed/NTMjZicfHh0">
-</iframe>
-
 If you found these solver/solvers to be useful or you want to read about implemented numerical algorithms, please cite or refer to
 
 * M. V. Kraposhin, E. V. Smirnova, T. G. Elizarova, and M. A. Istomina, 
