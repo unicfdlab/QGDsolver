@@ -95,6 +95,9 @@ if (!implicitDiffusion)
 
 phiQ = mesh.Sf() & qf;
 
+// QGD-141/142 bug hotfix
+phiQ.setOriented(true);
+
 phiPiU = mesh.Sf() & (Pif & Uf);
 
 //clean diffusive flux for inert specie
@@ -124,6 +127,8 @@ forAll(Y, i)
         diffusiveFlux[i] = dydtflux;
         //inert specie flux will be updated in QGDYEqn.H
     }
+    // QGD-141/142 bug hotfix
+    diffusiveFlux[i].setOriented(true);
 }
 
 //---------End---------
