@@ -17,29 +17,20 @@ FoamFile
 
 defaultFieldValues
 (
-//    volScalarFieldValue alpha.liquid 0
+    volScalarFieldValue alpha.liquid 0
     volVectorFieldValue U	    (0 0 0)
 );
 
 regions
 (
-//    boxToCell
-//    {
-//        box (0 -10 0) (100 10 3.80e-3);
-//        fieldValues
-//        (
-//            volScalarFieldValue alpha.liquid 1
-//        );
-//    }
-    
     sphereToCell
     {
-	centre	(0.0 0.0 5.72e-3);
-	radius  0.95e-3;
+        centre  (0.0 0.0 5.72e-3);
+        radius  0.95e-3;
 
         fieldValues
         (
-            //volScalarFieldValue alpha.liquid 1
+            volScalarFieldValue alpha.liquid 1
             volVectorFieldValue U (0 0 -0.55)
         );
 
