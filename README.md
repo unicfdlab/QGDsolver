@@ -35,6 +35,8 @@ In case of questions, please, write to:
 
 If you found these solver/solvers to be useful or you want to read about implemented numerical algorithms, please cite or refer to
 
+* [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3878453.svg)](https://doi.org/10.5281/zenodo.3878453)
+
 * M. V. Kraposhin, E. V. Smirnova, T. G. Elizarova, and M. A. Istomina, 
 Computers & Fluids 166, 163–175 (2018). https://doi.org/10.1016/j.compfluid.2018.02.010
 
