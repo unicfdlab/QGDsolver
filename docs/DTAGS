@@ -5496,6 +5496,13 @@
       <anchor>a7d0cf0eac9e448a5e8d9be4e78f2b198</anchor>
       <arglist>(!implicitDiffusion)</arglist>
     </member>
+    <member kind="function">
+      <type>phiQ</type>
+      <name>setOriented</name>
+      <anchorfile>reactingLagrangianQGDFoam_2updateFluxes_8H.html</anchorfile>
+      <anchor>ac33d01a5011fa5841260f57c4cf5179b</anchor>
+      <arglist>(true)</arglist>
+    </member>
     <member kind="variable">
       <type></type>
       <name>gradUf</name>
