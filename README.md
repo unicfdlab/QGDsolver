@@ -31,6 +31,7 @@ In case of questions, please, write to:
 
 * the corresponding www.cfd-online.com Forum threads: https://www.cfd-online.com/Forums/openfoam-news-announcements-other/227336-qgdsolver-openfoam-computational-framework-fluid-flows-based-regularized-equ.html
 * Issues of this repository: https://github.com/unicfdlab/QGDsolver/issues
+* Telegram channel: t.me/qgd_qhd
 
 
 If you found these solver/solvers to be useful or you want to read about implemented numerical algorithms, please cite or refer to
