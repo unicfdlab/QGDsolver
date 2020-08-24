@@ -109,6 +109,19 @@ makeThermo
     perfectGas,
     specie
 );
+  
+  makeThermo
+(
+    psiQGDThermo,
+    hePsiQGDThermo,
+    pureMixture,
+    polynomialTransport,
+    sensibleInternalEnergy,
+    hConstThermo,
+    perfectGas,
+    specie
+);
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
