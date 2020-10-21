@@ -34,6 +34,7 @@ SourceFiles
     QHD.H
 \*-----------------------------------------------------------------------------*/
 
+#define QHD_ALGORITHM
 #include "rhoQGDThermo.H"
 #include "wallFvPatch.H"
 #include "fvsc.H"

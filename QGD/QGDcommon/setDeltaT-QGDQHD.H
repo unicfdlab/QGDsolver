@@ -46,6 +46,7 @@ if (adjustTimeStep)
     scalar maxDeltaT1 = cTau*min(thermo.tauQGDf()()).value();
     
     maxDeltaT1 = min(maxDeltaT,maxDeltaT1);
+    #include "QHDFourierNo.H"
     Info << "maxDeltaT1 = " << maxDeltaT1 << endl;
 
     runTime.setDeltaT
