@@ -49,7 +49,7 @@ boundaryField
 
     freestreamInlet
     {
-        type            qhdFlux;
+        type            qgdFlux;
     }
 
     wedge1 {type wedge;}

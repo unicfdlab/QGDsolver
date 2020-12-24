@@ -365,12 +365,22 @@ void Foam::qgd::QGDCoeffs::updateQGDLength(const fvMesh& mesh)
     {
         if 
         (
-        !isA<emptyFvPatch>(mesh.boundary()[patchi])
-        //&&
-        //!isA<wedgeFvPatch>(mesh.boundary()[patchi])
+            !isA<emptyFvPatch>(mesh.boundary()[patchi])
         )
         {
             hQGD_.boundaryFieldRef()[patchi] = hQGDf_.boundaryField()[patchi] * 1.0;
+        }
+        if //set local length equal to nearest cell
+        (
+            isA<wedgeFvPatch>(mesh.boundary()[patchi])
+        )
+        {
+            const labelUList& faceCells = mesh.boundary()[patchi].faceCells();
+            forAll(hQGDf_.boundaryField()[patchi],facei)
+            {
+                hQGDf_.boundaryFieldRef()[patchi][facei] = 
+                    hQGD_.primitiveField()[faceCells[facei]];
+            }
         }
     }
 }
