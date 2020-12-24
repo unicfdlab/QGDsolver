@@ -1,0 +1,25 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+./makeMesh
+
+cat system/controlDict.init > system/controlDict
+cat constant/thermophysicalProperties.init > constant/thermophysicalProperties
+runApplication $(getApplication)
+mv log.$(getApplication) log.$(getApplication).init
+
+cat system/controlDict.second > system/controlDict
+cat constant/thermophysicalProperties.second > constant/thermophysicalProperties
+runApplication $(getApplication)
+mv log.$(getApplication) log.$(getApplication).second
+
+
+cat system/controlDict.third > system/controlDict
+cat constant/thermophysicalProperties.third > constant/thermophysicalProperties
+runApplication $(getApplication)
+
+#
+
+#------------------------------------------------------------------------------

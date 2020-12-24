@@ -1,0 +1,48 @@
+#!/bin/sh
+
+cd QGD; wmake libso
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "QGD compiled"
+else
+    echo "QGD compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd TwoPhaseQGD; wmake libso
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "twoPhaseQGD compiled"
+else
+    echo "twoPhaseQGD compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd CombustionQGD; wmake libso
+rc=$?
+if [ $rc -eq 0 ]; then
+    echo "CombustionQGD compiled"
+else
+    echo "CombustionQGD compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd ChemistryQGD; wmake libso
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "ChemistryQGD compiled"
+else
+    echo "ChemistryQGD compiled with errors"
+    exit -1
+fi
+cd ../
+
+exit 0
+
+#
+#END-OF-FILE
+#
+

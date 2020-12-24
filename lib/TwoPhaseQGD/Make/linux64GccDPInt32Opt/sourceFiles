@@ -1,0 +1,8 @@
+SOURCE = \
+BCs/mQhdFlux/mQhdFluxFvPatchScalarField.C \
+thermoModels/qInterfaceProperties/qInterfaceProperties.C \
+thermoModels/twoPhaseIcoQGDThermo/twoPhaseIcoQGDThermo.C \
+thermoModels/twoPhaseIcoQGDThermo/constTwoPhaseProperties.C \
+QGDCoeffs/twoPhaseConstTau/twoPhaseConstTau.C \
+
+# sources

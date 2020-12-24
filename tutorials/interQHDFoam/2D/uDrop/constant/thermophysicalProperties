@@ -1,0 +1,39 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     4.1;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+phases (liquid gas);
+
+sigma     [1  0 -2 0 0] 0.0254;
+
+rholiquid [1 -3  0 0 0] 953;
+rhogas    [1 -3  0 0 0] 1.204;
+nuliquid  [0  2 -1 0 0] 2.00e-5;
+nugas     [0  2 -1 0 0] 1.58e-5;
+tauliquid [0  0  1 0 0] 5.00e-8; //was 5.0e-8
+taugas    [0  0  1 0 0] 2.50e-7; //was 2.5e-7
+
+QGD
+{
+    pRefCell        0;
+    pRefValue       0;
+    implicitDiffusion true;
+    QGDCoeffs twoPhaseConstTau; //actually not used in multiphase simulation
+    twoPhaseConstTauDict
+    {
+        Tau 1;
+    }
+}

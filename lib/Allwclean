@@ -1,0 +1,16 @@
+#!/bin/sh
+
+cd QGD; wclean; wcleanLnIncludeAll; cd ../
+
+cd TwoPhaseQGD; wclean; wcleanLnIncludeAll; cd ../
+
+cd CombustionQGD; wclean; wcleanLnIncludeAll; cd ../
+
+cd ChemistryQGD; wclean; wcleanLnIncludeAll; cd ../
+
+exit 0
+
+#
+#END-OF-FILE
+#
+
