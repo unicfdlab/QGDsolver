@@ -1,0 +1,84 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  3.0.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver          PCG;
+        maxIter         300;
+        preconditioner
+        {
+            preconditioner  GAMG;
+            tolerance       1e-5;
+            relTol          1e-2;
+            smoother        FDIC; //GaussSeidel;
+            nPreSweeps      0;
+            nPostSweeps     1;
+            cacheAgglomeration true;
+            nCellsInCoarsestLevel 500;
+            agglomerator    faceAreaPair;
+            mergeLevels     1;
+        }
+        tolerance       1e-7;
+        relTol          0;
+    }
+
+    "(pcorr.*)"
+    {
+        solver          PCG;
+        tolerance       1e-03;
+        relTol          1e-02;
+        maxIter         20;
+        preconditioner
+        {
+            preconditioner  GAMG;
+            tolerance       1e-5;
+            relTol          0.01;
+            smoother        GaussSeidel;
+            nPreSweeps      0;
+            nPostSweeps     2;
+            cacheAgglomeration no;
+            nCellsInCoarsestLevel 100;
+            agglomerator    faceAreaPair;
+            mergeLevels     1;
+        }
+    }
+
+    "(rhoU|U|alpha.liquid)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-08;
+        relTol          0;
+        cAlpha          0.5;
+    }
+
+    "(rhoU|alpha.liquid)"
+    {
+        $U;
+        tolerance       1e-08;
+        relTol          0;
+    }
+}
+
+relaxationFactors
+{
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,45 @@
+#!/bin/sh
+
+listFiles()
+{
+    local locDIR=$1
+    cd $locDIR
+    local locFILES=`ls .`
+    for locF in $locFILES
+    do
+        if [ -d $locF ]
+        then
+            if [ "$locF" = "Make" ]
+            then
+                #skip dir
+                :
+            elif [ "$locF" = "utils" ]
+            then
+                #skip dir
+                :
+            elif [ "$locF" = "zQGDFoam" ]
+            then
+                #skip dir
+                :
+            elif [ "$locF" = "Tutorials" ]
+            then
+                #skip dir
+                :
+            else
+                echo $PWD
+                listFiles $locF
+            fi
+        else
+            echo $PWD/$locF
+        fi
+    done
+    cd ../
+}
+
+listFiles $PWD
+
+#
+#END-OF-FILE
+#
+
+

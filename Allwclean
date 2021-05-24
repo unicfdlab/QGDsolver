@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cd lib; ./Allwclean; cd ../
+
+cd app; ./Allwclean; cd ../
+
+#
+#END-OF-FILE
+#
+

@@ -1,0 +1,4 @@
+SOURCE = \
+zQGDFoam.C \
+
+# sources

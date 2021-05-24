@@ -1,0 +1,4 @@
+SOURCE = \
+particlesQGDFoam.C \
+
+# sources

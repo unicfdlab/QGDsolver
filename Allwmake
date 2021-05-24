@@ -1,0 +1,32 @@
+#!/bin/sh
+
+cd lib
+./Allwmake
+rc=$?
+cd ../
+if [ "$rc" = "0" ] 
+then
+    echo "QGD has been compiled successfully"
+else
+    echo "QGD has been compiled with errors"
+    exit -1
+fi
+
+cd app 
+./Allwmake
+rc=$?
+cd ../
+if [ "$rc" = "0" ] 
+then
+    echo "QGD solvers has been compiled successfully"
+else
+    echo "QGD solvers has been compiled with errors"
+    exit -1
+fi
+
+exit 0
+
+#
+#END-OF-FILE
+#
+
