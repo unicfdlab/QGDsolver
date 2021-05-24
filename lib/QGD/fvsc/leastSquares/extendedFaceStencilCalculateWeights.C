@@ -63,7 +63,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
         {
             List<vector> df(neighbourCells_[facei].size());
             scalarList wf2(neighbourCells_[facei].size());
-            symmTensor G(0);
+            symmTensor G(Zero);
             
             vector Cf = cMesh_.faceCentres()[facei];
             
@@ -71,13 +71,13 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
             {
                 df[i] = cMesh_.cellCentres()[neighbourCells_[facei][i]] - Cf;
                 wf2[i] = 1/magSqr(df[i]);
-                symmTensor addToG(0);
+                symmTensor addToG(Zero);
                 addToG = sqr(df[i]);
                 addToG = addToG * wf2[i];
                 G += addToG;
             }
             
-            symmTensor G0(0);
+            symmTensor G0(Zero);
             cellDim = 3;
             
             //correct G tensor for zero directions
@@ -313,13 +313,13 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     List<vector> df (nFaceCells, vector::zero);
                     List<scalar> wf2(nFaceCells, 0.0);
 
-                    symmTensor G(0);
+                    symmTensor G(Zero);
                     
                     forAll(ownCellCenters[iProcPatch][facei], i)
                     {
                         df[i] = ownCellCenters[iProcPatch][facei][i] - fvp.Cf()[facei];
                         wf2[i] = 1/magSqr(df[i]);
-                        symmTensor addToG(0);
+                        symmTensor addToG(Zero);
                         addToG = sqr(df[i]);
                         addToG = addToG * wf2[i];
                         G += addToG;
@@ -330,7 +330,7 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     {
                         df[k] = neiCellCenters[iProcPatch][facei][i] - fvp.Cf()[facei];
                         wf2[k] = 1/magSqr(df[k]);
-                        symmTensor addToG(0);
+                        symmTensor addToG(Zero);
                         addToG = sqr(df[k]);
                         addToG = addToG * wf2[k];
                         G += addToG;
@@ -342,14 +342,14 @@ void Foam::fvsc::leastSquaresBase::calculateWeights()
                     {
                         df[l] = corCellCenters[iProcPatch][facei][i] - fvp.Cf()[facei];
                         wf2[l] = 1/magSqr(df[l]);
-                        symmTensor addToG(0);
+                        symmTensor addToG(Zero);
                         addToG = sqr(df[l]);
                         addToG = addToG * wf2[l];
                         G += addToG;
                         l++;
                     }
                     
-                    symmTensor G0(0);
+                    symmTensor G0(Zero);
                     cellDim = 3;
                     /*
                     if(mesh_.nGeometricD()==1)
