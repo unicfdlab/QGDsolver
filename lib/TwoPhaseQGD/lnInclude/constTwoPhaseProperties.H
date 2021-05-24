@@ -1,1 +1,0 @@
-../thermoModels/twoPhaseIcoQGDThermo/constTwoPhaseProperties.H

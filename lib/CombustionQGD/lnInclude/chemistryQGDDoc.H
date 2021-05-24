@@ -1,1 +1,0 @@
-../chemistryQGDDoc.H

@@ -1,4 +1,0 @@
-SOURCE = \
-scalarTransportQHDFoam.C \
-
-# sources

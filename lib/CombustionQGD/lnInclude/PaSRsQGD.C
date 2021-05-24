@@ -1,1 +1,0 @@
-../PaSR/PaSRsQGD.C

@@ -1,7 +1,0 @@
-SOURCE = \
-chemistryModel/BasicChemistryModel/BasicChemistryModelsQGD.C \
-chemistryModel/TDACChemistryModel/reduction/makeChemistryReductionMethodsQGD.C \
-chemistryModel/TDACChemistryModel/tabulation/makeChemistryTabulationMethodsQGD.C \
-chemistrySolver/makeChemistrySolversQGD.C \
-
-# sources
