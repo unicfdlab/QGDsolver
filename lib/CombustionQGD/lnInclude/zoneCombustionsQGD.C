@@ -1,1 +1,0 @@
-../zoneCombustion/zoneCombustionsQGD.C

@@ -1,1 +1,0 @@
-../EDC/EDCsQGD.C

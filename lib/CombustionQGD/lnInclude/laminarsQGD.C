@@ -1,1 +1,0 @@
-../laminar/laminarsQGD.C

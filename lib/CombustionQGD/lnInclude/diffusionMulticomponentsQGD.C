@@ -1,1 +1,0 @@
-../diffusionMulticomponent/diffusionMulticomponentsQGD.C

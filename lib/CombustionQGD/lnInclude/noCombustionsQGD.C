@@ -1,1 +1,0 @@
-../noCombustion/noCombustionsQGD.C

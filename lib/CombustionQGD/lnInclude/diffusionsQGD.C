@@ -1,1 +1,0 @@
-../diffusion/diffusionsQGD.C

@@ -1,1 +1,0 @@
-../thermoModels/qInterfaceProperties/qInterfaceProperties.C

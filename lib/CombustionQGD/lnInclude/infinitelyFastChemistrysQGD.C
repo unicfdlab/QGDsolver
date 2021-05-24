@@ -1,1 +1,0 @@
-../infinitelyFastChemistry/infinitelyFastChemistrysQGD.C
