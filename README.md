@@ -34,7 +34,7 @@ In case of questions, please, write to:
 * Telegram channel: [t.me/qgd_qhd](https://t.me/qgd_qhd)
 
 
-If you found these solver/solvers to be useful or you want to read about implemented numerical algorithms, please cite or refer to
+If you found these solver/solvers useful or you want to read about implemented numerical algorithms, please cite or refer to
 
 * [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3878453.svg)](https://doi.org/10.5281/zenodo.3878453)
 
