@@ -59,7 +59,7 @@ constantProperties
     rho0            8800;
     T0              300;
     Cp0             4100;
-
+    Tref            0;
     constantVolume  false;
 }
 

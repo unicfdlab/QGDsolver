@@ -36,6 +36,7 @@ mixture
     {
         Cp              1004.5;
         Hf              0;
+        Tref            0;
     }
     transport
     {

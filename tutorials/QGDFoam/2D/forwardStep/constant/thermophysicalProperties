@@ -42,6 +42,7 @@ mixture
         Hf              0;
         Sf              0;
         Cp              2.5;
+        Tref            0;
     }
     
     transport
