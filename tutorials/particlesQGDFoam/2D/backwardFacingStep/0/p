@@ -23,7 +23,7 @@ boundaryField
 {
     inlet
     {
-        type            qhdFlux;
+        type            qgdFlux;
     }
     outlet
     {
@@ -35,7 +35,7 @@ boundaryField
     }
     walls
     {
-        type            qhdFlux;
+        type            qgdFlux;
     }
     symwall
     {

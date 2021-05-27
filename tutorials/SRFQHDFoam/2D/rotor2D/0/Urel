@@ -33,7 +33,7 @@ boundaryField
         //value           uniform (1 0 0);
         type        SRFVelocity;
         relative    false;
-        inletValue  (1 0 0);
+        inletValue  uniform (1 0 0);
         value       uniform (0 0 0);
     }
 

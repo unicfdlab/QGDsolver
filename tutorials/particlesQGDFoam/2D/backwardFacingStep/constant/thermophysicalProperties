@@ -40,6 +40,7 @@ mixture
         Hf              0;
         Sf              0;
         Cp              1005;
+        Tref            0;
     }
     
     transport
@@ -74,17 +75,17 @@ solids
 QGD
 {
     implicitDiffusion false;
-    QGDCoeffs	constTau;
-    constTauDict
-    {
-	Tau	0.1;
-    }
-    /*QGDCoeffs constScPrModel1;
+//    QGDCoeffs	constTau;
+//    constTauDict
+//    {
+//	Tau	0.1;
+//    }
+    QGDCoeffs constScPrModel1;
     constScPrModel1Dict
     {
         ScQGD 0.0;
         PrQGD 0.72;
-    }*/
+    }
 }
 
 // ************************************************************************* //
