@@ -3,7 +3,8 @@
 1. [QGDsolver library brief](#QGDsolver-library-brief)
 2. [QGDsolver installation](#QGDsolver-installation)
 3. [Meeting points for users and developers](#Meeting-points-for-users-and-developers)
-4. [For citation](#For-citation)
+4. [Published papers related to QGDsolver technology](#Published-papers-related-to-QGDsolver-technology)
+5. [For citation](#For-citation)
 
 # QGDsolver library brief
 [To the contents](#Contents)
@@ -52,6 +53,7 @@ In case of questions, please, write to:
 
 
 # Published papers related to QGDsolver technology
+[To the contents](#Contents)
 
 | Title | Description |
 |------|-------------|
