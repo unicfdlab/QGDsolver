@@ -63,6 +63,8 @@ In case of questions, please, write to:
 |[Simulation of transonic low-Reynolds jets using quasi-gas dynamics equations](https://iopscience.iop.org/article/10.1088/1742-6596/1382/1/012019): **Article**|![QGDFoam vs experiment](https://www.researchgate.net/publication/337709457/figure/fig1/AS:832046201073664@1575386681051/Time-averaged-jet-centreline-Mach-number-distribution-1-QGDFoam-with-i-i14-03-2_W640.jpg)|
 |[Prediction of the Free Jet Noise Using Quasi-gas Dynamic Equations and Acoustic Analogy](https://link.springer.com/chapter/10.1007/978-3-030-50436-6_16): **Article**|![QGDFoam instant jet velocities](https://media.springernature.com/lw785/springer-static/image/chp%3A10.1007%2F978-3-030-50436-6_16/MediaObjects/500810_1_En_16_Fig5_HTML.png)|
 |[Numerical simulation of disk pump problems using OpenFOAM implementation of regularized equations (in Russian)](https://keldysh.ru/papers/2020/prep2020_66.pdf): **Article**|![QHDFoam fluid flow in disk pump](https://github.com/unicfdlab/QGDsolver/blob/master/QHDFoam-diskpump.png)|
+|[Numerical modelling of hydrodynamical structures using quasi-gasdynamics algrotithms and its implementation in OpenFOAM (in Russian)](https://keldysh.ru/council/3/D00202403/istomina_diss.pdf):  **PhD Thesis** |![Accreation disk](https://github.com/unicfdlab/PhDTheses/blob/main/Istomina_diss.png)|
+|[Biharmonic attractors of internal waves (in Russian): **PhD Thesis**](https://github.com/unicfdlab/PhDTheses/blob/main/ryazanov_da_diss.pdf)|![A scheme of biharmonic attractor computed with QHDFoam](https://github.com/unicfdlab/PhDTheses/blob/main/ryazanov_da.png)|
 
 
 # For citation
