@@ -232,7 +232,7 @@ varScModel8::correct(const Foam::QGDThermo& qgdThermo)
             faceid  = facesOfCell[iface];
             if (mesh_.isInternalFace(faceid))
             {
-                dpf    = abs(dp.primitiveField()[faceid]);
+                dpf    = fabs(dp.primitiveField()[faceid]);
                 minp   = min(p[owner[faceid]],p[neighbour[faceid]]);
             }
             else
@@ -251,13 +251,13 @@ varScModel8::correct(const Foam::QGDThermo& qgdThermo)
                 if (p.boundaryField()[patchid].coupled())
                 {
                     dpf = 
-                        abs(p.boundaryField()[patchid].patchNeighbourField()()[faceid]-p[icell]);
+                        fabs(p.boundaryField()[patchid].patchNeighbourField()()[faceid]-p[icell]);
                     minp = 
                         min(p.boundaryField()[patchid].patchNeighbourField()()[faceid],p[icell]);
                 }
                 else
                 {
-                    dpf = abs(dp.boundaryField()[patchid][faceid]);
+                    dpf = fabs(dp.boundaryField()[patchid][faceid]);
                     minp = 
                         min(p.boundaryField()[patchid][faceid],p[icell]);
                 }
