@@ -65,7 +65,7 @@ In case of questions, please, write to:
 |[Numerical simulation of disk pump problems using OpenFOAM implementation of regularized equations (in Russian)](https://keldysh.ru/papers/2020/prep2020_66.pdf): **Article**|![QHDFoam fluid flow in disk pump](https://github.com/unicfdlab/QGDsolver/blob/master/QHDFoam-diskpump.png)|
 |[Numerical modelling of hydrodynamical structures using quasi-gasdynamics algrotithms and its implementation in OpenFOAM (in Russian)](https://keldysh.ru/council/3/D00202403/istomina_diss.pdf):  **PhD Thesis** |![Accreation disk](https://github.com/unicfdlab/PhDTheses/blob/main/Istomina_diss.png)|
 |[Biharmonic attractors of internal waves (in Russian)](https://github.com/unicfdlab/PhDTheses/blob/main/ryazanov_da_diss.pdf): **PhD Thesis**|![A scheme of biharmonic attractor computed with QHDFoam](https://github.com/unicfdlab/PhDTheses/blob/main/ryazanov_da.png)|
-|[Development of the New OpenFOAM Solver for Shallow Water Simulation Using QGD/QHD Library](https://www.researchgate.net/publication/352222832_Development_of_the_New_OpenFOAM_Solver_for_Shallow_Water_Simulation_Using_QGDQHD_Library)|![Streamlines](https://github.com/unicfdlab/QGDsolver/blob/master/RSWEFoam_zip.png)|
+|[Development of the New OpenFOAM Solver for Shallow Water Simulation Using QGD/QHD Library](https://www.researchgate.net/publication/352222832_Development_of_the_New_OpenFOAM_Solver_for_Shallow_Water_Simulation_Using_QGDQHD_Library): **Presentation**|![Streamlines](https://github.com/unicfdlab/QGDsolver/blob/master/RSWEFoam_zip.png)|
 
 
 # For citation
