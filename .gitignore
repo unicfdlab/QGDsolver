@@ -1,9 +1,4 @@
 
-QGD/lnInclude
-CombustionQGD/lnInclude
-ChemistryQGD/lnInclude
-TwoPhaseQGD/lnInclude
+lnInclude/
+linux64*/
 
-utils/selectBadCells/Make/linux64Gcc*
-
-*/Make/linux64*
