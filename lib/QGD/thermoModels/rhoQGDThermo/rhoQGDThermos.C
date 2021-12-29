@@ -121,24 +121,6 @@ makeThermo
     specie
 );
 
-/*
- *
- * const density gas EOS
- *
- */
-
-makeThermo
-(
-    rhoQGDThermo,
-    heRhoQGDThermo,
-    pureMixture,
-    constTransport,
-    sensibleInternalEnergy,
-    hConstThermo,
-    rhoConst,
-    specie
-);
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam

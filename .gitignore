@@ -6,4 +6,8 @@ TwoPhaseQGD/lnInclude
 
 utils/selectBadCells/Make/linux64Gcc*
 
-*/Make/linux64*
+Make/linux64*/
+lib/QGD/Make/linux64GccDPInt32Opt/
+lib/QGD/lnInclude/
+
+

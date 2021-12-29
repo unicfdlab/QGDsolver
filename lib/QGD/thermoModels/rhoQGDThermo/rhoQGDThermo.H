@@ -75,6 +75,9 @@ protected:
         //-
         volScalarField gamma_;
 
+        //-
+        bool correctPsiOnly_ = false;
+
 
 public:
 
@@ -149,6 +152,9 @@ public:
 
     //-
     virtual tmp<volScalarField> mu() const;
+
+    //-
+    void findPressure(const volScalarField& rhoC);
 };
 
 
