@@ -60,10 +60,7 @@ Description
 
 #include "fvCFD.H"
 #include "QGD.H"
-<<<<<<< HEAD
 #include "rhoQGDThermo.H"
-=======
->>>>>>> d317ae13e45308c1fbe1872fdf8b836b850f4af8
 #include "fvOptions.H"
 #include "turbulentFluidThermoModel.H"
 
