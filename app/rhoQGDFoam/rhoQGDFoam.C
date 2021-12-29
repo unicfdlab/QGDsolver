@@ -60,7 +60,10 @@ Description
 
 #include "fvCFD.H"
 #include "QGD.H"
+<<<<<<< HEAD
 #include "rhoQGDThermo.H"
+=======
+>>>>>>> d317ae13e45308c1fbe1872fdf8b836b850f4af8
 #include "fvOptions.H"
 #include "turbulentFluidThermoModel.H"
 
@@ -76,9 +79,7 @@ int main(int argc, char *argv[])
     #include "createMesh.H"
     #include "createFields.H"
     #include "createFaceFields.H"
-    Info << "face fields are created" << endl;
     #include "createFaceFluxes.H"
-    Info << "face fluxes are created" << endl;
     #include "createTimeControls.H"
     #include "createFvOptions.H"
 
@@ -152,9 +153,17 @@ int main(int argc, char *argv[])
         thermo.correct();
 
         // Correct pressure
+<<<<<<< HEAD
         thermo.findPressure(rho);
         //update density to EoS density
         rho.boundaryFieldRef() = thermo.rho()().boundaryField();
+=======
+        p.ref() =
+            rho()
+           /psi();
+        p.correctBoundaryConditions();
+        rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
+>>>>>>> d317ae13e45308c1fbe1872fdf8b836b850f4af8
 
         runTime.write();
 

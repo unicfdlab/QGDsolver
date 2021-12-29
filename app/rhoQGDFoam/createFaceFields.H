@@ -57,12 +57,8 @@ surfaceScalarField pf
     linearInterpolate(p)
 );
 
-Info << "After pf" << endl;
-
-Info << gamma << endl;
-
 // Heat capacities ratio
-surfaceScalarField gammaf 
+surfaceScalarField gammaf
 (
     "gammaf",
     linearInterpolate(gamma)
@@ -74,16 +70,12 @@ surfaceScalarField gammam1f
     gammaf - 1
 );
 
-Info << "After gammaf" << endl;
-
 // Heat capacity at constant pressure
 surfaceScalarField Cpf
 (
     "Cpf",
     linearInterpolate(thermo.Cp())
 );
-
-Info << "After Cpf" << endl;
 
 surfaceScalarField Hf
 (

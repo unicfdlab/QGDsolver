@@ -5,6 +5,7 @@ autoPtr<rhoQGDThermo> pThermo
     rhoQGDThermo::New(mesh)
 );
 rhoQGDThermo& thermo = pThermo();
+
 thermo.correct();
 
 volScalarField& e = thermo.he();
@@ -107,7 +108,10 @@ turbulence.reset
 );
 
 #include "createZeroSources.H"
+<<<<<<< HEAD
 Info << "Sources are created" << endl;
+=======
+>>>>>>> d317ae13e45308c1fbe1872fdf8b836b850f4af8
 
 //
 //END-OF-FILE
