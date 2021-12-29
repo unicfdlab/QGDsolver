@@ -150,17 +150,9 @@ int main(int argc, char *argv[])
         thermo.correct();
 
         // Correct pressure
-<<<<<<< HEAD
         thermo.findPressure(rho);
         //update density to EoS density
         rho.boundaryFieldRef() = thermo.rho()().boundaryField();
-=======
-        p.ref() =
-            rho()
-           /psi();
-        p.correctBoundaryConditions();
-        rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
->>>>>>> d317ae13e45308c1fbe1872fdf8b836b850f4af8
 
         runTime.write();
 
