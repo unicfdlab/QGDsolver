@@ -156,7 +156,8 @@ Foam::tmp<Foam::volScalarField> Foam::rhoQGDThermo::mu() const
 void Foam::rhoQGDThermo::findPressure(const volScalarField& rhoC)
 {
     scalar maxErr = 0.0;
-    const scalar tol = 1.0e-3;
+    const scalar tol = p_.mesh().solverDict(p_.name()).get<scalar>("tolerance");
+    const label maxIter = p_.mesh().solverDict(p_.name()).getOrDefault<label>("maxIter",100);
     volScalarField rhoSave = this->rho_;
     volScalarField pOld = p_;
     volScalarField deltaRho = rho_ - rhoC;
@@ -175,10 +176,11 @@ void Foam::rhoQGDThermo::findPressure(const volScalarField& rhoC)
         deltaRho = rho_ - rhoC;
         maxErr = max(mag(deltaRho/rhoC)).value();
         iIter++;
-    }while(maxErr > tol);
+    }while(maxErr > tol && iIter<=maxIter);
 
-    Info<< "Pressure has converged in"
-        << iIter << " iterations" << endl;
+    Info<< "Pressure has converged in "
+        << iIter << " iterations and to "
+        << maxErr<< " error" << endl;
 
     this->correct(); //update  rho, psi, T finally with new pressure and enthalpy
 }
