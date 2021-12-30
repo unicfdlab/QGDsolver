@@ -20,6 +20,7 @@ QGDsolver is OpenFOAM framework for simulation of fluid flows using regularized 
 7. **interQHDFoam** - solver for incompressible 2-phase viscous fluid flows with buoyancy force and surface tension
 8. **reactingLagrangianQGDFoam** - solver for reacting multicomponent compressible viscous perfect gas flows in a wide Mach number range with particles - from 0 to infinity
 9. **scalarTransportQHDFoam** - solver for scalar transport equation to demonstrate **the very basics** of QGD/QHD equations principles
+10. **rhoQGDFoam** - solver for compressible viscous flow with arbitrary equation of state (EoS) and in a wide Mach number range - from 0 to infinity
 
 Brief description of the framework is presented here: https://github.com/unicfdlab/QGDsolver/blob/master/qgd-framework-2020-final.pdf
 
