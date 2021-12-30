@@ -41,7 +41,7 @@ Description
 
 #include "specie.H"
 #include "perfectGas.H"
-#include "rhoConst.H"
+#include "covolumeGas.H"
 #include "PengRobinsonGas.H"
 #include "hConstThermo.H"
 #include "eConstThermo.H"
@@ -120,6 +120,19 @@ makeThermo
     perfectGas,
     specie
 );
+
+makeThermo
+(
+    rhoQGDThermo,
+    heRhoQGDThermo,
+    pureMixture,
+    constTransport,
+    sensibleInternalEnergy,
+    hConstThermo,
+    covolumeGas,
+    specie
+);
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -2,6 +2,8 @@
 
 cd QGDFoam; ./Allwclean; cd ../
 
+cd rhoQGDFoam; ./Allwclean; cd ../
+
 cd QHDFoam; ./Allwclean; cd ../
 
 cd mulesQHDFoam; ./Allwclean; cd ../
