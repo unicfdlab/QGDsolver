@@ -74,8 +74,8 @@
             qgdFlux
             (
                 diffusiveFlux[iCmpt],
-                Hi,
-                Hif
+                Ei, //Hi
+                Eif //Hif
             );
         phiQ +=
             // contribution due to casting diffusion term from temperature to system enthalpy

@@ -64,7 +64,7 @@ autoPtr<fvscStencil> fvscStencil::New
 {
     Info<< "Selecting finite volume surface calculus stencil type " << fvscType << endl;
     
-    componentsConstructorTable::iterator cstrIter =
+    auto cstrIter =
         componentsConstructorTablePtr_->find(fvscType);
     
     if (cstrIter == componentsConstructorTablePtr_->end())
