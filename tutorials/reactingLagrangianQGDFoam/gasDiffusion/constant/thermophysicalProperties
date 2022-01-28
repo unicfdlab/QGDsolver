@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  v1912                                 |
-|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -19,20 +19,20 @@ thermoType
 {
     type            hePsiQGDThermo;
     mixture         reactingMixture;
-    transport       sutherland;
-    thermo          janaf;
+    transport       const;
+    thermo          eConst;
     energy          sensibleInternalEnergy;
     equationOfState perfectGas;
     specie          specie;
 }
 
-inertSpecie N2;
+inertSpecie H2;
 
 chemistryReader foamChemistryReader;
 
-foamChemistryFile "<constant>/reactions";
+foamChemistryFile "$FOAM_CASE/constant/reactions";
 
-foamChemistryThermoFile "<constant>/thermo.compressibleGas";
+foamChemistryThermoFile "$FOAM_CASE/constant/thermo.compressibleGas";
 
 QGD
 {

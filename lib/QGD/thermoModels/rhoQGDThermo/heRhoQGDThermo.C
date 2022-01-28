@@ -38,14 +38,6 @@ Group
 template<class BasicPsiThermo, class MixtureType>
 void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 {
-    if (this->isochoric())
-    {
-        FatalErrorInFunction<<
-        "void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()" << endl <<
-        " this type of thermo is not intended for isochoric EoS" << endl <<
-        " density MUST depend on pressure" << endl << abort(FatalError);
-    }
-
     if (this->correctPsiOnly_)
     {
         calculatePsi();

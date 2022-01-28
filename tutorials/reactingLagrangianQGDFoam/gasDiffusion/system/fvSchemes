@@ -48,15 +48,13 @@ snGradSchemes
 fluxRequired
 {
     default	none;
-    O2          yes;
-    H2O         yes;
-    CH4         yes;
-    CO2         yes;
+    H2          yes;
+    H           yes;
 }
 
 fvsc
 {
-    default    leastSquares;
+    default    GaussVolPoint;
 }
 
 // ************************************************************************* //

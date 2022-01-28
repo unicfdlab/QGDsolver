@@ -22,7 +22,7 @@ solvers
         solver diagonal;
     }
     
-    "(U|e|h|O2|H2O|CH4|CO2)"
+    "(U|e|h|H2|H)"
     {
         solver          PCG;
         preconditioner  DIC;

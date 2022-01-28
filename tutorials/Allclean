@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+    PATH_TO_SCRIPT=$PWD/Allclean
+#    THIS_DIR=$PWD
+    export PATH_TOSCRIPT
+else
+    PATH_TO_SCRIPT=$1
+#    THIS_DIR=$2
+fi
+
+DIRS=`ls `
+
+for DIR in $DIRS
+do
+    if [ -d $DIR ]
+    then
+        cd $DIR
+        $PATH_TO_SCRIPT $PATH_TO_SCRIPT #"$THIS_DIR/$CFILE"
+        cd ../
+    else
+        if [ $PWD/$DIR = $PATH_TO_SCRIPT ]
+        then
+            echo "myself"
+        else
+            if [ "$DIR" = "Allclean" ]
+            then
+                echo "Cleaning $PWD"
+                ./Allclean
+            fi
+        fi
+    fi
+done
+
+
+#
+#END-OF-FILE
+#
+
