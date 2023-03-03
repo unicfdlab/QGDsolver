@@ -17,25 +17,25 @@ FoamFile
 
 application     reactingLagrangianQGDFoam;
 
-startFrom       latestTime;
+startFrom       startTime;
 
 startTime       0;
 
 stopAt          endTime;
 
-endTime         0.01;
+endTime         0.25;
 
 deltaT          1e-6;
 
 writeControl    adjustableRunTime;
 
-writeInterval   1e-4; //0.05;
+writeInterval   0.002;
 
 purgeWrite      0;
 
 writeFormat     ascii;
 
-writePrecision  12;
+writePrecision  6;
 
 writeCompression off;
 
@@ -45,10 +45,9 @@ timePrecision   6;
 
 runTimeModifiable true;
 
-adjustTimeStep  true;
+adjustTimeStep  yes;
 
-maxCo 0.5;
+maxCo           0.5;
 
-maxDeltaT 1e-3;
 
 // ************************************************************************* //

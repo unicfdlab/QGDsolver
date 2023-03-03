@@ -64,7 +64,7 @@ autoPtr<QGDCoeffs> QGDCoeffs::New
 {
     Info<< "Selecting QGD coeffs evaluation approach type " << qgdCoeffsType << endl;
     
-    dictionaryConstructorTable::iterator cstrIter =
+    auto cstrIter =
         dictionaryConstructorTablePtr_->find(qgdCoeffsType);
     
     if (cstrIter == dictionaryConstructorTablePtr_->end())

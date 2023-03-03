@@ -59,7 +59,7 @@ QGD
     QGDCoeffs	constTau;
     constTauDict
     {
-	Tau	1e-4;
+	Tau	1e-5;
     }
     /*
     QGDCoeffs HbyUQHD;

@@ -10,6 +10,16 @@ else
 fi
 cd ../
 
+cd rhoQGDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "rhoQGDFoam compiled"
+else
+    echo "rhoQGDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
 cd QHDFoam; ./Allwmake
 rc=$?
 if [ "$rc" = '0' ]; then

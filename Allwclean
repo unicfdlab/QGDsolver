@@ -4,6 +4,8 @@ cd lib; ./Allwclean; cd ../
 
 cd app; ./Allwclean; cd ../
 
+cd tutorials; ./Allwclean; cd ../
+
 #
 #END-OF-FILE
 #

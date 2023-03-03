@@ -67,6 +67,9 @@ class heRhoQGDThermo
         //- Calculate the thermo variables
         void calculate();
 
+        //- Calculates only new compressibility
+        void calculatePsi();
+
         //- Construct as copy (not implemented)
         heRhoQGDThermo(const heRhoQGDThermo<BasicPsiThermo, MixtureType>&);
 
@@ -102,10 +105,10 @@ public:
 
         //- Update properties
         virtual void correct();
-        
+
     // Accesss functions
 
-    //virtual tmp<volScalarField> gamma() const;
+    virtual tmp<volScalarField> gamma() const;
 
 };
 

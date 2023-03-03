@@ -5,6 +5,8 @@ cd "${0%/*}" || exit                                # Run from this directory
 
 ./makeMesh
 
+touch rotor2D.foam
+
 cat system/controlDict.init > system/controlDict
 cat constant/thermophysicalProperties.init > constant/thermophysicalProperties
 runApplication $(getApplication)

@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            hePsiQGDThermo;
+    mixture         reactingMixture;
+    transport       const;
+    thermo          eConst;
+    energy          sensibleInternalEnergy;
+    equationOfState perfectGas;
+    specie          specie;
+}
+
+inertSpecie He;
+
+chemistryReader foamChemistryReader;
+
+foamChemistryFile "$FOAM_CASE/constant/reactions";
+
+foamChemistryThermoFile "$FOAM_CASE/constant/thermo.compressibleGas";
+
+ScNumbers
+(
+    (He 1)
+    (air 1)
+);
+
+QGD
+{
+    pRefCell		0;
+    pRefValue		1e5;
+    implicitDiffusion true;
+    QGDCoeffs constScPrModel1;
+    constScPrModel1Dict
+    {
+        ScQGD 0.1;
+        PrQGD 1;
+    }
+    
+}
+
+
+// ************************************************************************* //

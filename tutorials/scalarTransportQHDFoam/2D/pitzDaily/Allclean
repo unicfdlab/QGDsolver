@@ -7,19 +7,19 @@ cd ${0%/*} || exit 1    # Run from this directory
 cleanCase
 cleanSamples
 
-if [[ -f total.log ]]; then
+if [ -f total.log ]; then
     rm total.log
 fi
 
-if [[ -f failed.txt ]]; then
+if [ -f failed.txt ]; then
     rm failed.txt
 fi
 
-if [[ -f successful.txt ]]; then
+if [ -f successful.txt ]; then
     rm successful.txt
 fi
 
-if [[ -f EndCalculations.end ]]; then
+if [ -f EndCalculations.end ]; then
     rm EndCalculations.end
 fi
 

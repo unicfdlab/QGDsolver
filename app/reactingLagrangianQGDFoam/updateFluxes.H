@@ -4,7 +4,7 @@ gradUf = fvsc::grad(U);
 
 divUf  = tr(gradUf);
 
-gradef = fvsc::grad(e);
+gradef = fvsc::grad(e); //*Cpf/gammaf;
 
 gradRhof = fvsc::grad(rho);
 
@@ -124,7 +124,7 @@ forAll(Y, i)
         surfaceScalarField dydtflux = - phi * tauQGDf
             * (Uf & gradYf);
         phiJmY[i] += dydtflux;
-        diffusiveFlux[i] = dydtflux;
+        diffusiveFlux[i] = 0.0*dydtflux;
         //inert specie flux will be updated in QGDYEqn.H
     }
     // QGD-141/142 bug hotfix

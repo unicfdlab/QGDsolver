@@ -9,6 +9,7 @@ EXE_INC = \
     -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/functions/Polynomial \
     -I$(LIB_SRC)/thermophysicalModels/thermophysicalFunctions/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/thermophysicalProperties/lnInclude \
     -I$(LIB_SRC)/thermophysicalModels/chemistryModel/lnInclude \
     -I$(LIB_SRC)/turbulenceModels/compressible/lnInclude \
     -I../QGD/lnInclude
@@ -20,4 +21,5 @@ LIB_LIBS = \
     -lcompressibleTransportModels \
     -lfluidThermophysicalModels \
     -lreactionThermophysicalModels \
+    -lthermophysicalProperties \
     -lspecie

@@ -38,6 +38,12 @@ Group
 template<class BasicPsiThermo, class MixtureType>
 void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 {
+    if (this->correctPsiOnly_)
+    {
+        calculatePsi();
+        return;
+    }
+
     const scalarField& hCells = this->he();
     const scalarField& pCells = this->p_;
 
@@ -138,7 +144,53 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     this->correctQGD(this->mu_, this->alpha_);
 }
 
+template<class BasicPsiThermo, class MixtureType>
+void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculatePsi()
+{
+    const scalarField& TCells = this->T_.primitiveField();
+    const scalarField& pCells = this->p_;
 
+    scalarField& psiCells = this->psi_.primitiveFieldRef();
+    scalarField& rhoCells = this->rho_.primitiveFieldRef();
+
+    forAll(TCells, celli)
+    {
+        const typename MixtureType::thermoType& mixture_ =
+            this->cellMixture(celli);
+
+        psiCells[celli] = mixture_.psi(pCells[celli], TCells[celli]);
+        rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
+    }
+
+    volScalarField::Boundary& pBf =
+        this->p_.boundaryFieldRef();
+
+    volScalarField::Boundary& TBf =
+        this->T_.boundaryFieldRef();
+
+    volScalarField::Boundary& psiBf =
+        this->psi_.boundaryFieldRef();
+
+    volScalarField::Boundary& rhoBf =
+        this->rho_.boundaryFieldRef();
+
+    forAll(this->T_.boundaryField(), patchi)
+    {
+        fvPatchScalarField& pp = pBf[patchi];
+        fvPatchScalarField& pT = TBf[patchi];
+        fvPatchScalarField& ppsi = psiBf[patchi];
+        fvPatchScalarField& prho = rhoBf[patchi];
+    
+        forAll(pT, facei)
+        {
+            const typename MixtureType::thermoType& mixture_ =
+                this->patchFaceMixture(patchi, facei);
+    
+            ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
+            prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+        }
+    }
+}
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>
@@ -199,11 +251,11 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::correct()
     }
 }
 
-//template<class BasicPsiThermo, class MixtureType>
-//Foam::tmp<Foam::volScalarField> Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
-//{
-//    return this->gamma_;
-//}
+template<class BasicPsiThermo, class MixtureType>
+Foam::tmp<Foam::volScalarField> Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::gamma() const
+{
+    return this->gamma_;
+}
 
 
 // ************************************************************************* //

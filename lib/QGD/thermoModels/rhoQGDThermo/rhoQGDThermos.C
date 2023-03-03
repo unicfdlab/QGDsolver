@@ -41,6 +41,8 @@ Description
 
 #include "specie.H"
 #include "perfectGas.H"
+#include "perfectFluid.H"
+#include "covolumeGas.H"
 #include "rhoConst.H"
 #include "PengRobinsonGas.H"
 #include "hConstThermo.H"
@@ -66,6 +68,23 @@ namespace Foam
 {
 
 /* * * * * * * * * * * * * * Internal-energy-based * * * * * * * * * * * * * */
+
+/*
+ * Constant density
+ *
+ */
+
+makeThermo
+(
+    rhoQGDThermo,
+    heRhoQGDThermo,
+    pureMixture,
+    constTransport,
+    sensibleInternalEnergy,
+    hConstThermo,
+    rhoConst,
+    specie
+);
 
 /*
  *
@@ -121,9 +140,21 @@ makeThermo
     specie
 );
 
+makeThermo
+(
+    rhoQGDThermo,
+    heRhoQGDThermo,
+    pureMixture,
+    constTransport,
+    sensibleInternalEnergy,
+    hConstThermo,
+    covolumeGas,
+    specie
+);
+
 /*
  *
- * const density gas EOS
+ * Perfect fluid EOS
  *
  */
 
@@ -135,9 +166,10 @@ makeThermo
     constTransport,
     sensibleInternalEnergy,
     hConstThermo,
-    rhoConst,
+    perfectFluid,
     specie
 );
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

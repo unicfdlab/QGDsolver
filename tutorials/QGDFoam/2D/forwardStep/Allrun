@@ -6,6 +6,7 @@ cd ${0%/*} || exit 1    # Run from this directory
 
 rm -rf 0
 cp -rf 0.orig/ 0/
+touch forwardStep.foam
 runApplication blockMesh
 runApplication `getApplication`
 
