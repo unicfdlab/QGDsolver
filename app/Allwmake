@@ -110,6 +110,16 @@ else
 fi
 cd ../
 
+cd reactingQGDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "reactingQGDFoam compiled"
+else
+    echo "reactingQGDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
 cd scalarTransportQHDFoam; ./Allwmake
 rc=$?
 if [ "$rc" = '0' ]; then

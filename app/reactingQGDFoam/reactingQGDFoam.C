@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------------------------*\
   =========                 |
   \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
@@ -11,49 +12,42 @@
 -------------------------------------------------------------------------------
 License
     This file is part of QGDsolver library, based on OpenFOAM+.
+
     OpenFOAM is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
+
     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
     for more details.
+
     You should have received a copy of the GNU General Public License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
-Application
-    QHDFoam
-Description
-    Solver for unsteady 3D turbulent flow of incompressible viscous fluid 
-    governed by quasi-hydrodynamic dynamic (QHD) equations.
 
-    QHD system of equations has been developed by scientific group from
+Application
+    reactinLagrangianQGDFoam
+
+Description
+    Solver for unsteady 3D turbulent flow of perfect gases mixture governed by
+    quasi-gas dynamic (QGD) equations at all Mach numbers (from 0 to
+    infinity) coupled with chemistry reactions.
+
+    QGD system of equations has been developed by scientific group from
     Keldysh Institute of Applied Mathematics,
     see http://elizarova.imamod.ru/selection-of-papers.html
-    A comprehensive description of QGD equations and their applications
-    can be found here:
-    \verbatim
-    Elizarova, T.G.
-    "Quasi-Gas Dynamic equations"
-    Springer, 2009
-    \endverbatim
-    A brief of theory on QGD and QHD system of equations:
-    \verbatim
-    Elizarova, T.G. and Sheretov, Y.V.
-    "Theoretical and numerical analysis of quasi-gasdynamic and quasi-hydrodynamic
-    equations"
-    J. Computational Mathematics and Mathematical Physics, vol. 41, no. 2, pp 219-234,
-    2001
-    \endverbatim
 
     Developed by UniCFD group (www.unicfd.ru) of ISP RAS (www.ispras.ru).
+
+
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "QHD.H"
+#include "mcQGD.H"
+#include "fvOptions.H"
 #include "turbulentFluidThermoModel.H"
-#include "turbulentTransportModel.H"
-
+#include "CombustionModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -66,21 +60,29 @@ int main(int argc, char *argv[])
     #include "createTime.H"
     #include "createMesh.H"
     #include "createFields.H"
+    Info << "Basic fields are created" << endl;
     #include "createFaceFields.H"
     #include "createFaceFluxes.H"
     #include "createTimeControls.H"
-
-    turbulence->validate();
+    #include "createFvOptions.H"
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     // Courant numbers used to adjust the time-step
     scalar CoNum = 0.0;
-    
-    Info<< "\nStarting time loop\n" << endl;
+    scalar meanCoNum = 0.0;
 
+    Info<< "\nStarting time loop\n" << endl;
+    
     while (runTime.run())
     {
+        /*
+         *
+         * Update QGD viscosity
+         *
+         */
+        turbulence->correct();
+
         /*
          *
          * Update fields
@@ -93,7 +95,7 @@ int main(int argc, char *argv[])
          * Update fluxes
          *
          */
-       #include "updateFluxes.H"
+        #include "updateFluxes.H"
 
         /*
          *
@@ -101,42 +103,66 @@ int main(int argc, char *argv[])
          *
          */
         #include "readTimeControls.H"
-        #include "QHDCourantNo.H"
+        #include "QGDCourantNo.H"
         #include "setDeltaT-QGDQHD.H"
 
         runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
-
+        
         // --- Store old time values
+        rho.oldTime();
+        rhoU.oldTime();
         U.oldTime();
-        T.oldTime();
-        
-        #include "QHDpEqn.H"
-        
-        #include "QHDUEqn.H"
-        
-        #include "QHDTEqn.H"
-        
-        if (p.needReference())
+        rhoE.oldTime();
+        e.oldTime();
+        forAll(Y,i)
         {
-            p += dimensionedScalar
-            (
-                "p",
-                p.dimensions(),
-                pRefValue - getRefCellValue(p, pRefCell)
-            );
+            Y[i].oldTime();
+        }
+
+        // --- Solve density
+        #include "QGDRhoEqn.H"
+        
+        // --- Solve for mass fractions
+        #include "QGDYEqn2.H"
+        
+        // --- Solve momentum
+        #include "QGDUEqn.H"
+        
+        //--- Solve energy
+        rhoESu == Qdot;
+        #include "addEnergyFluxes.H"
+        #include "QGDEEqn.H"
+        
+        if ( (min(T).value() <= 0.0) || (min(rho).value() <= 0.0) )
+        {
+            U.write();
+            T.write();
+            rho.write();
+            forAll(Y, i)
+                Y[i].write();
+            p.write();
         }
         
-//        thermo.correct(); //?
-        turbulence->correct();
+        thermo.correct();
+        
+        // Correct pressure
+        p.ref() =
+            rho()
+           /psi();
+        p.correctBoundaryConditions();
+        rho.boundaryFieldRef() = psi.boundaryField()*p.boundaryField();
         
         runTime.write();
+        if (runTime.outputTime())
+        {
+            turbulence->alphaEff()().write();
+        }
         
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
-        
     }
 
     Info<< "End\n" << endl;
