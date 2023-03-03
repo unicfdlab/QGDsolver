@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
             );
         }
         
-        thermo.correct();
+//        thermo.correct(); //?
         turbulence->correct();
         
         runTime.write();

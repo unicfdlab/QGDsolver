@@ -70,16 +70,6 @@ else
 fi
 cd ../
 
-cd reactingQGDFoam; ./Allwmake
-rc=$?
-if [ "$rc" = '0' ]; then
-    echo "reactingQGDFoam compiled"
-else
-    echo "reactingQGDFoam compiled with errors"
-    exit -1
-fi
-cd ../
-
 cd particlesQHDFoam; ./Allwmake
 rc=$?
 if [ "$rc" = '0' ]; then
@@ -116,6 +106,16 @@ if [ "$rc" = '0' ]; then
     echo "reactingLagrangianQGDFoam compiled"
 else
     echo "reactingLagrangianQGDFoam compiled with errors"
+    exit -1
+fi
+cd ../
+
+cd reactingQGDFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "reactingQGDFoam compiled"
+else
+    echo "reactingQGDFoam compiled with errors"
     exit -1
 fi
 cd ../

@@ -17,17 +17,18 @@ FoamFile
 
 solvers
 {
-    "(rho|rhoU|rhoE)"
+    "(U|p)"
     {
-        solver diagonal;
+        solver         PCG;
+        preconditioner DIC;
+        tolerance      1e-9;
+        relTol         0;
     }
-    
-    "(U|e)"
+    T
     {
-        solver   smoothSolver;
-        smoother DIC;
-        tolerance 1e-9;
-        relTol    0;
+        $p;
+        nAlphaCorr      1;
+        nAlphaSubCycles 1;
     }
 }
 
