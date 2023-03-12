@@ -86,10 +86,9 @@ SourceFiles
             Yi.max(0.0);
             Yt += Yi;
         }
-        
-        Y[inertIndex] = scalar(1) - Yt;
-        Y[inertIndex].max(0.0);
     }
+    Y[inertIndex] = scalar(1) - Yt;
+    Y[inertIndex].max(0.0);
 }
 
 //
