@@ -20,6 +20,16 @@ else
 fi
 cd ../
 
+cd ShallowWaterQGD; wmake libso
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "shallowWaterQGD compiled"
+else
+    echo "shallowWaterQGD compiled with errors"
+    exit -1
+fi
+cd ../
+
 cd CombustionQGD; wmake libso
 rc=$?
 if [ $rc -eq 0 ]; then

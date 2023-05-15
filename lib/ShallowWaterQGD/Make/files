@@ -1,0 +1,5 @@
+/* QGD Thermo models & coeffs */
+thermoModels/shallowWaterQGDThermo/shallowWaterQGDThermo.C
+QGDCoeffs/RSWETau/RSWETau.C
+
+LIB = $(FOAM_USER_LIBBIN)/libShallowWaterQGD

@@ -22,6 +22,8 @@ cd reactingLagrangianQGDFoam; ./Allwclean; cd ../
 
 cd scalarTransportQHDFoam; ./Allwclean; cd ../
 
+cd RSWEFoam; ./Allwclean; cd ../
+
 cd utils/selectBadCells; wclean; cd ../../
 
 exit 0
