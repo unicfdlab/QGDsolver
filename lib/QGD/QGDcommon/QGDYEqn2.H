@@ -55,8 +55,6 @@ SourceFiles
                     fvm::laplacian(muf/ScNumbers[i],Yi)
                     ==
                     combustion->R(Yi)
-                    +
-                    parcels.SYi(i, Yi)
                 );
                 
                 YEqn.solve();
@@ -75,8 +73,6 @@ SourceFiles
                     fvc::laplacian(muf/ScNumbers[i],Yi)
                     ==
                     combustion->R(Yi)
-                    +
-                    parcels.SYi(i, Yi)
                 );
                 
                 diffusiveFlux[i] += (muf / ScNumbers[i]) * fvc::snGrad(Yi.oldTime()) * mesh.magSf();
