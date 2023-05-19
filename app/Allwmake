@@ -120,6 +120,16 @@ else
 fi
 cd ../
 
+cd RSWEFoam; ./Allwmake
+rc=$?
+if [ "$rc" = '0' ]; then
+    echo "RSWEFoam compiled"
+else
+    echo "RSWEFoam compiled with errors "
+    exit -1
+fi
+cd ../
+
 cd utils/selectBadCells; wmake
 rc=$?
 if [ "$rc" = '0' ]; then

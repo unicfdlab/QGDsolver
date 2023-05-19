@@ -1,0 +1,12 @@
+EXE_INC = \
+    -Wno-deprecated-copy \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I../QGD/lnInclude
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lfvOptions \
+    -lspecie \
+    -lturbulenceModels \
+    -lincompressibleTransportModels \
+    -lincompressibleTurbulenceModels

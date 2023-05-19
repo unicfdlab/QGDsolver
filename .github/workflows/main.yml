@@ -1,0 +1,30 @@
+name: Update local forks from unicfd
+# This workflow is triggered on pushes to the repository.
+#on:[push]
+
+on:
+  schedule:
+    - cron: '30 5 * * 2'
+
+jobs:
+  sync:
+    # Job name is Greeting
+    runs-on: ubuntu-latest
+    steps:
+     - name: Fork Sync
+       uses: TG908/fork-sync@v1.1.7
+       with:
+        # Owner of the forked repository
+        owner: unicfdlab # optional
+        # Token for the github API
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # Branch to track
+        head: exper/digitef-dev-1912 # optional, default is master
+        # Branch to keep updated
+        base: exper/digitef-dev-1912 # optional, default is master
+        # Merge method to use
+        #merge_method: "merge" # optional, default is merge
+        # The title of the pull request
+        #pr_title: "" # optional, default is Fork Sync
+        # The message in the pull request
+        pr_message: "action to update fork" # optional

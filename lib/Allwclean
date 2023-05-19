@@ -8,6 +8,8 @@ cd CombustionQGD; wclean; wcleanLnIncludeAll; cd ../
 
 cd ChemistryQGD; wclean; wcleanLnIncludeAll; cd ../
 
+cd ShallowWaterQGD; wclean; wcleanLnIncludeAll; cd ../
+
 exit 0
 
 #
