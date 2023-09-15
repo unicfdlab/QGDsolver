@@ -415,6 +415,11 @@ const Foam::surfaceScalarField& Foam::qgd::QGDCoeffs::tauQGDf() const
     return tauQGDf_;
 }
 
+const Foam::volScalarField& Foam::qgd::QGDCoeffs::aQGD() const
+{
+    return aQGD_;
+}
+
 }; //namespace qgd
 
 }; //namespace Foam
