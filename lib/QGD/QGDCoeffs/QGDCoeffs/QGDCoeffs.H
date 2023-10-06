@@ -173,6 +173,9 @@ public:
     //-
     const volScalarField& alphauQGD() const;
 
+    //-
+    const volScalarField& aQGD() const;
+
 };
 
 }
