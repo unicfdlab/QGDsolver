@@ -125,6 +125,7 @@ int main(int argc, char *argv[])
         }
 
         // --- Solve density
+        rhoSu = parcels.Srho(rho);
         #include "QGDRhoEqn.H"
         
         // --- Solve for mass fractions
