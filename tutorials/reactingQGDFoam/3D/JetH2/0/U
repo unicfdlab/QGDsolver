@@ -22,18 +22,8 @@ boundaryField
 {
     inlet
     {
-//        type            fixedValue;
-//        value           uniform (1362 0 0) ;
-
-        type             uniformFixedValue;
-        uniformValue     table
-        (
-          (0         (100  0 0))
-          (0.000779  (100  0 0))
-          (0.0008196 (1255 0 0))
-          (0.0008792 (1433 0 0))
-          (0.007     (1433 0 0))
-        );
+        type            fixedValue;
+        value           uniform (1305 0 0);
     }
 
     outlet
@@ -48,14 +38,12 @@ boundaryField
 
     sym
     {
-         type             symmetry; //zeroGradient;
+         type             symmetry;
     }
 
-    leftwall 
+    leftwall
     {
         type            noSlip;
-//        type            fixedValue;
-//        value           uniform (0.1 0 0);
     }
 }
 

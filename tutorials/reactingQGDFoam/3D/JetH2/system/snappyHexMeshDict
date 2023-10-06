@@ -32,8 +32,8 @@ geometry
     inlet
     {
         type searchableCylinder;
-        point1 ( 0 0 0);
-        point2 ( -0.01  0 0);
+        point1 (0 0 0);
+        point2 (-0.01  0 0);
         radius 0.001;
         name inlet;
     }
@@ -42,16 +42,24 @@ geometry
     {
         type searchableCylinder;
         point1 (0 0 0);
-        point2 (0.025 0 0);
-        radius 0.01;
+        point2 (0.02 0 0);
+        radius 0.013;
     }
 
     refCylinder2
     {
         type searchableCylinder;
         point1 (0 0 0);
-        point2 (0.015 0 0);
-        radius 0.0075;
+        point2 (0.0132 0 0);
+        radius 0.006;
+    }
+
+    refCylinder2
+    {
+        type searchableCylinder;
+        point1 (0 0 0);
+        point2 (0.012 0 0);
+        radius 0.004;
     }
 }
 
@@ -91,7 +99,7 @@ castellatedMeshControls
     // Number of buffer layers between different levels.
     // 1 means normal 2:1 refinement restriction, larger means slower
     // refinement.
-    nCellsBetweenLevels 6;
+    nCellsBetweenLevels 5;
 
 
 
@@ -146,7 +154,13 @@ castellatedMeshControls
         refCylinder
         {
             mode        inside;
-            levels      ((1E15 6));//msh2_2 6//msh2 5 //msh1 4
+            levels      ((1E15 3));//msh2_2 6//msh2 5 //msh1 4
+        }
+
+        refCylinder3
+        {
+            mode        inside;
+            levels      ((1E15 4));//msh2_2 6//msh2 5 //msh1 4
         }
 
         refCylinder2

@@ -37,10 +37,6 @@ inertSpecie air;
 
 liquids
 {
-//    H2O
-//    {
-//        defaultCoeffs yes;
-//    }
 }
 
 solids
