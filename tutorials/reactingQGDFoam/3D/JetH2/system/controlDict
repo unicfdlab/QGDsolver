@@ -1,0 +1,68 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     QQDFoam;
+
+startFrom       latestTime;//startTime;
+
+startTime       0;//0.000119;
+
+stopAt          endTime;//writeNow;  //endTime;
+
+endTime         0.004;
+
+deltaT          1e-8;//2e-05;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-4;
+
+cycleWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  true;
+
+maxCo           0.2;
+//cTau            0.5;
+
+maxDeltaT       1;
+
+functions
+{
+    name4me
+        {
+            type           writeObjects;
+            libs           (utilityFunctionObjects);
+            objects        (thermo:mu muQGD);
+            writeOption    anyWrite;
+            outputControl  adjustableRunTime;
+            outputInterval 1e-4;
+        }
+}
+
+// ************************************************************************* //
