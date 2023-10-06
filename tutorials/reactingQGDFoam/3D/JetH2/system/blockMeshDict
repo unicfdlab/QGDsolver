@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | flagmanFoam:    The Open Source CFD Toolbox     |
+|  \\    /   O peration     | Version:        v2012                           |
+|   \\  /    A nd           | UniCFDlab:      https://unicfd.ru               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2012;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      blockMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale    0.001;
+
+vertices
+(
+    ( 0     -128 0 )
+    ( 256.0 -128 0 )
+    ( 256.0  128 0 )
+    ( 0      128 0 )
+    ( 0     -128 128 )
+    ( 256.0 -128 128 )
+    ( 256.0  128 128 )
+    ( 0      128 128 )
+);
+
+blocks
+(
+    hex    ( 0 1 2 3 4 5 6 7 )  ( 20 20 10 )  simpleGrading  ( 1 1 1 )
+);
+
+edges
+(
+);
+
+boundary
+(
+    topAndBottom
+    {
+        type    patch;
+        faces
+        (
+            ( 0 4 5 1 )
+            ( 7 3 2 6 )
+        );
+    }
+
+    leftwall
+    {
+        type    patch;
+        faces
+        (
+            ( 0 3 7 4 )
+        );
+    }
+
+    outlet
+    {
+        type    patch;
+        faces
+        (
+            ( 2 1 5 6 )
+        );
+    }
+
+    sym
+    {
+        type    symmetry;
+        faces
+        (
+            ( 0 1 2 3 )
+        );
+    }
+
+    back
+    {
+        type    patch;
+        faces
+        (
+            ( 4 7 6 5 )
+        );
+    }
+);
+
+// ************************************************************************* //
