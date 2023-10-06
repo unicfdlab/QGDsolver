@@ -83,7 +83,14 @@ volVectorField U
 
 volScalarField T0
 (
-    "T0",
+    IOobject
+    (
+        "T0",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+    ),
     T
 );
 

@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+//Iner state
+defaultFieldValues
+(
+    volScalarFieldValue p   1e5
+    volScalarFieldValue T   348.4
+    volScalarFieldValue O2  0.21
+    volScalarFieldValue N2  0.79
+    volScalarFieldValue R22 0.0
+    volVectorFieldValue U ( 0 0 0 )
+);
+
+//Right state
+regions
+(
+    surfaceToCell
+    {
+        file            "./constant/triSurface/bubble.stl";
+        outsidePoints   ((0.1 0 0));    // definition of outside
+        includeCut      true;              // cells cut by surface
+        includeInside   true;              // cells not on outside of surf
+        includeOutside  false;              // cells on outside of surf
+        nearDistance    -1;                 // cells with centre near surf
+                                            // (set to -1 if not used)
+        curvature       -100;                // cells within nearDistance
+                                            // and near surf curvature
+                                            // (set to -100 if not used)
+
+        fieldValues
+        (
+            volScalarFieldValue p   1e5
+            volScalarFieldValue T   329.77
+            volScalarFieldValue O2  0.0
+            volScalarFieldValue N2  0.0
+            volScalarFieldValue R22 1.0
+            volVectorFieldValue U ( 0 0 0 )
+        );
+    }
+
+);
+
+// ************************************************************************* //
