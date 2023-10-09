@@ -24,7 +24,6 @@ boundaryField
     {
         type            fixedValue;
         value           uniform 293.0;
-//        type            zeroGradient;
     }
 
     outlet
@@ -39,10 +38,10 @@ boundaryField
 
     sym
     {
-        type            symmetry; //zeroGradient;
+        type            symmetry;
     }
 
-    leftwall 
+    leftwall
     {
         type            zeroGradient;
     }

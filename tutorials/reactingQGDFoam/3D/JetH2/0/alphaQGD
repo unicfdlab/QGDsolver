@@ -38,7 +38,7 @@ boundaryField
 
     sym
     {
-        type             symmetry; //zeroGradient;
+        type             symmetry;
     }
 
     back
