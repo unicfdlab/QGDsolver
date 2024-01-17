@@ -51,7 +51,7 @@ snGradSchemes
 }
 fvsc
 {
-    default         leastSquares;
+    default          leastSqures;
 }
 fluxRequired
 {

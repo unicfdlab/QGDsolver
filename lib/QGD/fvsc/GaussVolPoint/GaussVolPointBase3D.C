@@ -44,7 +44,7 @@ Foam::fvsc::GaussVolPointBase3D::GaussVolPointBase3D(const fvMesh& mesh)
     (
         volPointInterpolation::New(mesh)
     ),
-    nfRef_(mesh.thisDb().lookupObject<surfaceVectorField>("nf")),
+    nfRef_(mesh.unitSf()),
     bgfid_(mesh.boundary().size()),
     processorPatch_(mesh.boundary().size(), false),
     qf_(0),

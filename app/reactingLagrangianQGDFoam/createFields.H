@@ -135,7 +135,7 @@ IOdictionary gravitationalProperties
     )
 );
 
-const dimensionedVector g(gravitationalProperties.lookup("g"));
+const dimensionedVector g(gravitationalProperties.get<dimensionedVector>("g"));
 
 #include "createClouds.H"
 
