@@ -37,7 +37,7 @@ Description
 
 Foam::fvsc::GaussVolPointBase1D::GaussVolPointBase1D(const fvMesh& mesh)
 :
-    nfRef_(mesh.thisDb().lookupObject<surfaceVectorField>("nf"))
+    nfRef_(mesh.unitSf())
 {
 };
 
