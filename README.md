@@ -29,10 +29,12 @@ Brief description of the framework is presented here: https://github.com/unicfdl
 
 The repository is organized as follows:
 * *master* branch is used for the Doxygen-generated documents (not finished yet) and last test report
-* *digitef-dev-ABCD* - latest working version of the framework for OpenFOAM+ version *ABCD*
+* Next branches of the library correspond to OpenFOAM+ versions as follows:
     - [digitef-dev-1912](https://github.com/unicfdlab/QGDsolver/tree/digitef-dev-v1912) for OpenFOAM+ v1912
     - [digitef-dev-2012](https://github.com/unicfdlab/QGDsolver/tree/digitef-dev-v2012) for OpenFOAM+ v2012
-    - [digitef-dev-2012](https://github.com/unicfdlab/QGDsolver/tree/digitef-dev-v2112) for OpenFOAM+ v2112
+    - [digitef-dev-2112](https://github.com/unicfdlab/QGDsolver/tree/digitef-dev-v2112) for OpenFOAM+ v2112
+    - [v2212](https://github.com/unicfdlab/QGDsolver/tree/v2212) for OpenFOAM+ v2212
+    - [v2312](https://github.com/unicfdlab/QGDsolver/tree/v2312) for OpenFOAM+ v2312
 * other branches are for internal use and are not intended for compilation
 
 Source code of releases for OpenFOAM+ are stored in *releases* section, the naming conventions are the same as for repository's branches
