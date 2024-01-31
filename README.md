@@ -33,6 +33,7 @@ The repository is organized as follows:
     - [digitef-dev-1912](https://github.com/unicfdlab/QGDsolver/tree/digitef-dev-v1912) for OpenFOAM+ v1912
     - [digitef-dev-2012](https://github.com/unicfdlab/QGDsolver/tree/digitef-dev-v2012) for OpenFOAM+ v2012
     - [digitef-dev-2112](https://github.com/unicfdlab/QGDsolver/tree/digitef-dev-2112) for OpenFOAM+ v2112
+    - [v2212](https://github.com/unicfdlab/QGDsolver/tree/v2212) for OpenFOAM+ v2212
     - [v2312](https://github.com/unicfdlab/QGDsolver/tree/v2312) for OpenFOAM+ v2312
 * other branches are for internal use and are not intended for compilation
 
