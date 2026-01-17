@@ -305,7 +305,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
             if (Pstream::master())
             {
                 
-                for (label proci = Pstream::firstSlave(); proci <= Pstream::lastSlave(); proci++)
+                for(label proci : Pstream::subProcs())
                 {
                     IPstream fromSlave(Pstream::commsTypes::scheduled, proci);
                     labelHashTable<List<label> > slaveCells;
@@ -357,7 +357,7 @@ void Foam::fvsc::leastSquaresBase::findNeighbours()
         //send accumulated data to slave processes
         if (Pstream::master())
         {
-            for(label proci = Pstream::firstSlave(); proci <= Pstream::lastSlave(); proci++)
+            for(label proci : Pstream::subProcs())
             {
                 OPstream toSlave(Pstream::commsTypes::scheduled, proci);
                 //toSlave << pointProcs_;
