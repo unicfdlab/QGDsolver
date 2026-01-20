@@ -39,6 +39,7 @@ Description
 #include "CombustionModel.H"
 
 #include "psiQGDReactionThermo.H"
+#include "rhoQGDReactionThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -46,6 +47,8 @@ namespace Foam
 {
 
 makeCombustion(psiQGDReactionThermo);
+
+makeCombustion(rhoQGDReactionThermo);
 
 }
 

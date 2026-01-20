@@ -1,0 +1,134 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      reactingCloud1Properties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution
+{
+    active          false;
+    coupled         false;
+    transient       no;
+    calcFrequency   1;
+    maxTrackTime    2;
+    maxCo           0.3;
+    cellValueSourceCorrection on;
+
+
+    sourceTerms
+    {
+        resetOnStartup  false;
+        schemes
+        {
+            rho             explicit 1;
+            U               explicit 1;
+            Yi              explicit 1;
+            h               explicit 1;
+            radiation       explicit 1;
+        }
+    }
+
+    interpolationSchemes
+    {
+        rho             cell;
+        U               cellPoint;
+        thermo:mu       cell;
+        T               cell;
+        Cp              cell;
+        kappa           cell;
+        p               cell;
+    }
+
+    integrationSchemes
+    {
+        U               Euler;
+        T               analytical;
+    }
+}
+
+
+constantProperties
+{
+    rho0            1000;//Particle density (overwritten by composition)
+    T0              303; //Initial particle temperature
+    Cp0             4500; //Initial particle Cp (overwritten by composition)
+
+    hRetentionCoeff 0;
+    constantVolume  true;
+}
+
+
+subModels
+{
+    particleForces
+    {}
+
+    injectionModels
+    {}
+
+    dispersionModel none;
+
+    patchInteractionModel none;
+
+    heatTransferModel none;
+
+    compositionModel none;
+
+    phaseChangeModel none;
+
+    stochasticCollisionModel none;
+
+    surfaceFilmModel none;
+
+    radiation       off;
+
+    standardWallInteractionCoeffs
+    {
+        type            rebound;
+    }
+
+    RanzMarshallCoeffs
+    {
+        BirdCorrection  off;
+    }
+    
+    heterogeneousReactingModel  none;
+    
+    singleMixtureFractionCoeffs
+    {
+        phases
+        (
+            gas
+            {
+            }
+            liquid
+            {
+            }
+            solid
+            {
+            }
+        );
+        YGasTot0        0;
+        YLiquidTot0     0;
+        YSolidTot0      1;
+    }
+}
+
+
+cloudFunctions
+{
+}
+
+
+// ************************************************************************* //

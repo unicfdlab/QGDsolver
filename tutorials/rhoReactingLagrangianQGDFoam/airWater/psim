@@ -1,0 +1,216 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _1d8f0d55f7-20231221 OPENFOAM=2312 version=v2312
+Arch   : "LSB;label=32;scalar=64"
+Exec   : rhoReactingLagrangianQGDFoam
+Date   : Jun 10 2024
+Time   : 00:22:49
+Host   : m-lenovo
+PID    : 2601374
+I/O    : uncollated
+Case   : /home/matvey-l/data/mkraposhin-github/QGDsolver-github/tutorials/rhoReactingLagrangianQGDFoam/airWater
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Reading thermophysical properties
+
+Selecting thermodynamics package 
+{
+    type            heRhoQGDThermo;
+    mixture         reactingMixture;
+    transport       const;
+    thermo          eConst;
+    energy          sensibleInternalEnergy;
+    equationOfState perfectFluid;
+    specie          specie;
+}
+
+Selecting QGD coeffs evaluation approach type constScPrModel1
+Selecting chemistryReader foamChemistryReader
+    elements not defined in "/home/matvey-l/data/mkraposhin-github/QGDsolver-github/tutorials/rhoReactingLagrangianQGDFoam/airWater/constant/reactions"
+Creating component thermo properties:
+    multi-component carrier - 2 species
+    no liquid components
+    no solid components
+Creating density field
+Creating turbulence model
+
+Selecting turbulence model type laminar
+Selecting laminar stress model Stokes
+
+Reading gravitationalProperties
+
+Constructing reacting cloud
+Cloud source terms will be held constant
+Constructing particle injection models
+Selecting injection model none
+Creating combustion model
+
+Selecting combustion model laminar<rhoChemistryCombustion>
+--> FOAM Warning : 
+    From static Foam::autoPtr<T> Foam::combustionModel::New(typename CombustionModel::reactionThermo&, const Foam::compressibleTurbulenceModel&, const Foam::word&) [with CombustionModel = Foam::CombustionModel<Foam::rhoQGDReactionThermo>; typename CombustionModel::reactionThermo = Foam::rhoQGDReactionThermo]
+    in file /home/matvey-l/data/comp-oss-soft/OpenFOAM-2312/OpenFOAM-v2312/src/combustionModels/lnInclude/combustionModelTemplates.C at line 69
+    Template parameters are no longer required when selecting a combustionModel. This information is now obtained directly from the thermodynamics. Actually selecting combustion model laminar.
+Selecting chemistry solver 
+{
+    solver          noChemistrySolver;
+    method          standard;
+}
+
+StandardChemistryModel: Number of species = 2 and reactions = 0
+    using integrated reaction rate
+Basic fields were created
+Selecting finite volume surface calculus stencil type GaussVolPoint
+No finite volume options present
+
+Starting time loop
+
+Courant Number = 0.0014686899
+maxDeltaT1 = 2.0426368e-06
+deltaT = 1.2e-08
+Time = 1.2e-08
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 2.5382116e-09, Final residual = 3.5402354e-25, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 5.613266e-07, Final residual = 1.0849468e-22, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 2.7009416e-09, Final residual = 1.624517e-28, No Iterations 1
+Pressure has converged in 1501 iterations and to 0.46397793 error
+ExecutionTime = 0.1 s  ClockTime = 0 s
+
+Courant Number = 0.0017624279
+maxDeltaT1 = 2.0426368e-06
+deltaT = 1.44e-08
+Time = 2.64e-08
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 2.8576934e-09, Final residual = 4.2487789e-25, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 8.9014172e-07, Final residual = 7.9386674e-23, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 2.8990982e-09, Final residual = 1.9969288e-25, No Iterations 1
+Pressure has converged in 1501 iterations and to 0.65158249 error
+ExecutionTime = 0.23 s  ClockTime = 0 s
+
+Courant Number = 0.0021149134
+maxDeltaT1 = 2.0426368e-06
+deltaT = 1.728e-08
+Time = 4.368e-08
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 3.011889e-09, Final residual = 1.5023283e-26, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 8.6072021e-07, Final residual = 8.1328688e-23, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 3.0241858e-09, Final residual = 1.4998943e-26, No Iterations 1
+Pressure has converged in 1501 iterations and to 0.92505278 error
+ExecutionTime = 0.4 s  ClockTime = 0 s
+
+Courant Number = 0.0025378961
+maxDeltaT1 = 2.0426368e-06
+deltaT = 2.0736e-08
+Time = 6.4416e-08
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 4.4581558e-09, Final residual = 5.5339644e-31, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 7.3035958e-07, Final residual = 6.37788e-23, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 2.7326131e-09, Final residual = 3.0559835e-25, No Iterations 1
+Pressure has converged in 1501 iterations and to 1.3425478 error
+ExecutionTime = 0.82 s  ClockTime = 1 s
+
+Courant Number = 0.0030454754
+maxDeltaT1 = 2.0426368e-06
+deltaT = 2.48832e-08
+Time = 8.92992e-08
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 8.2571946e-09, Final residual = 2.2942544e-26, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 8.8045648e-07, Final residual = 6.9478412e-23, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 3.7434377e-10, Final residual = 2.6965679e-26, No Iterations 1
+Pressure has converged in 1501 iterations and to 2.0575421 error
+ExecutionTime = 1.01 s  ClockTime = 1 s
+
+Courant Number = 0.0036545704
+maxDeltaT1 = 2.0426368e-06
+deltaT = 2.985984e-08
+Time = 1.19159e-07
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 1.5065017e-08, Final residual = 8.2911714e-25, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 1.0590394e-06, Final residual = 4.6609297e-23, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 1.1564516e-08, Final residual = 3.5969526e-24, No Iterations 1
+Pressure has converged in 1501 iterations and to 3.3241413 error
+ExecutionTime = 1.14 s  ClockTime = 1 s
+
+Courant Number = 0.0043854845
+maxDeltaT1 = 2.0426368e-06
+deltaT = 3.5831808e-08
+Time = 1.54991e-07
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 2.7993491e-08, Final residual = 3.1095847e-26, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 1.2762892e-06, Final residual = 1.8758223e-22, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 6.5223239e-08, Final residual = 8.9681204e-24, No Iterations 1
+Pressure has converged in 1501 iterations and to 5.5188684 error
+ExecutionTime = 1.22 s  ClockTime = 1 s
+
+Courant Number = 0.0052625814
+maxDeltaT1 = 2.0426368e-06
+deltaT = 4.299817e-08
+Time = 1.97989e-07
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 5.29664e-08, Final residual = 8.8982572e-32, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 1.5618988e-06, Final residual = 1.209602e-22, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 3.7594778e-07, Final residual = 9.5478995e-23, No Iterations 1
+Pressure has converged in 1501 iterations and to 8.8258491 error
+ExecutionTime = 1.29 s  ClockTime = 1 s
+
+Courant Number = 0.0063150977
+maxDeltaT1 = 2.0426368e-06
+deltaT = 5.1597804e-08
+Time = 2.49587e-07
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 9.8110529e-08, Final residual = 5.8207294e-24, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 2.4188776e-06, Final residual = 3.2825398e-23, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 2.3296139e-06, Final residual = 9.1238681e-23, No Iterations 1
+Pressure has converged in 1501 iterations and to 9.1839983 error
+ExecutionTime = 1.36 s  ClockTime = 1 s
+
+Courant Number = 0.0077703357
+maxDeltaT1 = 2.0426368e-06
+deltaT = 6.1917364e-08
+Time = 3.11504e-07
+
+diagonal:  Solving for rho, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for air, Initial residual = 1.485584e-07, Final residual = 1.6182357e-25, No Iterations 1
+diagonal:  Solving for rhoUx, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for Ux, Initial residual = 5.5300383e-06, Final residual = 6.5861382e-22, No Iterations 1
+diagonal:  Solving for rhoE, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for e, Initial residual = 1.2810858e-05, Final residual = 1.3087334e-21, No Iterations 1

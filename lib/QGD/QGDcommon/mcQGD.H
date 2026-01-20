@@ -30,6 +30,7 @@ Group
     grpQGDcommon
 \*----------------------------------------------------------------------------*/
 #include "psiQGDReactionThermo.H"
+#include "rhoQGDReactionThermo.H"
 #include "wallFvPatch.H"
 #include "fvsc.H"
 #include "QGDInterpolate.H"

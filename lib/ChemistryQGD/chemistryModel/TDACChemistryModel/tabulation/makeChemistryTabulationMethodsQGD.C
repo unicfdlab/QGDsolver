@@ -37,35 +37,12 @@ Description
 #include "makeChemistryTabulationMethods.H"
 #include "thermoPhysicsTypes.H"
 #include "psiQGDReactionThermo.H"
+#include "rhoQGDReactionThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-    // Chemistry solvers based on sensibleEnthalpy
-    makeChemistryTabulationMethods(psiQGDReactionThermo, constGasHThermoPhysics);
-    makeChemistryTabulationMethods(psiQGDReactionThermo, gasHThermoPhysics);
-    makeChemistryTabulationMethods
-    (
-        psiQGDReactionThermo,
-        constIncompressibleGasHThermoPhysics
-    );
-    makeChemistryTabulationMethods
-    (
-        psiQGDReactionThermo,
-        incompressibleGasHThermoPhysics
-    );
-    makeChemistryTabulationMethods(psiQGDReactionThermo, icoPoly8HThermoPhysics);
-    makeChemistryTabulationMethods(psiQGDReactionThermo, constFluidHThermoPhysics);
-    makeChemistryTabulationMethods
-    (
-        psiQGDReactionThermo,
-        constAdiabaticFluidHThermoPhysics
-    );
-    makeChemistryTabulationMethods(psiQGDReactionThermo, constHThermoPhysics);
-
-
-
     // Chemistry solvers based on sensibleInternalEnergy
 
     makeChemistryTabulationMethods(psiQGDReactionThermo, constGasEThermoPhysics);
@@ -89,8 +66,32 @@ namespace Foam
         constAdiabaticFluidEThermoPhysics
     );
     makeChemistryTabulationMethods(psiQGDReactionThermo, constEThermoPhysics);
+}
 
+namespace Foam
+{
+    // Chemistry solvers based on sensibleInternalEnergy
+    makeChemistryTabulationMethods(rhoQGDReactionThermo, constGasEThermoPhysics);
 
+    makeChemistryTabulationMethods(rhoQGDReactionThermo, gasEThermoPhysics);
+    makeChemistryTabulationMethods
+    (
+        rhoQGDReactionThermo,
+        constIncompressibleGasEThermoPhysics
+    );
+    makeChemistryTabulationMethods
+    (
+        rhoQGDReactionThermo,
+        incompressibleGasEThermoPhysics
+    );
+    makeChemistryTabulationMethods(rhoQGDReactionThermo, icoPoly8EThermoPhysics);
+    makeChemistryTabulationMethods(rhoQGDReactionThermo, constFluidEThermoPhysics);
+    makeChemistryTabulationMethods
+    (
+        rhoQGDReactionThermo,
+        constAdiabaticFluidEThermoPhysics
+    );
+    makeChemistryTabulationMethods(rhoQGDReactionThermo, constEThermoPhysics);
 }
 
 

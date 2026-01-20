@@ -37,6 +37,7 @@ Description
 #include "makeCombustionTypes.H"
 
 #include "psiQGDReactionThermo.H"
+#include "rhoQGDReactionThermo.H"
 #include "laminar.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -45,6 +46,7 @@ namespace Foam
 {
 
 makeCombustionTypes(laminar, psiQGDReactionThermo);
+makeCombustionTypes(laminar, rhoQGDReactionThermo);
 
 }
 

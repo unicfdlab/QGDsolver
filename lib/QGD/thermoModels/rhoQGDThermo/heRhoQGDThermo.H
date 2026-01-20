@@ -70,6 +70,9 @@ class heRhoQGDThermo
         //- Calculates only new compressibility
         void calculatePsi();
 
+        //- Calculates compressibility for multicomponent mixture
+        void multicomponentCalculatePsi();
+
         //- Construct as copy (not implemented)
         heRhoQGDThermo(const heRhoQGDThermo<BasicPsiThermo, MixtureType>&);
 

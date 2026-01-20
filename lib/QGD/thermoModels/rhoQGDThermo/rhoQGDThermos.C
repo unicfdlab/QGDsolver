@@ -48,7 +48,6 @@ Description
 #include "hConstThermo.H"
 #include "eConstThermo.H"
 #include "janafThermo.H"
-#include "sensibleEnthalpy.H"
 #include "sensibleInternalEnergy.H"
 #include "thermo.H"
 

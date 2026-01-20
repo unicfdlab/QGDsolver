@@ -38,6 +38,7 @@ Description
 
 #include "thermoPhysicsTypes.H"
 #include "psiQGDReactionThermo.H"
+#include "rhoQGDReactionThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -66,5 +67,29 @@ namespace Foam
     makeChemistrySolverTypes(psiQGDReactionThermo, constEThermoPhysics);
 }
 
+namespace Foam
+{
+    // Chemistry solvers based on sensibleInternalEnergy
+    makeChemistrySolverTypes(rhoQGDReactionThermo, constGasEThermoPhysics);
+    makeChemistrySolverTypes(rhoQGDReactionThermo, gasEThermoPhysics);
+    makeChemistrySolverTypes
+    (
+        rhoQGDReactionThermo,
+        constIncompressibleGasEThermoPhysics
+    );
+    makeChemistrySolverTypes
+    (
+        rhoQGDReactionThermo,
+        incompressibleGasEThermoPhysics
+    );
+    makeChemistrySolverTypes(rhoQGDReactionThermo, icoPoly8EThermoPhysics);
+    makeChemistrySolverTypes(rhoQGDReactionThermo, constFluidEThermoPhysics);
+    makeChemistrySolverTypes
+    (
+        rhoQGDReactionThermo,
+        constAdiabaticFluidEThermoPhysics
+    );
+    makeChemistrySolverTypes(rhoQGDReactionThermo, constEThermoPhysics);
+}
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

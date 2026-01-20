@@ -78,8 +78,10 @@ protected:
         //-
         bool correctPsiOnly_ = false;
 
-
 public:
+
+        //-
+        bool multicomponent_ = false;
 
     //- Runtime type information
     TypeName("rhoQGDThermo");

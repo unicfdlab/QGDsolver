@@ -39,7 +39,6 @@ Group
 #include "perfectGas.H"
 #include "hConstThermo.H"
 #include "janafThermo.H"
-#include "sensibleEnthalpy.H"
 #include "thermo.H"
 #include "constTransport.H"
 #include "sutherlandTransport.H"
@@ -61,75 +60,7 @@ namespace Foam
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// constTransport, hConstThermo
 
-makeReactionThermos
-(
-    psiQGDThermo,
-    psiQGDReactionThermo,
-    hePsiQGDThermo,
-    homogeneousMixture,
-    constTransport,
-    sensibleEnthalpy,
-    hConstThermo,
-    perfectGas,
-    specie
-);
-
-makeReactionThermos
-(
-    psiQGDThermo,
-    psiQGDReactionThermo,
-    hePsiQGDThermo,
-    inhomogeneousMixture,
-    constTransport,
-    sensibleEnthalpy,
-    hConstThermo,
-    perfectGas,
-    specie
-);
-
-makeReactionThermos
-(
-    psiQGDThermo,
-    psiQGDReactionThermo,
-    hePsiQGDThermo,
-    veryInhomogeneousMixture,
-    constTransport,
-    sensibleEnthalpy,
-    hConstThermo,
-    perfectGas,
-    specie
-);
-
-
-// sutherlandTransport, hConstThermo
-
-makeReactionThermos
-(
-    psiQGDThermo,
-    psiQGDReactionThermo,
-    hePsiQGDThermo,
-    homogeneousMixture,
-    sutherlandTransport,
-    sensibleEnthalpy,
-    hConstThermo,
-    perfectGas,
-    specie
-);
-
-makeReactionThermos
-(
-    psiQGDThermo,
-    psiQGDReactionThermo,
-    hePsiQGDThermo,
-    inhomogeneousMixture,
-    sutherlandTransport,
-    sensibleEnthalpy,
-    hConstThermo,
-    perfectGas,
-    specie
-);
 
 makeReactionThermos
 (

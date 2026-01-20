@@ -48,7 +48,6 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     const scalarField& pCells = this->p_;
 
     scalarField& TCells = this->T_.primitiveFieldRef();
-    scalarField& psiCells = this->psi_.primitiveFieldRef();
     scalarField& rhoCells = this->rho_.primitiveFieldRef();
     scalarField& muCells = this->mu_.primitiveFieldRef();
     scalarField& alphaCells = this->alpha_.primitiveFieldRef();
@@ -65,9 +64,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             TCells[celli]
         );
 
-        psiCells[celli] = mixture_.psi(pCells[celli], TCells[celli]);
-	rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
-
+        rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
         muCells[celli] = mixture_.mu(pCells[celli], TCells[celli]);
         alphaCells[celli] = mixture_.alphah(pCells[celli], TCells[celli]);
     }
@@ -77,9 +74,6 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 
     volScalarField::Boundary& TBf =
         this->T_.boundaryFieldRef();
-
-    volScalarField::Boundary& psiBf =
-        this->psi_.boundaryFieldRef();
 
     volScalarField::Boundary& rhoBf =
 	this->rho_.boundaryFieldRef();
@@ -98,7 +92,6 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
     {
         fvPatchScalarField& pp = pBf[patchi];
         fvPatchScalarField& pT = TBf[patchi];
-        fvPatchScalarField& ppsi = psiBf[patchi];
 	fvPatchScalarField& prho = rhoBf[patchi];
         fvPatchScalarField& phe = heBf[patchi];
         fvPatchScalarField& pmu = muBf[patchi];
@@ -110,10 +103,7 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
             {
                 const typename MixtureType::thermoType& mixture_ =
                     this->patchFaceMixture(patchi, facei);
-
                 phe[facei] = mixture_.HE(pp[facei], pT[facei]);
-
-                ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
 		prho[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
@@ -127,14 +117,14 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
                     this->patchFaceMixture(patchi, facei);
 
                 pT[facei] = mixture_.THE(phe[facei], pp[facei], pT[facei]);
-
-                ppsi[facei] = mixture_.psi(pp[facei], pT[facei]);
 		prho[facei] = mixture_.rho(pp[facei], pT[facei]);
                 pmu[facei] = mixture_.mu(pp[facei], pT[facei]);
                 palpha[facei] = mixture_.alphah(pp[facei], pT[facei]);
             }
         }
     }
+
+    calculatePsi();
 
     if (!this->isochoric())
     {
@@ -147,6 +137,11 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculate()
 template<class BasicPsiThermo, class MixtureType>
 void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculatePsi()
 {
+    if (this->multicomponent_)
+    {
+        multicomponentCalculatePsi();
+        return;
+    }
     const scalarField& TCells = this->T_.primitiveField();
     const scalarField& pCells = this->p_;
 
@@ -191,6 +186,99 @@ void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::calculatePsi()
         }
     }
 }
+
+template<class BasicPsiThermo, class MixtureType>
+void Foam::heRhoQGDThermo<BasicPsiThermo, MixtureType>::multicomponentCalculatePsi()
+{
+    const scalar R1 = 7000.0;
+    const scalar R2 = 287.0;
+
+    const scalar rho01 = 99.9; //.0;
+    const scalar rho02 = 0.0;
+
+    const volScalarField &Y1 = this->T_.mesh().thisDb().template lookupObject<volScalarField>("water");
+    const volScalarField &Y2 = this->T_.mesh().thisDb().template lookupObject<volScalarField>("air");
+
+    const scalarField& TCells = this->T_.primitiveField();
+    const scalarField& pCells = this->p_;
+    const scalarField& Y1Cells= Y1.primitiveField();
+    const scalarField& Y2Cells= Y2.primitiveField();
+
+    scalarField& psiCells = this->psi_.primitiveFieldRef();
+    scalarField& rhoCells = this->rho_.primitiveFieldRef();
+
+    scalar psi1 = 0.0;
+    scalar psi2 = 0.0;
+    scalar rho1 = 0.0;
+    scalar rho2 = 0.0;
+    scalar y1   = 0.0;
+    scalar y2   = 0.0;
+    scalar y1byrho1 = 0.0;
+    scalar y2byrho2 = 0.0;
+
+    forAll(TCells, celli)
+    {
+        psi1 = 1.0 / (R1 *TCells[celli]);
+        psi2 = 1.0 / (R2 *TCells[celli]);
+        rho1 = psi1*pCells[celli] + rho01;
+        rho2 = psi2*pCells[celli] + rho02;
+        y1   = Y1Cells[celli];
+        y2   = Y2Cells[celli];
+        y1byrho1 = y1 / rho1;
+        y2byrho2 = y2 / rho2;
+        psiCells[celli] = pow(y1byrho1 + y2byrho2,-2.0)*(psi1*y1byrho1/rho1+psi2*y2byrho2/rho2);
+
+        const typename MixtureType::thermoType& mixture_ =
+            this->cellMixture(celli);
+        rhoCells[celli] = mixture_.rho(pCells[celli], TCells[celli]);
+    }
+
+    volScalarField::Boundary& pBf =
+        this->p_.boundaryFieldRef();
+
+    volScalarField::Boundary& TBf =
+        this->T_.boundaryFieldRef();
+
+    volScalarField::Boundary& psiBf =
+        this->psi_.boundaryFieldRef();
+
+    const volScalarField::Boundary& Y1Bf =
+        Y1.boundaryField();
+
+    const volScalarField::Boundary& Y2Bf =
+        Y2.boundaryField();
+
+    volScalarField::Boundary& rhoBf =
+        this->rho_.boundaryFieldRef();
+
+    forAll(this->T_.boundaryField(), patchi)
+    {
+        fvPatchScalarField& pp = pBf[patchi];
+        fvPatchScalarField& pT = TBf[patchi];
+        fvPatchScalarField& ppsi = psiBf[patchi];
+        const fvPatchScalarField& pY1 = Y1Bf[patchi];
+        const fvPatchScalarField& pY2 = Y2Bf[patchi];
+        fvPatchScalarField& prho = rhoBf[patchi];
+
+        forAll(pT, facei)
+        {
+            psi1 = 1.0 / (R1 *pT[facei]);
+            psi2 = 1.0 / (R2 *pT[facei]);
+            rho1 = psi1*pp[facei] + rho01;
+            rho2 = psi2*pp[facei] + rho02;
+            y1byrho1 = y1 / rho1;
+            y2byrho2 = y2 / rho2;
+            y1   = pY1[facei];
+            y2   = pY2[facei];
+            ppsi[facei] = pow(y1byrho1 + y2byrho2,-2.0)*(psi1*y1byrho1/rho1+psi2*y2byrho2/rho2);
+
+            const typename MixtureType::thermoType& mixture_ =
+                this->patchFaceMixture(patchi, facei);
+            prho[facei] = mixture_.rho(pp[facei], pT[facei]);
+        }
+    }
+}
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 template<class BasicPsiThermo, class MixtureType>

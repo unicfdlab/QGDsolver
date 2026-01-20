@@ -37,34 +37,12 @@ Description
 #include "makeChemistryReductionMethods.H"
 #include "thermoPhysicsTypes.H"
 #include "psiQGDReactionThermo.H"
+#include "rhoQGDReactionThermo.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
-    // Chemistry solvers based on sensibleEnthalpy
-    makeChemistryReductionMethods(psiQGDReactionThermo, constGasHThermoPhysics);
-    makeChemistryReductionMethods(psiQGDReactionThermo, gasHThermoPhysics);
-    makeChemistryReductionMethods
-    (
-        psiQGDReactionThermo,
-        constIncompressibleGasHThermoPhysics
-    );
-    makeChemistryReductionMethods
-    (
-        psiQGDReactionThermo,
-        incompressibleGasHThermoPhysics
-    );
-    makeChemistryReductionMethods(psiQGDReactionThermo, icoPoly8HThermoPhysics);
-    makeChemistryReductionMethods(psiQGDReactionThermo, constFluidHThermoPhysics);
-    makeChemistryReductionMethods
-    (
-        psiQGDReactionThermo,
-        constAdiabaticFluidHThermoPhysics
-    );
-    makeChemistryReductionMethods(psiQGDReactionThermo, constHThermoPhysics);
-
-
     // Chemistry solvers based on sensibleInternalEnergy
     makeChemistryReductionMethods(psiQGDReactionThermo, constGasEThermoPhysics);
     makeChemistryReductionMethods(psiQGDReactionThermo, gasEThermoPhysics);
@@ -86,6 +64,33 @@ namespace Foam
         constAdiabaticFluidEThermoPhysics
     );
     makeChemistryReductionMethods(psiQGDReactionThermo, constEThermoPhysics);
+
+}
+
+namespace Foam
+{
+
+    // Chemistry solvers based on sensibleInternalEnergy
+    makeChemistryReductionMethods(rhoQGDReactionThermo, constGasEThermoPhysics);
+    makeChemistryReductionMethods(rhoQGDReactionThermo, gasEThermoPhysics);
+    makeChemistryReductionMethods
+    (
+        rhoQGDReactionThermo,
+        constIncompressibleGasEThermoPhysics
+    );
+    makeChemistryReductionMethods
+    (
+        rhoQGDReactionThermo,
+        incompressibleGasEThermoPhysics
+    );
+    makeChemistryReductionMethods(rhoQGDReactionThermo, icoPoly8EThermoPhysics);
+    makeChemistryReductionMethods(rhoQGDReactionThermo, constFluidEThermoPhysics);
+    makeChemistryReductionMethods
+    (
+        rhoQGDReactionThermo,
+        constAdiabaticFluidEThermoPhysics
+    );
+    makeChemistryReductionMethods(rhoQGDReactionThermo, constEThermoPhysics);
 
 }
 
