@@ -11,4 +11,4 @@ diffusionMulticomponent/diffusionMulticomponentsQGD.C
 zoneCombustion/zoneCombustionsQGD.C
 
 
-LIB = $(FOAM_USER_LIBBIN)/libcombustionQGDModels
+LIB = $(FOAM_MODULE_LIBBIN)/libcombustionQGDModels

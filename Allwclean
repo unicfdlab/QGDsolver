@@ -1,12 +1,12 @@
 #!/bin/sh
+cd "${0%/*}" || exit                            # Run from this directory
+#------------------------------------------------------------------------------
 
-cd lib; ./Allwclean; cd ../
+for dir in lib/* app/* app/utils/*
+do
+    [ -d "$dir/Make" ] && wclean "$dir"
+done
 
-cd app; ./Allwclean; cd ../
+tutorials/Allclean
 
-cd tutorials; ./Allclean; cd ../
-
-#
-#END-OF-FILE
-#
-
+#------------------------------------------------------------------------------
