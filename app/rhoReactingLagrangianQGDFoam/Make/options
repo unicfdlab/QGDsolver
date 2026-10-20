@@ -1,3 +1,13 @@
+sinclude $(GENERAL_RULES)/module-path-user
+
+/* Failsafe - user locations */
+ifeq (,$(FOAM_MODULE_APPBIN))
+FOAM_MODULE_APPBIN = $(FOAM_USER_APPBIN)
+endif
+ifeq (,$(FOAM_MODULE_LIBBIN))
+FOAM_MODULE_LIBBIN = $(FOAM_USER_LIBBIN)
+endif
+
 EXE_INC = \
     -Wno-deprecated-copy \
     -I$(LIB_SRC)/finiteVolume/lnInclude \
@@ -41,7 +51,7 @@ EXE_LIBS = \
     -llagrangianTurbulence \
     -lchemistryModel \
     -lcombustionModels \
-    -L$(FOAM_USER_LIBBIN) \
+    -L$(FOAM_MODULE_LIBBIN) \
     -lQGD \
     -lcombustionQGDModels \
     -lchemistryQGDModels

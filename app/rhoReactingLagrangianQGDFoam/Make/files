@@ -1,3 +1,3 @@
 rhoReactingLagrangianQGDFoam.C
 
-EXE = $(FOAM_USER_APPBIN)/rhoReactingLagrangianQGDFoam
+EXE = $(FOAM_MODULE_APPBIN)/rhoReactingLagrangianQGDFoam

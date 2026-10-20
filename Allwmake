@@ -1,32 +1,26 @@
 #!/bin/sh
+cd "${0%/*}" || exit                            # Run from this directory
+targetType=libso                                # Default target type
+. "${WM_PROJECT_DIR:?}"/wmake/scripts/AllwmakeParseArguments
+#------------------------------------------------------------------------------
+# Install locations are controlled by FOAM_MODULE_PREFIX (or -prefix=...).
+# Standalone build: user locations ($FOAM_USER_APPBIN, $FOAM_USER_LIBBIN).
+# Built as an OpenFOAM plugin: project locations ($FOAM_APPBIN, $FOAM_LIBBIN).
 
-cd lib
-./Allwmake
-rc=$?
-cd ../
-if [ "$rc" = "0" ] 
-then
-    echo "QGD has been compiled successfully"
-else
-    echo "QGD has been compiled with errors"
-    exit -1
-fi
+for lib in QGD TwoPhaseQGD CombustionQGD ChemistryQGD
+do
+    wmake $targetType lib/"$lib"
+done
 
-cd app 
-./Allwmake
-rc=$?
-cd ../
-if [ "$rc" = "0" ] 
-then
-    echo "QGD solvers has been compiled successfully"
-else
-    echo "QGD solvers has been compiled with errors"
-    exit -1
-fi
+for solver in \
+    QGDFoam rhoQGDFoam QHDFoam mulesQHDFoam zQGDFoam interQHDFoam \
+    particlesQGDFoam particlesQHDFoam QHDDyMFoam SRFQHDFoam \
+    reactingLagrangianQGDFoam rhoReactingLagrangianQGDFoam \
+    reactingQGDFoam scalarTransportQHDFoam
+do
+    wmake app/"$solver"
+done
 
-exit 0
+wmake app/utils/selectBadCells
 
-#
-#END-OF-FILE
-#
-
+#------------------------------------------------------------------------------

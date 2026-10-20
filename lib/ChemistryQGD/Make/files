@@ -3,4 +3,4 @@ chemistryModel/TDACChemistryModel/reduction/makeChemistryReductionMethodsQGD.C
 chemistryModel/TDACChemistryModel/tabulation/makeChemistryTabulationMethodsQGD.C
 chemistrySolver/makeChemistrySolversQGD.C
 
-LIB = $(FOAM_USER_LIBBIN)/libchemistryQGDModels
+LIB = $(FOAM_MODULE_LIBBIN)/libchemistryQGDModels
